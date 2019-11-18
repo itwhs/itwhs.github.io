@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>xtrabackup - itw&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Mr Wen" /><meta name="description" content="" /><meta name="keywords" content="Linux, Github, Network, Cloud, Python" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://itwhs.github.io/post/xtrabackup/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/reset-even.css">
+
+
+<meta property="og:title" content="xtrabackup" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://itwhs.github.io/post/xtrabackup/" />
+<meta property="article:published_time" content="2018-12-01T16:15:57&#43;08:00"/>
+<meta property="article:modified_time" content="2018-12-01T16:15:57&#43;08:00"/>
+
+<meta itemprop="name" content="xtrabackup">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2018-12-01T16:15:57&#43;08:00" />
+<meta itemprop="dateModified" content="2018-12-01T16:15:57&#43;08:00" />
+<meta itemprop="wordCount" content="9169">
+
+
+
+<meta itemprop="keywords" content="sql," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="xtrabackup"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">itw</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a><a href="https://github.com/itwhs/">
+        <li class="mobile-menu-item">GitHub</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">itw</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/itwhs/">GitHub</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">xtrabackup</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-12-01 16:15 </span>
+        <div class="post-category">
+            <a href="/categories/linux%E8%BF%90%E7%BB%B4/"> Linux运维 </a>
+            </div>
+          <span class="more-meta"> 约 9169 字 </span>
+          <span class="more-meta"> 预计阅读 19 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#xtrabackup的安装-centos-rhel系列">xtrabackup的安装(centos/rhel系列)</a>
+<ul>
+<li><a href="#该-xtrabackup2-4-选项参考">该<strong>xtrabackup2.4</strong>选项参考</a></li>
+<li><a href="#选项">选项</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="xtrabackup的安装-centos-rhel系列">xtrabackup的安装(centos/rhel系列)</h2>
+
+<p><a href="https://www.percona.com/doc/percona-xtrabackup/2.4/installation/yum_repo.html">想要支持5.7版本的备份至少得2.4的，然后8.0的只支持mysql8</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">yum -y install https://repo.percona.com/yum/percona-release-latest.noarch.rpm
+yum -y list | grep percona
+yum -y install percona-xtrabackup-24</pre></td></tr></table>
+</div>
+</div>
+<p><strong>xtrabackup的特性：</strong></p>
+
+<p>使用innobakupex备份时，其会调用xtrabackup备份所有的InnoDB表，复制所有关于表结构定义的相关文件(.frm)、以及MyISAM、MERGE、CSV和ARCHIVE表的相关文件，同时还会备份触发器和数据库配置信息相关的文件。这些文件会被保存至一个以时间命名的目录中,在备份时，innobackupex还会在备份目录中创建如下文件：</p>
+
+<ol>
+<li>xtrabackup_checkpoints：备份类型（如完全或增量）、备份状态（如是否已经为prepared状态）和LSN(日志序列号)范围信息,每个InnoDB页(通常为16k大小)都会包含一个日志序列号，即LSN。LSN是整个数据库系统的系统版本号，每个页面相关的LSN能够表明此页面最近是如何发生改变的</li>
+<li>xtrabackup_binlog_info：mysql服务器当前正在使用的二进制日志文件及至备份这一刻为止二进制日志事件的位置</li>
+<li>xtrabackup_binlog_pos_innodb：二进制日志文件及用于InnoDB或XtraDB表的二进制日志文件的当position</li>
+<li>xtrabackup_binary：备份中用到的xtrabackup的可执行文件</li>
+<li>backup-my.cnf：备份命令用到的配置选项信息在使用innobackupex进行备份时，还可以使用--no-timestamp选项来阻止命令自动创建一个以时间命名的目录；innobackupex命令将会创建一个BACKUP-DIR目录来存储备份数据</li>
+</ol>
+
+<h3 id="该-xtrabackup2-4-选项参考">该<strong>xtrabackup2.4</strong>选项参考</h3>
+
+<p>此页面记录了<strong>xtrabackup</strong>二进制文件的所有命令行选项 。</p>
+
+<h3 id="选项">选项</h3>
+
+<p>--apply-log-only</p>
+
+<p>此选项仅在准备备份时执行重做阶段。这对增量备份非常重要。</p>
+
+<p>--backup</p>
+
+<p>进行备份并将其放入。</p>
+
+<p>请参阅 <a href="https://www.percona.com/doc/percona-xtrabackup/2.4/backup_scenarios/full_backup.html#creating-a-backup">创建备份</a>。<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-target-dir"><code>xtrabackup --target-dir</code></a></p>
+
+<p>--binlog-info</p>
+
+<p>此选项控制*Percona XtraBackup*应如何检索与备份对应的服务器二进制日志坐标。可能的值是 <code>OFF</code>，<code>ON</code>，<code>LOCKLESS</code>和<code>AUTO</code>。</p>
+
+<p>有关 详细信息，请参阅<em>Percona XtraBackup无</em> <a href="https://www.percona.com/doc/percona-xtrabackup/2.4/advanced/lockless_bin-log.html#lockless-bin-log">锁二进制日志信息</a>手册页。</p>
+
+<p>--check-privileges</p>
+
+<p>此选项检查*Percona XtraBackup*是否具有所有必需的权限。如果当前操作需要缺少权限，它将终止并打印出错误消息。如果当前操作不需要缺少权限，但某些其他XtraBackup操作可能需要该权限，则不会中止该过程并打印警告。<code>xtrabackup：错误：*。*上缺少必需的权限LOCK TABLES xtrabackup：警告：在*。*上缺少必需的权限复制客户端</code></p>
+
+<p>--close-files</p>
+
+<p>不要保持文件打开。当<strong>xtrabackup</strong>打开表空间时，它通常不会关闭其文件句柄以正确处理DDL操作。但是，如果表空间的数量非常大并且不能满足任何限制，则可以选择在不再访问文件句柄时关闭它们。*Percona XtraBackup*可以在启用此选项的情况下生成不一致的备份。使用风险由您自己承担。</p>
+
+<p>--compact</p>
+
+<p>通过跳过辅助索引页来创建压缩备份。</p>
+
+<p>--compress</p>
+
+<p>此选项告诉<strong>xtrabackup</strong>使用指定的压缩算法压缩所有输出数据，包括事务日志文件和元数据文件。目前唯一支持的算法是<code>quicklz</code>。生成的文件具有qpress存档格式，即<code>*.qp</code>xtrabackup生成的每个文件本质上都是一个文件的qpress存档，可以通过<a href="http://www.quicklz.com/">qpress</a> 文件存档提取<a href="http://www.quicklz.com/">和解</a>压缩。</p>
+
+<p>--compress-chunk-size=#</p>
+
+<p>压缩线程的工作缓冲区大小（以字节为单位）。默认值为64K。</p>
+
+<p>--compress-threads=#</p>
+
+<p>此选项指定<strong>xtrabackup</strong>用于并行数据压缩的工作线程数。此选项默认为<code>1</code>。并行压缩（：选项：<code>xtrabackup -compress-threads</code>）可以与并行文件复制（）一起使用。</p>
+
+<p>例如， 将创建4个I / O线程，这些线程将读取数据并将其传递给2个压缩线程。<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-parallel"><code>xtrabackup --parallel</code></a><code>--parallel=4 --compress --compress-threads=2</code></p>
+
+<p>--copy-back</p>
+
+<p>将先前制作的备份中的所有文件从备份目录复制到其原始位置。除非指定了选项，否则此选项不会复制现有文件。<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-force-non-empty-directories"><code>xtrabackup --force-non-empty-directories</code></a></p>
+
+<p>--create-ib-logfile</p>
+
+<p>此选项目前尚未实施。要创建InnoDB日志文件，您必须准备两次备份。</p>
+
+<p>--databases=#</p>
+
+<p>此选项指定应备份的数据库和表的列表。该选项接受表单列表。<code>&quot;databasename1[.table_name1] databasename2[.table_name2] . . .&quot;</code></p>
+
+<p>--databases-exclude=name</p>
+
+<p>根据名称排除数据库，操作方式与备份相同，但匹配的名称将从备份中排除。请注意，此选项的优先级高于 。<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-databases"><code>xtrabackup --databases</code></a><a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-databases"><code>xtrabackup --databases</code></a></p>
+
+<p>--databases-file=#</p>
+
+<p>此选项指定包含应备份的数据库和表列表的文件的路径。该文件可以包含表单的列表元素，<code>databasename1[.table_name1]</code>每行一个元素。</p>
+
+<p>--datadir=DIRECTORY</p>
+
+<p>备份的源目录。这应该与*MySQL*服务器的datadir相同，因此<code>my.cnf</code>如果存在则应该从中读取; 否则你必须在命令行上指定它。</p>
+
+<p>--decompress</p>
+
+<p>使用<code>.qp</code>以前使用该选项进行的备份中的扩展名解压缩所有文件。该 选项将允许同时解密多个文件。为了解压缩，必须在路径中安装和访问qpress实用程序。*Percona XtraBackup*不会自动删除压缩文件。为了清理备份目录，用户应该使用选项。<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-compress"><code>xtrabackup --compress</code></a><a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-parallel"><code>xtrabackup --parallel</code></a><a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-remove-original"><code>xtrabackup --remove-original</code></a></p>
+
+<p>--decrypt=ENCRYPTION-ALGORITHM</p>
+
+<p><code>.xbcrypt</code>在先前使用选项进行的备份中解密具有扩展名的所有文件。该 选项将允许同时解密多个文件。*Percona XtraBackup*不会自动删除加密文件。为了清理备份目录，用户应该使用选项。<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-encrypt"><code>xtrabackup --encrypt</code></a><a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-parallel"><code>xtrabackup --parallel</code></a><a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-remove-original"><code>xtrabackup --remove-original</code></a>`</p>
+
+<p>--defaults-extra-file=[MY.CNF]</p>
+
+<p>读取全局文件后读取此文件。必须作为命令行上的第一个选项。</p>
+
+<p>--defaults-file=[MY.CNF]</p>
+
+<p>仅读取给定文件中的默认选项。必须作为命令行上的第一个选项。必须是真实的文件; 它不能成为一种象征性的联系。</p>
+
+<p>--defaults-group=GROUP-NAME</p>
+
+<p>此选项用于设置应从配置文件中读取的组。如果您使用该选项，<strong>innobackupex</strong>将使用此 选项。部署需要它 。<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-defaults-group"><code>xtrabackup --defaults-group</code></a><code>mysqld_multi</code></p>
+
+<p>--dump-innodb-buffer-pool</p>
+
+<p>此选项控制是否应该执行缓冲池内容的新转储。使用<code>--dump-innodb-buffer-pool</code>，<strong>xtrabackup</strong> 向服务器发出请求以在<strong>备份</strong>开始时启动缓冲池转储（需要一些时间才能完成并在后台完成），前提是状态变量 <code>innodb_buffer_pool_dump_status</code>报告转储已完成。<code>$ xtrabackup --backup --dump-innodb-buffer-pool --target-dir = / home / user / backup</code>默认情况下，此选项设置为OFF。如果<code>innodb_buffer_pool_dump_status</code>报告存在正在运行的缓冲池转储，则<strong>xtrabackup</strong>将使用值等待转储完成<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-dump-innodb-buffer-pool-timeout"><code>--dump-innodb-buffer-pool-timeout</code></a>该文件<code>ib_buffer_pool</code>存储用于更快地预热缓冲池的表空间ID和页面ID数据。也可以看看*MySQL*文档：保存和恢复缓冲池状态<a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-preload-buffer-pool.html">https://dev.mysql.com/doc/refman/5.7/en/innodb-preload-buffer-pool.html</a></p>
+
+<p>--dump-innodb-buffer-pool-timeout</p>
+
+<p>此选项包含<strong>xtrabackup</strong>应监视其值<code>innodb_buffer_pool_dump_status</code>以确定缓冲池转储是否已完成的秒数。此选项与<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-dump-innodb-buffer-pool"><code>--dump-innodb-buffer-pool</code></a>。结合使用 。默认情况下，它设置为10 秒。</p>
+
+<p>--dump-innodb-buffer-pool-pct</p>
+
+<p>此选项包含要转储的最近使用的缓冲池页面的百分比。如果<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-dump-innodb-buffer-pool"><code>--dump-innodb-buffer-pool</code></a>选项设置为ON，则此选项有效。如果此选项包含值，则<strong>xtrabackup会</strong>设置<em>MySQL</em> 系统变量<code>innodb_buffer_pool_dump_pct</code>。缓冲池转储完成或停止（请参阅 <a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-dump-innodb-buffer-pool-timeout"><code>--dump-innodb-buffer-pool-timeout</code></a>）后，将恢复*MySQL*系统变量的值。也可以看看更改缓冲池转储的超时<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-dump-innodb-buffer-pool-timeout"><code>--dump-innodb-buffer-pool-timeout</code></a>*MySQL*文档：innodb_buffer_pool_dump_pct系统变量<a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_buffer_pool_dump_pct">https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_buffer_pool_dump_pct</a></p>
+
+<p>--encrypt=ENCRYPTION_ALGORITHM</p>
+
+<p>此选项指示xtrabackup使用ENCRYPTION_ALGORITHM中指定的算法加密InnoDB数据文件的备份副本。它直接传递给xtrabackup子进程。有关更多详细信息，请参阅 <strong>xtrabackup</strong> <a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xtrabackup_binary.html">文档</a>。</p>
+
+<p>--encrypt-key=ENCRYPTION_KEY</p>
+
+<p>此选项指示xtrabackup <code>ENCRYPTION_KEY</code>在使用该选项时使用给定的。它直接传递给xtrabackup子进程。有关更多详细信息，请参阅<strong>xtrabackup</strong> <a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xtrabackup_binary.html">文档</a>。<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-encrypt"><code>xtrabackup --encrypt</code></a></p>
+
+<p>--encrypt-key-file=ENCRYPTION_KEY_FILE</p>
+
+<p>此选项指示xtrabackup <code>ENCRYPTION_KEY_FILE</code>在使用该 选项时使用存储在给定中的加密密钥。它直接传递给xtrabackup子进程。有关更多详细信息，请参阅 <strong>xtrabackup</strong> <a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xtrabackup_binary.html">文档</a>。<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-encrypt"><code>xtrabackup --encrypt</code></a></p>
+
+<p>--encrypt-threads=#</p>
+
+<p>此选项指定将用于并行加密/解密的工作线程数。有关更多详细信息，请参阅<strong>xtrabackup</strong> <a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xtrabackup_binary.html">文档</a>。</p>
+
+<p>--encrypt-chunk-size=#</p>
+
+<p>此选项指定每个加密线程的内部工作缓冲区的大小（以字节为单位）。它直接传递给xtrabackup子进程。有关更多详细信息，请参阅<strong>xtrabackup</strong> <a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xtrabackup_binary.html">文档</a>。</p>
+
+<p>--export</p>
+
+<p>创建导出表所需的文件。请参阅<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/restoring_individual_tables.html">恢复单个表</a>。</p>
+
+<p>--extra-lsndir=DIRECTORY</p>
+
+<p>（for -backup）：在此目录中保存<code>xtrabackup_checkpoints</code> 和<code>xtrabackup_info</code>文件的额外副本。</p>
+
+<p>--force-non-empty-directories</p>
+
+<p>如果指定，它会：选项<code>xtrabackup -copy-back</code>和 选项将文件传输到非空目录。不会覆盖现有文件。如果需要从备份目录中复制/移动的文件已存在于目标目录中，则它仍将失败并显示错误。<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-move-back"><code>xtrabackup --move-back</code></a></p>
+
+<p>--ftwrl-wait-timeout=SECONDS</p>
+
+<p>此选项指定xtrabackup应等待在运行之前阻塞的查询的时间（以秒为单位）。如果超时到期时仍有此类查询，则xtrabackup将终止并显示错误。默认是，在这种情况下，它不会等待查询完成并 立即启动。如果支持（Percona Server 5.6+），则xtrabackup将自动使用<a href="https://www.percona.com/doc/percona-server/5.6/management/backup_locks.html#backup-locks">备份锁</a> 作为复制非InnoDB数据的轻量级替代方法，以避免阻止修改InnoDB表的DML查询。<code>FLUSH TABLES WITH READ LOCK</code><code>0</code><code>FLUSH TABLESWITH READ LOCK</code><code>FLUSH TABLES WITH READ LOCK</code></p>
+
+<p>--ftwrl-wait-threshold=SECONDS</p>
+
+<p>此选项指定查询运行时阈值，该阈值由xtrabackup用于检测具有非零值的长时间运行的查询 。 在存在长时间运行的查询之前不会启动。如果是，则此选项无效。默认值为秒。如果支持（Percona Server 5.6+），则xtrabackup将自动使用<a href="https://www.percona.com/doc/percona-server/5.6/management/backup_locks.html#backup-locks">备份锁</a> 作为复制非InnoDB数据的轻量级替代方法，以避免阻止修改InnoDB表的DML查询。<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-ftwrl-wait-timeout"><code>xtrabackup --ftwrl-wait-timeout</code></a><code>FLUSH TABLES WITH READLOCK</code><a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-ftwrl-wait-timeout"><code>xtrabackup --ftwrl-wait-timeout</code></a><code>0</code><code>60</code><code>FLUSH TABLES WITH READ LOCK</code></p>
+
+<p>--ftwrl-wait-query-type=all|update</p>
+
+<p>此选项指定在xtrabackup发出全局锁之前允许完成哪些类型的查询。默认是<code>all</code>。</p>
+
+<p>--galera-info</p>
+
+<p>此选项创建<code>xtrabackup_galera_info</code>包含备份时本地节点状态的文件。在执行*Percona XtraDB Cluster*的备份时应使用选项。使用备份锁创建备份时，它不起作用。</p>
+
+<p>--incremental-basedir=DIRECTORY</p>
+
+<p>创建增量备份时，这是包含完整备份的目录，该备份是增量备份的基础数据集。</p>
+
+<p>--incremental-dir=DIRECTORY</p>
+
+<p>准备增量备份时，这是增量备份与完整备份组合的目录，以进行新的完整备份。</p>
+
+<p>--incremental-force-scan</p>
+
+<p>创建增量备份时，即使完整更改的页面位图数据可用，也强制对正在备份的实例中的数据页进行完全扫描。</p>
+
+<p>--incremental-lsn=LSN</p>
+
+<p>创建增量备份时，可以指定日志序列号（<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/glossary.html#term-lsn">LSN</a>）而不是指定 。对于在5.1及更高版本中创建的数据库，请将<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/glossary.html#term-lsn">LSN</a>指定为单个64位整数。<strong>注意</strong>：如果指定了错误的LSN值（*Percona XtraBackup*无法检测到的用户错误），则备份将无法使用。小心！<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-incremental-basedir"><code>xtrabackup --incremental-basedir</code></a></p>
+
+<p>--innodb-log-arch-dir=DIRECTORY</p>
+
+<p>此选项用于指定包含存档日志的目录。它只能与选项一起使用。<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-prepare"><code>xtrabackup --prepare</code></a></p>
+
+<p>--innodb-miscellaneous</p>
+
+<p>有一大组InnoDB选项通常从<code>my.cnf</code>配置文件中读取 ，因此<strong>xtrabackup</strong>以与当前服务器相同的配置启动其嵌入式InnoDB。您通常不需要明确指定这些。这些选项与InnoDB或XtraDB中的选项具有相同的行为。</p>
+
+<p>它们如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">-innodb-adaptive-hash-index 
+-innodb-additional-mem-pool-size  
+-innodb-autoextend-increment 
+-innodb-buffer-pool-size  
+-innodb-checksums  
+-innodb-data-file-path
+-innodb-数据-主页-目录
+-innodb-doublewrite-file
+-innodb-doublewrite
+-innodb-extra-undoslots
+-innodb-fast-checksum
+-innodb-file-io-threads
+-innodb-file-per-table
+-innodb-flush-log-at-trx-commit
+-innodb-flush-method
+-innodb-force-recovery
+-innodb-io-capacity
+-innodb-lock-wait-timeout
+-innodb-log-buffer-size
+-innodb-log- files-in-group
+-innodb-日志-文件-大小
+-innodb-log-group-home-dir
+-innodb-max-dirty-pages- pct
+-innodb-open-files
+-innodb-page-size
+-innodb-read-io-threads
+-innodb-write-io-threads </pre></td></tr></table>
+</div>
+</div>
+<p>--keyring-file-data=FILENAME</p>
+
+<p>密钥环文件的路径。</p>
+
+<p>--lock-ddl</p>
+
+<p>如果备份开始时服务器支持阻止所有DDL操作，则发出问题。<code>LOCK TABLES FOR BACKUP</code></p>
+
+<p>--lock-ddl-per-table</p>
+
+<p>在xtrabackup开始复制之前锁定每个表的DDL，直到备份完成。</p>
+
+<p>--lock-ddl-timeout</p>
+
+<p>如果在给定的超时内没有返回，则中止备份。<code>LOCK TABLES FOR BACKUP</code></p>
+
+<p>--log-copy-interval=#</p>
+
+<p>此选项指定日志复制线程执行的检查之间的时间间隔（以毫秒为单位）（默认值为1秒）。</p>
+
+<p>--move-back</p>
+
+<p>将先前制作的备份中的所有文件从备份目录移动到其原始位置。由于此选项会删除备份文件，因此必须谨慎使用。</p>
+
+<p>--no-defaults</p>
+
+<p>不要从任何选项文件中读取默认选项。必须作为命令行上的第一个选项。</p>
+
+<p>--no-version-check</p>
+
+<p>此选项禁用版本检查。如果未通过此选项，则在模式下运行<strong>xtrabackup</strong>时<strong>会</strong>隐式启用自动版本检查<code>--backup</code>。要禁用版本检查，应<code>--no-version-check</code>在envoking <strong>xtrabackup</strong>时显式传递该选项。启用自动版本检查后，<strong>xtrabackup</strong>会在创建服务器连接后对备份阶段的服务器执行版本检查。<strong>xtrabackup</strong>将以下信息发送到服务器：MySQL的味道和版本操作系统名称Percona Toolkit版本Perl版本每条信息都有唯一的标识符。这是一个MD5哈希值，Percona Toolkit用它来获取有关如何使用它的统计信息。这是一个随机的UUID; 没有收集或存储客户信息。</p>
+
+<p>--parallel=#</p>
+
+<p>此选项指定在创建备份时用于同时复制多个数据文件的线程数。默认值为1（即没有并发传输）。在<em>Percona XtraBackup</em> 2.3.10及更高版本中，此选项可与选项一起使用以并行复制用户数据文件（重做日志和系统表空间在主线程中复制）。<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-copy-back"><code>xtrabackup --copy-back</code></a></p>
+
+<p>--password=PASSWORD</p>
+
+<p>此选项指定连接到数据库时要使用的密码。它接受一个字符串参数。有关详细信息，请参阅mysql -help。</p>
+
+<p>--prepare</p>
+
+<p>使<strong>xtrabackup</strong>对使用创建的备份执行恢复 ，以便可以使用它。请参阅 <a href="https://www.percona.com/doc/percona-xtrabackup/2.4/backup_scenarios/full_backup.html#preparing-a-backup">准备备份</a>。<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-backup"><code>xtrabackup --backup</code></a></p>
+
+<p>--print-defaults</p>
+
+<p>打印程序参数列表并退出。必须作为命令行上的第一个选项。</p>
+
+<p>--print-param</p>
+
+<p>使<strong>xtrabackup</strong>打印出可用于将数据文件复制回原始位置以恢复它们的参数。请参阅 <a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/scripting_backups_xbk.html#scripting-xtrabackup">使用xtrabackup编写备份脚本</a>。</p>
+
+<p>--reencrypt-for-server-id=<new_server_id></p>
+
+<p>使用此选项可以使用与从中获取加密备份的server_id不同的server_id启动服务器实例，例如复制从属节点或galera节点。使用此选项时，作为准备步骤，xtrabackup将根据新的server_id生成具有ID的新主密钥，将其存储到密钥环文件中并重新加密表空间标头内的表空间密钥。选项应该通过<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-prepare"><code>--prepare</code></a>（最后一步）。</p>
+
+<p>--remove-original</p>
+
+<p>在<em>Percona XtraBackup</em> 2.4.6中实现，指定时将删除此选项<code>.qp</code>，<code>.xbcrypt</code>并<code>.qp.xbcrypt</code>在解密和解压缩后删除文件。</p>
+
+<p>--safe-slave-backup</p>
+
+<p>指定后，xtrabackup将在运行之前停止从属SQL线程，并等待启动备份直到 in 为零。如果没有打开的临时表，则会进行备份，否则将启动并停止SQL线程，直到没有打开的临时表为止。如果在几秒钟后没有变为零， 则备份将失败。备份完成后，将重新启动从属SQL线程。实现此选项是为了处理<a href="https://dev.mysql.com/doc/refman/5.7/en/replication-features-temptables.html">复制临时表</a> ，而不是基于行的复制。<code>FLUSH TABLES WITH READ LOCK</code><code>Slave_open_temp_tables</code><code>SHOWSTATUS</code><code>Slave_open_temp_tables</code><a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-safe-slave-backup-timeout"><code>xtrabackup --safe-slave-backup-timeout</code></a></p>
+
+<p>--safe-slave-backup-timeout=SECONDS</p>
+
+<p>应该等待 多少秒才能变为零。默认为300秒。<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-safe-slave-backup"><code>xtrabackup --safe-slave-backup</code></a><code>Slave_open_temp_tables</code></p>
+
+<p>--secure-auth</p>
+
+<p>如果客户端使用旧的（4.1.1之前的）协议，则拒绝客户端连接到服务器。（默认情况下启用;使用-skip-secure-auth禁用。）</p>
+
+<p>--server-id=#</p>
+
+<p>正在备份的服务器实例。</p>
+
+<p>--slave-info</p>
+
+<p>备份复制从属服务器时，此选项很有用。它打印主服务器的二进制日志位置。它还将此信息<code>xtrabackup_slave_info</code>作为 命令写入文件。可以通过在此备份上启动从属服务器并发出保存在文件中的二进制日志位置的命令来设置此主站的新从站。<code>CHANGE MASTER</code><code>CHANGEMASTER</code><code>xtrabackup_slave_info</code></p>
+
+<p>--ssl</p>
+
+<p>启用安全连接。更多信息可以在<a href="https://dev.mysql.com/doc/refman/5.7/en/secure-connection-options.html#option_general_ssl">-ssl</a> MySQL服务器文档中找到。</p>
+
+<p>--ssl-ca</p>
+
+<p>包含受信任SSL CA列表的文件路径。更多信息可以在<a href="https://dev.mysql.com/doc/refman/5.7/en/secure-connection-options.html#option_general_ssl-ca">-ssl-ca</a> MySQL服务器文档中找到。</p>
+
+<p>--ssl-capath</p>
+
+<p>包含PEM格式的受信任SSL CA证书的目录路径。更多信息可以在<a href="https://dev.mysql.com/doc/refman/5.7/en/secure-connection-options.html#option_general_ssl-capath">-ssl-capath</a> MySQL服务器文档中找到。</p>
+
+<p>--ssl-cert</p>
+
+<p>包含PEM格式的X509证书的文件的路径。更多信息可以在<a href="https://dev.mysql.com/doc/refman/5.7/en/secure-connection-options.html#option_general_ssl-cert">-ssl-cert</a> MySQL服务器文档中找到。</p>
+
+<p>--ssl-cipher</p>
+
+<p>用于连接加密的允许密码列表。更多信息可以在<a href="https://dev.mysql.com/doc/refman/5.7/en/secure-connection-options.html#option_general_ssl-cipher">-ssl-cipher</a> MySQL服务器文档中找到。</p>
+
+<p>--ssl-crl</p>
+
+<p>包含证书吊销列表的文件的路径。更多信息可以在<a href="https://dev.mysql.com/doc/refman/5.7/en/secure-connection-options.html#option_general_ssl-crl">-ssl-crl</a> MySQL服务器文档中找到。</p>
+
+<p>--ssl-crlpath</p>
+
+<p>包含证书吊销列表文件的目录路径。更多信息可以在<a href="https://dev.mysql.com/doc/refman/5.7/en/secure-connection-options.html#option_general_ssl-crlpath">-ssl-crlpath</a> MySQL服务器文档中找到。</p>
+
+<p>--ssl-key</p>
+
+<p>包含PEM格式的X509密钥的文件路径。更多信息可以在<a href="https://dev.mysql.com/doc/refman/5.7/en/secure-connection-options.html#option_general_ssl-key">-ssl-key</a> MySQL服务器文档中找到。</p>
+
+<p>--ssl-mode</p>
+
+<p>与服务器连接的安全状态。更多信息可以在 <a href="https://dev.mysql.com/doc/refman/5.7/en/secure-connection-options.html#option_general_ssl-mode">-ssl-mode</a> MySQL服务器文档中找到。</p>
+
+<p>--ssl-verify-server-cert</p>
+
+<p>验证服务器证书Common Name值与连接到服务器时使用的主机名。更多信息可以在 <a href="https://dev.mysql.com/doc/refman/5.6/en/secure-connection-options.html#option_general_ssl-verify-server-cert">-ssl-verify-server-cert</a> MySQL服务器文档中找到。</p>
+
+<p>--stats</p>
+
+<p>使<strong>xtrabackup</strong>扫描指定的数据文件并打印出索引统计信息。</p>
+
+<p>--stream=name</p>
+
+<p>将所有备份文件以指定格式流式传输到标准输出。目前支持的格式是<code>xbstream</code>和<code>tar</code>。</p>
+
+<p>--tables=name</p>
+
+<p>正则表达式，与<code>databasename.tablename</code>格式的完整表名 匹配。如果名称匹配，则备份表。查看<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/partial_backups.html">部分备份</a>。</p>
+
+<p>--tables-exclude=name</p>
+
+<p>通过regexp过滤表名。操作方式与备份相同，但匹配的名称不在备份中。请注意，此选项的优先级高于 。<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-tables"><code>xtrabackup --tables</code></a><a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-tables"><code>xtrabackup --tables</code></a></p>
+
+<p>--tables-file=name</p>
+
+<p>每行包含一个表名的文件，格式为databasename.tablename。备份将仅限于指定的表。请参阅 <a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/scripting_backups_xbk.html#scripting-xtrabackup">使用xtrabackup编写备份脚本</a>。</p>
+
+<p>--target-dir=DIRECTORY</p>
+
+<p>此选项指定备份的目标目录。如果目录不存在，则<strong>xtrabackup</strong>会创建它。如果该目录确实存在且为空，则<strong>xtrabackup</strong>将成功。 但是，<strong>xtrabackup</strong>不会覆盖现有文件; 它将因操作系统错误17而失败。<code>file exists</code>如果此选项是相对路径，则将其解释为相对于执行<strong>xtrabackup</strong>的当前工作目录。</p>
+
+<p>--throttle=#</p>
+
+<p>此选项限制每秒复制的块数。块大小为 *10 MB*。要将带宽限制为*10 MB / s*，请将选项设置为*1*： -throttle = 1。也可以看看有关如何限制备份的详细信息<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/advanced/throttling_backups.html#throttling-backups">限制备份</a></p>
+
+<p>--tmpdir=name</p>
+
+<p>除了在使用时打印出正确的tmpdir参数，此选项当前不用于任何内容。<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-print-param"><code>xtrabackup --print-param</code></a></p>
+
+<p>--to-archived-lsn=LSN</p>
+
+<p>此选项用于指定在准备备份时应将日志应用到的LSN。它只能与选项一起使用 。<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-prepare"><code>xtrabackup --prepare</code></a></p>
+
+<p>--transition-key</p>
+
+<p>此选项用于在不访问密钥环保管库服务器的情况下启用备份处理。在这种情况下，<strong>xtrabackup</strong>从指定的密码短语中派生AES加密密钥，并使用它来加密正在备份的表空间的表空间密钥。如果<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-transition-key"><code>--transition-key</code></a>没有任何价值，<strong>xtrabackup</strong>会要求它。应为该命令指定相同的密码。<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-prepare"><code>xtrabackup --prepare</code></a></p>
+
+<p>--use-memory=#</p>
+
+<p>此选项会影响为备份或使用分析统计分配的内存 量 。其目的与<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/glossary.html#term-innodb-buffer-pool-size">innodb_buffer_pool_size</a>类似。它与Oracle的InnoDB热备份工具中的类似命名选项不同。默认值为100MB，如果您有足够的可用内存，1GB到2GB是一个很好的推荐值。提供单元支持倍数（例如1MB，1M，1GB，1G）。<a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-prepare"><code>xtrabackup --prepare</code></a><a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html#cmdoption-xtrabackup-stats"><code>xtrabackup --stats</code></a></p>
+
+<p>--user=USERNAME</p>
+
+<p>此选项指定连接到服务器时使用的MySQL用户名（如果不是当前用户）。该选项接受字符串参数。有关详细信息，请参阅mysql -help。</p>
+
+<p>--version</p>
+
+<p>此选项打印<strong>xtrabackup</strong>版本并退出</p>
+
+<p><strong>xtrabackup用法</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">备份：innobackupex [option] BACKUP-ROOT-DIR
+选项说明：
+--user：该选项表示备份账号
+--password：该选项表示备份的密码
+--host：该选项表示备份数据库的地址
+--databases：该选项接受的参数为数据名，如果要指定多个数据库，彼此间需要以空格隔开；如：&#34;xtra_test dba_test&#34;，同时，在指定某数据库时，也可以只指定其中的某张表。如：&#34;mydatabase.mytable&#34;。该选项对innodb引擎表无效，还是会备份所有innodb表
+--defaults-file：该选项指定了从哪个文件读取MySQL配置，必须放在命令行第一个选项的位置
+--incremental：该选项表示创建一个增量备份，需要指定--incremental-
+basedir
+--incremental-basedir：该选项表示接受了一个字符串参数指定含有full backup的目录为增量备份的base目录，与--incremental同时使用
+--incremental-dir：该选项表示增量备份的目录
+--include=name：指定表名，格式：databasename.tablename
+Prepare：innobackupex --apply-log [option] BACKUP-DIR
+选项说明：
+--apply-log：一般情况下,在备份完成后，数据尚且不能用于恢复操作，因为备份的数据中可能会包含尚未提交的事务或已经提交但尚未同步至数据文件中的事务。因此，此时数据文件仍处理不一致状态。此选项作用是通过回滚未提交的事务及同步已经提交的事务至数据文件使数据文件处于一致性状态
+--use-memory：该选项表示和--apply-log选项一起使用，prepare 备份的时候，xtrabackup做crash recovery分配的内存大小，单位字节。也可(1MB,1M,1G,1GB)，推荐1G
+--defaults-file：该选项指定了从哪个文件读取MySQL配置，必须放在命令行第一个选项的位置
+-export：表示开启可导出单独的表之后再导入其他Mysql中
+--redo-only：这个选项在prepare base full backup，往其中merge增量备份时候使用
+还原：innobackupex --copy-back [选项] BACKUP-DIR
+innobackupex --move-back [选项] [--defaults-group=GROUP-NAME] BACKUP-DIR
+选项说明：
+--copy-back：做数据恢复时将备份数据文件拷贝到MySQL服务器的datadir
+--move-back：这个选项与--copy-back相似，唯一的区别是它不拷贝文件，而是移动文件到目的地。这个选项移除backup文件，用时候必须小心。使用场景：没有足够的磁盘空间同事保留数据文件和Backup副本</pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">cat xtrabackup.sh
+<span class="cp">#!/bin/bash
+</span><span class="cp"></span><span class="o">[</span> -d /root/increment/ <span class="o">]</span> <span class="o">||</span> mkdir -p /root/increment/
+<span class="nv">mysql_path</span><span class="o">=</span>/opt/data
+<span class="nv">mysql_increment_path</span><span class="o">=</span>/root/increment/
+<span class="c1">#mysql全备</span>
+mysql_backup<span class="o">()</span> <span class="o">{</span>
+innobackupex --defaults-file<span class="o">=</span>/etc/my.cnf --user<span class="o">=</span>root --password<span class="o">=</span><span class="s1">&#39;jbgsn123!&#39;</span> --backup <span class="nv">$mysql_path</span>/mysql-<span class="sb">`</span>date +%Y%m%d<span class="sb">`</span>/  --no-timestamp
+<span class="nb">exit</span> <span class="m">0</span>
+<span class="o">}</span>
+
+<span class="c1">#恢复</span>
+mysql_recovery<span class="o">()</span> <span class="o">{</span>
+systemctl stop mysqld
+mv /var/lib/mysql  /var/lib/mysql2
+innobackupex --apply-log <span class="nv">$mysql_path</span>/mysql-<span class="sb">`</span>date +%Y%m%d<span class="sb">`</span>/
+innobackupex --defaults-file<span class="o">=</span>/etc/my.cnf --copy-back <span class="nv">$mysql_path</span>/mysql-<span class="sb">`</span>date +%Y%m%d<span class="sb">`</span>/
+chown -R mysql.mysql /var/lib/mysql
+systemctl start mysqld
+<span class="nb">exit</span> <span class="m">0</span>
+<span class="o">}</span>
+
+<span class="c1">#增量备份</span>
+mysql_increment<span class="o">()</span> <span class="o">{</span>
+innobackupex --defaults-file<span class="o">=</span>/etc/my.cnf --user<span class="o">=</span>root --password<span class="o">=</span><span class="s1">&#39;jbgsn123!&#39;</span> --incremental <span class="nv">$mysql_increment_path</span>/mysql-<span class="sb">`</span>date +%Y%m%d<span class="sb">`</span>/ --incremental-basedir<span class="o">=</span><span class="nv">$mysql_path</span>/mysql-<span class="sb">`</span>date +%Y%m%d<span class="sb">`</span>/ --no-timestamp
+<span class="nb">exit</span> <span class="m">0</span>
+<span class="o">}</span>
+
+<span class="c1">#增量恢复</span>
+mysql_increment_recovery<span class="o">()</span> <span class="o">{</span>
+innobackupex --apply-log --redo-only <span class="nv">$mysql_path</span>/mysql-<span class="sb">`</span>date +%Y%m%d<span class="sb">`</span>/
+innobackupex --apply-log --redo-only <span class="nv">$mysql_path</span>/mysql-<span class="sb">`</span>date +%Y%m%d<span class="sb">`</span>/  --incremental-dir<span class="o">=</span><span class="nv">$mysql_path</span>/mysql-<span class="sb">`</span>date +%Y%m%d<span class="sb">`</span>/
+systemctl stop mysqld
+mv /var/lib/mysql  /var/lib/mysql2
+innobackupex --defaults-file<span class="o">=</span>/etc/my.cnf --copy-back <span class="nv">$mysql_path</span>/mysql-<span class="sb">`</span>date +%Y%m%d<span class="sb">`</span>/
+chown -R mysql.mysql /var/lib/mysql
+systemctl start mysqld
+<span class="nb">exit</span> <span class="m">0</span>
+<span class="o">}</span>
+
+man<span class="o">()</span> <span class="o">{</span>
+mysql_backup
+<span class="c1">#mysql_recovery</span>
+mysql_increment
+<span class="c1">#mysql_increment_recovery</span>
+<span class="o">}</span>
+
+man</pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Mr Wen</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2018-12-01 16:15
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener" href="https://github.com/itwhs/itwhs.github.io/blob/master/LICENSE">MIT</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/sql/">sql</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/%E4%B8%89%E7%A7%8D%E4%BB%A3%E7%90%86%E7%9A%84%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">三种代理</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/mysql2/">
+            <span class="next-text nav-default">MySQL进阶</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:itwhs@foxmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://blog.csdn.net/wenhs5479" class="iconfont icon-cnblogs" title="cnblogs"></a>
+      <a href="https://github.com/itwhs" class="iconfont icon-github" title="github"></a>
+  <a href="https://itwhs.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Mr Wen</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139425163-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>ZeroTier-One配置moon - itw&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Mr Wen" /><meta name="description" content="" /><meta name="keywords" content="Linux, Github, Network, Cloud, Python" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://itwhs.github.io/post/zerotier-one%E9%85%8D%E7%BD%AEmoon/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/reset-even.css">
+
+
+<meta property="og:title" content="ZeroTier-One配置moon" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://itwhs.github.io/post/zerotier-one%E9%85%8D%E7%BD%AEmoon/" />
+<meta property="article:published_time" content="2019-06-08T16:15:57&#43;08:00"/>
+<meta property="article:modified_time" content="2019-06-08T16:15:57&#43;08:00"/>
+
+<meta itemprop="name" content="ZeroTier-One配置moon">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2019-06-08T16:15:57&#43;08:00" />
+<meta itemprop="dateModified" content="2019-06-08T16:15:57&#43;08:00" />
+<meta itemprop="wordCount" content="2611">
+
+
+
+<meta itemprop="keywords" content="内网穿透," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ZeroTier-One配置moon"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">itw</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a><a href="https://github.com/itwhs/">
+        <li class="mobile-menu-item">GitHub</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">itw</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/itwhs/">GitHub</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">ZeroTier-One配置moon</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-06-08 16:15 </span>
+        <div class="post-category">
+            <a href="/categories/network/"> Network </a>
+            </div>
+          <span class="more-meta"> 约 2611 字 </span>
+          <span class="more-meta"> 预计阅读 6 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#使用">使用</a></li>
+<li><a href="#对比">对比</a></li>
+<li><a href="#建立中转服务器-moon">建立中转服务器 moon</a>
+<ul>
+<li><a href="#环境">环境</a>
+<ul>
+<li><a href="#机器-a-moon">机器 A (moon)</a></li>
+<li><a href="#机器-b">机器 B</a></li>
+<li><a href="#机器-c">机器 C</a></li>
+</ul></li>
+<li><a href="#开始">开始</a>
+<ul>
+<li><a href="#将-moon-节点加入网络">将 moon 节点加入网络</a></li>
+<li><a href="#将内网机器连接上-moon-节点">将内网机器连接上 moon 节点</a>
+<ul>
+<li><a href="#方法一">方法一</a></li>
+<li><a href="#方法二">方法二</a></li>
+</ul></li>
+<li><a href="#效果">效果</a></li>
+<li><a href="#参考链接">参考链接</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>首先 Zerotier 是什么呢？ Zerotier 是一拨人为了解决网络复杂，以及因特网过于中心化而提出的解决<a href="https://www.zerotier.com/about.shtml">方案</a>。他们使用<a href="https://www.zerotier.com/manual.shtml#2_1">点对点</a> 的网络，并且在上面附加一层 <a href="https://www.zerotier.com/manual.shtml#2_2">VXLAN-like 虚拟网络层</a> 来提高局域网的可见性，安全性。</p>
+
+<p>所以简单来说，Zerotier 通过创建一个虚拟网络，把你的设备添加到这个网络，那么在这个网络内，你的设备就像在同一个路由器内那样可以使用各种端口。</p>
+
+<p>免费版 Zerotier 支持局域网内 100 个设备。Zerotier 支持 Windows、macOS、Linux 三大桌面平台，iOS、Android 两大移动平台，QNAP（威连通）、Synology（群晖）、Western Digital MyCloud NAS（西部数据）三个 NAS 平台，还支持 <a href="https://openwrt.org/">OpenWrt/LEDE</a> 开源路由器项目。</p>
+
+<p>官网地址：</p>
+
+<ul>
+<li><a href="https://www.zerotier.com/">https://www.zerotier.com/</a></li>
+</ul>
+
+<h2 id="使用">使用</h2>
+
+<ul>
+<li>注册 <a href="https://my.zerotier.com/">ZeroTier</a></li>
+<li>创建 Network 私有局域网，得到一个 16 位的 <a href="https://www.zerotier.com/manual.shtml#2_2_1">Network ID</a></li>
+<li>在需要加入虚拟局域网的设备上安装各个平台客户端，设备会生成一个 10 位的 <a href="https://www.zerotier.com/manual.shtml#2_1_2">ZeroTier address</a></li>
+<li>在设备上加入刚刚创建的 Network ID <code>zerotier-cli join</code>（或在网页上添加 ZeroTier address）</li>
+<li>在官网 network 页面上找到设备，在设备前勾选，信任设备，获得局域网 IP</li>
+</ul>
+
+<p>Windows 系统用命令 <code>IPconfig</code>，Linux/Unix 用命令 <code>ifconfig</code>，然后会看到一个虚拟网卡，有一个 IP 地址。这个 IP 和在官网看到的 network 下的 IP 是一致的，只有同在该虚拟网络下的机器才能访问。</p>
+
+<p>接下来，你可以设置远程桌面（端口号 3389），或者 FTP 服务（端口 21），或者搭建内网网站（端口 80），各种玩法都可以尝试咯。</p>
+
+<p>图文教程可以参考<a href="https://www.appinn.com/zerotier-one/">这篇文章</a>,或者,搜索关键词&quot;zerotier使用图文教程&quot;,依照国内CP现象,可得到想要的结果</p>
+
+<h2 id="对比">对比</h2>
+
+<p>和 ngrok 和 frp 功能类似，但是 ZeroTier 明显入手简单。ZeroTier 只有客户端开源，服务端并没有开源。而 ngrok 和 frp 都是完全开源。但是 ngrok 和 frp 严重依赖于公网固定 IP 的 VPS，是一个中性化的内网穿透工具，一旦中心挂掉，那么所有的节点都无法工作。Zerotier 帮助用户实现了服务端，虽然安全性有待考验，但至少还是能用状态。</p>
+
+<p>另外很多人提到的 <a href="https://github.com/meyerd/n2n">N2N</a> 开上去也不错，不过我还没怎么用过。等以后尝试过后再补上。</p>
+
+<h2 id="建立中转服务器-moon">建立中转服务器 moon</h2>
+
+<p>Zerotier 的官方服务器在国外，国内客户端使用时延迟较大，网络高峰期时甚至各个客户端节点之间访问不了。此时，“自定义根服务器”，又称 moon 中转服务器就显得非常重要，它的主要功能是通过自定义的服务器作为跳板加速内网机器之间的互相访问。</p>
+
+<p>Zerotier 定义了几个专业名词：</p>
+
+<ul>
+<li><code>PLANET</code> 行星服务器，Zerotier 各地的根服务器，有日本、新加坡等地</li>
+<li><code>moon</code> 卫星级服务器，用户自建的私有根服务器，起到中转加速的作用</li>
+<li><code>LEAF</code> 相当于各个枝叶，就是每台连接到该网络的机器节点。</li>
+</ul>
+
+<p>在使用 <code>zerotier-cli listpeers</code> 命令时能看到这几个名词。充当 moon 的机子最好有公网 IP，现在我们尝试用 qnap 搭建一个 moon 中转：</p>
+
+<p>注:以上内容全部来自<a href="http://einverne.github.io/post/2018/06/zerotier.html">这篇文章</a>,CP只做备份使用,敬请谅解</p>
+
+<h3 id="环境">环境</h3>
+
+<h4 id="机器-a-moon">机器 A (moon)</h4>
+
+<ul>
+<li>公网机器(1mbps带宽)</li>
+<li>IP: <code>139.9.124.192</code></li>
+<li>系统: Centos7</li>
+</ul>
+
+<h4 id="机器-b">机器 B</h4>
+
+<ul>
+<li>内网机器笔记本电脑</li>
+</ul>
+
+<h4 id="机器-c">机器 C</h4>
+
+<ul>
+<li>被墙的机器:搬瓦工服务器</li>
+</ul>
+
+<h3 id="开始">开始</h3>
+
+<p><strong>搭建开源的Moon　卫星中转节点</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">#ztncui依赖于zerotier，所以需要先安装zerotier
+	curl -s https://install.zerotier.com | sudo bash</pre></td></tr></table>
+</div>
+</div>
+<p><img src="../../img/zerotier1.png" alt="1" /></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">#安装ztncui软件,并启动
+	yum install https://download.key-networks.com/el7/ztncui/1/ztncui-release-1-1.noarch.rpm -y
+	yum install ztncui -y
+	echo &#34;HTTPS_PORT = 3443&#34; &gt; /opt/key-networks/ztncui/.env
+
+	systemctl restart ztncui
+
+#web登录ztncui控制台
+	https://ip:3443
+	账户：admin
+	密码：password</pre></td></tr></table>
+</div>
+</div>
+<p><img src="../../img/zerotier2.png" alt="2" /></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">#将本机配置为moon节点
+	#进入zerotier-one的配置文件目录
+	cd /var/lib/zerotier-one
+	#在/var/lib/zerotier-one 目录下生成moon.json
+	zerotier-idtool initmoon identity.public &gt;&gt; moon.json
+
+	vi /var/lib/zerotier-one/moon.json
+	#将这行修改为
+	&#34;stableEndpoints&#34;: [ &#34;主机ip1/9993&#34;,&#34;主机ip2/9993&#34; ]</pre></td></tr></table>
+</div>
+</div>
+<p><img src="../../img/zerotier3.png" alt="3" /></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">	#生成签名文件，此命令会生成一个签名文件在当前目录下，文件名如 000000deadbeef00.moon （机器 A 的 id 为 deadbeef00)
+	zerotier-idtool genmoon moon.json
+
+	#关闭selinux</pre></td></tr></table>
+</div>
+</div>
+<p><img src="../../img/zerotier4.png" alt="4" /></p>
+
+<p>(备注)使用方式，及其他系统参看ztncui的社区文档
+    <a href="https://key-networks.com/ztncui/">https://key-networks.com/ztncui/</a></p>
+
+<h4 id="将-moon-节点加入网络">将 moon 节点加入网络</h4>
+
+<p>在机器 A 中的 ZeroTier 目录中建立子文件夹 <code>moons.d</code></p>
+
+<p>不同系统下的 ZeroTier 目录位置：</p>
+
+<ul>
+<li>Windows: <code>C:\ProgramData\ZeroTier\One</code></li>
+<li>Macintosh: <code>/Library/Application Support/ZeroTier/One</code> (在 Terminal 中应为 <code>/Library/Application\ Support/ZeroTier/One</code>)</li>
+<li>Linux: <code>/var/lib/zerotier-one</code></li>
+<li>FreeBSD/OpenBSD: <code>/var/db/zerotier-one</code></li>
+</ul>
+
+<p>将在机器 A 生成的 <code>000000deadbeef00.moon</code> 拷贝进 <code>moons.d</code> 文件夹中，并重启 ZeroTier（此步好像有些许 bug，重启电脑为佳）</p>
+
+<blockquote>
+<p>重新启动moon服务器,由于使用命令安装时会自动注册为服务,所以可以依靠以下命令完成启动或重启</p>
+
+<p>service zerotier-one restart  #(服务重启命令)</p>
+
+<p>/etc/init.d/zerotier-one restart #(服务重启命令)</p>
+
+<p>service zerotier-one start #(服务启动命令)</p>
+
+<p>zerotier-one -d #或直接程序启动</p>
+
+<p>经过以上配置,服务器上的moon即配置并应用完闭.</p>
+</blockquote>
+
+<h4 id="将内网机器连接上-moon-节点">将内网机器连接上 moon 节点</h4>
+
+<h5 id="方法一">方法一</h5>
+
+<p>在机器 B、机器 C 中的 ZeroTier 目录中建立子文件夹 <code>moons.d</code></p>
+
+<p>不同系统下的 ZeroTier 目录位置：</p>
+
+<ul>
+<li>Windows: <code>C:\ProgramData\ZeroTier\One</code></li>
+<li>Macintosh: <code>/Library/Application Support/ZeroTier/One</code> (在 Terminal 中应为 <code>/Library/Application\ Support/ZeroTier/One</code>)</li>
+<li>Linux: <code>/var/lib/zerotier-one</code></li>
+<li>FreeBSD/OpenBSD: <code>/var/db/zerotier-one</code></li>
+</ul>
+
+<p>将在机器 A 生成的 <code>000000deadbeef00.moon</code> 拷贝进 <code>moons.d</code> 文件夹中，并重启 ZeroTier（此步好像有些许 bug，重启电脑为佳）</p>
+
+<p><img src="../../img/zerotier5.png" alt="5" /></p>
+
+<h5 id="方法二">方法二</h5>
+
+<p>在机器 B、机器 C 上执行</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">zerotier-cli orbit deadbeef00 deadbeef00</pre></td></tr></table>
+</div>
+</div>
+<p>(此种方法依赖zerotier的根服务器,若根服务器连接不上,则会无效,由于不确定性, 所以本人更喜欢方法一.这个,看个人情况而定,适用就好)</p>
+
+<p>要验证是否moon生效,只需要在客户端zerotier程序目录下,执行以下命令即可:
+<code>zerotier-cli listpeers</code></p>
+
+<p>若有类似地址,即可证明moon连接成功</p>
+
+<p><img src="../../img/zerotier6.png" alt="6" /></p>
+
+<h4 id="效果">效果</h4>
+
+<p>说明:192网段走官方服务器,10网段走华为云1mbps云主机,实验测试结果,笔记本连接搬瓦工服务器,一开始在第三方服务器验证,最后笔记本到搬瓦工服务器走P2P隧道,Ping可知,同样笔记本到服务器走p2p打洞,用华为云握手的网段,明显延迟小了不少,具体理解,看下面几张截屏吧.<img src="../../img/zerotier7.png" alt="7" /><img src="../../img/zerotier8.png" alt="8" /><img src="../../img/zerotier9.png" alt="9" /><img src="../../img/zerotier10.png" alt="10" /><img src="../../img/zerotier11.jpg" alt="1" /><img src="../../img/zerotier12.png" alt="6" /></p>
+
+<p><strong>zerotier-one客户端安装</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">#linux安装zerotier-one
+	curl -s https://install.zerotier.com | sudo bash
+
+#加入网络
+	zerotier-cli join xxxxxxxx
+	
+#linux若作为本地转发网关，需要关闭selinux，需要设置SNAT以及开启，内核转发 
+#echo &#34;net.ipv4.ip_forward = 1&#34; &gt;&gt; /etc/sysctl.conf
+#sysctl -p
+#iptables -t nat -A POSTROUTING -s 虚拟ip/掩码位 -o eth0 -j SNAT --to-source 本地真实ip</pre></td></tr></table>
+</div>
+</div>
+<p><strong>zerotier-one客户端操作帮助</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">#客户端目录路径
+	cd /var/lib/zerotier-one
+
+#重启客户端
+	systemctl restart zerotier-one
+
+#zerotier-cli用法指引
+	zerotier-cli info			#查看当前zerotier-one的信息
+	zerotier-cli listpeers			#列出所有的peers
+	zerotier-cli listnetworks		#列出加入的所有的网络
+	zerotier-cli join &lt;network&gt;		#加入某个网络
+	zerotier-cli leave &lt;network&gt;		#离开某个网络
+	zerotier-cli listmoons			#列出加入的Moon节点
+	zerotier-cli orbit &lt;world ID&gt; &lt;seed&gt; 	#加入某个Moon节点
+	zerotier-cli deorbit &lt;world ID&gt; 	#离开某个Moon节点</pre></td></tr></table>
+</div>
+</div>
+<h4 id="参考链接">参考链接</h4>
+
+<p><a href="https://www.zerotier.com/manual/#4_4">ZeroTier|Manual</a></p>
+
+<p><a href="https://zerotier.atlassian.net/wiki/spaces/SD/pages/53739526/Will+transfers+go+faster+if+I+pay+you">Will transfers go faster if I pay you?</a></p>
+
+<p><a href="https://zerotier.atlassian.net/wiki/spaces/SD/pages/7372813/The+Earth+Test+Network">The &quot;Earth&quot; Test Network</a></p>
+
+<p><a href="https://xiwaer.com/541.html">ZeroTier 中级教程</a></p>
+
+<p><a href="https://www.howtoing.com/getting-started-software-defined-networking-creating-vpn-zerotier-one">开始使用软件定义的网络并使用ZeroTier One创建VPN</a>,使用效果欠佳,因为一直是转发模式,受中间服务器带宽限制,速度一直起不来,除非,自建moon服务器,如果自建moon服务器,为何不直接在自建那台上做VPN呢?总归,根据实际情况选择</p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Mr Wen</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-06-08 16:15
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener" href="https://github.com/itwhs/itwhs.github.io/blob/master/LICENSE">MIT</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/">内网穿透</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/meedu%E5%BC%80%E6%BA%90%E5%9C%A8%E7%BA%BF%E7%82%B9%E6%92%AD%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B5/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">MeEdu开源在线点播系统部署</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/centos7%E5%AE%89%E8%A3%85dhcpserver/">
+            <span class="next-text nav-default">Centos7配置DHCP服务</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:itwhs@foxmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://blog.csdn.net/wenhs5479" class="iconfont icon-cnblogs" title="cnblogs"></a>
+      <a href="https://github.com/itwhs" class="iconfont icon-github" title="github"></a>
+  <a href="https://itwhs.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Mr Wen</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139425163-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

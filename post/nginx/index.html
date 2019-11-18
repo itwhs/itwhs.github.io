@@ -1,0 +1,2209 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>nginx详解 - itw&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Mr Wen" /><meta name="description" content="" /><meta name="keywords" content="Linux, Github, Network, Cloud, Python" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://itwhs.github.io/post/nginx/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/reset-even.css">
+
+
+<meta property="og:title" content="nginx详解" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://itwhs.github.io/post/nginx/" />
+<meta property="article:published_time" content="2018-11-18T16:15:57&#43;08:00"/>
+<meta property="article:modified_time" content="2018-11-18T16:15:57&#43;08:00"/>
+
+<meta itemprop="name" content="nginx详解">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2018-11-18T16:15:57&#43;08:00" />
+<meta itemprop="dateModified" content="2018-11-18T16:15:57&#43;08:00" />
+<meta itemprop="wordCount" content="14171">
+
+
+
+<meta itemprop="keywords" content="web," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="nginx详解"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">itw</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a><a href="https://github.com/itwhs/">
+        <li class="mobile-menu-item">GitHub</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">itw</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/itwhs/">GitHub</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">nginx详解</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-11-18 16:15 </span>
+        <div class="post-category">
+            <a href="/categories/linux%E8%BF%90%E7%BB%B4/"> Linux运维 </a>
+            </div>
+          <span class="more-meta"> 约 14171 字 </span>
+          <span class="more-meta"> 预计阅读 29 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#1-nginx简介">1. nginx简介</a></li>
+<li><a href="#2-nginx的特性与优点">2. nginx的特性与优点</a>
+<ul>
+<li><a href="#2-1-nginx的特性">2.1 nginx的特性</a></li>
+<li><a href="#2-2-nginx的优点">2.2 nginx的优点</a></li>
+</ul></li>
+<li><a href="#3-nginx的功能及应用类别">3. nginx的功能及应用类别</a>
+<ul>
+<li><a href="#3-1-nginx的基本功能">3.1 nginx的基本功能</a></li>
+<li><a href="#3-2-nginx的扩展功能">3.2 nginx的扩展功能</a></li>
+<li><a href="#3-3-nginx的应用类别">3.3 nginx的应用类别</a></li>
+</ul></li>
+<li><a href="#4-nginx的模块与工作原理">4. nginx的模块与工作原理</a>
+<ul>
+<li><a href="#4-1-nginx的模块分类">4.1 nginx的模块分类</a></li>
+<li><a href="#4-2-nginx的工作原理">4.2 nginx的工作原理</a></li>
+</ul></li>
+<li><a href="#5-nginx的安装与配置">5. nginx的安装与配置</a>
+<ul>
+<li><a href="#5-1-nginx-https-github-com-itwhs-zabbix-blob-master-zabbix-nginx-sh-的-安装-https-blog-csdn-net-wenhs5479-article-details-88536361">5.1 <a href="https://github.com/itwhs/zabbix/blob/master/zabbix/nginx.sh">nginx</a>的<a href="https://blog.csdn.net/wenhs5479/article/details/88536361">安装</a></a></li>
+<li><a href="#5-2-nginx安装后配置">5.2 nginx安装后配置</a></li>
+</ul></li>
+<li><a href="#6-nginx的配置文件详解">6 nginx的配置文件详解</a>
+<ul>
+<li><a href="#6-1-nginx-conf配置详解">6.1 nginx.conf配置详解</a></li>
+<li><a href="#6-2-用于调试-定位问题的配置参数">6.2 用于调试、定位问题的配置参数</a></li>
+<li><a href="#6-3-正常运行必备的配置参数">6.3 正常运行必备的配置参数</a></li>
+<li><a href="#6-4-优化性能的配置参数">6.4 优化性能的配置参数</a></li>
+<li><a href="#6-5-事件相关的配置-event-段中的配置参数">6.5 事件相关的配置：event{}段中的配置参数</a></li>
+<li><a href="#6-6-网络连接相关的配置参数">6.6 网络连接相关的配置参数</a></li>
+<li><a href="#6-7-fastcgi的相关配置参数">6.7 fastcgi的相关配置参数</a></li>
+<li><a href="#6-8-常需要进行调整的参数">6.8 常需要进行调整的参数</a></li>
+<li><a href="#6-9-nginx作为web服务器时使用的配置-http-段的配置参数">6.9 nginx作为web服务器时使用的配置：http{}段的配置参数</a></li>
+<li><a href="#6-10-访问控制">6.10 访问控制</a></li>
+<li><a href="#6-11-基于用户认证">6.11 基于用户认证</a></li>
+<li><a href="#6-12-https配置">6.12 https配置</a></li>
+<li><a href="#6-13-开启状态界面">6.13 开启状态界面</a></li>
+<li><a href="#6-14-rewrite">6.14 rewrite</a>
+<ul>
+<li><a href="#last-和-break-总结如下">last 和 break 总结如下：</a></li>
+<li><a href="#permanent-和-redirect-总结如下">permanent 和 redirect 总结如下：</a></li>
+<li><a href="#last-和-break-vs-permanent-和-redirect">last 和 break VS permanent 和 redirect</a></li>
+</ul></li>
+<li><a href="#6-15-if">6.15 if</a>
+<ul>
+<li><a href="#6-15-1-基于浏览器实现分离案例">6.15.1 基于浏览器实现分离案例</a></li>
+<li><a href="#6-15-2-防盗链案例">6.15.2 防盗链案例</a></li>
+</ul></li>
+<li><a href="#6-16-反向代理与负载均衡">6.16 反向代理与负载均衡</a>
+<ul>
+<li><a href="#扩展">扩展:</a>
+<ul>
+<li><a href="#基于工作的协议层次划分">基于工作的协议层次划分：</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#6-17-nginx内置变量">6.17 nginx内置变量</a>
+<ul>
+<li><a href="#6-17-1-nginx地址栏系统内置变量匹配">6.17.1 nginx地址栏系统内置变量匹配</a></li>
+<li><a href="#6-17-2-nginx服务端参数内置变量匹配">6.17.2 nginx服务端参数内置变量匹配</a></li>
+<li><a href="#6-17-3-nginx客户端参数内置变量匹配">6.17.3 nginx客户端参数内置变量匹配</a></li>
+<li><a href="#6-17-4-nginx运维及系统状态内置变量匹配">6.17.4 nginx运维及系统状态内置变量匹配</a></li>
+<li><a href="#6-18-nginx的平滑升级">6.18 nginx的平滑升级</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="1-nginx简介">1. nginx简介</h2>
+
+<p><code>nginx</code>（发音同engine x）是一款轻量级的Web服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，并在一个BSD-like协议下发行。</p>
+
+<p><code>nginx</code>由俄罗斯的程序设计师Igor Sysoev所开发，最初供俄国大型的入口网站及搜寻引擎Rambler使用。</p>
+
+<p>第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。2011年6月1日，nginx 1.0.4发布。</p>
+
+<p><code>nginx</code>的特点是占有内存少，并发能力强，事实上<code>nginx</code>的并发能力确实在同类型的网页服务器中表现较好，中国大陆使用<code>nginx</code>网站用户有：百度、京东、新浪、网易、腾讯、淘宝等。</p>
+
+<h2 id="2-nginx的特性与优点">2. nginx的特性与优点</h2>
+
+<h3 id="2-1-nginx的特性">2.1 nginx的特性</h3>
+
+<p><code>nginx</code>是一个很牛的高性能Web和反向代理服务器，它具有很多非常优越的特性：</p>
+
+<ul>
+<li>在高连接并发的情况下，nginx是Apache服务器不错的替代品，能够支持高达50000个并发连接数的响应</li>
+<li>使用epoll and kqueue作为开发模型</li>
+<li>nginx作为负载均衡服务器：nginx既可在内部直接支持和PHP程序对外进行服务，也可支持作为HTTP代理服务器对外进行服务</li>
+<li>nginx采用C进行编写，不论系统资源开销还是CPU使用效率都比Perlbal要好很多</li>
+</ul>
+
+<h3 id="2-2-nginx的优点">2.2 nginx的优点</h3>
+
+<ul>
+<li>高并发连接：官方测试能够支撑5万并发连接，在实际生产环境中跑到2-3万并发连接数</li>
+<li>内存消耗少：在3万并发连接下，开启的10个nginx进程才消耗150M内存（15M*10=150M）</li>
+<li>配置文件非常简单：风格跟程序一样通俗易懂</li>
+<li>成本低廉：nginx为开源软件，可以免费使用。而购买F5 BIG-IP、NetScaler等硬件负载均衡交换机则需要十多万至几十万人民币</li>
+<li>支持Rewrite重写规则：能够根据域名、URL的不同，将HTTP请求分到不同的后端服务器群组</li>
+<li>内置的健康检查功能：如果Nginx Proxy后端的某台Web服务器宕机了，不会影响前端访问</li>
+<li>节省带宽：支持GZIP压缩，可以添加浏览器本地缓存的Header头</li>
+<li>稳定性高：用于反向代理，宕机的概率微乎其微</li>
+<li>模块化设计：模块可以动态编译</li>
+<li>外围支持好：文档全，二次开发和模块较多</li>
+<li>支持热部署：可以不停机重载配置文件</li>
+<li>支持事件驱动、AIO（AsyncIO，异步IO）、mmap（Memory Map，内存映射）等性能优化</li>
+</ul>
+
+<h2 id="3-nginx的功能及应用类别">3. nginx的功能及应用类别</h2>
+
+<h3 id="3-1-nginx的基本功能">3.1 nginx的基本功能</h3>
+
+<ul>
+<li>静态资源的web服务器，能缓存打开的文件描述符</li>
+<li>http、smtp、pop3协议的反向代理服务器</li>
+<li>缓存加速、负载均衡</li>
+<li>支持FastCGI（fpm，LNMP），uWSGI（Python）等</li>
+<li>模块化（非DSO机制），过滤器zip、SSI及图像的大小调整</li>
+<li>支持SSL</li>
+</ul>
+
+<h3 id="3-2-nginx的扩展功能">3.2 nginx的扩展功能</h3>
+
+<ul>
+<li>基于名称和IP的虚拟主机</li>
+<li>支持keepalive</li>
+<li>支持平滑升级</li>
+<li>定制访问日志、支持使用日志缓冲区提高日志存储性能</li>
+<li>支持URL重写</li>
+<li>支持路径别名</li>
+<li>支持基于IP及用户的访问控制</li>
+<li>支持速率限制，支持并发数限制</li>
+</ul>
+
+<h3 id="3-3-nginx的应用类别">3.3 nginx的应用类别</h3>
+
+<ul>
+<li>使用nginx结合FastCGI运行PHP、JSP、Perl等程序</li>
+<li>使用nginx作反向代理、负载均衡、规则过滤</li>
+<li>使用nginx运行静态HTML网页、图片</li>
+<li>nginx与其他新技术的结合应用</li>
+</ul>
+
+<h2 id="4-nginx的模块与工作原理">4. nginx的模块与工作原理</h2>
+
+<p><code>nginx</code>由内核和模块组成。其中，内核的设计非常微小和简洁，完成的工作也非常简单，仅仅通过查找配置文件将客户端请求映射到一个location block（location是nginx配置中的一个指令，用于URL匹配），而在这个location中所配置的每个指令将会启动不同的模块去完成相应的工作。</p>
+
+<h3 id="4-1-nginx的模块分类">4.1 nginx的模块分类</h3>
+
+<p>nginx的模块从结构上分为核心模块、基础模块和第三方模块</p>
+
+<ul>
+<li>HTTP模块、EVENT模块和MAIL模块等属于核心模块</li>
+<li>HTTP Access模块、HTTP FastCGI模块、HTTP Proxy模块和HTTP Rewrite模块属于基本模块</li>
+<li>HTTP Upstream模块、Request Hash模块、Notice模块和HTTP Access Key模块属于第三方模块</li>
+</ul>
+
+<p><strong>用户根据自己的需要开发的模块都属于第三方模块。正是有了如此多模块的支撑，nginx的功能才会如此强大</strong></p>
+
+<p>nginx模块从功能上分为三类，分别是：</p>
+
+<ul>
+<li>Handlers（处理器模块）。此类模块直接处理请求，并进行输出内容和修改headers信息等操作。handlers处理器模块一般只能有一个</li>
+<li>Filters（过滤器模块）。此类模块主要对其他处理器模块输出的内容进行修改操作，最后由nginx输出</li>
+<li>Proxies（代理器模块）。就是nginx的HTTP Upstream之类的模块，这些模块主要与后端一些服务比如fastcgi等操作交互，实现服务代理和负载均衡等功能</li>
+</ul>
+
+<p>nginx模块分为：核心模块、事件模块、标准Http模块、可选Http模块、邮件模块、第三方模块和补丁等</p>
+
+<ul>
+<li>nginx基本模块：所谓基本模块，指的是nginx默认的功能模块，它们提供的指令，允许你使用定义nginx基本功能的变量，在编译时不能被禁用，包括：</li>
+<li>核心模块：基本功能和指令，如进程管理和安全。常见的核心模块指令，大部分是放置在配置文件的顶部</li>
+<li>事件模块：在Nginx内配置网络使用的能力。常见的events（事件）模块指令，大部分是放置在配置文件的顶部</li>
+<li>配置模块：提供包含机制</li>
+</ul>
+
+<p>具体的指令，请参考<code>nginx</code>的<a href="http://nginx.org/en/docs/ngx_core_module.html">官方文档</a></p>
+
+<h3 id="4-2-nginx的工作原理">4.2 nginx的工作原理</h3>
+
+<p><code>nginx</code>的模块直接被编译进<code>nginx</code>，因此属于静态编译方式。</p>
+
+<p>启动<code>nginx</code>后，<code>nginx</code>的模块被自动加载，与<code>Apache</code>不一样，首先将模块编译为一个so文件，然后在配置文件中指定是否进行加载。</p>
+
+<p>在解析配置文件时，<code>nginx</code>的每个模块都有可能去处理某个请求，但是同一个处理请求只能由一个模块来完成。</p>
+
+<p><strong>nginx的进程架构：</strong></p>
+
+<p>启动<code>nginx</code>时，会启动一个<code>Master</code>进程，这个进程不处理任何客户端的请求，主要用来产生<code>worker</code>线程，一个<code>worker</code>线程用来处理n个<code>request</code>。</p>
+
+<p><img src="../../img/nginx_process.jpg" alt="img" /></p>
+
+<p>下图展示了<code>nginx</code>模块一次常规的HTTP请求和响应的过程</p>
+
+<p><img src="../../img/nginx_process_02.jpg" alt="img" /></p>
+
+<p>下图展示了基本的WEB服务请求步骤</p>
+
+<p><img src="../../img/nginx_process_01.jpg" alt="img" /></p>
+
+<h2 id="5-nginx的安装与配置">5. nginx的安装与配置</h2>
+
+<h3 id="5-1-nginx-https-github-com-itwhs-zabbix-blob-master-zabbix-nginx-sh-的-安装-https-blog-csdn-net-wenhs5479-article-details-88536361">5.1 <a href="https://github.com/itwhs/zabbix/blob/master/zabbix/nginx.sh">nginx</a>的<a href="https://blog.csdn.net/wenhs5479/article/details/88536361">安装</a></h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="cp">#!/bin/bash
+</span><span class="cp"></span><span class="nv">logdir</span><span class="o">=</span>/var/log/nginx
+<span class="nv">nginxdir</span><span class="o">=</span>/usr/local/nginx
+<span class="nv">cores</span><span class="o">=</span><span class="k">$(</span>grep <span class="s1">&#39;core id&#39;</span> /proc/cpuinfo <span class="p">|</span> sort -u <span class="p">|</span> wc -l<span class="k">)</span>
+<span class="nv">log</span><span class="o">=</span>/root/nginxinstall.log
+<span class="c1">#安装依赖包</span>
+yum -y install pcre-devel openssl openssl-devel gd-devel zlib-devel gcc gcc-c++
+<span class="c1">#创建日志存放目录</span>
+id nginx <span class="m">2</span>&gt;<span class="nv">$log</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> !<span class="o">=</span> <span class="m">0</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+useradd -r -M -s /sbin/nologin nginx
+<span class="k">fi</span>
+mkdir -p <span class="nv">$logdir</span>
+chown -R nginx.nginx <span class="nv">$logdir</span>
+<span class="o">[</span> ! -f Package/nginx-1.16.0.tar.gz <span class="o">]</span> <span class="o">&amp;&amp;</span> wget http://nginx.org/download/nginx-1.16.0.tar.gz
+<span class="o">[</span> ! -d /nginx-1.16.0 <span class="o">]</span> <span class="o">&amp;&amp;</span> tar xf nginx-1.16.0.tar.gz -C /usr/src/
+<span class="nb">cd</span> /usr/src/nginx-1.16.0
+./configure --prefix<span class="o">=</span><span class="nv">$nginxdir</span> --user<span class="o">=</span>nginx --group<span class="o">=</span>nginx --with-debug --with-http_ssl_module --with-http_realip_module --with-http_image_filter_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_stub_status_module --http-log-path<span class="o">=</span><span class="nv">$logdir</span>/access.log --error-log-path<span class="o">=</span><span class="nv">$logdir</span>/error.log --with-pcre
+make -j<span class="nv">$cores</span> <span class="m">2</span>&gt;<span class="nv">$log</span> <span class="o">&amp;&amp;</span> make install
+<span class="c1">#添加服务控制脚本</span>
+cat &gt;&gt;/etc/init.d/nginx <span class="s">&lt;&lt;&#39;EOF&#39;
+</span><span class="s">#!/bin/bash
+</span><span class="s">nginx=&#34;/usr/local/nginx/sbin/nginx&#34;
+</span><span class="s">NGINX_CONF_FILE=&#34;/usr/local/nginx/conf/nginx.conf&#34;
+</span><span class="s">pid=&#34;/usr/local/nginx/logs/nginx.pid&#34;
+</span><span class="s">case $1 in
+</span><span class="s">	start)
+</span><span class="s">		$nginx -c $NGINX_CONF_FILE
+</span><span class="s">		;;
+</span><span class="s">	stop)
+</span><span class="s">		$nginx -s stop
+</span><span class="s">		;;
+</span><span class="s">	restart)
+</span><span class="s">		$nginx -s stop
+</span><span class="s">		sleep 1
+</span><span class="s">		$nginx -c $NGINX_CONF_FILE
+</span><span class="s">		;;
+</span><span class="s">	reload)
+</span><span class="s">		$nginx -s reload
+</span><span class="s">		;;
+</span><span class="s">	status)
+</span><span class="s">		if [ -f $pid ];then
+</span><span class="s">		    echo &#34;nginx is running&#34;
+</span><span class="s">        else
+</span><span class="s">		    echo &#34;nginx is stoped&#34;
+</span><span class="s">	    fi
+</span><span class="s">		;;
+</span><span class="s">	*)
+</span><span class="s">		echo $&#34;Usage: $0 {start|stop|status|restart|reload}&#34;
+</span><span class="s">		exit 2
+</span><span class="s">		;;
+</span><span class="s">esac
+</span><span class="s">EOF</span>
+chmod +x /etc/init.d/nginx
+<span class="c1">##添加环境变量</span>
+<span class="nb">echo</span> <span class="s2">&#34;export PATH=</span><span class="nv">$nginxdir</span><span class="s2">/sbin:\$PATH&#34;</span> &gt;/etc/profile.d/nginx.sh
+<span class="nb">echo</span> <span class="s2">&#34;请执行 : source /etc/profile.d/nginx.sh 来添加环境变量&#34;</span>
+<span class="nb">echo</span>  <span class="s2">&#34;安装完成&#34;</span>
+<span class="nb">echo</span> <span class="s2">&#34;启动服务方法:service nginx start|stop|status|restart|reload &#34;</span></pre></td></tr></table>
+</div>
+</div>
+<h3 id="5-2-nginx安装后配置">5.2 nginx安装后配置</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">//服务控制方式，使用nginx命令
+    -t  //检查配置文件语法
+    -v  //输出nginx的版本
+    -c  //指定配置文件的路径
+    -s  //发送服务控制信号，可选值有{stop|quit|reopen|reload}
+  (这里reopen是重启,但是一般不用,效果不好,要么reload重读配置文件,要么stop后在nginx启动)
+  
+//启动nginx
+[root@localhost ~]# nginx
+[root@localhost ~]# ss -antl
+State      Recv-Q Send-Q   Local Address:Port                  Peer Address:Port
+LISTEN     0      128                  *:80                               *:*
+LISTEN     0      128                  *:22                               *:*
+LISTEN     0      100          127.0.0.1:25                               *:*
+LISTEN     0      128                 :::22                              :::*
+LISTEN     0      100                ::1:25                              :::* </pre></td></tr></table>
+</div>
+</div>
+<h2 id="6-nginx的配置文件详解">6 nginx的配置文件详解</h2>
+
+<p>主配置文件：/usr/local/nginx/conf/nginx.conf</p>
+
+<ul>
+<li>默认启动nginx时，使用的配置文件是：安装路径/conf/nginx.conf文件</li>
+<li>可以在启动nginx时通过-c选项来指定要读取的配置文件</li>
+</ul>
+
+<p><strong>nginx常见的配置文件及其作用</strong></p>
+
+<table>
+<thead>
+<tr>
+<th>配置文件</th>
+<th>作用</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>nginx.conf</td>
+<td>nginx的基本配置文件</td>
+</tr>
+
+<tr>
+<td>mime.types</td>
+<td>MIME类型关联的扩展文件</td>
+</tr>
+
+<tr>
+<td>fastcgi.conf</td>
+<td>与fastcgi相关的配置</td>
+</tr>
+
+<tr>
+<td>proxy.conf</td>
+<td>与proxy相关的配置</td>
+</tr>
+
+<tr>
+<td>sites.conf</td>
+<td>配置nginx提供的网站，包括虚拟主机</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="6-1-nginx-conf配置详解">6.1 nginx.conf配置详解</h3>
+
+<p>nginx.conf的内容分为以下几段：</p>
+
+<ul>
+<li>main配置段：全局配置段。其中main配置段中可能包含event配置段</li>
+<li>event {}：定义event模型工作特性</li>
+<li>http {}：定义http协议相关的配置</li>
+</ul>
+
+<p>配置指令：要以分号结尾，语法格式如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">derective value1 [value2 ...]</pre></td></tr></table>
+</div>
+</div>
+<p>支持使用变量：</p>
+
+<ul>
+<li>内置变量：模块会提供内建变量定义</li>
+<li>自定义变量：<code>set var_name value</code></li>
+</ul>
+
+<h3 id="6-2-用于调试-定位问题的配置参数">6.2 用于调试、定位问题的配置参数</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">daemon {on|off};    //是否以守护进程方式运行nginx，调试时应设置为off
+master_process {on|off};    //是否以master/worker模型来运行nginx，调试时可以设置为off
+error_log 位置 级别;    //配置错误日志</pre></td></tr></table>
+</div>
+</div>
+<p>error_log里的位置和级别能有以下可选项：</p>
+
+<table>
+<thead>
+<tr>
+<th>位置</th>
+<th>级别</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>file stderr syslog:server=address[,parameter=value] memory:size</td>
+<td>debug：若要使用debug级别，需要在编译nginx时使用--with-debug选项 info notice warn error crit alert emerg</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="6-3-正常运行必备的配置参数">6.3 正常运行必备的配置参数</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">user USERNAME [GROUPNAME];    //指定运行worker进程的用户和组
+pid /path/to/pid_file;    //指定nginx守护进程的pid文件
+worker_rlimit_nofile number;    //设置所有worker进程最大可以打开的文件数，默认为1024(最大65535,这里设置了65535后,并不能就可以打开65535个了,还要设置/etc/security/limits.conf文件里面的参数nofile,让nginx可以打开65535个文件,也就是说,这里设置的数字会比系统限制小,要想大,就先加大系统限制)
+worker_rlimit_core size;    //指明所有worker进程所能够使用的总体的最大核心文件大小，保持默认即可</pre></td></tr></table>
+</div>
+</div>
+<h3 id="6-4-优化性能的配置参数">6.4 优化性能的配置参数</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">worker_processes n;    //启动n个worker进程，这里的n为了避免上下文切换，通常设置为cpu总核心数减1或等于总核心数
+worker_cpu_affinity cpumask ...;    //将进程绑定到某cpu中，避免频繁刷新缓存
+//cpumask：使用8位二进制表示cpu核心，如：
+    0000 0001   //第一颗cpu核心
+    0000 0010   //第二颗cpu核心
+    0000 0100   //第三颗cpu核心
+    0000 1000   //第四颗cpu核心
+    0001 0000   //第五颗cpu核心
+    0010 0000   //第六颗cpu核心
+    0100 0000   //第七颗cpu核心
+    1000 0000   //第八颗cpu核心
+timer_resolution interval;    //计时器解析度。降低此值，可减少gettimeofday()系统调用的次数
+worker_priority number;    //指明worker进程的nice值(-20到19,一般是0)</pre></td></tr></table>
+</div>
+</div>
+<h3 id="6-5-事件相关的配置-event-段中的配置参数">6.5 事件相关的配置：event{}段中的配置参数</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">accept_mutex {off|on};    //master调度用户请求至各worker进程时使用的负载均衡锁；on表示能让多个worker轮流地、序列化地去响应新请求,要启动on配置则要设置下面这个锁文件
+lock_file file;    //accept_mutex用到的互斥锁锁文件路径(这个参数要放前面的全局配置段,否则语法错误)
+use [epoll | rtsig | select | poll];    //指明使用的事件模型，建议让nginx自行选择
+worker_connections #;    //每个进程能够接受的最大连接数(看worker数量,例如最大5万链接,有4个worker,则这里可以设置5120-10240,总量也就是2万到4万链接,不要满负载运行)</pre></td></tr></table>
+</div>
+</div>
+<h3 id="6-6-网络连接相关的配置参数">6.6 网络连接相关的配置参数</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">keepalive_timeout number;    //长连接的超时时长，默认为65s(问题:请求资源过大,还没传输完,时间超时,断开链接,如此重复.解决方法:提高带宽,压缩资源,加长超时时长)
+keepalive_requests number;    //在一个长连接上所能够允许请求的最大资源数
+keepalive_disable [msie6|safari|none];    //为指定类型的UserAgeng禁用长连接(列出来才会禁用)
+tcp_nodelay on|off;    //是否对长连接使用TCP_NODELAY选项，为了提升用户体验，通常设为on(也就是不延迟)
+client_header_timeout number;    //读取http请求报文首部的超时时长
+client_body_timeout number;    //读取http请求报文body部分的超时时长
+send_timeout number;    //发送响应报文的超时时长</pre></td></tr></table>
+</div>
+</div>
+<h3 id="6-7-fastcgi的相关配置参数">6.7 fastcgi的相关配置参数</h3>
+
+<p>LNMP：php要启用fpm模型
+配置示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">location ~ \.php$ {
+  root html;
+  fastcgi_pass 127.0.0.1:9000;      //定义反向代理
+  fastcgi_index index.php;
+  fastcgi_param SCRIPT_FILENAME /scripts$fastcgi_script_name;
+  include fastcgi_params;
+}
+这里的/scripts一般改成$document_root也就是网站默认家目录(变量名字做到见名知义)
+开头是只匹配.php结尾的文件</pre></td></tr></table>
+</div>
+</div>
+<h3 id="6-8-常需要进行调整的参数">6.8 常需要进行调整的参数</h3>
+
+<ul>
+<li>worker_processes</li>
+<li>worker_connections</li>
+<li>worker_cpu_affinity</li>
+<li>worker_priority</li>
+</ul>
+
+<h3 id="6-9-nginx作为web服务器时使用的配置-http-段的配置参数">6.9 nginx作为web服务器时使用的配置：http{}段的配置参数</h3>
+
+<p>http{...}：配置http相关，由ngx_http_core_module模块引入。nginx的HTTP配置主要包括四个区块，结构如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">http {//协议级别,这个配置文件只有一个http{},所以,想配置虚拟主机,可以&#39;sed -ri /^http/a&#34;\ \ \ \ include\ \ \ \ \ \ \ vhost.types;&#34; /usr/local/nginx/conf/nginx.conf&#39;在同级目录下加一个vhost.types写虚拟主机配置
+  include mime.types;
+  default_type application/octet-stream;
+  keepalive_timeout 65;
+  gzipon;
+  upstream {//负载均衡配置
+    ...
+  }
+  server {//服务器级别，每个server类似于httpd中的一个&lt;VirtualHost&gt;
+    listen 80;
+    server_name localhost;
+    location / {//请求级别，类似于httpd中的&lt;Location&gt;，用于定义URL与本地文件系统的映射关系
+      root html;(这里的html是&#39;location /&#39;的&#39;/&#39;,要理清路径关系,比如要访问html/haha则可写成location /haha{root html;...})
+      index index.html index.htm;
+    }
+  }
+}</pre></td></tr></table>
+</div>
+</div>
+<p><strong>http{}段配置指令：</strong></p>
+
+<p>server {}：定义一个虚拟主机，示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">server {
+  listen 80;(必须有的参数,也可以放在http{里面},这样的话,http里面的主机都监听Listen的端口) 
+  server_name itw.design;
+  root &#34;/vhosts/web&#34;;(这里用的绝对路径)
+}</pre></td></tr></table>
+</div>
+</div>
+<p>listen：指定监听的地址和端口</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">listen address[:port];
+listen port;</pre></td></tr></table>
+</div>
+</div>
+<p><code>server_name NAME [...];</code> 后面可跟多个主机，名称可使用正则表达式或通配符</p>
+
+<p><strong>当有多个server时，匹配顺序如下(相当于匹配优先级)：</strong></p>
+
+<ol>
+<li>先做精确匹配检查</li>
+<li>左侧通配符匹配检查，如<code>*.design</code></li>
+<li>右侧通配符匹配检查，如<code>mail.*</code></li>
+<li>正则表达式匹配检查，如<code>~ ^.*\.design$</code></li>
+<li>default_server</li>
+</ol>
+
+<p><code>root path;</code> 设置资源路径映射，用于指明请求的URL所对应的资源所在的文件系统上的起始路径</p>
+
+<p><code>alias path;</code> 用于location配置段，定义路径别名,要写全路径(用于没有修饰符的情况下)</p>
+
+<p><code>index file;</code> 默认主页面</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">index index.php index.html;
+error_page code [...] [=code] URI | @name` 根据http响应状态码来指明特用的错误页面，例如 `error_page 404 /404_customed.html
+这个错误网页放在默认网页根下,也就是html下</pre></td></tr></table>
+</div>
+</div>
+<p>[=code]：以指定的响应码进行响应，而不是默认的原来的响应，默认表示以新资源的响应码为其响应码，例如 <code>error_page 404 =200 /404_customed.html</code></p>
+
+<p><code>log_format</code> 定义日志格式</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">log_format  main  &#39;$remote_addr - $remote_user [$time_local] &#34;$request&#34; &#39;
+                    &#39;$status $body_bytes_sent &#34;$http_referer&#34; &#39;
+                    &#39;&#34;$http_user_agent&#34; &#34;$http_x_forwarded_for&#34;&#39;;
+access_log  logs/access.log  main;
+
+//注意：此处可用变量为nginx各模块内建变量,内建变量可自行百度</pre></td></tr></table>
+</div>
+</div>
+<p><strong>location区段，通过指定模式来与客户端请求的URI相匹配</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">//功能：允许根据用户请求的URI来匹配定义的各location，匹配到时，此请求将被相应的location配置块中的配置所处理，例如做访问控制等功能
+
+//语法：location [ 修饰符 ] pattern {......}</pre></td></tr></table>
+</div>
+</div>
+<p><strong>常用修饰符说明：</strong></p>
+
+<table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>功能</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>=</td>
+<td>精确匹配</td>
+</tr>
+
+<tr>
+<td>~</td>
+<td>正则表达式模式匹配，区分大小写</td>
+</tr>
+
+<tr>
+<td>~*</td>
+<td>匹配文件后缀名称</td>
+</tr>
+
+<tr>
+<td>^~</td>
+<td>前缀匹配，类似于无修饰符的行为，也是以指定模块开始，不同的是，如果模式匹配，那么就停止搜索其他模式了，不支持正则表达式</td>
+</tr>
+
+<tr>
+<td>@</td>
+<td>定义命名location区段，这些区段客户端不能访问，只可以由内部产生的请求来访问，如try_files或error_page等</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>没有修饰符表示必须以指定模式开始</strong>，如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">server {
+  server_name itw.design;
+  location /abc {
+    ......
+  }
+}</pre></td></tr></table>
+</div>
+</div>
+<p>那么如下内容就可正确匹配：</p>
+
+<ul>
+<li><a href="http://itw.design/abc">http://itw.design/abc</a></li>
+<li><a href="http://itw.design/abc?p1=11&amp;p2=22">http://itw.design/abc?p1=11&amp;p2=22</a></li>
+<li><a href="http://itw.design/abc/">http://itw.design/abc/</a></li>
+</ul>
+
+<p><strong>=：表示必须与指定的模式精确匹配</strong>，如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">server {
+  server_name itw.design;
+  location = /abc {
+    ......
+  }
+}</pre></td></tr></table>
+</div>
+</div>
+<p>那么如下内容就可正确匹配：</p>
+
+<ul>
+<li><a href="http://itw.design/abc">http://itw.design/abc</a></li>
+<li><a href="http://itw.design/abc?p1=11&amp;p2=22">http://itw.design/abc?p1=11&amp;p2=22</a></li>
+</ul>
+
+<p>如下内容则无法匹配：</p>
+
+<ul>
+<li><p><a href="http://itw.design/abc/">http://itw.design/abc/</a></p></li>
+
+<li><p><a href="http://itw.design/abc/abcde">http://itw.design/abc/abcde</a></p></li>
+</ul>
+
+<p><strong>~：表示指定的正则表达式要区分大小写</strong>，如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">server {
+  server_name itw.design;
+  location ~ ^/abc$ {
+  ......
+  }
+}</pre></td></tr></table>
+</div>
+</div>
+<p>那么如下内容就可正确匹配：</p>
+
+<ul>
+<li><a href="http://itw.design/abc">http://itw.design/abc</a></li>
+<li><a href="http://itw.design/abc?p1=11&amp;p2=22">http://itw.design/abc?p1=11&amp;p2=22</a></li>
+</ul>
+
+<p>如下内容则无法匹配：</p>
+
+<ul>
+<li><a href="http://itw.design/abc/">http://itw.design/abc/</a></li>
+<li><a href="http://itw.design/ABC">http://itw.design/ABC</a></li>
+<li><a href="http://itw.design/abcde">http://itw.design/abcde</a></li>
+</ul>
+
+<p><strong>~*：表示指定的正则表达式不区分大小写</strong>，如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">server {
+  server_name itw.design;
+  location ~* ^/*.jpg$ {
+    ......
+  }
+}</pre></td></tr></table>
+</div>
+</div>
+<p>那么如下内容就可正确匹配：</p>
+
+<ul>
+<li><a href="http://itw.design/1.jpg">http://itw.design/1.jpg</a></li>
+</ul>
+
+<p>如下内容则无法匹配：</p>
+
+<ul>
+<li><a href="http://itw.design/abc/">http://itw.design/abc/</a></li>
+<li><a href="http://itw.design/abcde">http://itw.design/abcde</a></li>
+</ul>
+
+<p><strong>~：类似于无修饰符的行为，也是以指定模式开始，不同的是，如果模式匹配，则停止搜索其他模式</strong></p>
+
+<p><strong>查找顺序和优先级：由高到底依次为</strong></p>
+
+<ol>
+<li>带有<code>=</code>的精确匹配优先</li>
+<li>正则表达式按照他们在配置文件中定义的顺序</li>
+<li>带有<code>^~</code>修饰符的，开头匹配</li>
+<li>带有<code>~</code>或<code>~*</code>修饰符的，如果正则表达式与URI匹配</li>
+<li>没有修饰符的精确匹配</li>
+</ol>
+
+<p><strong>优先级次序如下：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">( location = 路径 ) --&gt; ( location ^~ 路径 ) --&gt; ( location ~ 正则 ) --&gt; ( location ~* 正则 ) --&gt; ( location 路径 )</pre></td></tr></table>
+</div>
+</div>
+<h3 id="6-10-访问控制">6.10 访问控制</h3>
+
+<p><strong>用于location段</strong></p>
+
+<p>allow：设定允许哪台或哪些主机访问，多个参数间用空格隔开
+deny：设定禁止哪台或哪些主机访问，多个参数间用空格隔开
+示例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">allow 192.168.1.1/32 172.16.0.0/16;
+deny all;</pre></td></tr></table>
+</div>
+</div>
+<h3 id="6-11-基于用户认证">6.11 基于用户认证</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">auth_basic &#34;欢迎信息&#34;;
+auth_basic_user_file &#34;/path/to/user_auth_file&#34;</pre></td></tr></table>
+</div>
+</div>
+<p>user_auth_file内容格式为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">username:password</pre></td></tr></table>
+</div>
+</div>
+<p>这里的密码为加密后的密码串，建议用htpasswd来创建此文件：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">htpasswd -c -m /path/to/.user_auth_file USERNAME</pre></td></tr></table>
+</div>
+</div>
+<h3 id="6-12-https配置">6.12 https配置</h3>
+
+<p>生成私钥，生成证书签署请求并获得证书，然后在nginx.conf中配置如下内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">server {
+  listen       443 ssl;
+  server_name  itw.design;
+  ssl_certificate      /etc/nginx/ssl/nginx.crt;(可用绝对路径,也可相对路径)
+  ssl_certificate_key  /etc/nginx/ssl/nginx.key;
+  ssl_session_cache    shared:SSL:1m;
+  ssl_session_timeout  5m;
+  ssl_ciphers  HIGH:!aNULL:!MD5;
+  ssl_prefer_server_ciphers  on;
+  location / {
+    root   html;
+    index  index.html index.htm;
+  }
+}</pre></td></tr></table>
+</div>
+</div>
+<h3 id="6-13-开启状态界面">6.13 开启状态界面</h3>
+
+<p>开启status：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">location /status {
+  stub_status {on | off};
+  allow 192.168.0.0/16;最好是只允许自己主机访问:ip/32掩码
+  deny all;
+}
+
+自定义监控取驻留连接值(越小越好):curl -s http://server_ip/status|awk &#39;NR==4 {print $NF}&#39;
+例如:
+[root@localhost ~]# curl -s http://192.168.153.130/status
+Active connections: 1 
+server accepts handled requests
+ 32 32 62 
+Reading: 0 Writing: 1 Waiting: 0 
+[root@localhost ~]# curl -s http://192.168.153.130/status|awk &#39;NR==4 {print $NF}&#39;
+0</pre></td></tr></table>
+</div>
+</div>
+<p>访问状态页面的方式：<code>http://server_ip/status</code></p>
+
+<p><img src="../../img/1560156311954.png" alt="1560156311954" /></p>
+
+<p><a href="https://blog.csdn.net/wenhs5479/article/details/90514799">添加自定义监控</a></p>
+
+<p>修改/usr/local/etc/zabbix_agentd.conf配置文件</p>
+
+<p><img src="../../img/1560160474474.png" alt="1560160474474" /></p>
+
+<p>然后配置主机监控项,添加触发器,和告警媒介,最后再选择用户配置媒介选项,实现下图告警</p>
+
+<p><img src="../../img/1560161618173.png" alt="1560161618173" /></p>
+
+<p><img src="../../img/1560161322272.png" alt="1560161322272" /></p>
+
+<p><strong>状态页面信息详解：</strong></p>
+
+<table>
+<thead>
+<tr>
+<th align="center">状态码</th>
+<th align="left">表示的意义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">Active connections</td>
+<td align="left">当前所有处于打开状态的连接数</td>
+</tr>
+
+<tr>
+<td align="center">accepts</td>
+<td align="left">总共处理了多少个连接</td>
+</tr>
+
+<tr>
+<td align="center">handled</td>
+<td align="left">成功创建多少握手</td>
+</tr>
+
+<tr>
+<td align="center">requests</td>
+<td align="left">总共处理了多少个请求</td>
+</tr>
+
+<tr>
+<td align="center">Reading</td>
+<td align="left">nginx读取到客户端的Header信息数，表示正处于接收请求状态的连接数</td>
+</tr>
+
+<tr>
+<td align="center">Writing</td>
+<td align="left">nginx返回给客户端的Header信息数，表示请求已经接收完成， 且正处于处理请求或发送响应的过程中的连接数</td>
+</tr>
+
+<tr>
+<td align="center">Waiting</td>
+<td align="left">开启keep-alive的情况下，这个值等于active - (reading + writing)， 意思就是Nginx已处理完正在等候下一次请求指令的驻留连接</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="6-14-rewrite">6.14 rewrite</h3>
+
+<p>语法：<code>rewrite regex replacement flag;</code></p>
+
+<p>案例1：原访问地址<a href="http://server_ip/images/1.jpg,但是个别原因,这个images要更名为img,这时有以下几种方法,解决客户访问原地址,仍然访问正确资源[此处的$1用于引用(.*.jpg)匹配到的内容">http://server_ip/images/1.jpg,但是个别原因,这个images要更名为img,这时有以下几种方法,解决客户访问原地址,仍然访问正确资源[此处的$1用于引用(.*.jpg)匹配到的内容</a>]</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">在nginx.conf添加下列定位
+location /images {
+                rewrite ^/images/(.*\.jpg)$ /img/$1 break;
+        }</pre></td></tr></table>
+</div>
+</div>
+<p><img src="../../img/1560163229362.png" alt="1560163229362" /></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">在nginx.conf添加下列定位(这个会重写客户端的url)
+location /images {
+                rewrite ^/images/(.*\.jpg)$ http://192.168.153.130/img/$1 break;
+        }
+location /img {
+                root html;
+        }
+一开始访问http://192.168.153.130/images/1.jpg,自动跳转到http://192.168.153.130/img/1.jpg</pre></td></tr></table>
+</div>
+</div>
+<p><img src="../../img/1560163656438.png" alt="1560163656438" /></p>
+
+<p>案例2:某公司域名太长或不容易记,便可借别人短域名,做一个短网址</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">在nginx.conf添加下列定位(这个会重写客户端的url)
+location /blog {
+                rewrite ^/blog/(.*)$ https://itwhs.github.io/index.html redirect;
+        }</code></pre></td></tr></table>
+</div>
+</div>
+<p>如上例所示，replacement可以是某个路径，也可以是某个URL</p>
+
+<p><img src="../../img/1560164873261.png" alt="1560164873261" /></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">在nginx.conf添加下列定位(这个会重写客户端的url)
+location /blog {
+                rewrite ^/blog/(.*)$ https://itwhs.github.io/index.html redirect;
+        }</pre></td></tr></table>
+</div>
+</div>
+<p><img src="../../img/1560165070278.png" alt="1560165070278" /></p>
+
+<p><strong>常见的flag</strong></p>
+
+<table>
+<thead>
+<tr>
+<th align="center">flag</th>
+<th align="left">作用</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">last</td>
+<td align="left">基本上都用这个flag，表示当前的匹配结束，继续下一个匹配，最多匹配10个到20个 一旦此rewrite规则重写完成后，就不再被后面其它的rewrite规则进行处理 而是由UserAgent重新对重写后的URL再一次发起请求，并从头开始执行类似的过程</td>
+</tr>
+
+<tr>
+<td align="center">break</td>
+<td align="left">中止Rewrite，不再继续匹配 一旦此rewrite规则重写完成后，由UserAgent对新的URL重新发起请求， 且不再会被当前location内的任何rewrite规则所检查</td>
+</tr>
+
+<tr>
+<td align="center">redirect</td>
+<td align="left">以临时重定向的HTTP状态302返回新的URL</td>
+</tr>
+
+<tr>
+<td align="center">permanent</td>
+<td align="left">以永久重定向的HTTP状态301返回新的URL</td>
+</tr>
+</tbody>
+</table>
+
+<p>rewrite模块的作用是用来执行URL重定向。这个机制有利于去掉恶意访问的url，也有利于搜索引擎优化（SEO）</p>
+
+<p>nginx使用的语法源于Perl兼容正则表达式（PCRE）库，基本语法如下：</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">标识符</th>
+<th align="left">意义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">^</td>
+<td align="left">必须以^后的实体开头</td>
+</tr>
+
+<tr>
+<td align="center">$</td>
+<td align="left">必须以$前的实体结尾</td>
+</tr>
+
+<tr>
+<td align="center">.</td>
+<td align="left">匹配任意字符</td>
+</tr>
+
+<tr>
+<td align="center">[]</td>
+<td align="left">匹配指定字符集内的任意字符</td>
+</tr>
+
+<tr>
+<td align="center">[^]</td>
+<td align="left">匹配任何不包括在指定字符集内的任意字符串</td>
+</tr>
+
+<tr>
+<td align="center">|</td>
+<td align="left">匹配 | 之前或之后的实体</td>
+</tr>
+
+<tr>
+<td align="center">()</td>
+<td align="left">分组，组成一组用于匹配的实体，通常会有 | 来协助</td>
+</tr>
+</tbody>
+</table>
+
+<p>捕获子表达式，可以捕获放在()之间的任何文本，比如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">^(hi|sir)$       //字符串为“hi sir”捕获的结果：$1=hi$2=sir
+
+//这些被捕获的数据，在后面就可以当变量一样使用了</code></pre></td></tr></table>
+</div>
+</div>
+<p>不写last和break - 那么流程就是依次执行这些rewrite</p>
+
+<p><strong>使用last和break实现URI重写，浏览器地址栏不变</strong></p>
+
+<ul>
+<li>break - url重写后，直接使用当前资源，不再执行location里余下的语句，完成本次请求，地址栏url不变</li>
+<li>last - url重写后，马上发起一个新的请求，再次进入server块，重试location匹配，超过10次匹配不到报500错误，地址栏url不变。牢记：使用last会对server标签重新发起请求</li>
+</ul>
+
+<p>使用redirect 和permanent 实现URI重写，浏览器以返回的新地址重新发起请求</p>
+
+<ul>
+<li>redirect – 返回302临时重定向，地址栏显示重定向后的url，爬虫不会更新url（因为是临时）</li>
+<li>permanent – 返回301永久重定向, 地址栏显示重定向后的url，爬虫更新url</li>
+</ul>
+
+<h4 id="last-和-break-总结如下">last 和 break 总结如下：</h4>
+
+<p><strong>1、last 和 break 当出现在location 之外时，两者的作用是一致的没有任何差异</strong>。</p>
+
+<p>注意一点就是，他们会跳过所有的在他们之后的rewrite 模块中的指令，去选择自己匹配的location</p>
+
+<p>rewrite url1 url2 last; ①</p>
+
+<p>rewrite url3 url4 last; ②</p>
+
+<p>rewrite url5 url6 last; ③</p>
+
+<p>location ~ url2 ④</p>
+
+<p>location ~ url4 ⑤</p>
+
+<p>location ~ url6 ⑥</p>
+
+<p>当① 这条rewrite 规则生效后，它后面的②和③ 将被跳过不做判断，而去直接选择 后面的location。</p>
+
+<p>这里可能有一个疑问，那些指令输入rewrite 模块中的指令呢？ 若是使用nginx本身，你就要到官网上去查询了。</p>
+
+<p>但如果你使用的是tengine ，可以使用tengine -V 。会将你想要的信息列举出来。</p>
+
+<p>放在server块rewrite语句前面 ：如果是直接请求某个真实存在的文件,则用break语句停止rewrite检查</p>
+
+<p>if (-f $request_filename) {</p>
+
+<p>break;</p>
+
+<p>}</p>
+
+<p><strong>2、last 和 break 当出现在location 内部时，两者就存在了差异。</strong></p>
+
+<p>last: 使用了last 指令，rewrite 后会跳出location 作用域，重新开始再走一次刚刚的行为break: 使用了break 指令，rewrite后不会跳出location 作用域。它的生命也在这个location中终结。</p>
+
+<p>rewrite xxx1 yyy last; ⑦</p>
+
+<p>rewrite xxx2 yyy last; ⑧</p>
+
+<p>rewrite xxx3 yyy last; ⑨</p>
+
+<p>rewrite xxx4 yyy last; ⑩</p>
+
+<p>location ~ url1 {</p>
+
+<p>rewrite url1 url2 last; ①</p>
+
+<p>}</p>
+
+<p>location ~ url2 {</p>
+
+<p>rewrite url3 url4 break; ②</p>
+
+<p>fastcgi_pass 127.0.0.1:9000;</p>
+
+<p>}</p>
+
+<p>以上事例：</p>
+
+<p>第一个location 中的 rewrite 指令处理完成之后，会跳出location ，再重新判断rewrite 7 ~ 9 的规则。</p>
+
+<p>第二个location 中的 rewrite 指令处理完成之后，不会跳出location， 更不会重新判断rewrite 7 ~ 9 的规则。而只能将</p>
+
+<p>信息传递给后面的fastcgi_pass 或者proxy_pass 等指令</p>
+
+<p>牢记：使用last会对server标签重新发起请求</p>
+
+<ul>
+<li>如果location中rewrite后是对静态资源的请求，不需要再进行其他匹配，一般要使用break或不写，直接使用当前location中的数据源，完成本次请求</li>
+<li>如果location中rewrite后，还需要进行其他处理，如动态fastcgi请求(.php,.jsp)等，要用last继续发起新的请求</li>
+<li>使用alias指定源：必须使用last</li>
+<li>使用proxy_pass指令时，需要使用break标记。</li>
+</ul>
+
+<h4 id="permanent-和-redirect-总结如下">permanent 和 redirect 总结如下：</h4>
+
+<p><strong>permanent</strong>: 大家公认的信息 ，永久性重定向。请求日志中的状态码为301</p>
+
+<p><strong>redirect</strong>： 大家公认的信息 ，临时重定向。请求日志中的状态码为302</p>
+
+<p>从实现功能的角度上去看，permanent 和 redirect 是一样的。不存在哪里好，哪里坏。也不存在什么性能上的问题。</p>
+
+<p>但从SEO(或者是百度爬你的网站时)。 类似于这样的东西，会对你到底是永久性重定向还是临时重定向感兴趣。了解不到，需要深入，就google 吧。</p>
+
+<h4 id="last-和-break-vs-permanent-和-redirect">last 和 break VS permanent 和 redirect</h4>
+
+<p>在 permanent 和 redirect 中提到了 状态码 301 和 302。 那么last 和 break 想对于的访问日志的请求状态码又是多少呢？</p>
+
+<p>答案为： 200</p>
+
+<p>这两类关键字，我们能够眼睛看到的差异是什么呢？ 我举个例子说明吧：</p>
+
+<p>当你打开一个网页，同时打开debug 模式时，会发现301 和 302 时的行为是这样的。第一个请求301 或者 302 后，浏览器重新获取了一个新的URL ，然后会对这个新的URL 重新进行访问。所以当你配置的是permanent 和 redirect ,你对一个URL 的访问请求，落到服务器上至少为2次。</p>
+
+<p>而当你配置了last 或者是break 时，你最终的URL 确定下来后，不会将这个URL返回给浏览器，而是将其扔给了fastcgi_pass或者是proxy_pass指令去处理。请求一个URL ，落到服务器上的次数就为1次。</p>
+
+<h3 id="6-15-if">6.15 if</h3>
+
+<p>语法：<code>if (condition) {...}</code></p>
+
+<p>应用场景：</p>
+
+<ul>
+<li>server段</li>
+<li>location段</li>
+</ul>
+
+<p><strong>常见的condition</strong></p>
+
+<ul>
+<li>变量名（变量值为空串，或者以“0”开始，则为false，其它的均为true）</li>
+<li>以变量为操作数构成的比较表达式（可使用=，!=类似的比较操作符进行测试）</li>
+<li>正则表达式的模式匹配操作
+
+<ul>
+<li>~：区分大小写的模式匹配检查</li>
+<li>~*：不区分大小写的模式匹配检查</li>
+<li>!~和!~*：对上面两种测试取反</li>
+</ul></li>
+<li>测试指定路径为文件的可能性（-f，!-f)</li>
+<li>测试指定路径为目录的可能性（-d，!-d）</li>
+<li>测试文件的存在性（-e，!-e）</li>
+<li>检查文件是否有执行权限（-x，!-x）</li>
+</ul>
+
+<h4 id="6-15-1-基于浏览器实现分离案例">6.15.1 基于浏览器实现分离案例</h4>
+
+<p>各个浏览器的排版可能会有区别,所以,前端人员会写多平台的前端页面,这时就要把这些分离</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@localhost html]# mkdir MobileSafari MobileEdge SafariEdge Trident
+[root@localhost html]# ll
+总用量 8
+-rw-r--r-- 1 root root 494 6月  11 17:12 50x.html
+-rw-r--r-- 1 root root 612 6月  11 17:12 index.html
+drwxr-xr-x 2 root root   6 6月  11 18:23 MobileEdge
+drwxr-xr-x 2 root root   6 6月  11 18:23 MobileSafari
+drwxr-xr-x 2 root root   6 6月  11 18:23 SafariEdge
+drwxr-xr-x 2 root root   6 6月  11 18:23 Trident
+[root@localhost html]# echo &#34;MobileEdge&#34; &gt;MobileEdge/index.html
+[root@localhost html]# echo &#34;MobileSafari&#34; &gt;MobileSafari/index.html
+[root@localhost html]# echo &#34;SafariEdge&#34; &gt;SafariEdge/index.html
+[root@localhost html]# echo &#34;Trident&#34; &gt;Trident/index.html</pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">        location / {
+            root   html;
+            index index.html;
+                if ($http_user_agent ~ &#39;Mobile Safari/537.36 Edge/14.14263&#39; ) {
+                        rewrite ^(.*)$ /MobileEdge/$1 break;
+                }
+
+                if ($http_user_agent ~ &#34;Mobile/15A5341f Safari/604.1&#34; ) {
+                        rewrite ^(.*)$ /MobileSafari/$1 break;
+                }
+
+                if ($http_user_agent ~ &#34;Chrome/64.0.3282.140 Safari/537.36 Edge/18.17763&#34; ) {
+                        rewrite ^(.*)$ /SafariEdge/$1 break;
+                }
+
+                if ($http_user_agent ~ Trident) {
+                        rewrite ^(.*)$ /Trident/$1 break;
+                }
+        }
+        
+        版本号可以直接写Chrome  Firefox  Safari  Trident等...</code></pre></td></tr></table>
+</div>
+</div>
+<p>效果图:</p>
+
+<p><img src="../../img/1560250364297.png" alt="1560250364297" /></p>
+
+<p><img src="../../img/1560250305079.png" alt="1560250305079" /></p>
+
+<p><img src="../../img/1560250537948.png" alt="1560250537948" /></p>
+
+<p><img src="../../img/1560250661596.png" alt="1560250661596" /></p>
+
+<h4 id="6-15-2-防盗链案例">6.15.2 防盗链案例</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">location ~* \.(jpg|gif|jpeg|png)$ {
+  valid_referers none blocked itw.design;
+  if ($invalid_referer) {
+    rewrite ^/ http://itw.design/403.html;
+  }
+}</code></pre></td></tr></table>
+</div>
+</div>
+<h3 id="6-16-反向代理与负载均衡">6.16 反向代理与负载均衡</h3>
+
+<p><code>nginx</code>通常被用作后端服务器的反向代理，这样就可以很方便的实现动静分离以及负载均衡，从而大大提高服务器的处理能力。</p>
+
+<h4 id="扩展">扩展:</h4>
+
+<p><strong>硬件负载均衡</strong>：</p>
+
+<ul>
+<li>F5，BIG-IP</li>
+<li>Citrix NetScaler</li>
+<li>A10</li>
+<li>Array</li>
+<li>Redware</li>
+</ul>
+
+<p><strong>软件负载均衡</strong>：
+- lvs
+- haproxy
+- nginx
+- ats
+- perlbal</p>
+
+<h5 id="基于工作的协议层次划分">基于工作的协议层次划分：</h5>
+
+<ul>
+<li><p>传输层：lvs，haproxy,(mode tcp)</p></li>
+
+<li><p>应用层: haproxy,nginx,ats,perlbal</p></li>
+</ul>
+
+<p><code>nginx</code>实现动静分离，其实就是在反向代理的时候，如果是静态资源，就直接从<code>nginx</code>发布的路径去读取，而不需要从后台服务器获取了。</p>
+
+<p>但是要注意，这种情况下需要保证后端跟前端的程序保持一致，可以使用<code>Rsync</code>做服务端自动同步或者使用<code>NFS</code>、<code>MFS</code>分布式共享存储。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">Http Proxy`模块，功能很多，最常用的是`proxy_pass`和`proxy_cache</pre></td></tr></table>
+</div>
+</div>
+<p>如果要使用<code>proxy_cache</code>，需要集成第三方的<code>ngx_cache_purge</code>模块，用来清除指定的URL缓存。这个集成需要在安装<code>nginx</code>的时候去做，如：
+<code>./configure --add-module=../ngx_cache_purge-1.0 ......</code></p>
+
+<p><code>nginx</code>通过<code>upstream</code>模块来实现简单的负载均衡，<code>upstream</code>需要定义在<code>http</code>段内</p>
+
+<p>在<code>upstream</code>段内，定义一个服务器列表，默认的方式是轮询，如果要确定同一个访问者发出的请求总是由同一个后端服务器来处理，可以设置ip_hash，如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">准备工作:
+[root@localhost html]# mkdir 8080 8090 800 8000
+[root@localhost html]# echo 8080 &gt;8080/index.html
+[root@localhost html]# echo 800 &gt;800/index.html
+[root@localhost html]# echo 8090 &gt;8090/index.html
+[root@localhost html]# echo 8000 &gt;8000/index.html
+[root@localhost html]# vim /usr/local/nginx17/conf/nginx.conf
+    server {
+        listen 800;
+        location / {
+            root   html/800;
+        }
+    }
+    server {
+        listen 8000;
+        location / {
+            root   html/8000;
+        }
+    }
+    server {
+        listen 8080;
+        location / {
+            root   html/8080;
+        }
+    }
+    server {
+        listen 8090;
+        location / {
+            root   html/8090;
+        }
+    }
+    upstream 192.168.153.130 {
+        server 127.0.0.1:800 weight=4;
+        server 127.0.0.1:8000 weight=3;
+        server 127.0.0.1:8080 weight=2;
+        server 127.0.0.1:8090;
+    }
+    server {
+        location / {
+    proxy_pass http://192.168.153.130;
+        }
+    }
+这里的weight=n是权重,也就是800端口4个请求;8000端口3个请求;8080端口2个请求;8090端口1个请求,这里的&#39;192.168.153.130&#39;可换做公司域名,&#39;127.0.0.1&#39;可换做集群中其他主机ip地址,权重按需求和机器性能,合理配置
+修改后:
+upstream 192.168.153.130 {
+        ip_hash;
+        server 127.0.0.1:800 weight=4;
+        server 127.0.0.1:8000 weight=3;
+        server 127.0.0.1:8080 weight=2;
+        server 127.0.0.1:8090;
+    }
+这种修改后,用本机验证一直是其中一个虚拟主机页面,没有再更改</code></pre></td></tr></table>
+</div>
+</div>
+<p>注意：这个方法本质还是轮询，而且由于客户端的ip可能是不断变化的，比如动态ip，代理，翻墙等，因此ip_hash并不能完全保证同一个客户端总是由同一个服务器来处理。</p>
+
+<p>定义好<code>upstream</code>后，需要在<code>server</code>段内添加如下内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">server {
+  location / {
+    proxy_pass http://域名或IP;
+  }
+}</code></pre></td></tr></table>
+</div>
+</div>
+<p><img src="../../img/20190612_155350.gif" alt="验证" /></p>
+
+<h3 id="6-17-nginx内置变量">6.17 nginx内置变量</h3>
+
+<p>内置变量存放在 ngx_http_core_module 模块中，下面我来把这些变量分类记忆下，这里包括日常运维的内置变量讲解</p>
+
+<h4 id="6-17-1-nginx地址栏系统内置变量匹配">6.17.1 nginx地址栏系统内置变量匹配</h4>
+
+<p>以<a href="https://itwhs.github.io/index.php?m=content&amp;c=index&amp;a=lists&amp;catid=110">https://itwhs.github.io/index.php?m=content&amp;c=index&amp;a=lists&amp;catid=110</a>的匹配顺序为例：</p>
+
+<p><strong>$scheme</strong> 请求使用的Web协议, “http” 或 “https”</p>
+
+<p><strong>$host</strong> 请求中的主机头(Host)字段，如果请求中的主机头不可用或者空，则为处理请求的server名称(处理请求的server的server_name指令的值)。值为小写，不包含端口。</p>
+
+<p><strong>$hostname</strong> 主机名，机器名使用 gethostname系统调用的值</p>
+
+<p><strong>$document_uri</strong> 与$uri相同。请求中的当前URI(不带请求参数，参数位于$args)，可以不同于浏览器传递的$request_uri的值，它可以通过内部重定向，或者使用index指令进行修改，$uri不包含主机名，如”/foo/bar.html”。</p>
+
+<p><strong>$document_root</strong> 当前请求的文档根目录或别名——当前请求在root指令中指定的值。</p>
+
+<p><strong>$args</strong> 这个变量等于GET请求中的参数。$query_string 与$args相同。例如，foo=123&amp;bar=blahblah;这个变量只可以被修改</p>
+
+<p><strong>$arg_name</strong>请求中的的参数名，即“?”后面的arg_name=arg_value形式的arg_name</p>
+
+<p><strong>$is_args</strong> 如果$args设置，值为&quot;?&quot;，否则为&quot;&quot;。</p>
+
+<p><strong>$cookie_COOKI</strong>E cookie COOKIE的值。</p>
+
+<p><strong>$cookie_name</strong> cookie名称</p>
+
+<h4 id="6-17-2-nginx服务端参数内置变量匹配">6.17.2 nginx服务端参数内置变量匹配</h4>
+
+<p><strong>$server_protocol</strong> 服务器的HTTP版本, 通常为 “HTTP/1.0” 或 “HTTP/1.1”</p>
+
+<p><strong>$server_nam</strong> 服务器名，如<a href="https://itwhs.github.io/">itwhs.github.io</a></p>
+
+<p><strong>$server_addr</strong> 服务器端地址，需要注意的是：为了避免访问linux系统内核，应将ip地址提前设置在配置文件中。</p>
+
+<p><strong>$server_port</strong> 服务器端口</p>
+
+<p><strong>$status</strong> HTTP响应代码 (1.3.2, 1.2.2)</p>
+
+<p><strong>$https</strong> 如果开启了SSL安全模式，值为“on”，否则为空字符串。</p>
+
+<h4 id="6-17-3-nginx客户端参数内置变量匹配">6.17.3 nginx客户端参数内置变量匹配</h4>
+
+<p><strong>$remote_addr</strong> 客户端的IP地址。</p>
+
+<p><strong>$remote_por</strong>t 客户端的端口。</p>
+
+<p><strong>$remote_user</strong> 用于HTTP基础认证服务的用户名，已经经过Auth Basic Module验证的用户名。</p>
+
+<p><strong>$request</strong>代表客户端的请求地址</p>
+
+<p><strong>$request_filename</strong> 当前连接请求的文件路径，由root或alias指令与URI请求生成。</p>
+
+<p><strong>$realpath_root</strong>当前请求的文档根目录或别名的真实路径，会将所有符号连接转换为真实路径。</p>
+
+<p><strong>$request_body</strong> 客户端的请求主体，此变量可在location中使用，将请求主体通过proxy_pass, fastcgi_pass, uwsgi_pass, 和 scgi_pass传递给下一级的代理服务器。这个变量（0.7.58+）包含请求的主要信息。在使用proxy_pass或fastcgi_pass指令的location<strong>中比较有意义。</strong></p>
+
+<p><strong>$request_body_file</strong> 客户端请求主体信息的临时文件名。将客户端请求主体保存在临时文件中。文件处理结束后，此文件需删除。如果需要之一开启此功能，需要设置client_body_in_file_only。如果将次文件传递给后端的代理服务器，需要禁用request body，即设置proxy_pass_request_body off，fastcgi_pass_request_body off, uwsgi_pass_request_body off, or scgi_pass_request_body off 。</p>
+
+<p><strong>$request_completion</strong> 如果请求成功，设为&quot;OK&quot;；如果请求未完成或者不是一系列请求中最后一部分则设为空。</p>
+
+<p><strong>$request_method</strong> 这个变量是客户端请求的动作，通常为GET或POST。包括0.8.20及之前的版本中，这个变量总为main request中的动作，如果当前请求是一个子请求，并不使用这个当前请求的动作。</p>
+
+<p><strong>$http_HEADER</strong> HTTP请求头中的内容，HEADER为HTTP请求中的内容转为小写，-变为_(破折号变为下划线)，例如：$http_user_agent(Uaer-Agent的值), $http_referer...;</p>
+
+<p><strong>$http_name</strong>匹配任意请求头字段； 变量名中的后半部分“name”可以替换成任意请求头字段，如在配置文件中需要获取http请求头：“Accept-Language”，那么将“－”替换为下划线，大写字母替换为小写，形如：$http_accept_language即可。</p>
+
+<p><strong>$sent_http_HEADER</strong> HTTP响应头中的内容，HEADER为HTTP响应中的内容转为小写，-变为_(破折号变为下划线)，例如： $sent_http_cache_control, $sent_http_content_type...;</p>
+
+<h4 id="6-17-4-nginx运维及系统状态内置变量匹配">6.17.4 nginx运维及系统状态内置变量匹配</h4>
+
+<p><strong>$nginx_version</strong> 当前运行的nginx版本号。</p>
+
+<p><strong>$time_iso8601</strong> 服务器时间的ISO 8610格式 (1.3.12, 1.2.7)</p>
+
+<p><strong>$msec</strong> 当前的Unix时间戳 (1.3.9, 1.2.6)</p>
+
+<p>$pid工作进程的PID</p>
+
+<p><strong>$limit_rate</strong> 用于设置响应的速度限制</p>
+
+<p>$binary_remote_addr 二进制码形式的客户端地址。</p>
+
+<p><strong>$body_bytes_sent</strong> 传送页面的字节数</p>
+
+<p><strong>$connection</strong> TCP连接的序列号 (1.3.8, 1.2.5)</p>
+
+<p><strong>$connection_requests</strong> TCP连接当前的请求数量 (1.3.8, 1.2.5)</p>
+
+<p><strong>$content_length</strong> 请求头中的Content-length字段。</p>
+
+<p><strong>$content_type</strong> 请求头中的Content-Type字段。</p>
+
+<h4 id="6-18-nginx的平滑升级">6.18 nginx的平滑升级</h4>
+
+<p>nginx在编译安装完成之后，出于以下两种考虑都需要进行升级：</p>
+
+<ul>
+<li><p>版本更新</p></li>
+
+<li><p>添加未编译安装的模块</p></li>
+</ul>
+
+<p>而nginx所采用的平滑升级可以保证在不停止服务的情况下解决以上问题。我们以动态增加–with-http_stub_status_module模块为例，步骤如下：</p>
+
+<p><strong>1.查看nginx版本号及已安装模块</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@localhost ~]# nginx -V
+nginx version: nginx/1.16.0
+built by gcc 4.8.5 20150623 (Red Hat 4.8.5-36) (GCC) 
+built with OpenSSL 1.0.2k-fips  26 Jan 2017
+TLS SNI support enabled
+configure arguments: --prefix=/usr/local/nginx --user=nginx --group=nginx --with-debug --with-http_ssl_module --with-http_realip_module --with-http_image_filter_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_stub_status_module --http-log-path=/var/log/nginx/access.log --error-log-path=/var/log/nginx/error.log --with-pcre</pre></td></tr></table>
+</div>
+</div>
+<p><strong>2.下载对应版本的源码包和要添加的模块</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@localhost ~]# wget http://nginx.org/download/nginx-1.17.0.tar.gz
+[root@localhost ~]# wget https://github.com/openresty/echo-nginx-module/archive/v0.61.tar.gz</pre></td></tr></table>
+</div>
+</div>
+<p><strong>3.解压并重新编译</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@localhost ~]# tar xf nginx-1.17.0.tar.gz 
+[root@localhost ~]# tar xf v0.61.tar.gz 
+[root@localhost ~]# ll
+drwxrwxr-x  5 root root      174 8月   9 2017 echo-nginx-module-0.61
+drwxr-xr-x  8 1001 1001      158 5月  21 22:24 nginx-1.17.0
+-rw-r--r--  1 root root  1032978 5月  23 21:32 nginx-1.17.0.tar.gz
+-rw-r--r--  1 root root    53155 6月  11 17:01 v0.61.tar.gz
+[root@localhost ~]# cd nginx-1.17.0
+[root@localhost ~]# cd nginx-1.17.0
+[root@localhost nginx-1.17.0]# ./configure --prefix=/usr/local/nginx17 --user=nginx --group=nginx --with-debug --with-http_ssl_module --with-http_realip_module --with-http_image_filter_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_stub_status_module --http-log-path=/var/log/nginx/access.log --error-log-path=/var/log/nginx/error.log --with-pcre --add-module=../echo-nginx-module-0.61
+.......
+[root@localhost nginx-1.17.0]# make
+此时2种方法升级,一是把objs里面的新编译的文件,替换到原有的文件,实现升级和加模块,这个方法不需要make install,二是直接把老版本的conf文件替换到新版本目录(下面演示的方法二)
+[root@localhost nginx-1.17.0]# make install</pre></td></tr></table>
+</div>
+</div>
+<p><strong>4.备份,升级</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@localhost nginx-1.17.0]# mv /usr/local/nginx17/conf/nginx.conf{,.origin}
+[root@localhost nginx-1.17.0]# cp /usr/local/nginx/conf/nginx.conf /usr/local/nginx17/conf/
+[root@localhost nginx-1.17.0]# pkill nginx
+[root@localhost nginx-1.17.0]# /usr/local/nginx17/sbin/nginx 
+[root@localhost nginx-1.17.0]# /usr/local/nginx17/sbin/nginx -V
+nginx version: nginx/1.17.0
+built by gcc 4.8.5 20150623 (Red Hat 4.8.5-36) (GCC) 
+built with OpenSSL 1.0.2k-fips  26 Jan 2017
+TLS SNI support enabled
+configure arguments: --prefix=/usr/local/nginx17 --user=nginx --group=nginx --with-debug --with-http_ssl_module --with-http_realip_module --with-http_image_filter_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_stub_status_module --http-log-path=/var/log/nginx/access.log --error-log-path=/var/log/nginx/error.log --with-pcre --add-module=../echo-nginx-module-0.61</pre></td></tr></table>
+</div>
+</div>
+<p><strong>5.添加环境变量</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@localhost ~]# vim /etc/profile.d/nginx.sh
+export PATH=/usr/local/nginx17/sbin:$PATH
+[root@localhost ~]# source /etc/profile.d/nginx.sh 
+[root@localhost ~]# whereis nginx
+nginx: /usr/local/nginx /usr/local/nginx17/sbin/nginx /usr/local/nginx/sbin/nginx</pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Mr Wen</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2018-11-18 16:15
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener" href="https://github.com/itwhs/itwhs.github.io/blob/master/LICENSE">MIT</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/web/">web</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/rsync/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Rsync</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/limits.conf%E9%85%8D%E7%BD%AE/">
+            <span class="next-text nav-default">limits.conf</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:itwhs@foxmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://blog.csdn.net/wenhs5479" class="iconfont icon-cnblogs" title="cnblogs"></a>
+      <a href="https://github.com/itwhs" class="iconfont icon-github" title="github"></a>
+  <a href="https://itwhs.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Mr Wen</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139425163-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Docker实践 on itw&#39;s blog</title>
+    <link>https://itwhs.github.io/tags/docker%E5%AE%9E%E8%B7%B5/</link>
+    <description>Recent content in Docker实践 on itw&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 01 Jun 2019 16:15:57 +0800</lastBuildDate>
+    
+	<atom:link href="https://itwhs.github.io/tags/docker%E5%AE%9E%E8%B7%B5/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Docker搭建Java Web开发环境</title>
+      <link>https://itwhs.github.io/post/docker%E6%90%AD%E5%BB%BAjavaweb%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</link>
+      <pubDate>Sat, 01 Jun 2019 16:15:57 +0800</pubDate>
+      
+      <guid>https://itwhs.github.io/post/docker%E6%90%AD%E5%BB%BAjavaweb%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>SaltStack之return与job管理 - itw&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Mr Wen" /><meta name="description" content="" /><meta name="keywords" content="Linux, Github, Network, Cloud, Python" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://itwhs.github.io/post/saltstack%E4%B9%8Breturn%E4%B8%8Ejob%E7%AE%A1%E7%90%86/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/reset-even.css">
+
+
+<meta property="og:title" content="SaltStack之return与job管理" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://itwhs.github.io/post/saltstack%E4%B9%8Breturn%E4%B8%8Ejob%E7%AE%A1%E7%90%86/" />
+<meta property="article:published_time" content="2019-03-23T16:15:57&#43;08:00"/>
+<meta property="article:modified_time" content="2019-03-23T16:15:57&#43;08:00"/>
+
+<meta itemprop="name" content="SaltStack之return与job管理">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2019-03-23T16:15:57&#43;08:00" />
+<meta itemprop="dateModified" content="2019-03-23T16:15:57&#43;08:00" />
+<meta itemprop="wordCount" content="3481">
+
+
+
+<meta itemprop="keywords" content="自动化," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="SaltStack之return与job管理"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">itw</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a><a href="https://github.com/itwhs/">
+        <li class="mobile-menu-item">GitHub</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">itw</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/itwhs/">GitHub</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">SaltStack之return与job管理</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-03-23 16:15 </span>
+        <div class="post-category">
+            <a href="/categories/linux%E8%BF%90%E7%BB%B4/"> Linux运维 </a>
+            </div>
+          <span class="more-meta"> 约 3481 字 </span>
+          <span class="more-meta"> 预计阅读 7 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#1-saltstack组件之return">1. SaltStack组件之return</a>
+<ul>
+<li><a href="#1-1-return流程">1.1 return流程</a></li>
+<li><a href="#1-2-使用mysql作为return存储方式">1.2 使用mysql作为return存储方式</a></li>
+</ul></li>
+<li><a href="#2-job-cache">2. job cache</a>
+<ul>
+<li><a href="#2-1-job-cache流程">2.1 job cache流程</a></li>
+<li><a href="#2-2-salt-job管理">2.2.Salt Job管理</a></li>
+<li><a href="#2-2-3-job管理">2.2.3 job管理</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="1-saltstack组件之return">1. SaltStack组件之return</h2>
+
+<p>return组件可以理解为SaltStack系统对执行Minion返回后的数据进行存储或者返回给其他程序，它支持多种存储方式，比如用MySQL、MongoDB、Redis、Memcache等，通过return我们可以对SaltStack的每次操作进行记录，对以后日志审计提供了数据来源。目前官方已经支持30种return数据存储与接口，我们可以很方便的配置与使用它。当然也支持自己定义的return，自定义的return需由python来编写。在选择和配置好要使用的return后，只需在salt命令后面指定return即可。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">查看所有return列表
+[root@master ~]# salt &#39;192.168.153.141&#39; sys.list_returners
+192.168.153.141:
+    - carbon
+    - couchdb
+    - elasticsearch
+    - etcd
+    - highstate
+    - hipchat
+    - local
+    - local_cache
+    - mattermost
+    - multi_returner
+    - pushover
+    - rawfile_json
+    - slack
+    - smtp
+    - splunk
+    - sqlite3
+    - syslog
+    - telegram</pre></td></tr></table>
+</div>
+</div>
+<h3 id="1-1-return流程">1.1 return流程</h3>
+
+<p>return是在Master端触发任务，然后Minion接受处理任务后直接与return存储服务器建立连接，然后把数据return存到存储服务器。关于这点一定要注意，因为此过程都是Minion端操作存储服务器，所以要确保Minion端的配置跟依赖包是正确的，这意味着我们将必须在每个Minion上安装指定的return方式依赖包，假如使用Mysql作为return存储方式，那么我们将在每台Minion上安装python-mysql模块。</p>
+
+<h3 id="1-2-使用mysql作为return存储方式">1.2 使用mysql作为return存储方式</h3>
+
+<p><strong>在所有minion上安装Mysql-python模块</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master ~]# salt &#39;192.168.153.141&#39; pkg.install MySQL-python
+192.168.153.141:
+    ----------
+    MySQL-python:
+        ----------
+        new:
+            1.2.5-1.el7
+        old:
+[root@master ~]# salt &#39;192.168.153.141&#39; cmd.run &#39;rpm -qa|grep MySQL-python&#39;
+192.168.153.141:
+    MySQL-python-1.2.5-1.el7.x86_64</pre></td></tr></table>
+</div>
+</div>
+<p><strong>部署一台mysql服务器用作存储服务器，此处就直接在192.168.153.142这台主机上部署</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">部署mysql
+[root@mysql142 ~]# yum install MySQL-python mariadb-server mariadb -y
+[root@mysql142 ~]# systemctl start mariadb
+[root@mysql142 ~]# systemctl enable mariadb
+Created symlink from /etc/systemd/system/multi-user.target.wants/mariadb.service to /usr/lib/systemd/system/mariadb.service.
+[root@mysql142 ~]# ss -antl
+State      Recv-Q Send-Q      Local Address:Port                     Peer Address:Port              
+LISTEN     0      50                      *:3306                                *:*                  
+LISTEN     0      128                     *:22                                  *:*                  
+LISTEN     0      100             127.0.0.1:25                                  *:*                  
+LISTEN     0      128                    :::22                                 :::*                  
+LISTEN     0      100                   ::1:25                                 :::*
+
+创建数据库和表结构
+[root@mysql142 ~]# mysql
+Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.
+......
+#建立远程登录账户
+MariaDB [(none)]&gt; grant all on salt.* to salt@&#39;%&#39; identified by &#39;salt&#39;; 
+
+#创建对应的库和表
+CREATE DATABASE  `salt`
+  DEFAULT CHARACTER SET utf8
+  DEFAULT COLLATE utf8_general_ci;
+
+USE `salt`;
+
+DROP TABLE IF EXISTS `jids`;
+CREATE TABLE `jids` (
+  `jid` varchar(255) NOT NULL,
+  `load` mediumtext NOT NULL,
+  UNIQUE KEY `jid` (`jid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE INDEX jid ON jids(jid) USING BTREE;
+
+DROP TABLE IF EXISTS `salt_returns`;
+CREATE TABLE `salt_returns` (
+  `fun` varchar(50) NOT NULL,
+  `jid` varchar(255) NOT NULL,
+  `return` mediumtext NOT NULL,
+  `id` varchar(255) NOT NULL,
+  `success` varchar(10) NOT NULL,
+  `full_ret` mediumtext NOT NULL,
+  `alter_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  KEY `id` (`id`),
+  KEY `jid` (`jid`),
+  KEY `fun` (`fun`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `salt_events`;
+CREATE TABLE `salt_events` (
+`id` BIGINT NOT NULL AUTO_INCREMENT,
+`tag` varchar(255) NOT NULL,
+`data` mediumtext NOT NULL,
+`alter_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+`master_id` varchar(255) NOT NULL,
+PRIMARY KEY (`id`),
+KEY `tag` (`tag`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+MariaDB [salt]&gt; show tables;
++----------------+
+| Tables_in_salt |
++----------------+
+| jids           |
+| salt_events    |
+| salt_returns   |
++----------------+
+3 rows in set (0.00 sec)
+
+刷新后退出
+MariaDB [salt]&gt; flush privileges;
+Query OK, 0 rows affected (0.00 sec)</pre></td></tr></table>
+</div>
+</div>
+<p><strong>配置minion</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@minion ~]# yum install MySQL-python -y
+[root@minion ~]# vim /etc/salt/minion
+.....此处省略N行
+mysql.host: &#39;192.168.153.142&#39;
+mysql.user: &#39;salt&#39;
+mysql.pass: &#39;salt&#39;
+mysql.db: &#39;salt&#39;
+mysql.port: 3306
+
+[root@minion ~]# systemctl restart salt-minion</pre></td></tr></table>
+</div>
+</div>
+<p><strong>在Master上测试存储到mysql中</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master ~]# salt &#39;192.168.153.141&#39; test.ping --return mysql
+192.168.153.141:
+    True</pre></td></tr></table>
+</div>
+</div>
+<p><strong>在数据库中查询</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">MariaDB [(none)]&gt; select * from salt.salt_returns\G
+*************************** 1. row ***************************
+       fun: test.ping
+       jid: 20190724153418459123
+    return: true
+        id: 192.168.153.141
+   success: 1
+  full_ret: {&#34;fun_args&#34;: [], &#34;jid&#34;: &#34;20190724153418459123&#34;, &#34;return&#34;: true, &#34;retcode&#34;: 0, &#34;success&#34;: true, &#34;fun&#34;: &#34;test.ping&#34;, &#34;id&#34;: &#34;192.168.153.141&#34;}
+alter_time: 2019-07-24 15:34:18
+1 row in set (0.00 sec)</pre></td></tr></table>
+</div>
+</div>
+<h2 id="2-job-cache">2. job cache</h2>
+
+<h3 id="2-1-job-cache流程">2.1 job cache流程</h3>
+
+<p>return时是由Minion直接与存储服务器进行交互，因此需要在每台Minion上安装指定的存储方式的模块，比如python-mysql，那么我们能否直接在Master上就把返回的结果给存储到存储服务器呢？</p>
+
+<p>答案是肯定的，这种方式被称作 job cache 。意思是当Minion将结果返回给Master后，由Master将结果给缓存在本地，然后将缓存的结果给存储到指定的存储服务器，比如存储到mysql中。</p>
+
+<p><strong>开启master端的master_job_cache</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master ~]# vim /etc/salt/master
+....此处省略N行
+master_job_cache: mysql
+mysql.host: &#39;192.168.153.142&#39;
+mysql.user: &#39;salt&#39;
+mysql.pass: &#39;salt&#39;
+mysql.db: &#39;salt&#39;
+mysql.port: 3306
+
+[root@master ~]# systemctl restart salt-master</pre></td></tr></table>
+</div>
+</div>
+<p><strong>在数据库服务器中清空表内容</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@mysql142 ~]# mysql
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 9
+Server version: 5.5.60-MariaDB MariaDB Server
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.
+
+MariaDB [(none)]&gt; delete from salt.salt_returns;
+Query OK, 4 rows affected (0.00 sec)
+
+MariaDB [(none)]&gt; select * from salt.salt_returns;
+Empty set (0.00 sec)</pre></td></tr></table>
+</div>
+</div>
+<p><strong>在master上再次测试能否存储至数据库</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master ~]# salt &#39;*&#39; cmd.run &#39;ls /root/&#39;
+192.168.153.141:
+    anaconda-ks.cfg
+    b
+    cca
+    haha
+192.168.153.142:
+    anaconda-ks.cfg
+192.168.153.136:
+    anaconda-ks.cfg</pre></td></tr></table>
+</div>
+</div>
+<p><strong>在数据库中查询</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">MariaDB [(none)]&gt; select * from salt.salt_returns\G
+*************************** 1. row ***************************
+       fun: cmd.run
+       jid: 20190724154112399435
+    return: &#34;anaconda-ks.cfg\nb\ncca\nhaha&#34;
+        id: 192.168.153.141
+   success: 1
+  full_ret: {&#34;fun_args&#34;: [&#34;ls /root/&#34;], &#34;jid&#34;: &#34;20190724154112399435&#34;, &#34;return&#34;: &#34;anaconda-ks.cfg\nb\ncca\nhaha&#34;, &#34;retcode&#34;: 0, &#34;success&#34;: true, &#34;cmd&#34;: &#34;_return&#34;, &#34;_stamp&#34;: &#34;2019-07-24T07:41:12.480205&#34;, &#34;fun&#34;: &#34;cmd.run&#34;, &#34;id&#34;: &#34;192.168.153.141&#34;}
+alter_time: 2019-07-24 15:41:12
+*************************** 2. row ***************************
+       fun: cmd.run
+       jid: 20190724154112399435
+    return: &#34;anaconda-ks.cfg&#34;
+        id: 192.168.153.142
+   success: 1
+  full_ret: {&#34;fun_args&#34;: [&#34;ls /root/&#34;], &#34;jid&#34;: &#34;20190724154112399435&#34;, &#34;return&#34;: &#34;anaconda-ks.cfg&#34;, &#34;retcode&#34;: 0, &#34;success&#34;: true, &#34;cmd&#34;: &#34;_return&#34;, &#34;_stamp&#34;: &#34;2019-07-24T07:41:12.482260&#34;, &#34;fun&#34;: &#34;cmd.run&#34;, &#34;id&#34;: &#34;192.168.153.142&#34;}
+alter_time: 2019-07-24 15:41:12
+*************************** 3. row ***************************
+       fun: cmd.run
+       jid: 20190724154112399435
+    return: &#34;anaconda-ks.cfg&#34;
+        id: 192.168.153.136
+   success: 1
+  full_ret: {&#34;fun_args&#34;: [&#34;ls /root/&#34;], &#34;jid&#34;: &#34;20190724154112399435&#34;, &#34;return&#34;: &#34;anaconda-ks.cfg&#34;, &#34;retcode&#34;: 0, &#34;success&#34;: true, &#34;cmd&#34;: &#34;_return&#34;, &#34;_stamp&#34;: &#34;2019-07-24T07:41:12.502037&#34;, &#34;fun&#34;: &#34;cmd.run&#34;, &#34;id&#34;: &#34;192.168.153.136&#34;}
+alter_time: 2019-07-24 15:41:12
+3 rows in set (0.00 sec</pre></td></tr></table>
+</div>
+</div>
+<h3 id="2-2-salt-job管理">2.2.Salt Job管理</h3>
+
+<p><strong>2.2.1.job概述</strong></p>
+
+<p><code>salt</code>每次运行任务都会将任务发布到<code>pub-sub</code>总线，<code>minion</code>会对任务作出响应，为区分不同的任务<code>SaltMaster</code>每次发布一个任务都会为该任务创建一个<code>jobid</code>。
+<code>master</code>默认情况下会缓存24小时内的所有<code>job</code>的详细操作。</p>
+
+<blockquote>
+<p>1.master缓存目录 /var/cache/salt/master/jobs</p>
+
+<p>2.minion端每次执行任务都会缓存在 /var/cache/salt/minion/proc目录中创建jobid为名称的文件，任务执行完后文件会被删除</p>
+</blockquote>
+
+<p>在<code>master</code>主机上执行一个长时间的任务</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master ~]# salt &#39;192.168.153.141&#39; cmd.run &#34;sleep 100&#34;</pre></td></tr></table>
+</div>
+</div>
+<p>登陆<code>minion</code>执行</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@minion ~]# ls /var/cache/salt/minion/proc
+20190724155324683248
+
+
+#用strings查看文件的文本部分内容
+[root@minion ~]# strings /var/cache/salt/minion/proc/20190724155324683248
+tgt_type
+glob
+20190724155324683248
+192.168.153.141
+user
+root
+sleep 100
+cmd.run</pre></td></tr></table>
+</div>
+</div>
+<p><code>20190724155324683248</code>这串数字就是<code>jobid</code>一个以时间戳形式建立的唯一id。我们了解了jpbid的概念，下面来学习如果对job进行管理</p>
+
+<p><strong>2.2.2.job管理</strong></p>
+
+<p>通过<code>salt-run</code>命令来管理<code>job</code>也可以使用另一种管理<code>job</code>的方式<code>salt util</code>模块。</p>
+
+<p>在<code>master</code>中执行一个长时间执行的命令</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master ~]# salt &#39;192.168.153.141&#39; cmd.run &#34;sleep 1000;echo hehe&#34;
+^C
+Exiting gracefully on Ctrl-c
+This job&#39;s jid is: 20190724155612509222
+The minions may not have all finished running and any remaining minions will return upon completion. To look up the return data for this job later, run the following command:
+
+salt-run jobs.lookup_jid 20190724155612509222
+     //CTRL+C</pre></td></tr></table>
+</div>
+</div>
+<p>获取<code>jobid</code>后登陆<code>minion</code>查看</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@minion ~]# ls /var/cache/salt/minion/proc
+20190724155612509222</pre></td></tr></table>
+</div>
+</div>
+<p>通过<code>saltutil.find_job</code>查看相关job信息</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master ~]# salt &#39;192.168.153.141&#39; saltutil.find_job 20190724155612509222
+192.168.153.141:
+    ----------
+    arg:
+        - sleep 1000;echo hehe
+    fun:
+        cmd.run
+    jid:
+        20190724155612509222
+    pid:
+        7908
+    ret:
+    tgt:
+        192.168.153.141
+    tgt_type:
+        glob
+    user:
+        root
+Kill`指定的`job
+[root@master ~]# salt &#39;192.168.153.141&#39; saltutil.kill_job 20190724155612509222
+192.168.153.141:
+    Signal 9 sent to job 20190724155612509222 at pid 7908</pre></td></tr></table>
+</div>
+</div>
+<p>查看<code>master</code>上<code>cache</code>的所有<code>job</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span><span class="lnt">173
+</span><span class="lnt">174
+</span><span class="lnt">175
+</span><span class="lnt">176
+</span><span class="lnt">177
+</span><span class="lnt">178
+</span><span class="lnt">179
+</span><span class="lnt">180
+</span><span class="lnt">181
+</span><span class="lnt">182
+</span><span class="lnt">183
+</span><span class="lnt">184
+</span><span class="lnt">185
+</span><span class="lnt">186
+</span><span class="lnt">187
+</span><span class="lnt">188
+</span><span class="lnt">189
+</span><span class="lnt">190
+</span><span class="lnt">191
+</span><span class="lnt">192
+</span><span class="lnt">193
+</span><span class="lnt">194
+</span><span class="lnt">195
+</span><span class="lnt">196
+</span><span class="lnt">197
+</span><span class="lnt">198
+</span><span class="lnt">199
+</span><span class="lnt">200
+</span><span class="lnt">201
+</span><span class="lnt">202
+</span><span class="lnt">203
+</span><span class="lnt">204
+</span><span class="lnt">205
+</span><span class="lnt">206
+</span><span class="lnt">207
+</span><span class="lnt">208
+</span><span class="lnt">209
+</span><span class="lnt">210
+</span><span class="lnt">211
+</span><span class="lnt">212
+</span><span class="lnt">213
+</span><span class="lnt">214
+</span><span class="lnt">215
+</span><span class="lnt">216
+</span><span class="lnt">217
+</span><span class="lnt">218
+</span><span class="lnt">219
+</span><span class="lnt">220
+</span><span class="lnt">221
+</span><span class="lnt">222
+</span><span class="lnt">223
+</span><span class="lnt">224
+</span><span class="lnt">225
+</span><span class="lnt">226
+</span><span class="lnt">227
+</span><span class="lnt">228
+</span><span class="lnt">229
+</span><span class="lnt">230
+</span><span class="lnt">231
+</span><span class="lnt">232
+</span><span class="lnt">233
+</span><span class="lnt">234
+</span><span class="lnt">235
+</span><span class="lnt">236
+</span><span class="lnt">237
+</span><span class="lnt">238
+</span><span class="lnt">239
+</span><span class="lnt">240
+</span><span class="lnt">241
+</span><span class="lnt">242
+</span><span class="lnt">243
+</span><span class="lnt">244
+</span><span class="lnt">245
+</span><span class="lnt">246
+</span><span class="lnt">247
+</span><span class="lnt">248
+</span><span class="lnt">249
+</span><span class="lnt">250
+</span><span class="lnt">251
+</span><span class="lnt">252
+</span><span class="lnt">253
+</span><span class="lnt">254
+</span><span class="lnt">255
+</span><span class="lnt">256
+</span><span class="lnt">257
+</span><span class="lnt">258
+</span><span class="lnt">259
+</span><span class="lnt">260
+</span><span class="lnt">261
+</span><span class="lnt">262
+</span><span class="lnt">263
+</span><span class="lnt">264
+</span><span class="lnt">265
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master ~]# salt &#39;*&#39; saltutil.runner jobs.list_jobs|more
+192.168.153.136:
+    ----------
+    .........省略n行...........
+    20190724155501240253:
+        ----------
+        Arguments:
+            - 20190724155324683248
+        Function:
+            saltutil.find_job
+        StartTime:
+            2019, Jul 24 15:55:01.240253
+        Target:
+            - 192.168.153.141
+        Target-type:
+            list
+        User:
+            root
+    20190724155612509222:
+        ----------
+        Arguments:
+            - sleep 1000;echo hehe
+        Function:
+            cmd.run
+        StartTime:
+            2019, Jul 24 15:56:12.509222
+        Target:
+            192.168.153.141
+        Target-type:
+            glob
+        User:
+            root
+    20190724155741177897:
+        ----------
+        Arguments:
+            - 20190724155612509222
+        Function:
+            saltutil.find_job
+        StartTime:
+            2019, Jul 24 15:57:41.177897
+        Target:
+            192.168.153.141
+        Target-type:
+            glob
+        User:
+            root
+    20190724155801053200:
+        ----------
+        Arguments:
+            - 20190724155612509222
+        Function:
+            saltutil.kill_job
+        StartTime:
+            2019, Jul 24 15:58:01.053200
+        Target:
+            192.168.153.141
+        Target-type:
+            glob
+        User:
+            root
+    20190724155818591105:
+        ----------
+        Arguments:
+            - jobs.list_jobs
+        Function:
+            saltutil.runner
+        StartTime:
+            2019, Jul 24 15:58:18.591105
+        Target:
+            192.168.153.141
+        Target-type:
+            glob
+        User:
+            root
+    20190724155823729491:
+        ----------
+        Arguments:
+            - 20190724155818591105
+        Function:
+            saltutil.find_job
+        StartTime:
+            2019, Jul 24 15:58:23.729491
+        Target:
+            - 192.168.153.141
+        Target-type:
+            list
+        User:
+            root
+    20190724155833936773:
+        ----------
+        Arguments:
+            - 20190724155818591105
+        Function:
+            saltutil.find_job
+        StartTime:
+            2019, Jul 24 15:58:33.936773
+        Target:
+            - 192.168.153.141
+        Target-type:
+            list
+        User:
+            root
+    20190724155844137880:
+        ----------
+        Arguments:
+            - 20190724155818591105
+        Function:
+            saltutil.find_job
+        StartTime:
+            2019, Jul 24 15:58:44.137880
+        Target:
+            - 192.168.153.141
+        Target-type:
+            list
+        User:
+            root
+    20190724155854339557:
+        ----------
+        Arguments:
+            - 20190724155818591105
+        Function:
+            saltutil.find_job
+        StartTime:
+            2019, Jul 24 15:58:54.339557
+        Target:
+            - 192.168.153.141
+        Target-type:
+            list
+        User:
+            root
+    20190724155904545219:
+        ----------
+        Arguments:
+            - 20190724155818591105
+        Function:
+            saltutil.find_job
+        StartTime:
+            2019, Jul 24 15:59:04.545219
+        Target:
+            - 192.168.153.141
+        Target-type:
+            list
+        User:
+            root
+    20190724155914762497:
+        ----------
+        Arguments:
+            - 20190724155818591105
+        Function:
+            saltutil.find_job
+        StartTime:
+            2019, Jul 24 15:59:14.762497
+        Target:
+            - 192.168.153.141
+        Target-type:
+            list
+        User:
+            root
+    20190724155958568799:
+        ----------
+        Arguments:
+            - jobs.list_jobs
+        Function:
+            saltutil.runner
+        StartTime:
+            2019, Jul 24 15:59:58.568799
+        Target:
+            *
+        Target-type:
+            glob
+        User:
+            root
+    20190724160003643087:
+        ----------
+        Arguments:
+            - 20190724155958568799
+        Function:
+            saltutil.find_job
+        StartTime:
+            2019, Jul 24 16:00:03.643087
+        Target:
+            - 192.168.153.142
+            - 192.168.153.136
+            - 192.168.153.141
+        Target-type:
+            list
+        User:
+            root
+    20190724160013667699:
+        ----------
+        Arguments:
+            - 20190724155958568799
+        Function:
+            saltutil.find_job
+        StartTime:
+            2019, Jul 24 16:00:13.667699
+        Target:
+            - 192.168.153.142
+            - 192.168.153.136
+            - 192.168.153.141
+        Target-type:
+            list
+        User:
+            root
+    20190724160023684209:
+        ----------
+        Arguments:
+            - 20190724155958568799
+        Function:
+            saltutil.find_job
+        StartTime:
+            2019, Jul 24 16:00:23.684209
+        Target:
+            - 192.168.153.142
+            - 192.168.153.136
+            - 192.168.153.141
+        Target-type:
+            list
+        User:
+            root
+    20190724160033902700:
+        ----------
+        Arguments:
+            - 20190724155958568799
+        Function:
+            saltutil.find_job
+        StartTime:
+            2019, Jul 24 16:00:33.902700
+        Target:
+            - 192.168.153.142
+            - 192.168.153.136
+            - 192.168.153.141
+        Target-type:
+            list
+        User:
+            root
+    20190724160053973497:
+        ----------
+        Arguments:
+            - 20190724155958568799
+        Function:
+            saltutil.find_job
+        StartTime:
+            2019, Jul 24 16:00:53.973497
+        Target:
+            - 192.168.153.142
+            - 192.168.153.136
+            - 192.168.153.141
+        Target-type:
+            list
+        User:
+            root
+192.168.153.141:
+    ----------
+192.168.153.142:
+    Exception occurred in runner jobs.list_jobs: Traceback (most recent call last):
+      File &#34;/usr/lib/python2.7/site-packages/salt/client/mixins.py&#34;, line 377, in low
+        data[&#39;return&#39;] = func(*args, **kwargs)
+      File &#34;/usr/lib/python2.7/site-packages/salt/runners/jobs.py&#34;, line 308, in list_jobs
+        ret = mminion.returners[&#39;{0}.get_jids&#39;.format(returner)]()
+      File &#34;/usr/lib/python2.7/site-packages/salt/returners/local_cache.py&#34;, line 376, in get_jids
+        for jid, job, _, _ in _walk_through(_job_dir()):
+      File &#34;/usr/lib/python2.7/site-packages/salt/returners/local_cache.py&#34;, line 62, in _walk_through
+        for top in os.listdir(job_dir):
+    OSError: [Errno 2] No such file or directory: &#39;/var/cache/salt/master/jobs&#39;</pre></td></tr></table>
+</div>
+</div>
+<h3 id="2-2-3-job管理">2.2.3 job管理</h3>
+
+<p><strong>获取任务的jid</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master ~]# salt &#39;*&#39; cmd.run &#39;uptime&#39; -v
+Executing job with jid 20190724154514953595       //此处就是此命令的jid
+-------------------------------------------
+
+92.168.153.141:
+     15:45:15 up 35 min,  1 user,  load average: 0.06, 0.03, 0.05
+192.168.153.136:
+     15:45:15 up 34 min,  1 user,  load average: 0.00, 0.35, 0.47
+192.168.153.142:
+     15:45:15 up 28 min,  1 user,  load average: 0.00, 0.01, 0.05</pre></td></tr></table>
+</div>
+</div>
+<p><strong>通过jid获取此任务的返回结果</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master ~]# salt-run jobs.lookup_jid 20190724154514953595
+192.168.153.136:
+     15:45:15 up 34 min,  1 user,  load average: 0.00, 0.35, 0.47
+192.168.153.141:
+     15:45:15 up 35 min,  1 user,  load average: 0.06, 0.03, 0.05
+192.168.153.142:
+     15:45:15 up 28 min,  1 user,  load average: 0.00, 0.01, 0.05
+     
+数据库中:
+*************************** 5. row ***************************
+       fun: runner.jobs.lookup_jid
+       jid: 20190724154613576437
+    return: {&#34;fun_args&#34;: [&#34;20190724154514953595&#34;], &#34;jid&#34;: &#34;20190724154613576437&#34;, &#34;return&#34;: {&#34;192.168.153.142&#34;: &#34; 15:45:15 up 28 min,  1 user,  load average: 0.00, 0.01, 0.05&#34;, &#34;192.168.153.136&#34;: &#34; 15:45:15 up 34 min,  1 user,  load average: 0.00, 0.35, 0.47&#34;, &#34;192.168.153.141&#34;: &#34; 15:45:15 up 35 min,  1 user,  load average: 0.06, 0.03, 0.05&#34;}, &#34;success&#34;: true, &#34;_stamp&#34;: &#34;2019-07-24T07:46:49.136381&#34;, &#34;user&#34;: &#34;root&#34;, &#34;fun&#34;: &#34;runner.jobs.lookup_jid&#34;}
+        id: master_master
+   success: 0
+  full_ret: {&#34;jid&#34;: &#34;20190724154613576437&#34;, &#34;return&#34;: {&#34;fun_args&#34;: [&#34;20190724154514953595&#34;], &#34;jid&#34;: &#34;20190724154613576437&#34;, &#34;return&#34;: {&#34;192.168.153.142&#34;: &#34; 15:45:15 up 28 min,  1 user,  load average: 0.00, 0.01, 0.05&#34;, &#34;192.168.153.136&#34;: &#34; 15:45:15 up 34 min,  1 user,  load average: 0.00, 0.35, 0.47&#34;, &#34;192.168.153.141&#34;: &#34; 15:45:15 up 35 min,  1 user,  load average: 0.06, 0.03, 0.05&#34;}, &#34;success&#34;: true, &#34;_stamp&#34;: &#34;2019-07-24T07:46:49.136381&#34;, &#34;user&#34;: &#34;root&#34;, &#34;fun&#34;: &#34;runner.jobs.lookup_jid&#34;}, &#34;tgt&#34;: &#34;master_master&#34;, &#34;user&#34;: &#34;root&#34;, &#34;fun&#34;: &#34;runner.jobs.lookup_jid&#34;, &#34;id&#34;: &#34;master_master&#34;}
+alter_time: 2019-07-24 15:47:49
+5 rows in set (0.00 sec)</pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Mr Wen</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-03-23 16:15
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener" href="https://github.com/itwhs/itwhs.github.io/blob/master/LICENSE">MIT</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/">自动化</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/saltstack%E4%B9%8Bsalt-ssh/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">SaltStack之salt-ssh</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/saltstack%E5%B8%B8%E7%94%A8%E7%9A%84%E6%A8%A1%E5%9D%97/">
+            <span class="next-text nav-default">SaltStack常用的模块</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:itwhs@foxmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://blog.csdn.net/wenhs5479" class="iconfont icon-cnblogs" title="cnblogs"></a>
+      <a href="https://github.com/itwhs" class="iconfont icon-github" title="github"></a>
+  <a href="https://itwhs.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Mr Wen</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139425163-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

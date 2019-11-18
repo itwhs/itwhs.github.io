@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>yum工具使用 - itw&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Mr Wen" /><meta name="description" content="" /><meta name="keywords" content="Linux, Github, Network, Cloud, Python" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://itwhs.github.io/post/yum%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/reset-even.css">
+
+
+<meta property="og:title" content="yum工具使用" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://itwhs.github.io/post/yum%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" />
+<meta property="article:published_time" content="2018-06-24T16:15:57&#43;08:00"/>
+<meta property="article:modified_time" content="2018-06-24T16:15:57&#43;08:00"/>
+
+<meta itemprop="name" content="yum工具使用">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2018-06-24T16:15:57&#43;08:00" />
+<meta itemprop="dateModified" content="2018-06-24T16:15:57&#43;08:00" />
+<meta itemprop="wordCount" content="5326">
+
+
+
+<meta itemprop="keywords" content="软件管理," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="yum工具使用"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">itw</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a><a href="https://github.com/itwhs/">
+        <li class="mobile-menu-item">GitHub</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">itw</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/itwhs/">GitHub</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">yum工具使用</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-06-24 16:15 </span>
+        <div class="post-category">
+            <a href="/categories/linux%E8%BF%90%E7%BB%B4/"> Linux运维 </a>
+            </div>
+          <span class="more-meta"> 约 5326 字 </span>
+          <span class="more-meta"> 预计阅读 11 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#1-rpm的弊端">1. rpm的弊端</a></li>
+<li><a href="#2-yum的优劣势">2. yum的优劣势</a></li>
+<li><a href="#3-什么是yum及其作用">3. 什么是yum及其作用</a></li>
+<li><a href="#4-挂载光盘">4. 挂载光盘</a></li>
+<li><a href="#5-yum的原理">5. yum的原理</a></li>
+<li><a href="#6-yum的元数据">6. yum的元数据</a></li>
+<li><a href="#7-yum的配置文件">7. yum的配置文件</a></li>
+<li><a href="#8-yum仓库管理">8. yum仓库管理</a>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#8-1-yum本地仓库">8.1 yum本地仓库</a></li>
+<li><a href="#8-2-yum网络仓库">8.2 yum网络仓库</a></li>
+<li><a href="#8-3-软件官方仓库">8.3 软件官方仓库</a></li>
+<li><a href="#8-4-redhat7使用centos7的yum源">8.4 redhat7使用centos7的yum源</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><a href="#9-yum管理软件">9. yum管理软件</a>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#9-1-yum命令语法">9.1 yum命令语法：</a></li>
+<li><a href="#9-2-常用的options">9.2 常用的options：</a></li>
+<li><a href="#9-4-具体实例">9.4 具体实例</a></li>
+</ul></li>
+<li><a href="#示例">示例：</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="1-rpm的弊端">1. rpm的弊端</h1>
+
+<hr />
+
+<p>前面我们讲了下rpm，那么rpm有什么弊端呢？
+其弊端是显而易见的，当用rpm安装软件时，若遇到有依赖关系的软件，必须先安装依赖的软件才能继续安装我们要安装的软件，
+当依赖关系很复杂的情况下，这种安装方式就很让人头疼，所以我们需要另一种安装方式来解决这个问题----yum安装工具</p>
+
+<h1 id="2-yum的优劣势">2. yum的优劣势</h1>
+
+<hr />
+
+<p>yum有什么优势呢？
+yum最大的优势就是能够解决rpm的依赖问题，yum能够自动解决软件安装时的依赖关系。
+当然了，有优势就有劣势，人无完人嘛，软件也是一样的。
+yum的缺陷就是如果在未完成安装的情况下强行中止安装过程，下次再安装时将无法解决依赖关系。
+Fedora22+、redhat7和centos7等可以通过手动安装dnf工具来解决此问题。
+dnf是redhat7上用来代替yum的一个工具，其存在的意义就是处理yum的缺陷，但其用法与yum是完全一样的，甚至连选项都是一样的，你可以理解为dnf就是yum，只是换了个名字而已。所以说只要学会了yum就自然会dnf，大家不用担心学了yum又要去学dnf之类的问题</p>
+
+<h1 id="3-什么是yum及其作用">3. 什么是yum及其作用</h1>
+
+<hr />
+
+<p>那么什么是yum呢？yum是yellowdog update manager的简称，它能够实现rpm管理的所有操作，并能够自动解决各rpm包之间的依赖关系。yum是rpm的前端工具，是基于rpm来实现软件的管理的一个工具。
+你不能用yum去管理windows的exe程序包，也不能用yum去管理ubuntu的deb程序包，只能用yum来管理redhat系列的rpm包</p>
+
+<h1 id="4-挂载光盘">4. 挂载光盘</h1>
+
+<hr />
+
+<ul>
+<li>插入光盘</li>
+<li>执行以下命令</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs5479 ~]# mount /dev/cdrom /mnt
+mount: /dev/sr0 is write-protected, mounting read-only
+[root@wenhs5479 ~]# ls /mnt/
+addons  EULA              GPL     isolinux  media.repo  repodata                 RPM-GPG-KEY-redhat-release
+EFI     extra_files.json  images  LiveOS    Packages    RPM-GPG-KEY-redhat-beta  TRANS.TBL
+[root@wenhs5479 ~]#</pre></td></tr></table>
+</div>
+</div>
+<h1 id="5-yum的原理">5. yum的原理</h1>
+
+<hr />
+
+<p><img src="../../img/yum.jpg" alt="yum1" /></p>
+
+<p><strong>yum的工作需要两部分来合作，一部分是yum服务器，另一部分就是client的yum工具。</strong></p>
+
+<p><strong>yum服务器端工作原理</strong></p>
+
+<p>所有要发行的rpm包都放在yum服务器上以提供别人来下载，rpm包根据kernel的版本号，cpu的版本号分别编译发布。yum服务器只要提供简单的下载就可以了，ftp或者http的形式都可以。yum服务器有一个最重要的环节就是整理出每个rpm包的基本信息，包括rpm包对应的版本号、conf文件、binary信息，以及很关键的依赖信息。在yum服务器上提供了createrepo工具，用于把rpm包的基本概要信息做成一张“清单”，这张“清单”就是描述每个rpm包的spec文件中信息。</p>
+
+<p><strong>client端工作原理</strong></p>
+
+<p>client每次调用yum install或者search的时候，都会去解析/etc/yum.repos.d下面所有以.repo结尾的配置文件，这些配置文件指定了yum服务器的地址。yum会定期去更新yum服务器上的rpm包清单，然后把清单下载保存到yum客户端自己的cache里面，根据/etc/yum.conf里配置（默认是/var/cache/yum下面），每次调用yum装包的时候都会去这个cache目录下去找清单，根据清单里的rpm包描述从而来确定安装包的名字、版本号、所需要的依赖包等，然后再去yum服务器下载rpm安装。（前提是不存在rpm包的cache）</p>
+
+<h1 id="6-yum的元数据">6. yum的元数据</h1>
+
+<hr />
+
+<ul class="task-list">
+<li>存放位置（repodata目录）</li>
+
+<li><p>包含的文件及其对应的功能</p>
+
+<ul class="task-list">
+<li><label><input type="checkbox" disabled class="task-list-item"> primary.xml.gz
+
+<ul>
+<li>当前仓库所有rpm包的列表；</li>
+<li>依赖关系；</li>
+<li>每个rpm包安装生成的文件列表</li>
+</ul></label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> filelists.xml.gz
+
+<ul>
+<li>当前仓库所有rpm包的所有文件列表</li>
+</ul></label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> other.xml.gz
+
+<ul>
+<li>额外信息，rpm包的修改日志</li>
+</ul></label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> repomd.xml
+
+<ul>
+<li>记录的是primary.xml.gz、filelists.xml.gz、other.xml.gz这三个文件的时间戳和校验和</li>
+</ul></label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> comps*.xml
+
+<ul>
+<li>rpm包分组信息</li>
+</ul></label></li>
+</ul></li>
+</ul>
+
+<h1 id="7-yum的配置文件">7. yum的配置文件</h1>
+
+<hr />
+
+<ul class="task-list">
+<li>配置文件有哪些：
+
+<ul class="task-list">
+<li><label><input type="checkbox" disabled class="task-list-item"> <strong>/etc/yum.conf 作用</strong>：为所有仓库提供公共配置</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> <strong>/etc/yum.repos.d/*.repo 作用</strong>：为仓库的指向提供配置</label></li>
+</ul></li>
+<li>yum的repo配置文件中可用的变量：
+
+<ul class="task-list">
+<li><label><input type="checkbox" disabled class="task-list-item"> <strong>$releaseversion</strong>:当前OS的发行版的主版本号</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> <strong>$arch</strong>：平台类型</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> <strong>$basearch</strong>：基础平台</label></li>
+</ul></li>
+</ul>
+
+<p><strong>为yum定义repo文件：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[Repo_Name]：仓库名称
+name：描述信息
+baseurl：仓库的具体路径，接受以下三种类型
+    ftp://
+    http://
+    file:///
+enabled：可选值｛1｜0｝，1为启用此仓库，0为禁用此仓库
+gpgcheck：可选值｛1｜0｝，1为检查软件包来源合法性，0为不检查来源
+    如果gpgcheck设为1，则必须用gpgkey定义密钥文件的具体路径
+    gpgkey=/PATH/TO/KEY</pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">vim /etc/yum.conf
+cachedir=/var/cache/yum/$basearch/$releasever   //缓存目录
+keepcache=0     //缓存软件包, 1启动 0 关闭
+debuglevel=2    //调试级别
+logfile=/var/log/yum.log    //日志记录位置
+exactarch=1     //检查平台是否兼容
+obsoletes=1     //检查包是否废弃
+gpgcheck=1      //检查来源是否合法,需要有制作者的公钥信息
+plugins=1       //是否启用插件
+tolerant={1|0}  //容错功能，1为开启，0为关闭，当设为0时，如果用yum安装多个软件包且其中某个软件包已经安装过就会报错；当设为1时，当要安装的软件已经安装时自动忽略
+installonly_limit=5
+bugtracker_url
+# metadata_expire=90m //每一个半小时手动检查元数据
+# in /etc/yum.repos.d   //包含repos.d目录 </pre></td></tr></table>
+</div>
+</div>
+<h1 id="8-yum仓库管理">8. yum仓库管理</h1>
+
+<hr />
+
+<h4 id="8-1-yum本地仓库">8.1 yum本地仓库</h4>
+
+<ul>
+<li>挂载光盘参照本章第4部分内容</li>
+<li>复制光盘内容到yum服务器</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs5479 ~]# mkdir /opt/myrepo
+[root@wenhs5479 ~]# cp -r /mnt/* /opt/myrepo/
+[root@wenhs5479 ~]# ls /opt/myrepo/
+addons  EULA              GPL     isolinux  media.repo  repodata                 RPM-GPG-KEY-redhat-release
+EFI     extra_files.json  images  LiveOS    Packages    RPM-GPG-KEY-redhat-beta  TRANS.TBL</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>配置repo文件</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs5479 ~]# ls /etc/yum.repos.d/
+redhat.repo
+[root@wenhs5479 ~]# vim /etc/yum.repos.d/myrepo.repo
+[root@wenhs5479 ~]# cat /etc/yum.repos.d/myrepo.repo
+[myrepo]
+name=myrepo
+baseurl=file:///opt/myrepo
+gpgcheck=0
+enabled=1
+[root@wenhs5479 ~]#</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>清空yum本地缓存</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs5479 ~]# yum clean all
+Loaded plugins: langpacks, product-id, search-disabled-repos, subscription-manager
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+Cleaning repos: myrepo
+Cleaning up everything
+Maybe you want: rm -rf /var/cache/yum, to also free up space taken by orphaned data from disabled or removed repos</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>检验yum本地仓库</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs5479 ~]# yum list all</pre></td></tr></table>
+</div>
+</div>
+<h4 id="8-2-yum网络仓库">8.2 yum网络仓库</h4>
+
+<ul>
+<li>官方网络yum仓库（国外）:速度慢</li>
+<li>阿里云yum仓库</li>
+<li>163yum仓库</li>
+<li>xx大学yum仓库</li>
+<li>epel源:软件包相对比较最全的第三方源</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">Base/Extras/Updates: 默认国外官方源
+[root@wenhs5479 ~]# curl -o /etc/yum.repos.d/CentOS-Base.repo \
+http://mirrors.aliyun.com/repo/Centos-7.repo
+
+国外epel源
+[root@wenhs5479 ~]# yum -y install epel-release
+
+阿里云epel源
+[root@wenhs5479 ~]# curl -o /etc/yum.repos.d/epel.repo \
+http://mirrors.aliyun.com/repo/epel-7.repo</pre></td></tr></table>
+</div>
+</div>
+<h4 id="8-3-软件官方仓库">8.3 软件官方仓库</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">源查找方式基本一致,zabbix,mysql,saltstack,openstack等等，上官网找
+[root@wenhs5479 ~]# vim /etc/yum.repos.d/nginx.repo
+[nginx]
+name=nginx repo 
+baseurl=http://nginx.org/packages/centos/7/$basearch/ 
+gpgcheck=0
+enabled=1</pre></td></tr></table>
+</div>
+</div>
+<h4 id="8-4-redhat7使用centos7的yum源">8.4 redhat7使用centos7的yum源</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">1.卸载红帽yum源
+[root@wenhs5479 ~]# rpm -e $(rpm -qa|grep yum) --nodeps
+
+2.删除所有repo相关文件
+[root@wenhs5479 ~]# rm -f /etc/yum.conf
+[root@wenhs5479 ~]# rm -rf /etc/yum.repos.d/
+[root@wenhs5479 ~]# rm -rf /var/cache/yum
+
+3.下载centos相关yum组件
+[root@wenhs5479 ~]# wget https://mirrors.aliyun.com/centos/7/os/x86_64/Packages/yum-3.4.3-154.el7.centos.noarch.rpm
+[root@wenhs5479 ~]# wget https://mirrors.aliyun.com/centos/7/os/x86_64/Packages/yum-metadata-parser-1.1.4-10.el7.x86_64.rpm
+[root@wenhs5479 ~]# wget https://mirrors.aliyun.com/centos/7/os/x86_64/Packages/yum-plugin-fastestmirror-1.1.31-42.el7.noarch.rpm
+[root@wenhs5479 ~]# wget https://mirrors.aliyun.com/centos/7/os/x86_64/Packages/yum-updateonboot-1.1.31-42.el7.noarch.rpm
+[root@wenhs5479~]# wget https://mirrors.aliyun.com/centos/7/os/x86_64/Packages/yum-utils-1.1.31-42.el7.noarch.rpm
+
+如果没有wget命令则使用curl命令
+[root@wenhs5479 ~]# curl -o yum-utils-1.1.31-42.el7.noarch.rpm  https://mirrors.aliyun.com/centos/7/os/x86_64/Packages/yum-utils-1.1.31-42.el7.noarch.rpm
+[root@wenhs5479 ~]# curl -o yum-3.4.3-154.el7.centos.noarch.rpm  https://mirrors.aliyun.com/centos/7/os/x86_64/Packages/yum-3.4.3-154.el7.centos.noarch.rpm
+[root@wenhs5479 ~]# curl -o yum-metadata-parser-1.1.4-10.el7.x86_64.rpm  https://mirrors.aliyun.com/centos/7/os/x86_64/Packages/yum-metadata-parser-1.1.4-10.el7.x86_64.rpm
+[root@wenhs5479 ~]# curl -o yum-plugin-fastestmirror-1.1.31-42.el7.noarch.rpm   https://mirrors.aliyun.com/centos/7/os/x86_64/Packages/yum-plugin-fastestmirror-1.1.31-42.el7.noarch.rpm
+[root@wenhs5479 ~]# curl -o yum-updateonboot-1.1.31-42.el7.noarch.rpm https://mirrors.aliyun.com/centos/7/os/x86_64/Packages/yum-updateonboot-1.1.31-42.el7.noarch.rpm
+
+3.安装所有相关组件
+[root@wenhs5479 ~]# rpm -ivh yum-* --nodeps
+
+4.下载base和epel仓库
+[root@wenhs5479 ~]# wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+[root@wenhs5479 ~]# sed -i &#39;s#\$releasever#7#g&#39; /etc/yum.repos.d/CentOS-Base.repo
+
+[root@wenhs5479 ~]# wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo</pre></td></tr></table>
+</div>
+</div>
+<h1 id="9-yum管理软件">9. yum管理软件</h1>
+
+<h4 id="9-1-yum命令语法">9.1 yum命令语法：</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="nx">yum</span> <span class="p">[</span><span class="nx">options</span><span class="p">]</span> <span class="p">[</span><span class="nx">command</span><span class="p">]</span> <span class="p">[</span><span class="kn">package</span> <span class="o">...</span><span class="p">]</span></pre></td></tr></table>
+</div>
+</div>
+<h4 id="9-2-常用的options">9.2 常用的options：</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">--nogpgcheck                //如果从网上下载包有时会检查gpgkey，此时可以使用此命令跳过gpgkey的检查
+-y                          //自动回答为&#34;yes&#34;
+-q                          //静默模式，安装时不输出信息至标准输出
+--disablerepo=repoidglob    //临时禁用此处指定的repo
+--enablerepo=repoidglob     //临时启用此处指定的repo
+--noplugins                 //禁用所有插件</pre></td></tr></table>
+</div>
+</div>
+<p><strong>9.3 常用的command：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="nx">list</span>            <span class="c1">//列表
+</span><span class="c1"></span>    <span class="nx">all</span>         <span class="c1">//默认项
+</span><span class="c1"></span>    <span class="nx">available</span>   <span class="c1">//列出仓库中有的，但尚未安装的所有可用的包
+</span><span class="c1"></span>    <span class="nx">installed</span>   <span class="c1">//列出已经安装的包
+</span><span class="c1"></span>    <span class="nx">updates</span>     <span class="c1">//可用的升级
+</span><span class="c1"></span>    
+<span class="nx">clean</span>           <span class="c1">//清理缓存
+</span><span class="c1"></span>    <span class="nx">packages</span>
+    <span class="nx">headers</span>
+    <span class="nx">metadata</span>
+    <span class="nx">dbcache</span>
+    <span class="nx">all</span>
+
+<span class="nx">repolist</span>        <span class="c1">//显示repo列表及其简要信息
+</span><span class="c1"></span>    <span class="nx">all</span>
+    <span class="nx">enabled</span>     <span class="c1">//默认项
+</span><span class="c1"></span>    <span class="nx">disabled</span>
+    
+<span class="nx">install</span>         <span class="c1">//安装
+</span><span class="c1"></span>    <span class="nx">yum</span> <span class="nx">install</span> <span class="nx">packages</span> <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+
+<span class="nx">update</span>          <span class="c1">//升级
+</span><span class="c1"></span>    <span class="nx">yum</span> <span class="nx">update</span> <span class="nx">packages</span> <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+<span class="nx">update_to</span>       <span class="c1">//升级为指定版本
+</span><span class="c1"></span>
+<span class="nx">downgrade</span> <span class="nx">package1</span> <span class="p">[</span><span class="nx">package2</span> <span class="o">...</span><span class="p">]</span>   <span class="c1">//降级
+</span><span class="c1"></span>
+<span class="nx">remove</span><span class="p">|</span><span class="nx">erase</span>    <span class="c1">//卸载
+</span><span class="c1"></span>
+<span class="nx">info</span>    <span class="c1">//显示rpm -qi package的结果
+</span><span class="c1"></span>    <span class="nx">yum</span> <span class="nx">info</span> <span class="nx">packages</span>
+    
+<span class="nx">provides</span><span class="p">|</span><span class="nx">whatprovides</span>   <span class="c1">//查看指定的文件或特性是由哪个包安装生成的
+</span><span class="c1"></span>
+<span class="nx">search</span> <span class="nx">string1</span> <span class="p">[</span><span class="nx">string2</span> <span class="o">...</span><span class="p">]</span>    <span class="c1">//以指定的关键字搜索程序包名及summary信息
+</span><span class="c1"></span>
+<span class="nx">deplist</span> <span class="kn">package</span> <span class="p">[</span><span class="nx">package2</span> <span class="o">...</span><span class="p">]</span>  <span class="c1">//显示指定包的依赖关系
+</span><span class="c1"></span>
+<span class="nx">history</span>     <span class="c1">//查看yum的历史事务信息
+</span><span class="c1"></span>
+<span class="nx">localinstall</span>    <span class="c1">//安装本地rpm包，自动解决依赖关系
+</span><span class="c1"></span>
+<span class="nx">grouplist</span>       <span class="c1">//列出可用的组
+</span><span class="c1"></span>
+<span class="nx">groupinstall</span> <span class="s">&#34;group name&#34;</span>   <span class="c1">//安装一组软件
+</span><span class="c1"></span>
+<span class="nx">createrepo命令</span>    <span class="c1">//创建yum仓库的元数据信息
+</span><span class="c1"></span><span class="p">[</span><span class="nx">root</span><span class="err">@</span><span class="nx">wenhs5479</span> <span class="err">~</span><span class="p">]</span><span class="err">#</span> <span class="nx">yum</span> <span class="nx">install</span> <span class="nx">createrepo</span> <span class="o">-</span><span class="nx">y</span>
+<span class="p">[</span><span class="nx">root</span><span class="err">@</span><span class="nx">wenhs5479</span> <span class="err">~</span><span class="p">]</span><span class="err">#</span> <span class="nx">createrepo</span> <span class="p">[</span><span class="nx">options</span><span class="p">]</span> <span class="p">&lt;</span><span class="nx">directory</span><span class="p">&gt;</span>
+
+<span class="nx">createrepo</span> <span class="o">--</span><span class="nx">update</span><span class="p">:</span>
+
+<span class="nx">有时候你的软件仓库中含有很多的软件包</span><span class="err">，</span><span class="nx">虽然只是其中的一小部分有所改动但是你却不必为每个软件包重新产生元数据</span><span class="err">，</span><span class="nx">这样做明显太浪费时间了</span><span class="err">。</span><span class="nx">这就是</span><span class="o">--</span><span class="nx">update</span> <span class="nx">选项诞生的原因</span><span class="err">。</span>
+<span class="nx">像之前一样运行</span> <span class="nx">createrepo</span> <span class="nx">命令但是添加了</span><span class="o">--</span><span class="nx">update</span></pre></td></tr></table>
+</div>
+</div>
+<p><img src="../../img/12979420-e1ce05a338dcd076.png" alt="yum2" /></p>
+
+<p><img src="../../img/12979420-76b1b8dd0b1d4dd1.png" alt="yum3" /></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">使用自己下载的rpm包搭建本地仓库，需要用createrepo去创建仓库元数据
+
+#  createrepo  -v    /path/to/rpmDir
+
+SQLite 是一个软件库,实现了自给自足的、无服务器的、零配置的、事务性的 SQL 数据库引擎。
+什么是元数据:
+元数据(metadata) 
+1.任何文件系统中的数据分为数据和元数据
+2.数据是指普通文件中的实际数据
+3.而元数据指用来描述一个文件的特征
+4.比如:访问权限,文件拥有者以及文件数据快的分布信息(inode...)等</pre></td></tr></table>
+</div>
+</div>
+<h4 id="9-4-具体实例">9.4 具体实例</h4>
+
+<p><strong>9.4.1 搜索软件包</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">列出软件仓库中可用的软件
+[root@wenhs5479 ~]# yum list all
+
+进行模糊查找
+[root@wenhs5479 ~]# yum list|grep ftp
+
+列出软件包详情
+[root@wenhs5479 ~]# yum info ftp</pre></td></tr></table>
+</div>
+</div>
+<p><strong>9.4.2 安装软件包</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">安装软件只需要给出软件名称
+[root@wenhs5479 ~]# yum install traceroute
+
+安装过程中分析依赖关系后, 直接安装, 无需交互
+[root@wenhs5479 ~]# yum -y install php
+
+安装本地的rpm包, 如果有依赖关系, 会自动从软件仓库中下载所需依赖（非来自.repo定义的软件仓库）
+[root@wenhs5479 ~]# yum localinstall /mnt/Packages/bind-9.9.4-50.el7.x86_64.rpm
+
+安装网络上rpm包
+[root@wenhs5479 ~]# yum install http://repo.zabbix.com/zabbix/3.4/rhel/7/x86_64/zabbix-release-3.4-2.el7.noarch.rpm</pre></td></tr></table>
+</div>
+</div>
+<p><strong>9.4.3 重装软件包</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">检查软件是否存在
+[root@wenhs5479 ~]# rpm -q vsftpd
+vsftpd-2.2.2-24.el6.x86_64
+
+检查vsftpd软件配置文件
+[root@wenhs5479 ~]# rpm -qc vsftpd
+/etc/logrotate.d/vsftpd
+/etc/pam.d/vsftpd
+/etc/vsftpd/ftpusers
+/etc/vsftpd/user_list
+/etc/vsftpd/vsftpd.conf
+
+不小心删除vsftpd配置文件
+[root@wenhs5479 ~]# rm -f /etc/vsftpd/vsftpd.conf
+
+重新安装软件
+[root@wenhs5479 ~]# yum reinstall vsftpd
+
+再次检查
+[root@wenhs5479 ~]# rpm -qc vsftpd
+/etc/logrotate.d/vsftpd
+/etc/pam.d/vsftpd
+/etc/vsftpd/ftpusers
+/etc/vsftpd/user_list
+/etc/vsftpd/vsftpd.conf</pre></td></tr></table>
+</div>
+</div>
+<p><strong>9.4.4 更新软件包</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">对比Linux已安装的软件和yum仓库中的软件, 有哪些需要升级
+[root@wenhs5479 ~]# yum check-update
+
+更新软件
+[root@wenhs5479 ~]#  yum update acl -y</pre></td></tr></table>
+</div>
+</div>
+<p><strong>9.4.5 删除软件包</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">先安装一个samba软件
+[root@wenhs5479 ~]# yum -y install samba
+
+删除该软件包,不会删除依赖, 但是我们尽可能不要使用删除软件操作
+[root@wenhs5479 ~]# yum -y erase samba
+[root@wenhs5479 ~]# yum -y remove samba</pre></td></tr></table>
+</div>
+</div>
+<p><strong>9.4.6 与仓库相关的命令</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">列出yum源可用的软件仓库
+[root@wenhs5479 ~]# yum repolist
+
+列出全部yum源可用和禁用的仓库
+[root@wenhs5479 ~]# yum repolist all
+
+查看这个文件或命令属于哪个包
+[root@wenhs5479 ~]# yum provides /etc/my.cnf
+[root@wenhs5479 ~]# yum provides cd
+[root@wenhs5479 ~]# yum provides *bin/pstree</pre></td></tr></table>
+</div>
+</div>
+<p><strong>9.4.7 与缓存相关的命令</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">缓存yum源软件仓库, xml元数据文件
+[root@wenhs5479 ~]# yum makecache
+
+缓存软件包, 修改yum全局配置文件
+[root@wenhs5479 ~]# vim /etc/yum.conf
+[main]
+cachedir=/var/cache/yum/$basearch/$releasever
+keepcache=1 //启动缓存
+
+
+查看缓存的xml文件
+[root@wenhs5479 ~]# ls /var/cache/yum/x86_64/7/base/
+
+查看缓存软件包路径
+[root@wenhs5479 ~]# ls /var/cache/yum/x86_64/7/
+
+
+#另一种缓存rpm包方式
+
+1.安装插件支持只下载软件包不安装
+[root@wenhs5479 ~]# yum -y install yum-plugin-downloadonly
+2.将软件下载至指定目录
+[root@wenhs5479 ~]# yum -y install --downloadonly --downloaddir=/tmp httpd
+
+
+清除所有yum缓存
+[root@wenhs5479 ~]# yum clean all
+
+只清除缓存的软件包
+[root@wenhs5479 ~]# yum clean packages</pre></td></tr></table>
+</div>
+</div>
+<p><strong>9.4.8 与包组相关的命令</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">列出已经安装和所有可使用的软件组
+[root@wenhs5479 ~]# yum groups list
+
+安装一整个组的软件
+[root@wenhs5479 ~]# yum groups install Development tools Compatibility libraries Base Debugging Tools
+
+yum删除包组
+[root@wenhs5479 ~]# yum groups remove  -y Base</pre></td></tr></table>
+</div>
+</div>
+<p><strong>9.4.9 与历史记录相关的命令</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">查看历史执行yum命令
+[root@wenhs5479 ~]# yum history
+
+查询历史执行yum命令ID详细信息
+[root@wenhs5479 ~]# yum history info N
+
+撤销历史执行过的yum命令
+[root@wenhs5479 ~]# yum history undo N</pre></td></tr></table>
+</div>
+</div>
+<p><strong>9.4.10 YUM签名检查机制</strong></p>
+
+<ul>
+<li>rpm软件提供组织redhat在构建rpm包时, 使用其私钥private key对 rpm进行签名</li>
+<li>客户端在使用rpm为了验证其合法性, 可以使用redhat提供的公钥public key进行签名检查</li>
+</ul>
+
+<p>方式1：<strong>指定公钥位置</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs5479 ~]# vim /etc/yum.repos.d/CentOS-Base.repo
+[base]
+name=CentOS-$releasever - Base mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=os&amp;infra=$infra #baseurl=http://mirror.centos.org/centos/$releasever/os/$basearch/
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7</pre></td></tr></table>
+</div>
+</div>
+<p>方式2：<strong>提前导入公钥</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs5479 ~]# rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+[root@wenhs5479 ~]# vim /etc/yum.repos.d/CentOS-Base.repo
+[base]
+name=CentOS-$releasever - Base 
+mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=os&amp;infra=$infra
+baseurl=http://mirror.centos.org/centos/$releasever/os/$basearch/
+gpgcheck=1</pre></td></tr></table>
+</div>
+</div>
+<p>方式3：<strong>不进行签名验证</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">不检查软件包的签名
+[root@wenhs5479 ~]# yum install httpd --nogpgcheck</pre></td></tr></table>
+</div>
+</div>
+<h3 id="示例">示例：</h3>
+
+<p>配置本地光盘yum仓库以及网络yum仓库</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs5479 ~]# mkdir /localhost
+[root@wenhs5479 ~]# mount /dev/sr0 /localhost
+mount: /dev/sr0 写保护，将以只读方式挂载
+[root@wenhs5479 ~]# cat &lt;&lt;END&gt;&gt;/etc/yum.repos.d/localhost.repo
+&gt; [localhost]
+&gt; name=wenhs5479
+&gt; baseurl=file:///localhost/#########本地挂载源路径
+&gt; gpgcheck=0################关闭验证
+&gt; enabled=1################开启软件源
+&gt; END
+[root@wenhs5479 ~]# yum clean all
+已加载插件：fastestmirror, langpacks
+正在清理软件源： base extras localhost updates
+Cleaning up list of fastest mirrors
+[root@wenhs5479 ~]# yum makecache
+已加载插件：fastestmirror, langpacks
+Determining fastest mirrors
+......
+* updates: mirrors.aliyun.com
+源标识                              源名称                                状态
+base/7/x86_64                       CentOS-7 - Base                       10,019
+extras/7/x86_64                     CentOS-7 - Extras                        371
+localhost                           wenhs5479                             10,019
+updates/7/x86_64                    CentOS-7 - Updates                     1,158
+repolist: 21,567
+[root@wenhs5479 ~]# 
+
+
+网络源,上方列出方法很多</pre></td></tr></table>
+</div>
+</div>
+<p>配置yum缓存rpm包（至少阐述两种方式）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">1.yum makecache
+
+2.设置 /etc/yum.conf 中的 keepcache 选项为 1：keepcache=1</pre></td></tr></table>
+</div>
+</div>
+<p>使用yum安装本地缓存好的rpm包</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">yum -y install /path/*.rpm
+
+这个install可以换成localinstall</pre></td></tr></table>
+</div>
+</div>
+<p>使用yum删除httpd软件包</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">yum -y remove httpd</pre></td></tr></table>
+</div>
+</div>
+<p>构建企业内部yum仓库服务(请写出详细步骤,至少准备两台虚拟机，使用http方式)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">1.两台虚拟机互通
+2.其中一台挂载iso或者把ISO镜像中的东西拷贝在一个目录
+3.安装httpd服务,并设置开机自启,防火墙和selinux在内网最好关闭,免得自寻烦恼
+4.创建网站的虚拟主机指向拷贝ISO镜像文件的目录,先本机测试,网页能不能访问,能访问再接下一步
+5.配置第二台客户机的repo文件,参数如下:
+
+[root@wenhs5479 ~]# cat &lt;&lt;END&gt;&gt;/etc/yum.repos.d/http.repo
+&gt; [http]
+&gt; name=wenhs5479
+&gt; baseurl=http://第一台主机IP加端口,默认80可不写/软件包路径/#########网路挂载源路径
+&gt; gpgcheck=0################关闭验证
+&gt; enabled=1################开启软件源
+&gt; END
+[root@wenhs5479 ~]# yum clean all
+清理缓存
+[root@wenhs5479 ~]# yum makecache
+重建缓存</pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Mr Wen</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2018-06-24 16:15
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener" href="https://github.com/itwhs/itwhs.github.io/blob/master/LICENSE">MIT</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E8%BD%AF%E4%BB%B6%E7%AE%A1%E7%90%86/">软件管理</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85%E5%8C%85%E7%AE%A1%E7%90%86/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">源码安装包管理</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/%E8%BD%AF%E4%BB%B6%E7%AE%A1%E7%90%86/">
+            <span class="next-text nav-default">软件管理</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:itwhs@foxmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://blog.csdn.net/wenhs5479" class="iconfont icon-cnblogs" title="cnblogs"></a>
+      <a href="https://github.com/itwhs" class="iconfont icon-github" title="github"></a>
+  <a href="https://itwhs.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Mr Wen</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139425163-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

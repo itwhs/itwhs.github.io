@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>权限管理 on itw&#39;s blog</title>
+    <link>https://itwhs.github.io/tags/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/</link>
+    <description>Recent content in 权限管理 on itw&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 03 Jun 2018 16:15:57 +0800</lastBuildDate>
+    
+	<atom:link href="https://itwhs.github.io/tags/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>权限管理</title>
+      <link>https://itwhs.github.io/post/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/</link>
+      <pubDate>Sun, 03 Jun 2018 16:15:57 +0800</pubDate>
+      
+      <guid>https://itwhs.github.io/post/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>账号和权限管理</title>
+      <link>https://itwhs.github.io/post/%E8%B4%A6%E5%8F%B7%E5%92%8C%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/</link>
+      <pubDate>Sun, 27 May 2018 16:15:57 +0800</pubDate>
+      
+      <guid>https://itwhs.github.io/post/%E8%B4%A6%E5%8F%B7%E5%92%8C%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

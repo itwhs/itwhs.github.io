@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>实验 on itw&#39;s blog</title>
+    <link>https://itwhs.github.io/tags/%E5%AE%9E%E9%AA%8C/</link>
+    <description>Recent content in 实验 on itw&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 03 Mar 2019 16:15:57 +0800</lastBuildDate>
+    
+	<atom:link href="https://itwhs.github.io/tags/%E5%AE%9E%E9%AA%8C/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>CentOS 7.6&#43;NFS&#43;Heartbeat&#43;DRBD</title>
+      <link>https://itwhs.github.io/post/centos-7.6&#43;nfs&#43;heartbeat&#43;drbd/</link>
+      <pubDate>Sun, 03 Mar 2019 16:15:57 +0800</pubDate>
+      
+      <guid>https://itwhs.github.io/post/centos-7.6&#43;nfs&#43;heartbeat&#43;drbd/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

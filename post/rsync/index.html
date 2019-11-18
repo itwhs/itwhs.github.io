@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Rsync - itw&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Mr Wen" /><meta name="description" content="" /><meta name="keywords" content="Linux, Github, Network, Cloud, Python" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://itwhs.github.io/post/rsync/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/reset-even.css">
+
+
+<meta property="og:title" content="Rsync" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://itwhs.github.io/post/rsync/" />
+<meta property="article:published_time" content="2018-11-18T16:15:57&#43;08:00"/>
+<meta property="article:modified_time" content="2018-11-18T16:15:57&#43;08:00"/>
+
+<meta itemprop="name" content="Rsync">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2018-11-18T16:15:57&#43;08:00" />
+<meta itemprop="dateModified" content="2018-11-18T16:15:57&#43;08:00" />
+<meta itemprop="wordCount" content="4565">
+
+
+
+<meta itemprop="keywords" content="文件共享," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Rsync"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">itw</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a><a href="https://github.com/itwhs/">
+        <li class="mobile-menu-item">GitHub</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">itw</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/itwhs/">GitHub</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Rsync</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-11-18 16:15 </span>
+        <div class="post-category">
+            <a href="/categories/linux%E8%BF%90%E7%BB%B4/"> Linux运维 </a>
+            </div>
+          <span class="more-meta"> 约 4565 字 </span>
+          <span class="more-meta"> 预计阅读 10 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#1-rsync简介">1. rsync简介</a></li>
+<li><a href="#2-rsync特性">2. rsync特性</a></li>
+<li><a href="#3-rsync的ssh认证协议">3. rsync的ssh认证协议</a></li>
+<li><a href="#4-rsync命令">4. rsync命令</a></li>
+<li><a href="#5-rsync-inotify">5. rsync+inotify</a></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="1-rsync简介">1. rsync简介</h1>
+
+<p><code>rsync</code>是<code>linux</code>系统下的数据镜像备份工具。使用快速增量备份工具<code>Remote Sync</code>可以远程同步，支持本地复制，或者与其他<code>SSH</code>、<code>rsync</code>主机同步。</p>
+
+<h1 id="2-rsync特性">2. rsync特性</h1>
+
+<p><code>rsync</code>支持很多特性：</p>
+
+<ul>
+<li>可以镜像保存整个目录树和文件系统</li>
+<li>可以很容易做到保持原来文件的权限、时间、软硬链接等等</li>
+<li>无须特殊权限即可安装</li>
+<li>快速：第一次同步时<code>rsync</code>会复制全部内容，但在下一次只传输修改过的文件。<code>rsync</code>在传输数据的过程中可以实行压缩及解压缩操作，因此可以使用更少的带宽</li>
+<li>安全：可以使用<code>scp</code>、<code>ssh</code>等方式来传输文件，当然也可以通过直接的socket连接</li>
+<li>支持匿名传输，以方便进行网站镜象</li>
+</ul>
+
+<p>注意:rsync不要用来同步大文件,因为它同步占用的是网络,多数用来同步小文件,大文件要想同步建议使用nfs,然后备份整个物理硬盘</p>
+
+<h1 id="3-rsync的ssh认证协议">3. rsync的ssh认证协议</h1>
+
+<p><code>rsync</code>命令来同步系统文件之前要先登录<code>remote</code>主机认证，认证过程中用到的协议有2种：</p>
+
+<ul>
+<li><p>ssh协议</p></li>
+
+<li><p>rsync协议</p></li>
+</ul>
+
+<blockquote>
+<p><code>rsync server</code>端不用启动<code>rsync</code>的<code>daemon</code>进程，只要获取<code>remote host</code>的用户名和密码就可以直接<code>rsync</code>同步文件</p>
+
+<p><code>rsync server</code>端因为不用启动<code>daemon</code>进程，所以也不用配置文件<code>/etc/rsyncd.conf</code></p>
+</blockquote>
+
+<p><code>ssh</code>认证协议跟<code>scp</code>的原理是一样的，如果在同步过程中不想输入密码就用<code>ssh-keygen -t rsa</code>打通通道</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">这种方式默认是省略了 -e ssh 的，与下面等价：
+rsync -avz /SRC -e ssh root@192.168.161.189:/DEST 
+    -a  	文件宿主变化，时间戳不变
+    -z  	压缩数据传输
+ 
+当遇到要修改端口的时候，我们可以：
+rsync -avz /SRC -e &#34;ssh -p2222&#34; root@192.168.161.189:/DEST  
+修改了ssh 协议的端口，默认是22</pre></td></tr></table>
+</div>
+</div>
+<h1 id="4-rsync命令">4. rsync命令</h1>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">Rsync的命令格式常用的有以下三种：
+    rsync [OPTION]... SRC DEST
+    rsync [OPTION]... SRC [USER@]HOST:DEST
+    rsync [OPTION]... [USER@]HOST:SRC DEST
+　　
+对应于以上三种命令格式，rsync有三种不同的工作模式：
+1）拷贝本地文件。当SRC和DES路径信息都不包含有单个冒号&#34;:&#34;分隔符时就启动这种工作模式。
+
+2）使用一个远程shell程序(如rsh、ssh)来实现将本地机器的内容拷贝到远程机器。当DST路径地址包含单个冒号&#34;:&#34;分隔符时启动该模式。
+
+
+3）使用一个远程shell程序(如rsh、ssh)来实现将远程机器的内容拷贝到本地机器。当SRC地址路径包含单个冒号&#34;:&#34;分隔符时启动该模式。
+
+
+rsync常用选项：
+    -a, --archive       //归档
+    -v, --verbose       //啰嗦模式
+    -q, --quiet         //静默模式
+    -r, --recursive     //递归
+    -p, --perms         //保持原有的权限属性
+    -z, --compress      //在传输时压缩，节省带宽，加快传输速度
+    --delete            //在源服务器上做的删除操作也会在目标服务器上同步</pre></td></tr></table>
+</div>
+</div>
+<h1 id="5-rsync-inotify">5. rsync+inotify</h1>
+
+<p><code>rsync</code>与传统的<code>cp</code>、<code>tar</code>备份方式相比，<code>rsync</code>具有安全性高、备份迅速、支持增量备份等优点，通过<code>rsync</code>可以解决对实时性要求不高的数据备份需求，例如定期的备份文件服务器数据到远端服务器，对本地磁盘定期做数据镜像等。</p>
+
+<p>随着应用系统规模的不断扩大，对数据的安全性和可靠性也提出的更好的要求，<code>rsync</code>在高端业务系统中也逐渐暴露出了很多不足，首先，<code>rsync</code>同步数据时，需要扫描所有文件后进行比对，进行差量传输。如果文件数量达到了百万甚至千万量级，扫描所有文件将是非常耗时的。而且正在发生变化的往往是其中很少的一部分，这是非常低效的方式。其次，<code>rsync</code>不能实时的去监测、同步数据，虽然它可以通过<code>linux</code>守护进程的方式进行触发同步，但是两次触发动作一定会有时间差，这样就导致了服务端和客户端数据可能出现不一致，无法在应用故障时完全的恢复数据。基于以上原因，<code>rsync+inotify</code>组合出现了！</p>
+
+<p><code>Inotify</code>是一种强大的、细粒度的、异步的文件系统事件监控机制，<code>linux</code>内核从<code>2.6.13</code>起，加入了<code>Inotify</code>支持，通过<code>Inotify</code>可以监控文件系统中添加、删除，修改、移动等各种细微事件，利用这个内核接口，第三方软件就可以监控文件系统下文件的各种变化情况，而<code>inotify-tools</code>就是这样的一个第三方软件。</p>
+
+<p>在前面有讲到，<code>rsync</code>可以实现触发式的文件同步，但是通过<code>crontab</code>守护进程方式进行触发，同步的数据和实际数据会有差异，而<code>inotify</code>可以监控文件系统的各种变化，当文件有任何变动时，就触发<code>rsync</code>同步，这样刚好解决了同步数据的实时性问题。</p>
+
+<p><strong>环境说明：</strong></p>
+
+<table>
+<thead>
+<tr>
+<th>服务器类型</th>
+<th>IP地址</th>
+<th>应用</th>
+<th>操作系统</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>源服务器<br>wenhs5479</td>
+<td>192.168.161.188</td>
+<td>rsync<br>inotify-tools<br>脚本</td>
+<td>centos7/redhat7</td>
+</tr>
+
+<tr>
+<td>目标服务器<br>wenhs-docker-ce</td>
+<td>192.168.161.189</td>
+<td>rsync</td>
+<td>centos7/redhat7</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>需求：</strong></p>
+
+<ul>
+<li>把源服务器上/etc目录实时同步到目标服务器的/NAME/下。这里的NAME是指你的名字，比如你叫tom，则要把/etc目录同步至目标服务器的/tom/下。</li>
+</ul>
+
+<p><strong>在目标服务器上做以下操作：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">关闭防火墙与SELINUX
+[root@wenhs-docker-ce ~]# systemctl stop firewalld
+[root@wenhs-docker-ce ~]# systemctl disable firewalld
+[root@wenhs-docker-ce ~]# getenforce
+Enforcing
+[root@wenhs-docker-ce ~]# setenforce 0
+[root@wenhs-docker-ce ~]# sed -ri &#39;s/^(SELINUX=).*/\1disabled/g&#39; /etc/sysconfig/selinux
+
+安装rsync服务端软件
+[root@wenhs-docker-ce ~]# yum -y install rsync
+已加载插件：fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+正在解决依赖关系
+.......
+已安装:
+  rsync.x86_64 0:3.1.2-4.el7                                                                   
+完毕！
+
+设置rsyncd.conf配置文件
+[root@wenhs-docker-ce ~]# cat &gt;&gt;/etc/rsyncd.conf &lt;&lt;EOF
+&gt; log file = /var/log/rsyncd.log    #日志文件位置，启动rsync后自动产生这个文件，无需提前创建#
+&gt; pidfile = /var/run/rsyncd.pid     #pid文件的存放位置#
+&gt; lock file = /var/run/rsync.lock   #支持max connections参数的锁文件#
+&gt; secrets file = /etc/rsync.pass    #用户认证配置文件，里面保存用户名称和密码，必须手动创建这个文件#
+&gt; 
+&gt; [etc_from_client]     #自定义同步名称#
+&gt; path = /wenhs/          #rsync服务端数据存放路径，客户端的数据将同步至此目录#
+&gt; comment = sync etc from client
+&gt; uid = root        #设置rsync运行权限为root#
+&gt; gid = root        #设置rsync运行权限为root#
+&gt; port = 873        #默认端口#
+&gt; ignore errors     #表示出现错误忽略错误#
+&gt; use chroot = no       #默认为true，修改为no，增加对目录文件软连接的备份#
+&gt; read only = no    #设置rsync服务端为读写权限#
+&gt; list = no     #不显示rsync服务端资源列表#
+&gt; max connections = 200     #最大连接数#
+&gt; timeout = 600     #设置超时时间#
+&gt; auth users = admin        #执行数据同步的用户名，可以设置多个，用英文状态下逗号隔开#
+&gt; hosts allow = 192.168.161.188   #允许进行数据同步的客户端IP地址，可以设置多个，用英文状态下逗号隔开#
+&gt; hosts deny = 192.168.1.1      #禁止数据同步的客户端IP地址，可以设置多个，用英文状态下逗号隔开#
+&gt; EOF
+注意:配置文件里面这些中文注释禁止写入,否则会报配置文件错误
+@ERROR: auth failed on module etc_from_client
+rsync error: error starting client-server protocol (code 5) at main.c(1648) [sender=3.1.2]
+
+创建用户认证文件
+[root@wenhs-docker-ce ~]# echo &#39;admin:123456&#39; &gt; /etc/rsync.pass
+[root@wenhs-docker-ce ~]# cat /etc/rsync.pass
+admin:123456
+
+创建共享目录
+[root@wenhs-docker-ce ~]# mkdir /wenhs
+不创建这个目录,会报---&gt;@ERROR: chdir failed
+
+设置文件权限
+[root@wenhs-docker-ce ~]# chmod 600 /etc/rsync.pass 
+[root@wenhs-docker-ce ~]# ll /etc/rsync*
+-rw-r--r-- 1 root root 1863 4月  25 15:31 /etc/rsyncd.conf
+-rw------- 1 root root   13 4月  25 15:33 /etc/rsync.pass
+
+启动rsync服务并设置开机自启动
+[root@wenhs-docker-ce ~]# systemctl start rsyncd
+[root@wenhs-docker-ce ~]# systemctl enable rsyncd
+Created symlink from /etc/systemd/system/multi-user.target.wants/rsyncd.service to /usr/lib/systemd/system/rsyncd.service.
+[root@wenhs-docker-ce ~]# ss -antl
+Netid State      Recv-Q Send-Q Local Address:Port               Peer Address:Port                      
+tcp   LISTEN     0      5                 *:873                           *:*                  
+tcp   LISTEN     0      128               *:111                           *:*                  
+tcp   LISTEN     0      5      192.168.122.1:53                            *:*                  
+tcp   LISTEN     0      128               *:22                            *:*                  
+tcp   LISTEN     0      128       127.0.0.1:631                           *:*                  
+tcp   LISTEN     0      100       127.0.0.1:25                            *:*                  
+tcp   LISTEN     0      128       127.0.0.1:6010                          *:*                  
+tcp   LISTEN     0      5                :::873                          :::*                  
+tcp   LISTEN     0      128              :::111                          :::*                  
+tcp   LISTEN     0      128              :::22                           :::*                  
+tcp   LISTEN     0      128             ::1:631                          :::*                  
+tcp   LISTEN     0      100             ::1:25                           :::*                  
+tcp   LISTEN     0      128             ::1:6010                         :::*</pre></td></tr></table>
+</div>
+</div>
+<p><strong>在源服务器上做以下操作：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span><span class="lnt">173
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">关闭防火墙与SELINUX
+<span class="o">[</span>root@wenhs5479 ~<span class="o">]</span><span class="c1"># systemctl stop firewalld</span>
+<span class="o">[</span>root@wenhs5479 ~<span class="o">]</span><span class="c1"># systemctl disable firewalld</span>
+<span class="o">[</span>root@wenhs5479 ~<span class="o">]</span><span class="c1"># getenforce</span>
+Enforcing
+<span class="o">[</span>root@wenhs5479 ~<span class="o">]</span><span class="c1"># setenforce 0</span>
+<span class="o">[</span>root@wenhs5479 ~<span class="o">]</span><span class="c1"># sed -ri &#39;s/^(SELINUX=).*/\1disabled/g&#39; /etc/sysconfig/selinux</span>
+
+配置yum源
+<span class="o">[</span>root@wenhs5479 ~<span class="o">]</span><span class="c1"># cd /etc/yum.repos.d/</span>
+<span class="o">[</span>root@wenhs5479 yum.repos.d<span class="o">]</span><span class="c1"># wget http://mirrors.163.com/.help/CentOS7-Base-163.repo</span>
+--2019-04-25 <span class="m">15</span>:41:23--  http://mirrors.163.com/.help/CentOS7-Base-163.repo
+正在解析主机 mirrors.163.com <span class="o">(</span>mirrors.163.com<span class="o">)</span>... <span class="m">59</span>.111.0.251
+正在连接 mirrors.163.com <span class="o">(</span>mirrors.163.com<span class="o">)</span><span class="p">|</span><span class="m">59</span>.111.0.251<span class="p">|</span>:80... 已连接。
+已发出 HTTP 请求，正在等待回应... <span class="m">200</span> OK
+长度：1572 <span class="o">(</span><span class="m">1</span>.5K<span class="o">)</span> <span class="o">[</span>application/octet-stream<span class="o">]</span>
+正在保存至: “CentOS7-Base-163.repo”
+
+<span class="m">100</span>%<span class="o">[=====================================================</span>&gt;<span class="o">]</span> <span class="m">1</span>,572       --.-K/s 用时 0s      
+
+<span class="m">2019</span>-04-25 <span class="m">15</span>:41:23 <span class="o">(</span><span class="m">185</span> MB/s<span class="o">)</span> - 已保存 “CentOS7-Base-163.repo” <span class="o">[</span><span class="m">1572</span>/1572<span class="o">])</span>
+
+<span class="o">[</span>root@wenhs5479 yum.repos.d<span class="o">]</span><span class="c1"># sed -i &#39;s/\$releasever/7/g&#39; /etc/yum.repos.d/CentOS7-Base-163.repo</span>
+<span class="o">[</span>root@wenhs5479 yum.repos.d<span class="o">]</span><span class="c1"># sed -i &#39;s/^enabled=.*/enabled=1/g&#39; /etc/yum.repos.d/CentOS7-Base-163.repo</span>
+<span class="o">[</span>root@wenhs5479 yum.repos.d<span class="o">]</span><span class="c1"># yum -y install epel-release</span>
+已加载插件：fastestmirror, langpacks
+Determining fastest mirrors
+ * base: mirrors.huaweicloud.com
+ * extras: mirrors.huaweicloud.com
+ * updates: mirrors.huaweicloud.com
+正在解决依赖关系
+--&gt; 正在检查事务
+---&gt; 软件包 epel-release.noarch.0.7-11 将被 安装
+--&gt; 解决依赖关系完成
+.......
+已安装:
+  epel-release.noarch <span class="m">0</span>:7-11                                                                   
+完毕！
+
+安装rsync服务端软件，只需要安装，不要启动，不需要配置
+<span class="o">[</span>root@wenhs5479 ~<span class="o">]</span><span class="c1"># yum -y install rsync</span>
+已加载插件：fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: mirrors.huaweicloud.com
+ * epel: mirrors.njupt.edu.cn
+ * extras: mirrors.huaweicloud.com
+ * updates: mirrors.huaweicloud.com
+正在解决依赖关系
+--&gt; 正在检查事务
+---&gt; 软件包 rsync.x86_64.0.3.1.2-4.el7 将被 安装
+--&gt; 解决依赖关系完成
+.......
+Transaction <span class="nb">test</span> succeeded
+Running transaction
+  正在安装    : rsync-3.1.2-4.el7.x86_64                                                   <span class="m">1</span>/1 
+  验证中      : rsync-3.1.2-4.el7.x86_64                                                   <span class="m">1</span>/1 
+已安装:
+  rsync.x86_64 <span class="m">0</span>:3.1.2-4.el7                                                                   
+完毕！
+
+创建认证密码文件
+<span class="o">[</span>root@wenhs5479 ~<span class="o">]</span><span class="c1"># echo &#39;123456&#39; &gt; /etc/rsync.pass</span>
+<span class="o">[</span>root@wenhs5479 ~<span class="o">]</span><span class="c1"># cat /etc/rsync.pass</span> 
+<span class="m">123456</span>
+
+设置文件权限，只设置文件所有者具有读取、写入权限即可
+<span class="o">[</span>root@wenhs5479 ~<span class="o">]</span><span class="c1"># chmod 600 /etc/rsync.pass</span> 
+<span class="o">[</span>root@wenhs5479 ~<span class="o">]</span><span class="c1"># ll /etc/rsync*</span>
+-rw-r--r--. <span class="m">1</span> root root <span class="m">458</span> 4月  <span class="m">11</span> <span class="m">2018</span> /etc/rsyncd.conf
+-rw-------. <span class="m">1</span> root root   <span class="m">7</span> 4月  <span class="m">25</span> <span class="m">15</span>:52 /etc/rsync.pass
+
+在源服务器上创建测试目录，然后在源服务器运行以下命令
+<span class="o">[</span>root@wenhs5479 ~<span class="o">]</span><span class="c1"># rsync -avH --port 873 --progress --delete /root/etc/ admin@192.168.161.189::etc_from_client --password-file=/etc/rsync.pass</span>
+sending incremental file list
+deleting wen/
+./
+test/
+
+sent <span class="m">77</span> bytes  received <span class="m">35</span> bytes  <span class="m">224</span>.00 bytes/sec
+total size is <span class="m">0</span>  speedup is <span class="m">0</span>.00
+运行完成后，在目标服务器上查看，在/tmp目录下有test目录，说明数据同步成功
+<span class="o">[</span>root@wenhs-docker-ce ~<span class="o">]</span><span class="c1"># ll /wenhs/</span>
+总用量 <span class="m">0</span>
+drwxr-xr-x <span class="m">2</span> root root <span class="m">6</span> 4月  <span class="m">25</span> <span class="m">16</span>:30 <span class="nb">test</span>
+
+安装inotify-tools工具，实时触发rsync进行同步
+
+查看服务器内核是否支持inotify
+<span class="o">[</span>root@wenhs5479 ~<span class="o">]</span><span class="c1"># ll /proc/sys/fs/inotify/</span>
+总用量 <span class="m">0</span>
+-rw-r--r--. <span class="m">1</span> root root <span class="m">0</span> 4月  <span class="m">25</span> <span class="m">16</span>:33 max_queued_events
+-rw-r--r--. <span class="m">1</span> root root <span class="m">0</span> 4月  <span class="m">25</span> <span class="m">16</span>:33 max_user_instances
+-rw-r--r--. <span class="m">1</span> root root <span class="m">0</span> 4月  <span class="m">15</span> <span class="m">15</span>:14 max_user_watches
+
+安装inotify-tools
+<span class="o">[</span>root@wenhs5479 ~<span class="o">]</span><span class="c1"># yum -y install make gcc gcc-c++ inotify-tools</span>
+Loading mirror speeds from cached hostfile
+ * base: mirrors.huaweicloud.com
+ * epel: mirrors.njupt.edu.cn
+ * extras: mirrors.huaweicloud.com
+ * updates: mirrors.huaweicloud.com
+软件包 <span class="m">1</span>:make-3.82-23.el7.x86_64 已安装并且是最新版本
+软件包 gcc-4.8.5-36.el7_6.1.x86_64 已安装并且是最新版本
+软件包 gcc-c++-4.8.5-36.el7_6.1.x86_64 已安装并且是最新版本
+正在解决依赖关系
+........
+inotify-tools-3.14-8.el7.x86_64.rpm                                     <span class="p">|</span>  <span class="m">50</span> kB  <span class="m">00</span>:00:15     
+从 file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 检索密钥
+导入 GPG key 0x352C64E5:
+ 用户ID     : <span class="s2">&#34;Fedora EPEL (7) &lt;epel@fedoraproject.org&gt;&#34;</span>
+ 指纹       : 91e9 7d7c 4a5e 96f1 7f3e 888f 6a2f aea2 352c 64e5
+ 软件包     : epel-release-7-11.noarch <span class="o">(</span>@extras<span class="o">)</span>
+ 来自       : /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
+....... 
+已安装:
+  inotify-tools.x86_64 <span class="m">0</span>:3.14-8.el7                                                            
+完毕！
+
+写同步脚本，此步乃最最重要的一步，请慎之又慎。让脚本自动去检测我们制定的目录下 <span class="se">\
+</span><span class="se"></span>文件发生的变化，然后再执行rsync的命令把它同步到我们的服务器端去
+<span class="o">[</span>root@wenhs5479 ~<span class="o">]</span><span class="c1"># mkdir /scripts</span>
+<span class="o">[</span>root@wenhs5479 ~<span class="o">]</span><span class="c1"># touch /scripts/inotify.sh</span>
+<span class="o">[</span>root@wenhs5479 ~<span class="o">]</span><span class="c1"># chmod 755 /scripts/inotify.sh</span>
+<span class="o">[</span>root@wenhs5479 ~<span class="o">]</span><span class="c1"># ll /scripts/inotify.sh</span>
+-rwxr-xr-x. <span class="m">1</span> root root <span class="m">0</span> 4月  <span class="m">25</span> <span class="m">16</span>:36 /scripts/inotify.sh
+<span class="o">[</span>root@wenhs5479 ~<span class="o">]</span><span class="c1"># vim /scripts/inotify.sh</span>
+<span class="cp">#!/bin/bash
+</span><span class="cp"></span><span class="c1">#目标服务器的ip(备份服务器)</span>
+<span class="nv">host</span><span class="o">=</span><span class="m">192</span>.168.161.189
+<span class="c1">#在源服务器上所要监控的备份目录（此处可以自定义，但是要保证存在）</span>
+<span class="nv">src</span><span class="o">=</span>/etc
+<span class="c1">#自定义的模块名，需要与目标服务器上定义的同步名称一致</span>
+<span class="nv">des</span><span class="o">=</span>etc_from_client
+<span class="c1">#执行数据同步的密码文件</span>
+<span class="nv">password</span><span class="o">=</span>/etc/rsync.pass
+<span class="c1">#执行数据同步的用户名</span>
+<span class="nv">user</span><span class="o">=</span>admin
+<span class="nv">inotifywait</span><span class="o">=</span>/usr/bin/inotifywait
+
+<span class="nv">$inotifywait</span> -mrq --timefmt <span class="s1">&#39;%Y%m%d %H:%M&#39;</span> --format <span class="s1">&#39;%T %w%f%e&#39;</span> -e modify,delete,create,attrib <span class="nv">$src</span> <span class="se">\
+</span><span class="se"></span><span class="p">|</span> <span class="k">while</span> <span class="nb">read</span> files <span class="p">;</span><span class="k">do</span>
+    rsync -avzP --delete  --timeout<span class="o">=</span><span class="m">100</span> --password-file<span class="o">=</span><span class="si">${</span><span class="nv">password</span><span class="si">}</span> <span class="nv">$src</span> <span class="nv">$user</span>@<span class="nv">$host</span>::<span class="nv">$des</span>
+    <span class="nb">echo</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">files</span><span class="si">}</span><span class="s2"> was rsynced&#34;</span> &gt;&gt;/tmp/rsync.log <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+<span class="k">done</span>
+注意:写脚本所有的标点符号为英文符号,否则报错,另外src这个变量,要在目录下,所以要加/
+
+启动脚本
+<span class="o">[</span>root@wenhs5479 ~<span class="o">]</span><span class="c1"># nohup bash /scripts/inotify.sh &amp;</span>
+<span class="o">[</span><span class="m">1</span><span class="o">]</span> <span class="m">33126</span>
+<span class="o">[</span>root@wenhs5479 ~<span class="o">]</span><span class="c1"># nohup: ignoring input and appending output to ‘nohup.out’</span>
+
+<span class="o">[</span>root@wenhs5479 ~<span class="o">]</span><span class="c1"># ps -ef|grep inotify</span>
+root      <span class="m">33290</span>  <span class="m">22106</span>  <span class="m">0</span> <span class="m">16</span>:51 pts/1    <span class="m">00</span>:00:00 bash /scripts/inotify.sh
+root      <span class="m">33291</span>  <span class="m">33290</span>  <span class="m">0</span> <span class="m">16</span>:51 pts/1    <span class="m">00</span>:00:00 /usr/bin/inotifywait -mrq --timefmt %Y%m%d %H:%M --format %T %w%f%e -e modify,delete,create,attrib /etc/
+root      <span class="m">33292</span>  <span class="m">33290</span>  <span class="m">0</span> <span class="m">16</span>:51 pts/1    <span class="m">00</span>:00:00 bash /scripts/inotify.sh
+root      <span class="m">33330</span>  <span class="m">22106</span>  <span class="m">0</span> <span class="m">16</span>:53 pts/1    <span class="m">00</span>:00:00 bash /scripts/inotify.sh
+
+在源服务器上生成一个新文件
+<span class="o">[</span>root@wenhs5479 ~<span class="o">]</span><span class="c1"># ls /etc/httpd/</span>
+<span class="nb">alias</span>  conf  conf.d  conf.modules.d  logs  modules  run
+<span class="o">[</span>root@wenhs5479 ~<span class="o">]</span><span class="c1"># echo &#39;hello word&#39; &gt;/etc/httpd/test</span>
+
+查看inotify生成的日志
+<span class="o">[</span>root@wenhs5479 ~<span class="o">]</span><span class="c1"># tail /tmp/rsync.log</span>
+<span class="m">20190425</span> <span class="m">17</span>:06 /etc/httpd/testCREATE was rsynced
+<span class="m">20190425</span> <span class="m">17</span>:06 /etc/httpd/testCREATE was rsynced
+<span class="m">20190425</span> <span class="m">17</span>:06 /etc/httpd/testMODIFY was rsynced
+<span class="m">20190425</span> <span class="m">17</span>:06 /etc/httpd/testMODIFY was rsynced
+<span class="m">20190425</span> <span class="m">17</span>:06 /etc/httpd/testCREATE was rsynced
+<span class="m">20190425</span> <span class="m">17</span>:06 /etc/httpd/testCREATE was rsynced
+<span class="m">20190425</span> <span class="m">17</span>:06 /etc/httpd/testMODIFY was rsynced
+<span class="m">20190425</span> <span class="m">17</span>:06 /etc/httpd/testMODIFY was rsynced
+从日志上可以看到，我们生成了一个test文件，并且添加了内容到其里面</pre></td></tr></table>
+</div>
+</div>
+<p><strong>设置脚本开机自动启动：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs5479 ~]# chmod +x /etc/rc.d/rc.local
+[root@wenhs5479 ~]# ll /etc/rc.d/rc.local
+-rwxr-xr-x. 1 root root 473 2月  20 01:35 /etc/rc.d/rc.local
+[root@wenhs5479 ~]# echo &#39;nohup /bin/bash /scripts/inotify.sh&#39; &gt;&gt; /etc/rc.d/rc.local
+[root@wenhs5479 ~]# tail /etc/rc.d/rc.local
+# to run scripts during boot instead of using this file.
+#
+# In contrast to previous versions due to parallel execution during boot
+# this script will NOT be run after all other services.
+#
+# Please note that you must run &#39;chmod +x /etc/rc.d/rc.local&#39; to ensure
+# that this script will be executed during boot.
+
+touch /var/lock/subsys/local
+nohup /bin/bash /scripts/inotify.sh</pre></td></tr></table>
+</div>
+</div>
+<p><strong>到目标服务器上去查看是否把新生成的文件自动传上去了：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs-docker-ce wenhs]# pwd
+/wenhs
+[root@wenhs-docker-ce wenhs]# ls
+aaaaa                       hostname                  popt.d
+abrt                        hosts                     portreserve
+adjtime                     hosts.allow               postfix
+akonadi                     hosts.deny                ppp
+aliases                     hp                        prelink.conf.d
+aliases.db                  httpd                     printcap
+...
+[root@wenhs-docker-ce wenhs]# ls /wenhs/httpd/
+alias  conf  conf.d  conf.modules.d  logs  modules  run  test
+由此可见，已将源服务器的/etc目录整个同步到了目标服务器，且新增的test文件也自动同步了</pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Mr Wen</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2018-11-18 16:15
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener" href="https://github.com/itwhs/itwhs.github.io/blob/master/LICENSE">MIT</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB/">文件共享</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/mysql1/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">MySQL基础</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/nginx/">
+            <span class="next-text nav-default">nginx详解</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:itwhs@foxmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://blog.csdn.net/wenhs5479" class="iconfont icon-cnblogs" title="cnblogs"></a>
+      <a href="https://github.com/itwhs" class="iconfont icon-github" title="github"></a>
+  <a href="https://itwhs.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Mr Wen</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139425163-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Zabbix监控组件及流程 - itw&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Mr Wen" /><meta name="description" content="" /><meta name="keywords" content="Linux, Github, Network, Cloud, Python" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://itwhs.github.io/post/zabbix%E7%9B%91%E6%8E%A7%E7%BB%84%E4%BB%B6%E5%8F%8A%E6%B5%81%E7%A8%8B/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/reset-even.css">
+
+
+<meta property="og:title" content="Zabbix监控组件及流程" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://itwhs.github.io/post/zabbix%E7%9B%91%E6%8E%A7%E7%BB%84%E4%BB%B6%E5%8F%8A%E6%B5%81%E7%A8%8B/" />
+<meta property="article:published_time" content="2019-01-06T16:15:57&#43;08:00"/>
+<meta property="article:modified_time" content="2019-01-06T16:15:57&#43;08:00"/>
+
+<meta itemprop="name" content="Zabbix监控组件及流程">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2019-01-06T16:15:57&#43;08:00" />
+<meta itemprop="dateModified" content="2019-01-06T16:15:57&#43;08:00" />
+<meta itemprop="wordCount" content="3450">
+
+
+
+<meta itemprop="keywords" content="监控服务," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Zabbix监控组件及流程"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">itw</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a><a href="https://github.com/itwhs/">
+        <li class="mobile-menu-item">GitHub</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">itw</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/itwhs/">GitHub</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Zabbix监控组件及流程</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-01-06 16:15 </span>
+        <div class="post-category">
+            <a href="/categories/linux%E8%BF%90%E7%BB%B4/"> Linux运维 </a>
+            </div>
+          <span class="more-meta"> 约 3450 字 </span>
+          <span class="more-meta"> 预计阅读 7 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#zabbix监控组件及流程"><strong>Zabbix监控组件及流程</strong></a>
+<ul>
+<li><a href="#每个模块工作职责">每个模块工作职责：</a></li>
+</ul></li>
+<li><a href="#zabbix监控系统具体监控流程">Zabbix监控系统具体监控流程：</a></li>
+<li><a href="#zabbix监控原理"><strong>Zabbix监控原理：</strong></a></li>
+<li><a href="#zabbix监控常见的五个程序及功能">Zabbix监控常见的五个程序及功能</a></li>
+<li><a href="#zabbix三种监控方式-agent-snmp-ipmi"><strong>Zabbix三种监控方式：Agent、SNMP、IPMI</strong></a></li>
+<li><a href="#主动监控与被动监控">主动监控与被动监控</a></li>
+<li><a href="#zabbix监控概念"><strong>Zabbix监控概念</strong></a></li>
+<li><a href="#在web界面主机配置的步骤">在WEB界面主机配置的步骤</a></li>
+<li><a href="#以监控-etc-passwd为例">以监控/etc/passwd为例</a>
+<ul>
+<li><a href="#创建主机群组">创建主机群组</a></li>
+<li><a href="#添加主机">添加主机</a></li>
+<li><a href="#创建应用集">创建应用集</a></li>
+<li><a href="#添加监控项">添加监控项</a></li>
+<li><a href="#给监控项添加触发器">给监控项添加触发器</a></li>
+<li><a href="#电子邮件报警">电子邮件报警</a></li>
+<li><a href="#脚本报警">脚本报警</a></li>
+<li><a href="#通过zabbix用户发送邮件">通过zabbix用户发送邮件</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="zabbix监控组件及流程"><strong>Zabbix监控组件及流程</strong></h2>
+
+<p>Zabbix监控组件主要包括：Zabbix Server、Zabbix Proxy、Zabbix Agent；其中Zabbix Server包括：WEB GUI、Database、Zabbix Server。</p>
+
+<h3 id="每个模块工作职责">每个模块工作职责：</h3>
+
+<ul>
+<li>Zabbix Server：负责接收agent发送的报告信息的核心组件，所有配置，统计数据及操作数据均由其组织进行；</li>
+<li>Database Storage：用户存储所有配置信息，以及存储由Zabbix Server收集到的数据；</li>
+<li>Web Interface：Zabbix的GUI接口，通常与Server运行在同一台主机上；</li>
+<li>Zabbix Proxy：常用于分布监控环境中，代理Server收集部分被监控的监控数据并统一发往Server端；（通常大于500台主机需要使用）</li>
+<li>Zabbix Agent：部署在被监控主机上，负责收集本地数据发往Server端或Proxy端；</li>
+</ul>
+
+<h2 id="zabbix监控系统具体监控流程">Zabbix监控系统具体监控流程：</h2>
+
+<p><img src="../../img/01.jpg" alt="Zabbix监控组件介绍、工作原理、监控方式、监控概念 linux服务搭建1" /></p>
+
+<h2 id="zabbix监控原理"><strong>Zabbix监控原理：</strong></h2>
+
+<p>Agentd安装在被监控的主机上，Agent负责定期收集客户端本地各项数据，并发送至Zabbix Server端，Zabbix Server收到数据，将数据存储到数据库中，用户基于Zabbix WEB可以看到数据在前端展现图像。当Zabbix监控某个具体的项目，改项目会设置一个触发器阈值，当被监控的指标超过该触发器设定的阈值，会进行一些必要的动作，动作包括：发送信息（邮件、微信、短信）、发送命令（SHELL 命令、Reboot、Restart、Install等）。</p>
+
+<h2 id="zabbix监控常见的五个程序及功能">Zabbix监控常见的五个程序及功能</h2>
+
+<ul>
+<li>zabbix server：zabbix服务端守护进程，其中zabbix_agentd、zabbix_get、zabbix_sender、zabbix_proxy的数据最终都提交给zabbix server；</li>
+<li>zabbix agentd：客户端守护进程，负责收集客户端数据，例如：收集cpu负载、内存、硬盘使用情况等；</li>
+<li>zabbix proxy：zabbix分布式代理守护进程，通过大于500台主机，需要进行分布式监控架构部署；</li>
+<li>zabbix get：zabbix数据接收工具，单独使用的命令，通常在server或者proxy端执行获取远程客户端信息的命令；</li>
+<li>zabbix sender：zabbix数据发送工具，用户发送数据给server或proxy端，通常用户耗时比较长的检查。</li>
+</ul>
+
+<h2 id="zabbix三种监控方式-agent-snmp-ipmi"><strong>Zabbix三种监控方式：Agent、SNMP、IPMI</strong></h2>
+
+<p>Agent：Zabbix可以基于自身zabbix_agent客户端插件监控OS的状态，例如CPU、内存、硬盘、网卡、文件等。</p>
+
+<p>SNMP：Zabbix通过简单网络管理协议（Simple Network Management Protocol）监控网络设备或windows主机等。通过设定SNMP的参数将相关监控数据传送至服务端，交换机、防火墙等网络设备一般都支持SNMP协议。</p>
+
+<p>IPMI：智能平台管理接口（Intelligent Platform Management Interface，IPMI）即主要应用于设备的物理特性，包括：温度、电压、电扇工作状态，电源供应以及机箱入侵等。IPMI最大的优势在于无论OS的开机还是关机状态下，只要接通电源就可以实现对服务器的监控。</p>
+
+<h2 id="主动监控与被动监控">主动监控与被动监控</h2>
+
+<ul>
+<li>Zabbix监控客户端分为主动监控与被动监控，主被动模式以客户端为参照，Zabbix监控客户端默认为被动模式，可以修改为主动模式，只需要在客户端配置文件中添加 StartAgents=0。主被动监控模式如下：</li>
+<li>Zabbix主动模式：Agent主动请求server获取主动的监控项列表，并主动将监控项内需要检测的数据提交给server/proxy，zabbix agent首先向ServerActive配置的IP请求获取active items，获取并提交active items数据至server/proxy。</li>
+<li>Zabbix被动模式：Server向agent请求获取监控项的数据，agent返回数据，server打开一个TCP连接，Server发送请求agent.ping，Agent接收到请求并且响应，Server处理接收到的数据。</li>
+</ul>
+
+<h2 id="zabbix监控概念"><strong>Zabbix监控概念</strong></h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">主机（host）：                             被监控的网络设备，可以写IP或者DNS；
+主机组（host group）：             主机组用于管理主机，可以批量设置权限；
+监控项（item）：                        具体监控项，items值由独立的keys进行识别；
+触发器（trigger）：                    为某个items设置触发器，达到触发器会执行action动作；
+事件（event）：                          例如达到某个触发器，称之为一个事件；
+动作（action）：                         对于特定事件事先定义的处理方法，默认可以发送信息及发送命令；
+报警升级（escalation）：         发送警报或执行远程命令的自定义方案，如隔5分钟发送一次警报，共发送5次等。
+媒介（media）：                        发送通知的方式，可以支持Mail、SMS、Scripts等；
+通知（notification）：               通过设置的媒介向用户发送的有关某事件的信息；
+远程命令 ：                                   达到触发器，可以在被监控端执行命令；
+模板（template）：                    可以快速监控被监控端，模块包含：item、trigger、graph、screen、application；
+web场景（web scennario）       用于检测web站点可用性，监控HTTP关键词；
+web前端（frontend）：             Zabbix的web接口；
+图形（graph）：                          监控图像；
+屏幕（screens）：                       屏幕显示；
+幻灯（slide show）：                  幻灯显示</pre></td></tr></table>
+</div>
+</div>
+<h2 id="在web界面主机配置的步骤">在WEB界面主机配置的步骤</h2>
+
+<ul>
+<li>创建主机群组(按照项目分类,按照系统类型分类,按照应用类型分类)</li>
+<li>添加主机(注意配置文件参数和web对应)</li>
+<li>创建应用集(或者添加模板)</li>
+<li>添加监控项</li>
+<li>给监控项添加触发器</li>
+<li>设置报警类型(发邮件,打电话,发短信,微信推送,脚本)</li>
+<li>配置用户报警方式</li>
+<li>添加针对触发器指定的动作</li>
+<li>测试</li>
+</ul>
+
+<h2 id="以监控-etc-passwd为例">以监控/etc/passwd为例</h2>
+
+<h3 id="创建主机群组">创建主机群组</h3>
+
+<p>点击配置——主机群组——创建主机群组，页面如下</p>
+
+<p><img src="../../img/2019-05-22_101757.png" alt="" /></p>
+
+<p>说明：</p>
+
+<ul>
+<li>每个主机都需要在一个主机群组中，在创建主机时需要指定。</li>
+</ul>
+
+<h3 id="添加主机">添加主机</h3>
+
+<ul>
+<li>点击配置——主机——创建主机，页面配置如下</li>
+</ul>
+
+<p><img src="../../img/2019-05-22_102120.png" alt="2019-05-22_102120" /></p>
+
+<h3 id="创建应用集">创建应用集</h3>
+
+<ul>
+<li>配置——主机——应用集——创建应用集，页面如下</li>
+</ul>
+
+<p><img src="../../img/2019-05-22_104131.png" alt="" /></p>
+
+<h3 id="添加监控项">添加监控项</h3>
+
+<ul>
+<li>配置——主机——监控项——创建监控项页，页面配置如下</li>
+</ul>
+
+<p><img src="../../img/2019-05-22_110610.png" alt="" /></p>
+
+<ul>
+<li>查看监控是否可以监控到数据，点击检测中——最新数据，页面配置如下</li>
+</ul>
+
+<p><img src="../../img/2019-05-22_111027.png" alt="" /></p>
+
+<ul>
+<li>监控到的数据，点击查看</li>
+</ul>
+
+<p><img src="../../img/2019-05-22_111223.png" alt="" /></p>
+
+<h3 id="给监控项添加触发器">给监控项添加触发器</h3>
+
+<ul>
+<li>配置——主机——触发器——创建触发器，页面配置如下</li>
+</ul>
+
+<p><img src="../../img/2019-05-22_111829.png" alt="" /></p>
+
+<p><img src="../../img/2019-05-22_112100.png" alt="" /></p>
+
+<ul>
+<li>需要验证触发器的正确性，在client端中，修改/etc/passwd文件，看能否触发，点击<strong>监测——仪表板</strong>，问题仪表盘中有<strong>闪烁</strong>项表示触发器<strong>生效</strong>，反之不生效</li>
+</ul>
+
+<p><img src="../../img/2019-05-22_112344.png" alt="" /></p>
+
+<h3 id="电子邮件报警">电子邮件报警</h3>
+
+<p><img src="../../img/TIM图片20190522180228.jpg" alt="" /></p>
+
+<ul>
+<li>先要在服务端安装mailx；</li>
+<li>重新启动postfix服务；</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@server ~]# systemctl restart postfix</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>测试手动发送邮件；</li>
+</ul>
+
+<p><img src="../../img/2019-05-22_112855.png" alt="" /></p>
+
+<p><img src="../../img/2019-05-22_112728.png" alt="" /></p>
+
+<ul>
+<li>添加报警媒介内容（可以选择默认的E-mail方式或者手动创建媒介类型）；
+
+<ul>
+<li>默认的E-mail方式；</li>
+<li>点击管理——报警媒介类型——选择Email，页面设置如下</li>
+</ul></li>
+</ul>
+
+<p><img src="../../img/2019-05-22_113721.png" alt="" /></p>
+
+<ul>
+<li>注：手动添加方式与上图一样，若没有邮箱可用或者邮箱反垃圾系统会将邮件过滤掉可以使用linux系统自带邮箱，设置方法如下图</li>
+</ul>
+
+<p><img src="../../img/2019-05-22_115821.png" alt="" /></p>
+
+<ul>
+<li><p>配置用户发送的警告方式</p></li>
+
+<li><p>管理——用户——选择Admin（或者其他用户）——报警媒介，页面设置如下</p></li>
+</ul>
+
+<p><img src="../../img/2019-05-22_120335.png" alt="" /></p>
+
+<ul>
+<li><p>配置触发器的动作</p></li>
+
+<li><p>点击配置——动作——创建动作，第一页面添加名称,——点击操作，页面如下</p></li>
+</ul>
+
+<p><img src="../../img/2019-05-22_120935.png" alt="" /></p>
+
+<ul>
+<li>修改/etc/passwd文件查看验证</li>
+</ul>
+
+<p><img src="../../img/1558506541852.png" alt="1558506541852" /></p>
+
+<h3 id="脚本报警">脚本报警</h3>
+
+<ul>
+<li>安装mailx</li>
+<li>重启postfix服务</li>
+<li>测试手动发送邮件</li>
+<li>添加告警媒介
+
+<ul>
+<li>点击配置——报警媒介类型——创建媒介类型，页面配置如下</li>
+</ul></li>
+</ul>
+
+<p><img src="../../img/2019-05-22_180501.png" alt="" /></p>
+
+<ul>
+<li>配置用户的警告方式</li>
+</ul>
+
+<p><img src="../../img/2019-05-22_181033.png" alt="" /></p>
+
+<p>点击更新</p>
+
+<ul>
+<li>配置触发器的动作</li>
+<li>点击配置——动作——创建动作，页面如图一——操作，页面如图二</li>
+</ul>
+
+<p><img src="../../img/2019-05-22_181310.png" alt="" /></p>
+
+<ul>
+<li><p>在服务端上写发送告警信息脚本</p></li>
+
+<li><p>在服务端创建存放脚本的目录并写如下图脚本，将目录以及脚本的属主和属组设置为zabbix，并给脚本执行权限</p></li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="o">[</span>root@server ~<span class="o">]</span><span class="c1"># mkdir /usr/local/etc/scripts</span>
+<span class="o">[</span>root@server scripts<span class="o">]</span><span class="c1"># vim sendmail.sh</span>
+<span class="cp">#!/bin/bash
+</span><span class="cp"></span><span class="nv">subject</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$2</span> <span class="p">|</span>tr <span class="s2">&#34;\r\n&#34;</span> <span class="s2">&#34;\n&#34;</span><span class="k">)</span>
+<span class="nv">message</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$3</span> <span class="p">|</span>tr <span class="s2">&#34;\r\n&#34;</span> <span class="s2">&#34;\n&#34;</span><span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$message</span><span class="s2">&#34;</span> <span class="p">|</span> /usr/bin/mail -s <span class="s2">&#34;</span><span class="nv">$subject</span><span class="s2">&#34;</span> <span class="nv">$1</span> <span class="p">&amp;</span>&gt;/tmp/sm.log
+
+<span class="o">[</span>root@server scripts<span class="o">]</span><span class="c1"># cd ..</span>
+<span class="o">[</span>root@server etc<span class="o">]</span><span class="c1"># chown -R zabbix.zabbix scripts</span>
+<span class="o">[</span>root@server etc<span class="o">]</span><span class="c1"># chmod +x scripts/sendmail.sh</span></pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>修改/usr/local/etc/zabbix_server.conf，修改如下</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">AlertScriptsPath=/usr/local/etc/scripts</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>重启服务</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@server ~]# pkill zabbix
+[root@server ~]# zabbix_server 
+[root@server ~]# zabbix_agentd 
+[root@server ~]# ss -ntl
+State       Recv-Q Send-Q               Local Address:Port                 Peer Address:Port 
+LISTEN      0      128                             *:10050                           *:*     
+LISTEN      0      128                              *:10051                     </pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>修改配置文件查看验证</li>
+</ul>
+
+<p><img src="../../img/1558521078432.png" alt="1558521078432" /></p>
+
+<p><img src="../../img/1558521155686.png" alt="1558521155686" /></p>
+
+<h3 id="通过zabbix用户发送邮件">通过zabbix用户发送邮件</h3>
+
+<ul>
+<li>在服务端安装mailx、postfix</li>
+<li>重新启动postfix</li>
+<li>添加邮箱白名单zabbix@zabbix.server.com</li>
+<li>修改主机名</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@localhost ~]# hostnamectl set-hostname zabbix.server.com</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>修改/etc/hosts文件,添加如下</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">127.0.0.1	zabbix.com</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>重启postfix服务</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@server etc]# systemctl restart postfix</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>添加告警媒介</li>
+</ul>
+
+<p><img src="../../img/1558523235561.png" alt="02" /></p>
+
+<ul>
+<li>添加告警用户</li>
+</ul>
+
+<p><img src="../../img/1558523538073.png" alt="1558523538073" /></p>
+
+<ul>
+<li>添加动作</li>
+</ul>
+
+<p><img src="../../img/1558523604822.png" alt="1558523604822" /></p>
+
+<ul>
+<li>修改配置文件进行验证</li>
+</ul>
+
+<p><img src="../../img/1558523472639.png" alt="1558523472639" /></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Mr Wen</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-01-06 16:15
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener" href="https://github.com/itwhs/itwhs.github.io/blob/master/LICENSE">MIT</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E7%9B%91%E6%8E%A7%E6%9C%8D%E5%8A%A1/">监控服务</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/zabbix%E5%91%8A%E8%AD%A6%E4%B9%8B%E5%BE%AE%E4%BF%A1%E5%92%8C%E9%92%89%E9%92%89/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">zabbix之微信钉钉告警</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/zabbix%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9B%91%E6%8E%A7/">
+            <span class="next-text nav-default">zabbix自定义监控</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:itwhs@foxmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://blog.csdn.net/wenhs5479" class="iconfont icon-cnblogs" title="cnblogs"></a>
+      <a href="https://github.com/itwhs" class="iconfont icon-github" title="github"></a>
+  <a href="https://itwhs.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Mr Wen</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139425163-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

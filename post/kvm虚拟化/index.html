@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Kvm - itw&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Mr Wen" /><meta name="description" content="" /><meta name="keywords" content="Linux, Github, Network, Cloud, Python" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://itwhs.github.io/post/kvm%E8%99%9A%E6%8B%9F%E5%8C%96/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/reset-even.css">
+
+
+<meta property="og:title" content="Kvm" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://itwhs.github.io/post/kvm%E8%99%9A%E6%8B%9F%E5%8C%96/" />
+<meta property="article:published_time" content="2019-02-23T16:15:57&#43;08:00"/>
+<meta property="article:modified_time" content="2019-02-23T16:15:57&#43;08:00"/>
+
+<meta itemprop="name" content="Kvm">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2019-02-23T16:15:57&#43;08:00" />
+<meta itemprop="dateModified" content="2019-02-23T16:15:57&#43;08:00" />
+<meta itemprop="wordCount" content="4224">
+
+
+
+<meta itemprop="keywords" content="虚拟化," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Kvm"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">itw</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a><a href="https://github.com/itwhs/">
+        <li class="mobile-menu-item">GitHub</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">itw</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/itwhs/">GitHub</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Kvm</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-02-23 16:15 </span>
+        <div class="post-category">
+            <a href="/categories/linux%E8%BF%90%E7%BB%B4/"> Linux运维 </a>
+            </div>
+          <span class="more-meta"> 约 4224 字 </span>
+          <span class="more-meta"> 预计阅读 9 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#1-虚拟化介绍">1. 虚拟化介绍</a></li>
+<li><a href="#2-kvm介绍">2. kvm介绍</a></li>
+<li><a href="#3-kvm部署">3. kvm部署</a>
+<ul>
+<li><a href="#3-1-kvm安装">3.1 kvm安装</a></li>
+<li><a href="#3-2-kvm-web管理界面安装">3.2 kvm web管理界面安装</a></li>
+<li><a href="#3-3-kvm-web界面管理">3.3 kvm web界面管理</a>
+<ul>
+<li><a href="#3-3-1-kvm连接管理">3.3.1 kvm连接管理</a></li>
+<li><a href="#3-3-2-kvm存储管理">3.3.2 kvm存储管理</a></li>
+<li><a href="#3-3-3-kvm网络管理">3.3.3 kvm网络管理</a></li>
+<li><a href="#3-3-4-实例管理">3.3.4 实例管理</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#4-故障案例">4.故障案例</a>
+<ul>
+<li><a href="#4-1-案例1">4.1 案例1</a></li>
+<li><a href="#4-2-案例2">4.2 案例2</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="1-虚拟化介绍">1. 虚拟化介绍</h2>
+
+<p>虚拟化是云计算的基础。简单的说，虚拟化使得在一台物理的服务器上可以跑多台虚拟机，虚拟机共享物理机的 CPU、内存、IO 硬件资源，但逻辑上虚拟机之间是相互隔离的。</p>
+
+<p>物理机我们一般称为宿主机（Host），宿主机上面的虚拟机称为客户机（Guest）。</p>
+
+<p>那么 Host 是如何将自己的硬件资源虚拟化，并提供给 Guest 使用的呢？
+这个主要是通过一个叫做 Hypervisor 的程序实现的。</p>
+
+<p>根据 Hypervisor 的实现方式和所处的位置，虚拟化又分为两种：</p>
+
+<ul>
+<li>全虚拟化</li>
+<li>半虚拟化</li>
+</ul>
+
+<p><strong>全虚拟化：</strong>
+Hypervisor 直接安装在物理机上，多个虚拟机在 Hypervisor 上运行。Hypervisor 实现方式一般是一个特殊定制的 Linux 系统。Xen 和 VMWare 的 ESXi 都属于这个类型</p>
+
+<p><img src="../../img/full_virtual.png" alt="img" /></p>
+
+<p><strong>半虚拟化：</strong>
+物理机上首先安装常规的操作系统，比如 Redhat、Ubuntu 和 Windows。Hypervisor 作为 OS 上的一个程序模块运行，并对管理虚拟机进行管理。KVM、VirtualBox 和 VMWare Workstation 都属于这个类型</p>
+
+<p><img src="../../img/half_virtual.png" alt="img" /></p>
+
+<p><strong>理论上讲：</strong>
+全虚拟化一般对硬件虚拟化功能进行了特别优化，性能上比半虚拟化要高；
+半虚拟化因为基于普通的操作系统，会比较灵活，比如支持虚拟机嵌套。嵌套意味着可以在KVM虚拟机中再运行KVM。</p>
+
+<h2 id="2-kvm介绍">2. kvm介绍</h2>
+
+<p>kVM 全称是 Kernel-Based Virtual Machine。也就是说 KVM 是基于 Linux 内核实现的。
+KVM有一个内核模块叫 kvm.ko，只用于管理虚拟 CPU 和内存。</p>
+
+<p>那 IO 的虚拟化，比如存储和网络设备则是由 Linux 内核与Qemu来实现。</p>
+
+<p>作为一个 Hypervisor，KVM 本身只关注虚拟机调度和内存管理这两个方面。IO 外设的任务交给 Linux 内核和 Qemu。</p>
+
+<p>大家在网上看 KVM 相关文章的时候肯定经常会看到 Libvirt 这个东西。</p>
+
+<p>Libvirt 就是 KVM 的管理工具。</p>
+
+<p>其实，Libvirt 除了能管理 KVM 这种 Hypervisor，还能管理 Xen，VirtualBox 等。</p>
+
+<p>Libvirt 包含 3 个东西：后台 daemon 程序 libvirtd、API 库和命令行工具 virsh</p>
+
+<ul>
+<li>libvirtd是服务程序，接收和处理 API 请求；</li>
+<li>API 库使得其他人可以开发基于 Libvirt 的高级工具，比如 virt-manager，这是个图形化的 KVM 管理工具；</li>
+<li>virsh 是我们经常要用的 KVM 命令行工具</li>
+</ul>
+
+<h2 id="3-kvm部署">3. kvm部署</h2>
+
+<p><strong>环境说明：</strong></p>
+
+<table>
+<thead>
+<tr>
+<th align="left">系统类型</th>
+<th align="left">IP</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">centos7.6</td>
+<td align="left">172.16.137.12</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="3-1-kvm安装">3.1 kvm安装</h3>
+
+<p>部署前请确保你的CPU虚拟化功能已开启。分为两种情况：</p>
+
+<ul>
+<li>虚拟机要关机设置CPU虚拟化</li>
+<li>物理机要在BIOS里开启CPU虚拟化</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text"><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">关闭防火墙与SELINUX
+[root@kvm ~]# systemctl stop firewalld
+[root@kvm ~]# systemctl disable firewalld
+Removed symlink /etc/systemd/system/multi-user.target.wants/firewalld.service.
+Removed symlink /etc/systemd/system/dbus-org.fedoraproject.FirewallD1.service.
+[root@kvm ~]# setenforce 0
+[root@kvm ~]# sed -ri &#39;s/^(SELINUX=).*/\1disabled/g&#39; /etc/selinux/config
+[root@localhost ~]# reboot
+
+配置网络源
+[root@kvm yum.repos.d]# curl -o /etc/yum.repos.d/CentOS7-Base-163.repo http://mirrors.163.com/.help/CentOS7-Base-163.repo
+[root@kvm ~]# sed -i &#39;s/\$releasever/7/g&#39; /etc/yum.repos.d/CentOS7-Base-163.repo
+[root@kvm ~]# sed -i &#39;s/^enabled=.*/enabled=1/g&#39; /etc/yum.repos.d/CentOS7-Base-163.repo
+[root@kvm ~]# yum -y install epel-release vim wget net-tools unzip zip gcc gcc-c++
+安装过程略.....
+
+验证CPU是否支持KVM；如果结果中有vmx（Intel）或svm(AMD)字样，就说明CPU的支持的
+[root@kvm ~]# egrep -o &#39;vmx|svm&#39; /proc/cpuinfo
+vmx
+vmx
+vmx
+vmx
+
+kvm安装
+[root@kvm ~]# yum -y install qemu-kvm qemu-kvm-tools qemu-img virt-manager libvirt libvirt-python libvirt-client virt-install virt-viewer bridge-utils libguestfs-tools
+安装过程略......
+
+
+因为虚拟机中网络，我们一般都是和公司的其他服务器是同一个网段，所以我们需要把 \
+KVM服务器的网卡配置成桥接模式。这样的话KVM的虚拟机就可以通过该桥接网卡和公司内部 \
+其他服务器处于同一网段
+此处我的网卡是ens33，所以用br0来桥接ens33网卡
+[root@kvm ~]# cd /etc/sysconfig/network-scripts/
+[root@kvm network-scripts]# ls
+ifcfg-ens33  ifdown-isdn      ifup          ifup-plip      ifup-tunnel
+ifcfg-lo     ifdown-post      ifup-aliases  ifup-plusb     
+.....此处内容省略
+[root@kvm network-scripts]# cp ifcfg-ens33 ifcfg-br0
+[root@kvm network-scripts]# cat ifcfg-br0
+TYPE=Bridge
+DEVICE=br0
+NM_CONTROLLED=no
+BOOTPROTO=static
+NAME=br0
+ONBOOT=yes
+IPADDR=192.168.160.109
+NETMASK=255.255.255.0
+GATEWAY=192.168.160.1
+DNS1=114.114.114.114
+DNS2=8.8.8.8
+[root@kvm network-scripts]# cat ifcfg-ens33
+TYPE=Ethernet
+BOOTPROTO=static
+NAME=ens33
+DEVICE=ens33
+ONBOOT=yes
+BRIDGE=br0
+NM_CONTROLLED=no
+
+重启网络
+[root@kvm ~]# systemctl restart network
+[root@kvm ~]# ip a
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN qlen 1
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: ens33: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast master br0 state UP qlen 1000
+    link/ether 00:0c:29:4c:50:b4 brd ff:ff:ff:ff:ff:ff
+3: virbr0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc noqueue state DOWN qlen 1000
+    link/ether 52:54:00:60:a8:ea brd ff:ff:ff:ff:ff:ff
+    inet 192.168.122.1/24 brd 192.168.122.255 scope global virbr0
+       valid_lft forever preferred_lft forever
+4: virbr0-nic: &lt;BROADCAST,MULTICAST&gt; mtu 1500 qdisc pfifo_fast master virbr0 state DOWN qlen 1000
+    link/ether 52:54:00:60:a8:ea brd ff:ff:ff:ff:ff:ff
+5: br0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP qlen 1000
+    link/ether 72:63:57:0a:ca:76 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.160.109/24 brd 192.168.160.255 scope global br0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::7063:57ff:fe0a:ca76/64 scope link
+       valid_lft forever preferred_lft forever
+       
+
+启动服务
+[root@kvm ~]# systemctl start libvirtd
+[root@kvm ~]# systemctl enable libvirtd
+
+验证安装结果
+[root@kvm ~]# lsmod|grep kvm
+kvm_intel             170086  0
+kvm                   566340  1 kvm_intel
+irqbypass              13503  1 kvm
+
+测试并验证安装结果
+[root@kvm ~]# virsh -c qemu:///system list
+ Id    Name                           State
+----------------------------------------------------
+[root@kvm ~]# virsh --version
+3.9.0
+[root@kvm ~]# virt-install --version
+1.4.3
+[root@kvm ~]# ln -s /usr/libexec/qemu-kvm /usr/bin/qemu-kvm
+[root@kvm ~]# ll /usr/bin/qemu-kvm
+lrwxrwxrwx 1 root root 21 Oct 18 10:57 /usr/bin/qemu-kvm -&gt; /usr/libexec/qemu-kvm
+[root@kvm ~]# lsmod |grep kvm
+kvm_intel             170086  0
+kvm                   566340  1 kvm_intel
+irqbypass              13503  1 kvm
+
+查看网桥信息
+[root@kvm ~]# brctl show
+bridge name     bridge id               STP enabled     interfaces
+br0             8000.000c294c50b4       no              ens33
+virbr0          8000.52540060a8ea       yes             virbr0-nic</code></pre></td></tr></table>
+</div>
+</div>
+<h3 id="3-2-kvm-web管理界面安装">3.2 kvm web管理界面安装</h3>
+
+<p>kvm 的 web 管理界面是由 webvirtmgr 程序提供的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text"><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span><span class="lnt">173
+</span><span class="lnt">174
+</span><span class="lnt">175
+</span><span class="lnt">176
+</span><span class="lnt">177
+</span><span class="lnt">178
+</span><span class="lnt">179
+</span><span class="lnt">180
+</span><span class="lnt">181
+</span><span class="lnt">182
+</span><span class="lnt">183
+</span><span class="lnt">184
+</span><span class="lnt">185
+</span><span class="lnt">186
+</span><span class="lnt">187
+</span><span class="lnt">188
+</span><span class="lnt">189
+</span><span class="lnt">190
+</span><span class="lnt">191
+</span><span class="lnt">192
+</span><span class="lnt">193
+</span><span class="lnt">194
+</span><span class="lnt">195
+</span><span class="lnt">196
+</span><span class="lnt">197
+</span><span class="lnt">198
+</span><span class="lnt">199
+</span><span class="lnt">200
+</span><span class="lnt">201
+</span><span class="lnt">202
+</span><span class="lnt">203
+</span><span class="lnt">204
+</span><span class="lnt">205
+</span><span class="lnt">206
+</span><span class="lnt">207
+</span><span class="lnt">208
+</span><span class="lnt">209
+</span><span class="lnt">210
+</span><span class="lnt">211
+</span><span class="lnt">212
+</span><span class="lnt">213
+</span><span class="lnt">214
+</span><span class="lnt">215
+</span><span class="lnt">216
+</span><span class="lnt">217
+</span><span class="lnt">218
+</span><span class="lnt">219
+</span><span class="lnt">220
+</span><span class="lnt">221
+</span><span class="lnt">222
+</span><span class="lnt">223
+</span><span class="lnt">224
+</span><span class="lnt">225
+</span><span class="lnt">226
+</span><span class="lnt">227
+</span><span class="lnt">228
+</span><span class="lnt">229
+</span><span class="lnt">230
+</span><span class="lnt">231
+</span><span class="lnt">232
+</span><span class="lnt">233
+</span><span class="lnt">234
+</span><span class="lnt">235
+</span><span class="lnt">236
+</span><span class="lnt">237
+</span><span class="lnt">238
+</span><span class="lnt">239
+</span><span class="lnt">240
+</span><span class="lnt">241
+</span><span class="lnt">242
+</span><span class="lnt">243
+</span><span class="lnt">244
+</span><span class="lnt">245
+</span><span class="lnt">246
+</span><span class="lnt">247
+</span><span class="lnt">248
+</span><span class="lnt">249
+</span><span class="lnt">250
+</span><span class="lnt">251
+</span><span class="lnt">252
+</span><span class="lnt">253
+</span><span class="lnt">254
+</span><span class="lnt">255
+</span><span class="lnt">256
+</span><span class="lnt">257
+</span><span class="lnt">258
+</span><span class="lnt">259
+</span><span class="lnt">260
+</span><span class="lnt">261
+</span><span class="lnt">262
+</span><span class="lnt">263
+</span><span class="lnt">264
+</span><span class="lnt">265
+</span><span class="lnt">266
+</span><span class="lnt">267
+</span><span class="lnt">268
+</span><span class="lnt">269
+</span><span class="lnt">270
+</span><span class="lnt">271
+</span><span class="lnt">272
+</span><span class="lnt">273
+</span><span class="lnt">274
+</span><span class="lnt">275
+</span><span class="lnt">276
+</span><span class="lnt">277
+</span><span class="lnt">278
+</span><span class="lnt">279
+</span><span class="lnt">280
+</span><span class="lnt">281
+</span><span class="lnt">282
+</span><span class="lnt">283
+</span><span class="lnt">284
+</span><span class="lnt">285
+</span><span class="lnt">286
+</span><span class="lnt">287
+</span><span class="lnt">288
+</span><span class="lnt">289
+</span><span class="lnt">290
+</span><span class="lnt">291
+</span><span class="lnt">292
+</span><span class="lnt">293
+</span><span class="lnt">294
+</span><span class="lnt">295
+</span><span class="lnt">296
+</span><span class="lnt">297
+</span><span class="lnt">298
+</span><span class="lnt">299
+</span><span class="lnt">300
+</span><span class="lnt">301
+</span><span class="lnt">302
+</span><span class="lnt">303
+</span><span class="lnt">304
+</span><span class="lnt">305
+</span><span class="lnt">306
+</span><span class="lnt">307
+</span><span class="lnt">308
+</span><span class="lnt">309
+</span><span class="lnt">310
+</span><span class="lnt">311
+</span><span class="lnt">312
+</span><span class="lnt">313
+</span><span class="lnt">314
+</span><span class="lnt">315
+</span><span class="lnt">316
+</span><span class="lnt">317
+</span><span class="lnt">318
+</span><span class="lnt">319
+</span><span class="lnt">320
+</span><span class="lnt">321
+</span><span class="lnt">322
+</span><span class="lnt">323
+</span><span class="lnt">324
+</span><span class="lnt">325
+</span><span class="lnt">326
+</span><span class="lnt">327
+</span><span class="lnt">328
+</span><span class="lnt">329
+</span><span class="lnt">330
+</span><span class="lnt">331
+</span><span class="lnt">332
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">安装依赖包
+[root@kvm ~]# yum -y install git python-pip libvirt-python libxml2-python python-websockify supervisor nginx python-devel
+
+升级pip
+[root@kvm ~]# pip install --upgrade pip
+
+
+从github上下载webvirtmgr代码
+[root@kvm ~]# cd /usr/local/src/
+[root@kvm src]# git clone git://github.com/retspen/webvirtmgr.git
+Cloning into &#39;webvirtmgr&#39;...
+remote: Enumerating objects: 5730, done.
+remote: Total 5730 (delta 0), reused 0 (delta 0), pack-reused 5730
+Receiving objects: 100% (5730/5730), 3.01 MiB | 39.00 KiB/s, done.
+Resolving deltas: 100% (3688/3688), done.
+
+安装webvirtmgr
+[root@kvm src]# cd webvirtmgr/
+[root@kvm webvirtmgr]# pip install -r requirements.txt
+Collecting django==1.5.5 (from -r requirements.txt (line 1))
+  Downloading https://files.pythonhosted.org/packages/38/49/93511c5d3367b6b21fc2995a0e53399721afc15e4cd6eb57be879ae13ad4/Django-1.5.5.tar.gz (8.1MB)
+    57% |██████████████████▌             | 4.7MB 38kB/s eta 0:01:28 
+.....此处省略安装步骤
+
+检查sqlite3是否安装
+[root@kvm webvirtmgr]# python
+Python 2.7.5 (default, May  3 2017, 07:55:04)
+[GCC 4.8.5 20150623 (Red Hat 4.8.5-14)] on linux2
+Type &#34;help&#34;, &#34;copyright&#34;, &#34;credits&#34; or &#34;license&#34; for more information.
+&gt;&gt;&gt; import sqlite3
+&gt;&gt;&gt; exit()
+
+初始化帐号信息
+[root@kvm webvirtmgr]# python manage.py syncdb
+WARNING:root:No local_settings file found.
+Creating tables ...
+Creating table auth_permission
+Creating table auth_group_permissions
+Creating table auth_group
+Creating table auth_user_groups
+Creating table auth_user_user_permissions
+Creating table auth_user
+Creating table django_content_type
+Creating table django_session
+Creating table django_site
+Creating table servers_compute
+Creating table instance_instance
+Creating table create_flavor
+
+You just installed Django&#39;s auth system, which means you don&#39;t have any superusers defined.
+Would you like to create one now? (yes/no): yes     //问你是否创建超级管理员帐号
+Username (leave blank to use &#39;root&#39;):   //指定超级管理员帐号用户名，默认留空为root
+Email address: sean1002@126.com     //设置超级管理员邮箱
+Password:       //设置超级管理员密码
+Password (again):       //再次输入超级管理员密码
+Superuser created successfully.
+Installing custom SQL ...
+Installing indexes ...
+Installed 6 object(s) from 1 fixture(s)
+
+
+拷贝web网页至指定目录
+[root@kvm webvirtmgr]# mkdir /var/www
+[root@kvm webvirtmgr]# cp -r /usr/local/src/webvirtmgr /var/www/
+[root@kvm webvirtmgr]# chown -R nginx.nginx /var/www/webvirtmgr/
+
+生成密钥
+[root@kvm ~]# ssh-keygen -t rsa
+Generating public/private rsa key pair.
+Enter file in which to save the key (/root/.ssh/id_rsa):
+Created directory &#39;/root/.ssh&#39;.
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /root/.ssh/id_rsa.
+Your public key has been saved in /root/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:CQoZtso2M5Uo39lKvjZboncqakQ69iJt5wnjiJKZNhw root@kvm
+The key&#39;s randomart image is:
++---[RSA 2048]----+
+|  o              |
+| ..+.            |
+|..+o  .          |
+|o+.o + . .       |
+|+*. = . S        |
+|+E+o .           |
+|+*= + .          |
+|BO+===.          |
+|Oo=**=           |
++----[SHA256]-----+
+由于这里webvirtmgr和kvm服务部署在同一台机器，所以这里本地信任。如果kvm部署在其他机器，那么这个是它的ip
+[root@kvm ~]# ssh-copy-id 192.168.160.109
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: &#34;/root/.ssh/id_rsa.pub&#34;
+The authenticity of host &#39;192.168.160.109 (192.168.160.109)&#39; can&#39;t be established.
+ECDSA key fingerprint is SHA256:UszC1ZeHM7xw/uefVkJoXW6XgRw+Jl51tAXLjFERclE.
+ECDSA key fingerprint is MD5:b3:f1:02:b8:01:8e:53:a7:87:09:c0:75:24:4c:ad:88.
+Are you sure you want to continue connecting (yes/no)? yes
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+root@192.168.160.109&#39;s password:
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   &#34;ssh &#39;192.168.160.109&#39;&#34;
+and check to make sure that only the key(s) you wanted were added.
+配置端口转发
+[root@kvm ~]# ssh 192.168.160.109 -L localhost:8000:localhost:8000 -L localhost:6080:localhost:60
+Last login: Thu Oct 18 08:26:40 2018 from 192.168.160.36
+[root@kvm ~]# ss -antl
+State       Recv-Q Send-Q Local Address:Port               Peer Address:Port
+LISTEN      0      128              *:111                          *:*
+LISTEN      0      5      192.168.122.1:53                           *:*
+LISTEN      0      128              *:22                           *:*
+LISTEN      0      100      127.0.0.1:25                           *:*
+LISTEN      0      128      127.0.0.1:6080                         *:*
+LISTEN      0      128      127.0.0.1:8000                         *:*
+LISTEN      0      128             :::111                         :::*
+LISTEN      0      128             :::22                          :::*
+LISTEN      0      100            ::1:25                          :::*
+LISTEN      0      128            ::1:6080                        :::*
+LISTEN      0      128            ::1:8000                        :::* 
+
+
+
+
+配置nginx
+[root@kvm ~]# vim /etc/nginx/nginx.conf
+user nginx;
+worker_processes auto;
+error_log /var/log/nginx/error.log;
+pid /run/nginx.pid;
+
+include /usr/share/nginx/modules/*.conf;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    log_format  main  &#39;$remote_addr - $remote_user [$time_local] &#34;$request&#34; &#39;
+                      &#39;$status $body_bytes_sent &#34;$http_referer&#34; &#39;
+                      &#39;&#34;$http_user_agent&#34; &#34;$http_x_forwarded_for&#34;&#39;;
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile            on;
+    tcp_nopush          on;
+    tcp_nodelay         on;
+    keepalive_timeout   65;
+    types_hash_max_size 2048;
+
+    include             /etc/nginx/mime.types;
+    default_type        application/octet-stream;
+
+    include /etc/nginx/conf.d/*.conf;
+
+    server {
+        listen       80;
+        server_name  localhost;
+
+        include /etc/nginx/default.d/*.conf;
+
+        location / {
+            root html;
+            index index.html index.htm;
+        }
+
+        error_page 404 /404.html;
+            location = /40x.html {
+        }
+
+        error_page 500 502 503 504 /50x.html;
+            location = /50x.html {
+        }
+    }
+}
+
+
+[root@kvm ~]# vim /etc/nginx/conf.d/webvirtmgr.conf
+server {
+    listen 80 default_server;
+
+    server_name $hostname;
+    #access_log /var/log/nginx/webvirtmgr_access_log;
+
+    location /static/ {
+        root /var/www/webvirtmgr/webvirtmgr;
+        expires max;
+    }
+
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-for $proxy_add_x_forwarded_for;
+        proxy_set_header Host $host:$server_port;
+        proxy_set_header X-Forwarded-Proto $remote_addr;
+        proxy_connect_timeout 600;
+        proxy_read_timeout 600;
+        proxy_send_timeout 600;
+        client_max_body_size 1024M;
+    }
+}
+
+确保bind绑定的是本机的8000端口
+[root@kvm ~]# vim /var/www/webvirtmgr/conf/gunicorn.conf.py
+.....此处省略N行
+bind = &#39;0.0.0.0:8000&#39;     //确保此处绑定的是本机的8000端口，这个在nginx配置中定义了，被代理的端口
+backlog = 2048
+.....此处省略N行
+
+重启nginx
+[root@kvm ~]# systemctl restart nginx
+[root@kvm ~]# ss -antl
+State       Recv-Q Send-Q Local Address:Port               Peer Address:Port
+LISTEN      0      128              *:111                          *:*
+LISTEN      0      128              *:80                           *:*
+LISTEN      0      5      192.168.122.1:53                           *:*
+LISTEN      0      128              *:22                           *:*
+LISTEN      0      100      127.0.0.1:25                           *:*
+LISTEN      0      128      127.0.0.1:6080                         *:*
+LISTEN      0      128      127.0.0.1:8000                         *:*
+LISTEN      0      128             :::111                         :::*
+LISTEN      0      128             :::22                          :::*
+LISTEN      0      100            ::1:25                          :::*
+LISTEN      0      128            ::1:6080                        :::*
+LISTEN      0      128            ::1:8000                        :::*
+
+
+
+设置supervisor
+[root@kvm ~]# vim /etc/supervisord.conf
+.....此处省略上面的内容，在文件最后加上以下内容
+[program:webvirtmgr]
+command=/usr/bin/python2 /var/www/webvirtmgr/manage.py run_gunicorn -c /var/www/webvirtmgr/conf/gunicorn.conf.py
+directory=/var/www/webvirtmgr
+autostart=true
+autorestart=true
+logfile=/var/log/supervisor/webvirtmgr.log
+log_stderr=true
+user=nginx
+
+[program:webvirtmgr-console]
+command=/usr/bin/python2 /var/www/webvirtmgr/console/webvirtmgr-console
+directory=/var/www/webvirtmgr
+autostart=true
+autorestart=true
+stdout_logfile=/var/log/supervisor/webvirtmgr-console.log
+redirect_stderr=true
+user=nginx
+
+
+启动supervisor并设置开机自启
+[root@kvm ~]# systemctl start supervisord
+[root@kvm ~]# systemctl enable supervisord
+Created symlink from /etc/systemd/system/multi-user.target.wants/supervisord.service to /usr/lib/systemd/system/supervisord.service.
+[root@kvm ~]# systemctl status supervisord
+● supervisord.service - Process Monitoring and Control Daemon
+   Loaded: loaded (/usr/lib/systemd/system/supervisord.service; enabled; vendor preset: disabled)
+   Active: active (running) since Thu 2018-10-18 11:59:33 CST; 25s ago
+ Main PID: 17918 (supervisord)
+   CGroup: /system.slice/supervisord.service
+           └─17918 /usr/bin/python /usr/bin/supervisord -c /etc/supervisord.conf
+
+Oct 18 11:59:33 kvm systemd[1]: Starting Process Monitoring and Control Daemon...
+Oct 18 11:59:33 kvm systemd[1]: Started Process Monitoring and Control Daemon.
+
+[root@kvm webvirtmgr]# ss -antl
+State       Recv-Q Send-Q Local Address:Port               Peer Address:Port
+LISTEN      0      128              *:111                          *:*
+LISTEN      0      128              *:80                           *:*
+LISTEN      0      5      192.168.122.1:53                           *:*
+LISTEN      0      128              *:22                           *:*
+LISTEN      0      100      127.0.0.1:25                           *:*
+LISTEN      0      128              *:8000                         *:*
+LISTEN      0      100              *:6080                         *:*
+LISTEN      0      128             :::111                         :::*
+LISTEN      0      128             :::22                          :::*
+LISTEN      0      100            ::1:25                          :::*
+
+配置nginx用户
+[root@kvm home]# su - nginx -s /bin/bash
+-bash-4.2$ ssh-keygen -t rsa
+Generating public/private rsa key pair.
+Enter file in which to save the key (/var/lib/nginx/.ssh/id_rsa):
+Created directory &#39;/var/lib/nginx/.ssh&#39;.
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /var/lib/nginx/.ssh/id_rsa.
+Your public key has been saved in /var/lib/nginx/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:rdbmW/YIXxAJBzPsd9q9eKHPjWtSZ5EQC5li3tkczYI nginx@localhost.localdomain
+The key&#39;s randomart image is:
++---[RSA 2048]----+
+|         .=o=.+  |
+|         o.E.=.o |
+|        o.o *.+ .|
+|         o.o.+.o |
+|        S ...+ ..|
+|         o  ..o.+|
+|        o + o.+oo|
+|       . o =.*o+.|
+|          o.oo*+.|
++----[SHA256]-----+
+
+-bash-4.2$ touch ~/.ssh/config &amp;&amp; echo -e &#34;StrictHostKeyChecking=no\nUserKnownHostsFile=/dev/null&#34; &gt;&gt; ~/.ssh/config
+-bash-4.2$ chmod 0600 ~/.ssh/config
+
+-bash-4.2$ ssh-copy-id root@192.168.160.109
+/bin/ssh-copy-id: INFO: Source of key(s) to be installed: &#34;/var/lib/nginx/.ssh/id_rsa.pub&#34;
+/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+Warning: Permanently added &#39;192.168.160.109&#39; (ECDSA) to the list of known hosts.
+root@192.168.160.109&#39;s password:
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   &#34;ssh &#39;root@192.168.160.109&#39;&#34;
+and check to make sure that only the key(s) you wanted were added.
+
+-bash-4.2$ exit
+logout
+
+[root@kvm ~]# vim /etc/polkit-1/localauthority/50-local.d/50-libvirt-remote-access.pkla
+[Remote libvirt SSH access]
+Identity=unix-user:root
+Action=org.libvirt.unix.manage
+ResultAny=yes
+ResultInactive=yes
+ResultActive=yes
+
+[root@kvm ~]# chown -R root.root /etc/polkit-1/localauthority/50-local.d/50-libvirt-remote-access.pkla
+[root@kvm ~]# systemctl restart nginx
+[root@kvm ~]# systemctl restart libvirtd</code></pre></td></tr></table>
+</div>
+</div>
+<h3 id="3-3-kvm-web界面管理">3.3 kvm web界面管理</h3>
+
+<p>通过ip地址在浏览器上访问kvm，例如我这里就是：<code>http://192.168.160.109/login</code></p>
+
+<p><img src="../../img/kvm_index1.png" alt="img" /></p>
+
+<h4 id="3-3-1-kvm连接管理">3.3.1 kvm连接管理</h4>
+
+<p><strong>创建SSH连接：</strong></p>
+
+<p><img src="../../img/kvm_connection.png" alt="img" /></p>
+
+<p><img src="../../img/kvm_ssh_connect.png" alt="img" /></p>
+
+<p><img src="../../img/kvm_ip.png" alt="img" /></p>
+
+<h4 id="3-3-2-kvm存储管理">3.3.2 kvm存储管理</h4>
+
+<p><strong>创建存储：</strong></p>
+
+<p><img src="../../img/kvm_storage.png" alt="img" /></p>
+
+<p><img src="../../img/kvm_storage_create.png" alt="img" /></p>
+
+<p><strong>进入存储：</strong></p>
+
+<p><img src="../../img/kvm_into_storage.png" alt="img" /></p>
+
+<p><img src="../../img/kvm_storage_detail.png" alt="img" /></p>
+
+<p><strong>通过远程连接软件上传ISO镜像文件至存储目录/var/lib/libvirt/images/</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@kvm ~]# cd /var/lib/libvirt/images/
+[root@kvm images]# ls
+[root@kvm images]#
+
+Upload SCP
+CentOS-7-x86_64-DVD-1804.iso          (4263.00 MB, 8:45 min = 8.12 MB/sec)
+
+
+[root@kvm images]# ls
+CentOS-7-x86_64-DVD-1804.iso</pre></td></tr></table>
+</div>
+</div>
+<p><strong>在 web 界面查看ISO镜像是否存在</strong></p>
+
+<p><img src="../../img/kvm_show_storage.png" alt="img" /></p>
+
+<p><strong>创建系统安装镜像</strong></p>
+
+<p><img src="../../img/kvm_img_add.png" alt="img" /></p>
+
+<p><img src="../../img/kvm_img_add1.png" alt="img" /></p>
+
+<p><strong>添加成功如下图所示</strong></p>
+
+<p><img src="../../img/kvm_img_add2.png" alt="img" /></p>
+
+<h4 id="3-3-3-kvm网络管理">3.3.3 kvm网络管理</h4>
+
+<p><strong>添加桥接网络</strong></p>
+
+<p><img src="../../img/kvm_network_add.png" alt="img" /></p>
+
+<p><img src="../../img/kvm_network_create_bridge1.png" alt="img" /></p>
+
+<p><img src="../../img/kvm_network_show.png" alt="img" /></p>
+
+<h4 id="3-3-4-实例管理">3.3.4 实例管理</h4>
+
+<p><strong>实例(虚拟机)创建</strong></p>
+
+<p><img src="../../img/kvm_instance_add.png" alt="img" /></p>
+
+<p><img src="../../img/kvm_instance_custom.png" alt="img" /></p>
+
+<p><img src="../../img/kvm_instance_config.png" alt="img" /></p>
+
+<p><strong>虚拟机插入光盘</strong></p>
+
+<p><img src="../../img/kvm_instance_cdrom.png" alt="img" /></p>
+
+<p><strong>设置在 web 上访问虚拟机的密码</strong></p>
+
+<p><img src="../../img/kvm_console_setpasswd.png" alt="img" /></p>
+
+<p><strong>启动虚拟机</strong></p>
+
+<p><img src="../../img/kvm_instance_start.png" alt="img" /></p>
+
+<p><img src="../../img/kvm_virtualhost_start.png" alt="img" /></p>
+
+<p><strong>虚拟机安装</strong></p>
+
+<p><img src="../../img/kvm_virtualhost_install.png" alt="img" /></p>
+
+<p>虚拟机安装步骤就是安装系统的步骤，此处就不再赘述</p>
+
+<h2 id="4-故障案例">4.故障案例</h2>
+
+<h3 id="4-1-案例1">4.1 案例1</h3>
+
+<p>web界面配置完成后可能会出现以下错误界面</p>
+
+<p><img src="../../img/15523585024461.jpg" alt="img" />
+解决方法是安装novnc并通过novnc_server启动一个vnc</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@localhost ~]# ll /etc/rc.local
+lrwxrwxrwx. 1 root root 13 Aug  6  2018 /etc/rc.local -&gt; rc.d/rc.local
+[root@localhost ~]# ll /etc/rc.d/rc.local
+-rw-r--r-- 1 root root 513 Mar 11 22:35 /etc/rc.d/rc.local
+[root@localhost ~]# chmod +x /etc/rc.d/rc.local
+[root@localhost ~]# ll /etc/rc.d/rc.local
+-rwxr-xr-x 1 root root 513 Mar 11 22:35 /etc/rc.d/rc.local
+
+[root@localhost ~]# vim /etc/rc.d/rc.local
+......此处省略N行
+# that this script will be executed during boot.
+
+touch /var/lock/subsys/local
+nohup novnc_server 172.16.12.128:5920 &amp;
+
+[root@localhost ~]# . /etc/rc.d/rc.local</pre></td></tr></table>
+</div>
+</div>
+<p>做完以上操作后再次访问即可正常访问</p>
+
+<p><img src="../../img/15523588093971.jpg" alt="img" /></p>
+
+<h3 id="4-2-案例2">4.2 案例2</h3>
+
+<p>第一次通过web访问kvm时可能会一直访问不了，一直转圈，而命令行界面一直报错(too many open files)</p>
+
+<p>此时需要对nginx进行配置</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@localhost ~]# vim /etc/nginx/nginx.conf
+....此处省略N行
+user nginx;
+worker_processes auto;
+error_log /var/log/nginx/error.log;
+pid /run/nginx.pid;
+worker_rlimit_nofile 655350;    //添加此行配置
+
+# Load dynamic modules. See /usr/share/nginx/README.dynamic.
+....此处省略N行
+
+[root@localhost ~]# systemctl restart nginx</pre></td></tr></table>
+</div>
+</div>
+<p>然后对系统参数进行设置</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@localhost ~]# vim /etc/security/limits.conf
+....此处省略N行
+# End of file
+* soft nofile 655350
+* hard nofile 655350</pre></td></tr></table>
+</div>
+</div>
+<p>到此问题即可解决</p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Mr Wen</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-02-23 16:15
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener" href="https://github.com/itwhs/itwhs.github.io/blob/master/LICENSE">MIT</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/">虚拟化</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/lvs-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E5%99%A8%E6%80%BB%E7%BB%93/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">LVS</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/zabbix%E7%9B%91%E6%8E%A7mysql%E4%B8%BB%E4%BB%8E/">
+            <span class="next-text nav-default">zabbix监控MySQL</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:itwhs@foxmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://blog.csdn.net/wenhs5479" class="iconfont icon-cnblogs" title="cnblogs"></a>
+      <a href="https://github.com/itwhs" class="iconfont icon-github" title="github"></a>
+  <a href="https://itwhs.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Mr Wen</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139425163-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

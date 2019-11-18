@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>命令注入攻击实战 - itw&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Mr Wen" /><meta name="description" content="" /><meta name="keywords" content="Linux, Github, Network, Cloud, Python" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://itwhs.github.io/post/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/reset-even.css">
+
+
+<meta property="og:title" content="命令注入攻击实战" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://itwhs.github.io/post/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/" />
+<meta property="article:published_time" content="2019-05-11T16:15:57&#43;08:00"/>
+<meta property="article:modified_time" content="2019-05-11T16:15:57&#43;08:00"/>
+
+<meta itemprop="name" content="命令注入攻击实战">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2019-05-11T16:15:57&#43;08:00" />
+<meta itemprop="dateModified" content="2019-05-11T16:15:57&#43;08:00" />
+<meta itemprop="wordCount" content="1095">
+
+
+
+<meta itemprop="keywords" content="dvwa," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="命令注入攻击实战"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">itw</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a><a href="https://github.com/itwhs/">
+        <li class="mobile-menu-item">GitHub</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">itw</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/itwhs/">GitHub</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">命令注入攻击实战</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-05-11 16:15 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"> 网络安全 </a>
+            </div>
+          <span class="more-meta"> 约 1095 字 </span>
+          <span class="more-meta"> 预计阅读 3 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#13-命令注入攻击实战">13. 命令注入攻击实战</a>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#13-1-命令注入攻击概述">13.1 命令注入攻击概述</a></li>
+<li><a href="#13-2-low-级别命令注入攻击实战">13.2 Low 级别命令注入攻击实战</a></li>
+<li><a href="#13-3-medium-级别命令注入攻击实战">13.3 Medium 级别命令注入攻击实战</a></li>
+<li><a href="#13-4-high-级别命令注入攻击实战">13.4 High 级别命令注入攻击实战</a></li>
+<li><a href="#13-5-impossible-级别命令注入攻击">13.5 Impossible 级别命令注入攻击</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="13-命令注入攻击实战">13. 命令注入攻击实战</h1>
+
+<h4 id="13-1-命令注入攻击概述">13.1 命令注入攻击概述</h4>
+
+<p>　　在某些网站页面中，可能会调用到系统 Shell 来执行命令，从而实现一些功能。比如某网络设备的 Web 控制台，提供 Ping 测试网络连通性或者延时的功能。但我们都知道，Ping 属于 ICMP 协议，是网络层的协议，而 HTTP 协议属于应用层协议，本身并不具备 Ping 的功能。所以如果要在网页上提供 Ping 的功能，就需要在页面中调用系统 Shell 来执行 Ping 命令。</p>
+
+<p>　　按照注入攻击的原理，如果我们在提交的命令参数中再构造一个其他命令，而页面本身没有对提交的参数做检查，那么很有可能页面将会执行我们构造的命令，后果不堪设想。这种攻击行为，我们就称为命令注入攻击。</p>
+
+<p>##</p>
+
+<h4 id="13-2-low-级别命令注入攻击实战">13.2 Low 级别命令注入攻击实战</h4>
+
+<ol>
+<li>安全级别设置为 <code>Low</code>，点击 <code>Command Injection</code> 按钮，进入命令注入攻击页面，发现是一个 <code>Ping</code> 命令执行页面，在文本框中输入一个 IP 地址或者域名，页面会返回 Ping 的结果，如图 13-1
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15624649680042.jpg" alt="img" /></p>
+
+<p>图 13-1</p>
+
+<ol>
+<li>由于本服务器使用的是 <code>Windows Server</code> 系统，所以我们可以使用 <code>Windows</code> 的系统命令来进行注入攻击。在文本框中直接输入 <code>net user</code> 命令，发现报错，如图 13-2，说明页面会把文本框中提交的信息提交为 <code>Ping</code> 的参数来执行。
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15624651788846.jpg" alt="img" /></p>
+
+<p>图 13-2</p>
+
+<ol>
+<li>Windows 系统和 Linux 系统都可以使用 <code>&amp;&amp;</code> 符号来连接多条命令，从而一次执行。所以我们尝试在文本框中先输入一个正确的 <code>IP</code> 地址，再用 <code>&amp;&amp;</code> 符号来连接另外一个命令。输入 <code>8.8.8.8&amp;&amp;net user</code>，发现成功注入，页面返回 <code>net user</code> 命令的执行结果，如图 13-3
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15624653688174.jpg" alt="img" /></p>
+
+<p>图 13-3</p>
+
+<hr />
+
+<h4 id="13-3-medium-级别命令注入攻击实战">13.3 Medium 级别命令注入攻击实战</h4>
+
+<ol>
+<li>设置安全级别为 <code>Medium</code>，进入命令注入攻击页面，查看页面源码，发现对 <code>&amp;&amp;</code> 和 <code>;</code> 进行了过滤，转换为空值，如图 13-4。
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15624655894925.jpg" alt="img" /></p>
+
+<p>图 13-4</p>
+
+<ol>
+<li>页面只是过滤了 <code>&amp;&amp;</code> 和 <code>;</code>，但是并没有对单 <code>&amp;</code> 符号进行过滤。在文本框中输入 <code>8.8.8.8&amp;net user</code>，发现可以绕过防御成功注入，如图 13-5。
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15624658178787.jpg" alt="img" /></p>
+
+<p>图 13-5</p>
+
+<blockquote>
+<p><code>&amp;&amp;</code> 和 <code>&amp;</code> 的区别是，<code>&amp;&amp;</code> 是只有当前一个命令执行成功后，才会执行第二个命令；而 <code>&amp;</code> 是不管第一个命令是否执行成功，都会执行第二个命令。</p>
+</blockquote>
+
+<hr />
+
+<h4 id="13-4-high-级别命令注入攻击实战">13.4 High 级别命令注入攻击实战</h4>
+
+<ol>
+<li>设置安全级别为 <code>High</code>，进入命令注入攻击页面，查看页面源码，发现几乎对所有命令连接符都做了过滤，如图 13-6。
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15624660756417.jpg" alt="img" /></p>
+
+<p>图 13-6</p>
+
+<ol>
+<li>继续观察页面源码，发现对 <code>|</code> 管道符的过滤中，管道符后有一个空格，如图 13-6。由于过滤不严谨，使得 <code>|</code> 符有了可趁之机。在文本框中输入 <code>8.8.8.8|net user</code>，可以成功注入，如图 13-7。
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15624662372381.jpg" alt="img" /></p>
+
+<p>图 13-7</p>
+
+<hr />
+
+<h4 id="13-5-impossible-级别命令注入攻击">13.5 Impossible 级别命令注入攻击</h4>
+
+<p>　　查看 <code>Impossible</code> 级别源码，发现首先使用 <code>stripslashes()</code> 函数来去掉提交的参数中的反斜杠；再使用 <code>explode()</code> 函数把提交的参数以 <code>.</code> 为间隔打散到一个数组；然后通过 <code>is_numeric()</code> 函数进行判断数组中的各个分量是否为数字；最后检查提交的格式是否为 <code>数组分量0.数组分量1.数组分量2.数组分量3</code>，（也就是 IPv4 地址格式）。如果不满足上述条件，则拒绝执行命令。另外还加入了检查随机 Token 来防止自动化注入，如图 13-8。该级别没有命令注入漏洞。</p>
+
+<p><img src="../../img/15624668555711.jpg" alt="img" /></p>
+
+<p>图 13-8</p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Mr Wen</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-05-11 16:15
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener" href="https://github.com/itwhs/itwhs.github.io/blob/master/LICENSE">MIT</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/dvwa/">dvwa</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/docker%E7%9A%84%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Docker的基础概念</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/">
+            <span class="next-text nav-default">文件包含攻击实战</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:itwhs@foxmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://blog.csdn.net/wenhs5479" class="iconfont icon-cnblogs" title="cnblogs"></a>
+      <a href="https://github.com/itwhs" class="iconfont icon-github" title="github"></a>
+  <a href="https://itwhs.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Mr Wen</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139425163-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

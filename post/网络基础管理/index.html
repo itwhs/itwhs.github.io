@@ -1,0 +1,2442 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>网络基础管理 - itw&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Mr Wen" /><meta name="description" content="" /><meta name="keywords" content="Linux, Github, Network, Cloud, Python" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://itwhs.github.io/post/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80%E7%AE%A1%E7%90%86/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/reset-even.css">
+
+
+<meta property="og:title" content="网络基础管理" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://itwhs.github.io/post/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80%E7%AE%A1%E7%90%86/" />
+<meta property="article:published_time" content="2018-09-08T16:15:57&#43;08:00"/>
+<meta property="article:modified_time" content="2018-09-08T16:15:57&#43;08:00"/>
+
+<meta itemprop="name" content="网络基础管理">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2018-09-08T16:15:57&#43;08:00" />
+<meta itemprop="dateModified" content="2018-09-08T16:15:57&#43;08:00" />
+<meta itemprop="wordCount" content="8846">
+
+
+
+<meta itemprop="keywords" content="network," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="网络基础管理"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">itw</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a><a href="https://github.com/itwhs/">
+        <li class="mobile-menu-item">GitHub</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">itw</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/itwhs/">GitHub</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">网络基础管理</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-09-08 16:15 </span>
+        <div class="post-category">
+            <a href="/categories/linux%E8%BF%90%E7%BB%B4/"> Linux运维 </a>
+            </div>
+          <span class="more-meta"> 约 8846 字 </span>
+          <span class="more-meta"> 预计阅读 18 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#1-网卡命名">1. 网卡命名</a>
+<ul>
+<li>
+<ul>
+<li><a href="#1-1-传统网卡命名机制">1.1 传统网卡命名机制</a></li>
+<li><a href="#1-2-redhat7网卡命名机制">1.2 redhat7网卡命名机制</a></li>
+<li><a href="#1-3-网络接口名称组成格式">1.3 网络接口名称组成格式</a></li>
+<li><a href="#1-4-网卡设备的命名过程">1.4 网卡设备的命名过程</a></li>
+<li><a href="#1-5-回归传统命名">1.5 回归传统命名</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#2-网络管理常用命令">2. 网络管理常用命令</a>
+<ul>
+<li>
+<ul>
+<li><a href="#2-1-ifconfig">2.1 ifconfig</a></li>
+<li><a href="#2-2-ip">2.2 ip</a></li>
+<li><a href="#2-3-route">2.3 route</a></li>
+<li><a href="#2-4-hostname与hostnamectl">2.4 hostname与hostnamectl</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#3-网络相关配置文件">3. 网络相关配置文件</a>
+<ul>
+<li>
+<ul>
+<li><a href="#3-1-网络配置文件">3.1 网络配置文件</a></li>
+<li><a href="#3-2-网络接口配置文件">3.2 网络接口配置文件</a></li>
+<li><a href="#3-3-路由配置文件">3.3 路由配置文件</a></li>
+<li><a href="#3-4-dns配置文件">3.4 DNS配置文件</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#4-networkmanager管理网络">4. NetworkManager管理网络</a></li>
+<li><a href="#5-使用原生network管理网络">5. 使用原生network管理网络</a></li>
+<li><a href="#6-网络检测工具与故障排查">6. 网络检测工具与故障排查</a>
+<ul>
+<li>
+<ul>
+<li><a href="#6-1-ping">6.1 ping</a></li>
+<li><a href="#6-2-host与nslookup">6.2 host与nslookup</a></li>
+<li><a href="#6-3-traceroute">6.3 traceroute</a></li>
+<li><a href="#6-4-netstat">6.4 netstat</a></li>
+<li><a href="#6-5-ss">6.5 ss</a>
+<ul>
+<li><a href="#6-6-网络故障排查">6.6 网络故障排查</a></li>
+</ul></li>
+<li><a href="#实验">实验</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="1-网卡命名">1. 网卡命名</h1>
+
+<h3 id="1-1-传统网卡命名机制">1.1 传统网卡命名机制</h3>
+
+<blockquote>
+<p>传统命名：</p>
+
+<p>以太网eth[0,1,2,...]</p>
+
+<p>wlan[0,1,2,...]</p>
+</blockquote>
+
+<h3 id="1-2-redhat7网卡命名机制">1.2 redhat7网卡命名机制</h3>
+
+<p><strong>systemd对网络设备的命名方式：</strong></p>
+
+<ol>
+<li>如果Firmware或BIOS为主板上集成的设备提供的索引信息可用，且可预测，则根据此索引进行命名，例如eno1</li>
+<li>如果Firmware或BIOS为PCI-E扩展槽所提供的索引信息可用，且可预测，则根据此索引进行命名，例如ens1</li>
+<li>如果硬件接口的物理位置信息可用，则根据此信息进行命名，例如enp2s0</li>
+<li>如果用户显式启动，也可根据MAC地址进行命名，例如enx2387a1dc56</li>
+<li>上述均不可用时，则使用传统命名机制</li>
+</ol>
+
+<p>上述命名机制中，有的需要biosdevname程序的参与。所以必须安装biosdevname程序且启用它。</p>
+
+<h3 id="1-3-网络接口名称组成格式">1.3 网络接口名称组成格式</h3>
+
+<blockquote>
+<p>基于固件、设备结构、设备类型</p>
+</blockquote>
+
+<ul class="task-list">
+<li>由两个字母开头标示固件
+
+<ul class="task-list">
+<li><label><input type="checkbox" disabled class="task-list-item"> 以太网网卡以 en 开头</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> 无线网卡以 wl 开头</label></li>
+</ul></li>
+<li>设备结构
+
+<ul class="task-list">
+<li><label><input type="checkbox" disabled class="task-list-item"> o：主板上集成的设备的设备索引号</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> s：扩展槽的索引号</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> x：基于MAC地址的命名</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> p<bus>s<slot>：基于物理位置拓扑的命名。如enp2s1，表示PCI总线上第2个总线的第1个插槽的设备索引号</label></li>
+</ul></li>
+</ul>
+
+<h3 id="1-4-网卡设备的命名过程">1.4 网卡设备的命名过程</h3>
+
+<blockquote>
+<ol>
+<li>udev，辅助工具程序/lib/udev/rename_device会根据/usr/lib/udev/rules.d/60-net.rules中的信息设定网卡名称</li>
+<li>biosdevname会根据/usr/lib/udev/rules.d/71-biosdevname.rules中的信息设定网卡名称</li>
+<li>通过udev检测网络接口设备，根据/usr/lib/udev/rules.d/75-net-description中的变量信息设定网卡名称</li>
+</ol>
+</blockquote>
+
+<h3 id="1-5-回归传统命名">1.5 回归传统命名</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">修改网卡配置文件
+[root@wenhs-AWS ~]# cd /etc/sysconfig/network-scripts/
+[root@wenhs-AWS network-scripts]# cp ifcfg-ens33 ifcfg-eth0
+[root@wenhs-AWS network-scripts]# vim ifcfg-eth0
+TYPE=Ethernet
+BOOTPROTO=dhcp
+DEFROUTE=yes
+IPV4_FAILURE_FATAL=no
+NAME=eth0   //此处要把ens33改成eht0
+DEVICE=eth0 //此处要把ens33改成eht0
+ONBOOT=yes
+
+编辑/etc/default/grub配置文件，在以GRUB_CMDLINE_LINUX开头的行内rhgb的前面加上net.ifnames=0 biosdevname=0 
+
+[root@wenhs-AWS ~]# vim /etc/default/grub
+GRUB_TIMEOUT=5
+GRUB_DISTRIBUTOR=&#34;$(sed &#39;s, release .*$,,g&#39; /etc/system-release)&#34;
+GRUB_DEFAULT=saved
+GRUB_DISABLE_SUBMENU=true
+GRUB_TERMINAL_OUTPUT=&#34;console&#34;
+GRUB_CMDLINE_LINUX=&#34;crashkernel=auto rd.lvm.lv=rhel/root rd.lvm.lv=rhel/swap net.ifnames=0 biosdevname=0 rhgb quiet&#34;
+GRUB_DISABLE_RECOVERY=&#34;true&#34;
+
+为grub2生成其配置文件
+[root@wenhs-AWS ~]# grub2-mkconfig -o /etc/grub2.cfg
+Generating grub configuration file ...
+Found linux image: /boot/vmlinuz-3.10.0-957.el7.x86_64
+Found initrd image: /boot/initramfs-3.10.0-957.el7.x86_64.img
+Found linux image: /boot/vmlinuz-0-rescue-4b6c5369a989421bb4205cfad603d374
+Found initrd image: /boot/initramfs-0-rescue-4b6c5369a989421bb4205cfad603d374.img
+done
+
+
+重启系统
+[root@localhost ~]# reboot</pre></td></tr></table>
+</div>
+</div>
+<h1 id="2-网络管理常用命令">2. 网络管理常用命令</h1>
+
+<h3 id="2-1-ifconfig">2.1 ifconfig</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">查看当前处于活动状态的所有网络接口
+[root@wenhs-AWS ~]# ifconfig
+eth0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 9001
+        inet 10.0.100.10  netmask 255.255.255.0  broadcast 10.0.100.255
+        inet6 fe80::869:6bff:fe89:6872  prefixlen 64  scopeid 0x20&lt;link&gt;
+        ether 0a:69:6b:89:68:72  txqueuelen 1000  (Ethernet)
+        RX packets 1187  bytes 128192 (125.1 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 1232  bytes 120424 (117.6 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73&lt;UP,LOOPBACK,RUNNING&gt;  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10&lt;host&gt;
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 96  bytes 8952 (8.7 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 96  bytes 8952 (8.7 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+  
+仅查看eth0网卡状态      
+[root@wenhs-AWS ~]# ifconfig eth0
+eth0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 9001
+        inet 10.0.100.10  netmask 255.255.255.0  broadcast 10.0.100.255
+        inet6 fe80::869:6bff:fe89:6872  prefixlen 64  scopeid 0x20&lt;link&gt;
+        ether 0a:69:6b:89:68:72  txqueuelen 1000  (Ethernet)
+        RX packets 1221  bytes 130744 (127.6 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 1265  bytes 126274 (123.3 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+        
+查看所有网卡状态信息, 包括禁用和启用
+[root@wenhs-AWS ~]# ifconfig -a
+eth0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 9001
+        inet 10.0.100.10  netmask 255.255.255.0  broadcast 10.0.100.255
+        inet6 fe80::869:6bff:fe89:6872  prefixlen 64  scopeid 0x20&lt;link&gt;
+        ether 0a:69:6b:89:68:72  txqueuelen 1000  (Ethernet)
+        RX packets 1240  bytes 131850 (128.7 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 1280  bytes 128032 (125.0 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73&lt;UP,LOOPBACK,RUNNING&gt;  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10&lt;host&gt;
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 96  bytes 8952 (8.7 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 96  bytes 8952 (8.7 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+    
+        
+网卡配置信息含义如下:
+
+UP: 网卡处于活动状态
+BROADCAST: 支持广播
+RUNNING: 网线已接入
+MULTICAST: 支持组播
+MTU: 最大传输单元(字节),即此接口一次所能传输的最大封包
+
+inet: 显示IPv4地址行
+inet6: 显示IPv6地址行
+link/enther: 指设备硬件(MAC)地址
+txqueuelen: 传输缓存区长度大小
+RX packets: 接收的数据包
+TX packets: 发送的数据包
+errors: 总的收包的错误数量
+dropped: 由于各种原因, 导致拷贝在内存过程中被丢弃
+collisions: 网络信号冲突情况, 值不为0则可能存在网络故障</pre></td></tr></table>
+</div>
+</div>
+<h3 id="2-2-ip">2.2 ip</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span><span class="lnt">90
+</span><span class="lnt">91
+</span><span class="lnt">92
+</span><span class="lnt">93
+</span><span class="lnt">94
+</span><span class="lnt">95
+</span><span class="lnt">96
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">语法：ip [ OPTIONS ] OBJECT { COMMAND | help }
+OBJECT：
+    link：网络接口属性
+    addr：协议地址
+    route：路由 
+
+查看网络接口所有地址  
+[root@wenhs-AWS ~]# ip link show
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 9001 qdisc pfifo_fast state UP mode DEFAULT group default qlen 1000
+    link/ether 0a:69:6b:89:68:72 brd ff:ff:ff:ff:ff:ff
+    
+显示报文统计信息
+[root@wenhs-AWS ~]# ip -s link show
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    RX: bytes  packets  errors  dropped overrun mcast   
+    8952       96       0       0       0       0       
+    TX: bytes  packets  errors  dropped carrier collsns 
+    8952       96       0       0       0       0       
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 9001 qdisc pfifo_fast state UP mode DEFAULT group default qlen 1000
+    link/ether 0a:69:6b:89:68:72 brd ff:ff:ff:ff:ff:ff
+    RX: bytes  packets  errors  dropped overrun mcast   
+    135805     1306     0       0       0       0       
+    TX: bytes  packets  errors  dropped carrier collsns 
+    135567     1339     0       0       0       0       
+    
+启用或禁用网络接口ip link set DEV {up|down}
+[root@wenhs-AWS ~]# ip link set lo down
+[root@wenhs-AWS ~]# ip link set lo up
+
+ip addr add ADDRESS dev DEV：添加IP地址
+[root@wenhs-AWS ~]# ip addr show eth0
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 9001 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 0a:69:6b:89:68:72 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.100.10/24 brd 10.0.100.255 scope global noprefixroute dynamic eth0
+       valid_lft 2924sec preferred_lft 2924sec
+    inet6 fe80::869:6bff:fe89:6872/64 scope link 
+       valid_lft forever preferred_lft forever
+[root@wenhs-AWS ~]# ip addr add 192.168.1.1/24 dev eth0
+[root@wenhs-AWS ~]# ip addr show eth0
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 9001 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 0a:69:6b:89:68:72 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.100.10/24 brd 10.0.100.255 scope global noprefixroute dynamic eth0
+       valid_lft 2871sec preferred_lft 2871sec
+    inet 192.168.1.1/24 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::869:6bff:fe89:6872/64 scope link 
+       valid_lft forever preferred_lft forever
+
+ip addr del ADDRESS dev DEV：删除IP地址
+[root@wenhs-AWS ~]# ip addr show eth0
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 9001 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 0a:69:6b:89:68:72 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.100.10/24 brd 10.0.100.255 scope global noprefixroute dynamic eth0
+       valid_lft 2826sec preferred_lft 2826sec
+    inet 192.168.1.1/24 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::869:6bff:fe89:6872/64 scope link 
+       valid_lft forever preferred_lft forever
+[root@wenhs-AWS ~]# ip addr del 192.168.1.1/24 dev eth0
+[root@wenhs-AWS ~]# ip addr show eth0
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 9001 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 0a:69:6b:89:68:72 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.100.10/24 brd 10.0.100.255 scope global noprefixroute dynamic eth0
+       valid_lft 2742sec preferred_lft 2742sec
+    inet6 fe80::869:6bff:fe89:6872/64 scope link 
+       valid_lft forever preferred_lft forever
+
+
+ip addr show DEV：查看网络接口的地址
+[root@wenhs-AWS ~]# ip addr show eth0
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 9001 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 0a:69:6b:89:68:72 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.100.10/24 brd 10.0.100.255 scope global noprefixroute dynamic eth0
+       valid_lft 2694sec preferred_lft 2694sec
+    inet6 fe80::869:6bff:fe89:6872/64 scope link 
+       valid_lft forever preferred_lft forever
+
+ip route：routing table management 路由管理
+添加路由：ip route add TARGET via GW dev IFACE src SOURCE_IP
+    TARGET：
+        主机路由：IP
+        网络路由：NETWORK/MASK 
+        
+删除路由：ip route del TARGET
+    TARGET：
+        主机路由：IP
+        网络路由：NETWORK/MASK
+                        
+查看路由：ip route show
+
+刷新路由表：ip route flush
+    [dev IFACE]
+    [via PREFIX]</pre></td></tr></table>
+</div>
+</div>
+<h3 id="2-3-route">2.3 route</h3>
+
+<p>Linux主机之间是使用IP进行通信, 假设A主机和B主机同在一个网段内且网卡都处于激活状态, 则A具备和B直接通信的能力, 但如果A主机和B主机处于两个不同的网段, 则A必须通过路由器才能和B通信, 路由器属于IT设备的基础设施, 每一个网段都应该至少有一个网关</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">查看当前路由表
+[root@wenhs-AWS ~]# route
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+default         ip-10-0-100-1.a 0.0.0.0         UG    100    0        0 eth0
+10.0.100.0      0.0.0.0         255.255.255.0   U     100    0        0 eth0
+
+
+以数字方式显示各主机或端口等相关信息
+[root@wenhs-AWS ~]# route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         10.0.100.1      0.0.0.0         UG    100    0        0 eth0
+10.0.100.0      0.0.0.0         255.255.255.0   U     100    0        0 eth0
+
+增加路由
+语法：route add [-net|-host] target [netmask Nm] [gw Gw]  [[dev] If]
+
+增加网段路由
+[root@wenhs-AWS ~]# route add -net 10.0.200.0/24 gw 10.0.100.1 dev eth0
+
+增加主机路由
+[root@wenhs-AWS ~]# route add -host 10.0.100.100 gw 10.0.100.1
+
+查看添加路由情况
+[root@wenhs-AWS ~]# route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         10.0.100.1      0.0.0.0         UG    100    0        0 eth0
+10.0.100.0      0.0.0.0         255.255.255.0   U     100    0        0 eth0
+10.0.100.100    10.0.100.1      255.255.255.255 UGH   0      0        0 eth0
+10.0.200.0      10.0.100.1      255.255.255.0   UG    0      0        0 eth0
+
+删除路由
+[root@wenhs-AWS ~]# route del -host 10.0.100.100 gw 10.0.100.1
+[root@wenhs-AWS ~]# route del -net 10.0.200.0/24
+[root@wenhs-AWS ~]# route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         10.0.100.1      0.0.0.0         UG    100    0        0 eth0
+10.0.100.0      0.0.0.0         255.255.255.0   U     100    0        0 eth0</pre></td></tr></table>
+</div>
+</div>
+<h3 id="2-4-hostname与hostnamectl">2.4 hostname与hostnamectl</h3>
+
+<p><strong>生产环境中必须配置主机名,同时主机名也需要遵循一定的规范</strong>, 比如:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">公有云: 地区-项目-业务-服务-节点-地址
+wh-shop-register-nginx-node1-192.168.56.13
+wh-med-pay-mysql-master01-192.168.56.11
+wh-med-pay-mysql-slave01-192.168.56.12
+
+
+hostname查看主机名
+[root@wenhs-AWS ~]# hostname
+ip-10-0-100-10.ap-northeast-1.compute.internal
+
+hostname临时修改主机名
+[root@ip-10-0-100-10 ~]# hostname wenhs-AWS
+[root@ip-10-0-100-10 ~]# bash
+[root@wenhs-AWS ~]# 
+[root@wenhs-AWS ~]# cat /etc/hostname
+ip-10-0-100-10.ap-northeast-1.compute.internal
+注意：修改主机名后需要重新登录用户才会显示效果
+
+
+rhel7系统建议使用hostnamectl修改和查看主机名
+设定永久名称
+[root@wenhs-AWS ~]# hostnamectl set-hostname wenhs-AWS
+[root@wenhs-AWS ~]# cat /etc/hostname
+wenhs-aws
+
+
+查看主机信息
+[root@wenhs-AWS ~]# hostnamectl
+   Static hostname: wenhs-aws
+   Pretty hostname: wenhs-AWS
+         Icon name: computer-vm
+           Chassis: vm
+        Machine ID: 61ac11bb8b404d10b1df9b6f7cb9f990
+           Boot ID: 24a44c75a1af4526be89f06e17e7446b
+    Virtualization: xen
+  Operating System: Red Hat Enterprise Linux Server 7.6 (Maipo)
+       CPE OS Name: cpe:/o:redhat:enterprise_linux:7.6:GA:server
+            Kernel: Linux 3.10.0-957.el7.x86_64
+      Architecture: x86-64</pre></td></tr></table>
+</div>
+</div>
+<blockquote>
+<p><code>注意：</code></p>
+
+<p>在Linux中以命令方式修改网络配置只在当前状态有效，重启后将失效。故若想使修改的配置重启后依然有效，则必须编辑配置文件进行配置的修改。</p>
+</blockquote>
+
+<h1 id="3-网络相关配置文件">3. 网络相关配置文件</h1>
+
+<h3 id="3-1-网络配置文件">3.1 网络配置文件</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">网络配置文件：/etc/sysconfig/network
+    NETWORKING={yes|no}：设定整个系统是否启用网络功能，若设为no，则不论网卡如何设置都不能使用网络功能。
+    HOSTNAME：设置主机名</pre></td></tr></table>
+</div>
+</div>
+<h3 id="3-2-网络接口配置文件">3.2 网络接口配置文件</h3>
+
+<p>网络接口即网卡，其配置文件的路径是<code>/etc/sysconfig/network-scripts/ifcfg-INTERFACE_NAME</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs-AWS ~]# vim /etc/sysconfig/network-scripts/ifcfg-eth1
+TYPE=Ethernet
+BOOTPROTO=static
+NAME=eth1
+DEVICE=eth1
+ONBOOT=yes
+IPADDR=172.16.1.2
+NETMASK=255.255.255.0
+GATEWAY=172.16.1.1
+DNS1=172.16.1.1
+
+网卡配置说明
+参数                    说明
+BOOTPROTO=none          //引导协议，可选值有｛static｜none｜dhcp｜bootp｝。如果要使用静态地址，使用static或none都可以
+NM_CONTROLLED           //NM是NetworkManager的简写，NM是由RHEL研发的在RHEL6中取代network脚本来实现网络管理、配置的服务脚本
+    //可选值有{ yes ｜ no }
+    //此项是设定此网卡是否接受NM控制。CentOS6建议设为“no”
+TYPE                    //接口类型。常见的接口类型有：Ethernet，Bridge
+UUID                    //设备的惟一标识
+HWADDR                  //硬件地址，要与硬件中的地址保持一致，可省
+IPADDR=172.16.1.2    //固定IP地址
+PREFIX=24               //子网掩码
+NETMASK=255.255.255.0   //子网掩码
+GATEWAY=172.16.1.1     //默认网关
+DNS1=172.16.1.1        //第一个DNS服务器指向
+DNS2                    //第二个DNS服务器指向
+DNS3                    //第三个DNS服务器指向
+DEVICE=eth1             //关联的设备名称，要与文件名的后半部&#34;INTERFACE_NAME&#34;保持一致  
+NAME=&#34;eth1&#34;             //连接名称
+ONBOOT=yes              //在系统引导时是否自动激活此网络接口，可选值有{ yes ｜ no }
+DEFROUTE=yes            //将接口设定为默认路由[yes|no]
+USERCTL={yes|no}        //是否允许普通用户控制此接口的启用与禁用
+PEERDNS={yes|no}        //是否在BOOTPROTO为dhcp时接受由dhcp服务器指定的DNS地址，此项设为yes时获得的DNS地址将直接覆盖至/etc/resolv.conf文件中</pre></td></tr></table>
+</div>
+</div>
+<h3 id="3-3-路由配置文件">3.3 路由配置文件</h3>
+
+<p>路由配置文件的路径是<code>/etc/sysconfig/network-scripts/route-INTERFACE_NAME</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">添加格式一：DEST via NEXTHOP
+[root@wenhs-AWS ~]# vim /etc/sysconfig/network-scripts/route-eth0
+10.0.200.0/24 via 10.0.100.1
+                
+添加格式二：
+[root@wenhs-AWS ~]# vim /etc/sysconfig/network-scripts/route-eth0
+ADDRESS0=10.0.200.0
+NETMASK0=255.255.255.0
+GATEWAY0=10.0.100.1</pre></td></tr></table>
+</div>
+</div>
+<h3 id="3-4-dns配置文件">3.4 DNS配置文件</h3>
+
+<p>DNS配置文件的路径是<code>/etc/resolv.conf</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs-AWS ~]# vim /etc/resolv.conf
+search ap-northeast-1.compute.internal
+nameserver 10.0.0.2
+
+nameserver DNS_IP_1
+nameserver DNS_IP_2
+nameserver DNS_IP_3</pre></td></tr></table>
+</div>
+</div>
+<h1 id="4-networkmanager管理网络">4. NetworkManager管理网络</h1>
+
+<p><code>RHEL/CentOS7</code>系统默认使用<code>NetworkManager</code>来提供网络服务，这是一种动态管理网络配置的守护进程，能够让网络设备保持连接状态。
+<code>NetworkManager</code>提供的命令行和图形配置工具对网络进行设定, 设定保存的配置文件在<code>/etc/sysconfig/network-scripts</code>目录下, 工具有 <code>nmcli</code>, <code>nmtui</code>, <code>nm-connect-editor</code></p>
+
+<p><code>device</code>物理设备, 例如 <code>ens33</code>,<code>enp2s0</code>,<code>virbr0</code>,<code>team0</code>
+<code>connection</code>连接设置, 具体网络配置方案</p>
+
+<blockquote>
+<p>1.不同的网络连接配置可以应用到相同的物理设备，但物理设备同一时间只能应用其中某个网络连接
+2.针对物理网络接口, 设定不同的网络连接, 在不同的使用环境中激活相应的网络连接，就可以实现网络配置信息的自动切换了</p>
+</blockquote>
+
+<p>使用<code>nmcli</code>命令查看设备以及连接情况</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span><span class="lnt">173
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">查看设备状态
+[root@wenhs-AWS ~]# nmcli device
+DEVICE  TYPE      STATE      CONNECTION  
+eth0    ethernet  connected  System eth0 
+lo      loopback  unmanaged  --        
+查看指定设备的详细状态
+[root@wenhs-AWS ~]# nmcli device show eth0
+GENERAL.DEVICE:                         eth0
+GENERAL.TYPE:                           ethernet
+GENERAL.HWADDR:                         0A:69:6B:89:68:72
+GENERAL.MTU:                            9001
+GENERAL.STATE:                          100 (connected)
+GENERAL.CONNECTION:                     System eth0
+GENERAL.CON-PATH:                       /org/freedesktop/NetworkManager/ActiveConnectio
+WIRED-PROPERTIES.CARRIER:               on
+IP4.ADDRESS[1]:                         10.0.100.10/24
+IP4.GATEWAY:                            10.0.100.1
+IP4.ROUTE[1]:                           dst = 0.0.0.0/0, nh = 10.0.100.1, mt = 100
+IP4.ROUTE[2]:                           dst = 10.0.100.0/24, nh = 0.0.0.0, mt = 100
+IP4.DNS[1]:                             10.0.0.2
+IP4.DOMAIN[1]:                          ap-northeast-1.compute.internal
+IP6.ADDRESS[1]:                         fe80::869:6bff:fe89:6872/64
+IP6.GATEWAY:                            --
+IP6.ROUTE[1]:                           dst = ff00::/8, nh = ::, mt = 256, table=255
+IP6.ROUTE[2]:                           dst = fe80::/64, nh = ::, mt = 256
+lines 1-18/18 (END)
+
+查看连接状态
+[[root@wenhs-AWS ~]# nmcli connection
+NAME         UUID                                  TYPE      DEVICE 
+System eth0  5fb06bd0-0bb0-7ffb-45f1-d6edd65f3e03  ethernet  eth0
+
+查看所有活动的连接
+NAME         UUID                                  TYPE      DEVICE 
+System eth0  5fb06bd0-0bb0-7ffb-45f1-d6edd65f3e03  ethernet  eth0
+
+查看指定设备连接的详细情况
+[root@wenhs-AWS ~]# nmcli connection show eth0
+Error: eth0 - no such connection profile.
+[root@wenhs-AWS ~]# nmcli connection show 5fb06bd0-0bb0-7ffb-45f1-d6edd65f3e03
+connection.id:                          System eth0
+connection.uuid:                        5fb06bd0-0bb0-7ffb-45f1-d6edd65f3e03
+connection.stable-id:                   --
+connection.type:                        802-3-ethernet
+connection.interface-name:              eth0
+connection.autoconnect:                 yes
+connection.autoconnect-priority:        0
+connection.autoconnect-retries:         -1 (default)
+connection.auth-retries:                -1
+connection.timestamp:                   1552909406
+connection.read-only:                   no
+connection.permissions:                 --
+connection.zone:                        --
+connection.master:                      --
+connection.slave-type:                  --
+connection.autoconnect-slaves:          -1 (default)
+connection.secondaries:                 --
+connection.gateway-ping-timeout:        0
+connection.metered:                     unknown
+connection.lldp:                        default
+connection.mdns:                        -1 (default)
+802-3-ethernet.port:                    --
+802-3-ethernet.speed:                   0
+802-3-ethernet.duplex:                  --
+802-3-ethernet.auto-negotiate:          no
+802-3-ethernet.mac-address:             0A:69:6B:89:68:72
+802-3-ethernet.cloned-mac-address:      --
+802-3-ethernet.generate-mac-address-mask:--
+802-3-ethernet.mac-address-blacklist:   --
+802-3-ethernet.mtu:                     auto
+802-3-ethernet.s390-subchannels:        --
+802-3-ethernet.s390-nettype:            --
+802-3-ethernet.s390-options:            --
+802-3-ethernet.wake-on-lan:             default
+802-3-ethernet.wake-on-lan-password:    --
+ipv4.method:                            auto
+ipv4.dns:                               --
+ipv4.dns-search:                        --
+ipv4.dns-options:                       &#34;&#34;
+ipv4.dns-priority:                      0
+ipv4.addresses:                         --
+ipv4.gateway:                           --
+ipv4.routes:                            --
+ipv4.route-metric:                      -1
+ipv4.route-table:                       0 (unspec)
+ipv4.ignore-auto-routes:                no
+ipv4.ignore-auto-dns:                   no
+ipv4.dhcp-client-id:                    --
+ipv4.dhcp-timeout:                      0 (default)
+ipv4.dhcp-send-hostname:                yes
+ipv4.dhcp-hostname:                     --
+ipv4.dhcp-fqdn:                         --
+ipv4.never-default:                     no
+ipv4.may-fail:                          yes
+ipv4.dad-timeout:                       -1 (default)
+ipv6.method:                            ignore
+ipv6.dns:                               --
+ipv6.dns-search:                        --
+ipv6.dns-options:                       &#34;&#34;
+ipv6.dns-priority:                      0
+ipv6.addresses:                         --
+ipv6.gateway:                           --
+ipv6.routes:                            --
+ipv6.route-metric:                      -1
+ipv6.route-table:                       0 (unspec)
+ipv6.ignore-auto-routes:                no
+ipv6.ignore-auto-dns:                   no
+ipv6.never-default:                     no
+ipv6.may-fail:                          yes
+ipv6.ip6-privacy:                       -1 (unknown)
+ipv6.addr-gen-mode:                     stable-privacy
+ipv6.dhcp-duid:                         --
+ipv6.dhcp-send-hostname:                yes
+ipv6.dhcp-hostname:                     --
+ipv6.token:                             --
+proxy.method:                           none
+proxy.browser-only:                     no
+proxy.pac-url:                          --
+proxy.pac-script:                       --
+GENERAL.NAME:                           System eth0
+GENERAL.UUID:                           5fb06bd0-0bb0-7ffb-45f1-d6edd65f3e03
+GENERAL.DEVICES:                        eth0
+GENERAL.STATE:                          activated
+GENERAL.DEFAULT:                        yes
+GENERAL.DEFAULT6:                       no
+GENERAL.SPEC-OBJECT:                    --
+GENERAL.VPN:                            no
+GENERAL.DBUS-PATH:                      /org/freedesktop/NetworkManager/ActiveConnectio
+GENERAL.CON-PATH:                       /org/freedesktop/NetworkManager/Settings/1
+GENERAL.ZONE:                           --
+GENERAL.MASTER-PATH:                    --
+IP4.ADDRESS[1]:                         10.0.100.10/24
+IP4.GATEWAY:                            10.0.100.1
+IP4.ROUTE[1]:                           dst = 0.0.0.0/0, nh = 10.0.100.1, mt = 100
+IP4.ROUTE[2]:                           dst = 10.0.100.0/24, nh = 0.0.0.0, mt = 100
+IP4.DNS[1]:                             10.0.0.2
+IP4.DOMAIN[1]:                          ap-northeast-1.compute.internal
+DHCP4.OPTION[1]:                        broadcast_address = 10.0.100.255
+DHCP4.OPTION[2]:                        dhcp_lease_time = 3600
+DHCP4.OPTION[3]:                        dhcp_message_type = 5
+DHCP4.OPTION[4]:                        dhcp_server_identifier = 10.0.100.1
+DHCP4.OPTION[5]:                        domain_name = ap-northeast-1.compute.internal
+DHCP4.OPTION[6]:                        domain_name_servers = 10.0.0.2
+DHCP4.OPTION[7]:                        expiry = 1552912159
+DHCP4.OPTION[8]:                        host_name = ip-10-0-100-10
+DHCP4.OPTION[9]:                        interface_mtu = 9001
+DHCP4.OPTION[10]:                       ip_address = 10.0.100.10
+DHCP4.OPTION[11]:                       network_number = 10.0.100.0
+DHCP4.OPTION[12]:                       next_server = 0.0.0.0
+DHCP4.OPTION[13]:                       requested_broadcast_address = 1
+DHCP4.OPTION[14]:                       requested_classless_static_routes = 1
+DHCP4.OPTION[15]:                       requested_domain_name = 1
+DHCP4.OPTION[16]:                       requested_domain_name_servers = 1
+DHCP4.OPTION[17]:                       requested_domain_search = 1
+DHCP4.OPTION[18]:                       requested_host_name = 1
+DHCP4.OPTION[19]:                       requested_interface_mtu = 1
+DHCP4.OPTION[20]:                       requested_ms_classless_static_routes = 1
+DHCP4.OPTION[21]:                       requested_nis_domain = 1
+DHCP4.OPTION[22]:                       requested_nis_servers = 1
+DHCP4.OPTION[23]:                       requested_ntp_servers = 1
+DHCP4.OPTION[24]:                       requested_rfc3442_classless_static_routes = 1
+DHCP4.OPTION[25]:                       requested_routers = 1
+DHCP4.OPTION[26]:                       requested_static_routes = 1
+DHCP4.OPTION[27]:                       requested_subnet_mask = 1
+DHCP4.OPTION[28]:                       requested_time_offset = 1
+DHCP4.OPTION[29]:                       requested_wpad = 1
+DHCP4.OPTION[30]:                       routers = 10.0.100.1
+DHCP4.OPTION[31]:                       subnet_mask = 255.255.255.0
+IP6.ADDRESS[1]:                         fe80::869:6bff:fe89:6872/64
+IP6.GATEWAY:                            --
+IP6.ROUTE[1]:                           dst = ff00::/8, nh = ::, mt = 256, table=255
+IP6.ROUTE[2]:                           dst = fe80::/64, nh = ::, mt = 256
+lines 110-132/132 (END)</pre></td></tr></table>
+</div>
+</div>
+<h1 id="5-使用原生network管理网络">5. 使用原生network管理网络</h1>
+
+<p><code>CentOS/RHEL</code>的网络配置文件默认目录为<code>/etc/sysconfig/network-scripts</code>
+默认第一块物理网卡配置文件为<code>ifcfg-eth0</code>, 如果有第二块物理网卡, 配置文件则为<code>ifcfg-eth1</code>以此类推。 <code>注意</code>: 如果新增物理网卡没有配置文件，可选择复制系统默认的进行修改。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">设置NetworkManger开机不启动, 同时停止NetworkManger服务
+[root@wenhs-aws ~]# systemctl disable NetworkManager
+Removed symlink /etc/systemd/system/multi-user.target.wants/NetworkManager.service.
+Removed symlink /etc/systemd/system/dbus-org.freedesktop.NetworkManager.service.
+Removed symlink /etc/systemd/system/dbus-org.freedesktop.nm-dispatcher.service.
+Removed symlink /etc/systemd/system/network-online.target.wants/NetworkManager-wait-online.service.
+[root@wenhs-aws ~]# systemctl disable NetworkManager
+[root@wenhs-aws ~]# systemctl stop NetworkManager
+
+添加一块物理网卡, 然后新增网络连接配置文件
+复制配置eth0配置文件为eth1
+[root@wenhs-aws ~]# cp /etc/sysconfig/network-scripts/{ifcfg-eth0,ifcfg-eth1}
+[root@wenhs-aws ~]# ls /etc/sysconfig/network-scripts/
+ifcfg-eth0       ifup-bnep
+ifcfg-eth1       ifup-eth
+ifcfg-lo         ifup-ippp
+ifdown           ifup-ipv6
+ifdown-bnep      ifup-isdn
+ifdown-eth       ifup-plip
+ifdown-ippp      ifup-plusb
+ifdown-ipv6      ifup-post
+ifdown-isdn      ifup-ppp
+ifdown-post      ifup-routes
+ifdown-ppp       ifup-sit
+ifdown-routes    ifup-Team
+ifdown-sit       ifup-TeamPort
+ifdown-Team      ifup-tunnel
+ifdown-TeamPort  ifup-wireless
+ifdown-tunnel    init.ipv6-global
+ifup             network-functions
+ifup-aliases     network-functions-ipv6
+[root@wenhs-aws ~]# 
+
+编辑网卡配置文件
+[root@wenhs-aws ~]# vim /etc/sysconfig/network-scripts/ifcfg-eth1
+TYPE=Ethernet
+BOOTPROTO=static
+NAME=eth1
+DEVICE=eth1
+NM_CONTROLLED=no
+ONBOOT=yes
+IPADDR=10.0.100.100
+NETMASK=255.255.255.0
+GATEWAY=10.0.100.1
+DNS1=10.0.100.1
+
+重启network网络服务加载网络并设置开机启动
+[root@wenhs-aws ~]# systemctl restart network
+[root@wenhs-aws ~]# systemctl enable network</pre></td></tr></table>
+</div>
+</div>
+<h1 id="6-网络检测工具与故障排查">6. 网络检测工具与故障排查</h1>
+
+<h3 id="6-1-ping">6.1 ping</h3>
+
+<p>ping命令的目的在于测试另一台主机是否可达, 如果ping不到某台主机,就说明对方主机已经出现了问题, 但是不排除由于链路中的防火墙、ping被丢弃等原因造成ping不通的情况</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">ping命令常用选项：
+    -c 指定ping的次数
+    -i 指定ping包的发送间隔
+    -w 如果ping没有回应, 则在指定超时时间后退出</pre></td></tr></table>
+</div>
+</div>
+<h3 id="6-2-host与nslookup">6.2 host与nslookup</h3>
+
+<p><code>host</code>/<code>nslookup</code>命令用于查询DNS记录</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">host是由bind-utils这个软件包提供,没有这个命令先安装这个软件包
+
+[root@wenhs-aws ~]# host www.baidu.com
+www.baidu.com is an alias for www.a.shifen.com.
+www.a.shifen.com is an alias for www.wshifen.com.
+www.wshifen.com has address 119.63.197.139
+www.wshifen.com has address 119.63.197.151
+
+[root@wenhs-aws ~]# nslookup www.baidu.com
+Server:		10.0.0.2
+Address:	10.0.0.2#53
+
+Non-authoritative answer:
+www.baidu.com	canonical name = www.a.shifen.com.
+www.a.shifen.com	canonical name = www.wshifen.com.
+Name:	www.wshifen.com
+Address: 119.63.197.139
+Name:	www.wshifen.com
+Address: 119.63.197.151</pre></td></tr></table>
+</div>
+</div>
+<h3 id="6-3-traceroute">6.3 traceroute</h3>
+
+<p><code>traceroute</code>命令用于路由跟踪, 检测网络故障出现在ISP运营商或是对端服务无法响应</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs-aws ~]# yum -y install traceroute
+[root@wenhs-aws ~]# traceroute www.google.com
+traceroute to www.google.com (172.217.161.68), 30 hops max, 60 byte packets
+ 1  ec2-175-41-192-216.ap-northeast-1.compute.amazonaws.com (175.41.192.216)  19.315 ms  19.254 ms ec2-175-41-192-220.ap-northeast-1.compute.amazonaws.com (175.41.192.220)  16.067 ms
+ 2  100.66.8.80 (100.66.8.80)  20.800 ms 100.66.8.62 (100.66.8.62)  11.427 ms 100.66.8.18 (100.66.8.18)  28.192 ms
+ 3  100.66.11.40 (100.66.11.40)  15.950 ms 100.66.11.128 (100.66.11.128)  15.379 ms 100.66.10.108 (100.66.10.108)  14.116 ms
+ 4  100.66.6.47 (100.66.6.47)  11.757 ms 100.66.7.75 (100.66.7.75)  18.120 ms 100.66.7.9 (100.66.7.9)  23.942 ms
+ 5  100.66.4.253 (100.66.4.253)  11.212 ms 100.66.4.15 (100.66.4.15)  20.038 ms 100.66.4.175 (100.66.4.175)  17.110 ms
+ 6  100.65.8.161 (100.65.8.161)  0.327 ms 100.65.9.129 (100.65.9.129)  2.533 ms 100.65.10.1 (100.65.10.1)  0.318 ms
+ 7  27.0.0.73 (27.0.0.73)  1.121 ms  0.619 ms  0.568 ms
+ 8  52.95.31.73 (52.95.31.73)  0.873 ms 52.95.31.79 (52.95.31.79)  1.155 ms 52.95.31.85 (52.95.31.85)  0.867 ms
+ 9  52.95.31.58 (52.95.31.58)  1.211 ms 52.95.31.28 (52.95.31.28)  1.644 ms 52.95.31.42 (52.95.31.42)  0.721 ms
+10  100.91.149.16 (100.91.149.16)  6.774 ms 100.91.149.0 (100.91.149.0)  3.297 ms  3.278 ms
+11  100.91.3.193 (100.91.3.193)  2.101 ms 100.91.3.199 (100.91.3.199)  16.686 ms 100.91.3.197 (100.91.3.197)  2.074 ms
+12  100.91.147.35 (100.91.147.35)  1.647 ms 100.91.147.99 (100.91.147.99)  1.666 ms 100.91.147.35 (100.91.147.35)  1.590 ms
+13  52.95.30.69 (52.95.30.69)  1.678 ms 52.95.30.11 (52.95.30.11)  2.329 ms 52.95.30.27 (52.95.30.27)  1.956 ms
+14  54.239.53.247 (54.239.53.247)  1.312 ms 54.239.53.251 (54.239.53.251)  2.363 ms 54.239.53.237 (54.239.53.237)  1.701 ms
+15  72.14.220.244 (72.14.220.244)  1.465 ms  1.406 ms  1.447 ms
+16  108.170.242.193 (108.170.242.193)  3.106 ms  3.108 ms 108.170.242.161 (108.170.242.161)  1.797 ms
+17  209.85.243.1 (209.85.243.1)  2.661 ms  2.362 ms  2.388 ms
+18  nrt20s09-in-f4.1e100.net (172.217.161.68)  1.647 ms  1.688 ms  1.691 ms
+[root@wenhs-aws ~]# traceroute www.baidu.com
+traceroute to www.baidu.com (119.63.197.139), 30 hops max, 60 byte packets
+ 1  ec2-175-41-192-220.ap-northeast-1.compute.amazonaws.com (175.41.192.220)  19.912 ms ec2-175-41-192-216.ap-northeast-1.compute.amazonaws.com (175.41.192.216)  14.914 ms ec2-175-41-192-218.ap-northeast-1.compute.amazonaws.com (175.41.192.218)  21.939 ms
+ 2  100.66.8.90 (100.66.8.90)  22.108 ms 100.66.8.62 (100.66.8.62)  21.366 ms 100.66.8.118 (100.66.8.118)  13.522 ms
+ 3  100.66.10.10 (100.66.10.10)  15.786 ms 100.66.10.192 (100.66.10.192)  12.084 ms 100.66.10.230 (100.66.10.230)  13.922 ms
+ 4  100.66.6.195 (100.66.6.195)  20.764 ms 100.66.6.239 (100.66.6.239)  11.196 ms 100.66.6.195 (100.66.6.195)  20.744 ms
+ 5  100.66.4.51 (100.66.4.51)  15.529 ms 100.66.4.127 (100.66.4.127)  9.056 ms 100.66.4.145 (100.66.4.145)  6.459 ms
+ 6  100.65.9.161 (100.65.9.161)  0.336 ms 100.65.8.1 (100.65.8.1)  0.988 ms 100.65.8.129 (100.65.8.129)  0.408 ms
+ 7  27.0.0.159 (27.0.0.159)  1.532 ms 27.0.0.73 (27.0.0.73)  2.287 ms 27.0.0.159 (27.0.0.159)  2.505 ms
+ 8  52.95.31.83 (52.95.31.83)  0.961 ms  0.807 ms 52.95.31.75 (52.95.31.75)  1.576 ms
+ 9  52.95.31.68 (52.95.31.68)  1.340 ms 52.95.31.8 (52.95.31.8)  0.661 ms 52.95.31.30 (52.95.31.30)  1.618 ms
+10  52.93.73.245 (52.93.73.245)  6.652 ms 52.95.31.147 (52.95.31.147)  6.815 ms  6.718 ms
+11  54.239.53.19 (54.239.53.19)  14.539 ms 54.239.53.54 (54.239.53.54)  7.296 ms 54.239.53.46 (54.239.53.46)  7.149 ms
+12  54.239.53.90 (54.239.53.90)  6.790 ms 54.239.53.98 (54.239.53.98)  6.844 ms 54.239.53.90 (54.239.53.90)  7.629 ms
+13  210.132.124.201 (210.132.124.201)  7.064 ms  7.197 ms  7.382 ms
+14  27.86.41.109 (27.86.41.109)  8.133 ms 27.85.134.53 (27.85.134.53)  9.559 ms 27.85.228.13 (27.85.228.13)  8.928 ms
+15  27.85.196.9 (27.85.196.9)  8.221 ms 27.85.196.5 (27.85.196.5)  8.634 ms  8.597 ms
+16  27.85.199.194 (27.85.199.194)  7.574 ms 27.85.199.190 (27.85.199.190)  7.472 ms  7.462 ms
+17  118.159.224.162 (118.159.224.162)  10.214 ms  10.623 ms  10.548 ms
+18  * * *
+.....			#看地区,国内运营商大部分屏蔽了路由跟踪,所以是* * *
+30  * * *
+[root@wenhs-aws ~]#</pre></td></tr></table>
+</div>
+</div>
+<h3 id="6-4-netstat">6.4 netstat</h3>
+
+<p><code>netstat</code>用于查看网络状态</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span><span class="lnt">90
+</span><span class="lnt">91
+</span><span class="lnt">92
+</span><span class="lnt">93
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">显示路由表
+[root@wenhs-aws ~]# netstat -r
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+default         ip-10-0-100-1.a 0.0.0.0         UG        0 0          0 eth0
+10.0.100.0      0.0.0.0         255.255.255.0   U         0 0          0 eth0
+[root@wenhs-aws ~]# 
+
+以数字方式显示路由表
+[root@wenhs-aws ~]# netstat -rn
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+0.0.0.0         10.0.100.1      0.0.0.0         UG        0 0          0 eth0
+10.0.100.0      0.0.0.0         255.255.255.0   U         0 0          0 eth0
+[root@wenhs-aws ~]#
+
+显示建立的tcp连接
+[root@wenhs-aws ~]# netstat -t
+Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0     36 ip-10-0-100-10.ap-n:ssh 113.57.246.160:36144    ESTABLISHED
+[root@wenhs-aws ~]#
+
+显示udp连接
+[root@wenhs-aws ~]# netstat -u
+Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+[root@wenhs-aws ~]#
+
+显示监听状态的连接
+[root@wenhs-aws ~]# netstat -l
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 0.0.0.0:ssh             0.0.0.0:*               LISTEN     
+tcp        0      0 localhost:smtp          0.0.0.0:*               LISTEN     
+tcp6       0      0 [::]:ssh                [::]:*                  LISTEN     
+tcp6       0      0 localhost:smtp          [::]:*                  LISTEN     
+udp        0      0 0.0.0.0:bootpc          0.0.0.0:*                          
+udp        0      0 localhost:323           0.0.0.0:*                          
+udp6       0      0 localhost:323           [::]:*                             
+Active UNIX domain sockets (only servers)
+Proto RefCnt Flags       Type       State         I-Node   Path
+unix  2      [ ACC ]     STREAM     LISTENING     26787    public/pickup
+unix  2      [ ACC ]     STREAM     LISTENING     8273     /run/systemd/journal/stdout
+unix  2      [ ACC ]     STREAM     LISTENING     20536    /run/dbus/system_bus_socket
+...
+unix  2      [ ACC ]     STREAM     LISTENING     26831    public/showq
+unix  2      [ ACC ]     SEQPACKET  LISTENING     16876    /run/udev/control
+[root@wenhs-aws ~]# 
+
+显示监听指定的套接字的进程的进程号及进程名
+[root@wenhs-aws ~]# netstat -p
+Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+tcp        0     36 ip-10-0-100-10.ap-n:ssh 113.57.246.160:36144    ESTABLISHED 4376/sshd: root@pts 
+Active UNIX domain sockets (w/o servers)
+Proto RefCnt Flags       Type       State         I-Node   PID/Program name     Path
+unix  3      [ ]         DGRAM                    8254     1/systemd            /run/systemd/notify
+unix  2      [ ]         DGRAM                    8256     1/systemd            /run/systemd/cgroups-agent
+.....
+unix  3      [ ]         STREAM     CONNECTED     26832    4013/master          
+[root@wenhs-aws ~]# 
+
+显示所有状态的连接
+[root@wenhs-aws ~]# netstat -a
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 0.0.0.0:ssh             0.0.0.0:*               LISTEN     
+tcp        0      0 localhost:smtp          0.0.0.0:*               LISTEN     
+tcp        0     36 ip-10-0-100-10.ap-n:ssh 113.57.246.160:36144    ESTABLISHED
+tcp        0      0 ip-10-0-100-10.ap-n:ssh 121.143.145.177:47091   TIME_WAIT  
+tcp6       0      0 [::]:ssh                [::]:*                  LISTEN     
+tcp6       0      0 localhost:smtp          [::]:*                  LISTEN     
+udp        0      0 localhost:323           0.0.0.0:*                          
+udp6       0      0 localhost:323           [::]:*                             
+Active UNIX domain sockets (servers and established)
+Proto RefCnt Flags       Type       State         I-Node   Path
+unix  2      [ ACC ]     STREAM     LISTENING     26787    public/pickup
+unix  3      [ ]         DGRAM                    8254     /run/systemd/notify
+.........
+
+常用选项
+    -antlp
+
+[root@wenhs-aws ~]# netstat -antlp
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      4056/sshd           
+tcp        0      0 127.0.0.1:25            0.0.0.0:*               LISTEN      4013/master         
+tcp        0     36 10.0.100.10:22          113.57.246.160:36144    ESTABLISHED 4376/sshd: root@pts 
+tcp6       0      0 :::22                   :::*                    LISTEN      4056/sshd           
+tcp6       0      0 ::1:25                  :::*                    LISTEN      4013/master         
+[root@wenhs-aws ~]# </pre></td></tr></table>
+</div>
+</div>
+<h3 id="6-5-ss">6.5 ss</h3>
+
+<p>ss是一种网络状态查看工具，取代netstat</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">语法：ss [options] [ FILTER ]
+常用的options：
+    -t：tcp协议相关
+    -u：udp协议相关
+    -w：裸套接字相关
+    -x：unix套接字相关
+    -l：listen状态的连接
+    -a：所有
+    -n：数字格式
+    -p：相关的程序及pid
+    -e：扩展的信息
+    -m：内存用量
+    -o：显示计时器信息
+                
+常见的FILTER：
+    FILTER := [ state TCP-STATE ] [ EXPRESSION ]
+    如：ss -tan state ESTABLISHED
+                        
+常见的state：
+    tcp finite state machine：有限状态机
+        LISTEN：监听
+        ESTABLISHED：已建立的连接
+        
+    EXPRESSION：
+        dport =
+        sport =
+        示例：&#39;( dport = :ssh or sport = :ssh)&#39;，此处的ssh也即服务名可以使用其对应的端口号代替，等号两边必须有空格
+        
+
+常用组合：
+[root@wenhs-aws ~]# ss -tan
+State       Recv-Q Send-Q Local Address:Port               Peer Address:Port              
+LISTEN      0      128     *:22                  *:*                  
+LISTEN      0      100    127.0.0.1:25                  *:*                  
+ESTAB       0      168    10.0.100.10:22                 113.57.246.160:36144              
+LISTEN      0      128    :::22                 :::*                  
+LISTEN      0      100       ::1:25                 :::*                  
+[root@wenhs-aws ~]#
+
+[root@wenhs-aws ~]# ss -tanl
+State       Recv-Q Send-Q Local Address:Port               Peer Address:Port              
+LISTEN      0      128     *:22                  *:*                  
+LISTEN      0      100    127.0.0.1:25                  *:*                  
+LISTEN      0      128    :::22                 :::*                  
+LISTEN      0      100       ::1:25                 :::*                  
+[root@wenhs-aws ~]#
+
+[root@wenhs-aws ~]# ss -antlp
+State       Recv-Q Send-Q Local Address:Port               Peer Address:Port              
+LISTEN      0      128     *:22                  *:*                   users:((&#34;sshd&#34;,pid=4056,fd=3))
+LISTEN      0      100    127.0.0.1:25                  *:*                   users:((&#34;master&#34;,pid=4013,fd=13))
+LISTEN      0      128    :::22                 :::*                   users:((&#34;sshd&#34;,pid=4056,fd=4))
+LISTEN      0      100       ::1:25                 :::*                   users:((&#34;master&#34;,pid=4013,fd=14))
+[root@wenhs-aws ~]#
+
+[root@wenhs-aws ~]# ss -anu
+State       Recv-Q Send-Q Local Address:Port               Peer Address:Port              
+UNCONN      0      0      127.0.0.1:323                 *:*                  
+UNCONN      0      0         ::1:323                :::*                  
+[root@wenhs-aws ~]#</pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">常见端口
+dns  53/udp
+http    80/tcp 
+https   443/tcp 
+ssh     22/tcp 
+ftp     20,21/tcp
+mysql   3306/tcp
+rsync   873/rsync
+redis   6379/tcp</pre></td></tr></table>
+</div>
+</div>
+<h4 id="6-6-网络故障排查">6.6 网络故障排查</h4>
+
+<ul class="task-list">
+<li>网络故障分为硬件/软件故障
+
+<ul class="task-list">
+<li><label><input type="checkbox" disabled class="task-list-item"> 网卡损坏</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> 链路故障</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> 网卡驱动不兼容</label></li>
+</ul></li>
+<li>网络排查思路
+
+<ul class="task-list">
+<li><label><input type="checkbox" disabled class="task-list-item"> ping本地回环口, 确定本机TCP/IP协议栈是否正常</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> ping本机IP地址, 确定本地设备以及驱动是否正常</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> ping同网段主机, 确定二层网络是否正常工作</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> ping网关地址, 确定本地与网络是否正常</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> ping公网地址, 确定本地路由是否正常</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> ping公网域名, 确定DNS客户端是否正常</label></li>
+</ul></li>
+<li>服务故障排查思路
+
+<ul class="task-list">
+<li><label><input type="checkbox" disabled class="task-list-item"> 使用telnet检测端口是否开放</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> 检查服务端防火墙以及SElinux</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> 检查相应的权限是否配置正常</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> 检查日志是否有异常</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> 检查完毕后持续测试</label></li>
+</ul></li>
+</ul>
+
+<p><strong>建议</strong>:</p>
+
+<p>所有的排查思路都从OSI七层模型由下往上逐一进行排查(学会看日志)</p>
+
+<h3 id="实验">实验</h3>
+
+<p><strong>1.查看系统中每个ip的连接数</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs-aws ~]# netstat -n|awk &#39;/^tcp/{print $5}&#39; 
+113.57.246.160:36144
+[root@wenhs-aws ~]# netstat -n|awk &#39;/^tcp/{print $5}&#39;|wc -l
+1
+[root@wenhs-aws ~]#</pre></td></tr></table>
+</div>
+</div>
+<p><strong>2.列出下列服务使用的端口,http,ftp,ssh,telnet,mysql,dns</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">http    80/tcp
+ftp     20,21/tcp 
+ssh     22/tcp 
+telnet 23/tcp
+mysql   3306/tcp
+dns  53/udp</pre></td></tr></table>
+</div>
+</div>
+<p><strong>3.在虚拟机上新增加一块网卡，并配置IP为172.16.0.10，指定网关为172.16.0.1</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">cp /etc/sysconfig/network-scripts/{ifcfg-eth0,ifcfg-eth1}
+vim /etc/sysconfig/network-scripts/ifcfg-eth1
+TYPE=Ethernet
+BOOTPROTO=static
+NAME=eth1
+DEVICE=eth1
+NM_CONTROLLED=no
+ONBOOT=yes
+IPADDR=172.116.0.10
+NETMASK=255.255.255.0
+GATEWAY=172.16.0.1
+DNS1=172.16.0.1
+
+或者一步,参数都记住自己写:
+cat &lt;&lt;EOF&gt;&gt;/etc/sysconfig/network-scripts/ifcfg-eth1
+TYPE=Ethernet
+BOOTPROTO=static
+NAME=eth1
+DEVICE=eth1
+NM_CONTROLLED=no
+ONBOOT=yes
+IPADDR=172.116.0.10
+NETMASK=255.255.255.0
+GATEWAY=172.16.0.1
+DNS1=172.16.0.1
+EOF</pre></td></tr></table>
+</div>
+</div>
+<p><strong>4.详细描述dns解析过程，以访问www.baidu.com为例</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">①用户主机上运行着DNS的客户端，就是我们的PC机或者手机客户端运行着DNS客户端了
+②浏览器将接收到的url中抽取出域名字段，就是访问的主机名，比如http://www.baidu.com/, 并将这个主机名传送给DNS应用的客户端
+③DNS客户机端向DNS服务器端发送一份查询报文，报文中包含着要访问的主机名字段（中间包括一些列缓存查询以及分布式DNS集群的工作）
+④该DNS客户机最终会收到一份回答报文，其中包含有该主机名对应的IP地址
+⑤一旦该浏览器收到来自DNS的IP地址，就可以向该IP地址定位的HTTP服务器发起TCP连接
+
+[root@wenhs-aws ~]# dig +trace www.baidu.com
+
+; &lt;&lt;&gt;&gt; DiG 9.9.4-RedHat-9.9.4-73.el7_6 &lt;&lt;&gt;&gt; +trace www.baidu.com
+;; global options: +cmd
+.			518400	IN	NS	L.ROOT-SERVERS.NET.
+.			518400	IN	NS	M.ROOT-SERVERS.NET.
+.			518400	IN	NS	A.ROOT-SERVERS.NET.
+.			518400	IN	NS	B.ROOT-SERVERS.NET.
+.			518400	IN	NS	C.ROOT-SERVERS.NET.
+.			518400	IN	NS	D.ROOT-SERVERS.NET.
+.			518400	IN	NS	E.ROOT-SERVERS.NET.
+.			518400	IN	NS	F.ROOT-SERVERS.NET.
+.			518400	IN	NS	G.ROOT-SERVERS.NET.
+.			518400	IN	NS	H.ROOT-SERVERS.NET.
+.			518400	IN	NS	I.ROOT-SERVERS.NET.
+.			518400	IN	NS	J.ROOT-SERVERS.NET.
+.			518400	IN	NS	K.ROOT-SERVERS.NET.
+;; Received 811 bytes from 10.0.0.2#53(10.0.0.2) in 7 ms
+
+com.			172800	IN	NS	a.gtld-servers.net.
+com.			172800	IN	NS	e.gtld-servers.net.
+com.			172800	IN	NS	l.gtld-servers.net.
+com.			172800	IN	NS	i.gtld-servers.net.
+com.			172800	IN	NS	g.gtld-servers.net.
+com.			172800	IN	NS	f.gtld-servers.net.
+com.			172800	IN	NS	h.gtld-servers.net.
+com.			172800	IN	NS	j.gtld-servers.net.
+com.			172800	IN	NS	c.gtld-servers.net.
+com.			172800	IN	NS	m.gtld-servers.net.
+com.			172800	IN	NS	d.gtld-servers.net.
+com.			172800	IN	NS	k.gtld-servers.net.
+com.			172800	IN	NS	b.gtld-servers.net.
+com.			86400	IN	DS	30909 8 2 E2D3C916F6DEEAC73294E8268FB5885044A833FC5459588F4A9184CF C41A5766
+com.			86400	IN	RRSIG	DS 8 1 86400 20190331170000 20190318160000 16749 . XOWxpjf7b0ZVxRoIr2eJvXzd/jAAYk+wyfLk9tyUrUWsBcm2KPeZW9z4 vd1LVzZKZG68Hd/SGdbjmwB5SVS3MJ4OhLCl/GjongZqYQ1LXUMFl4JK H715rc37vUT+3qVq9vjKs/dm4560fCXcph1XzYtj0EhdPHm0pme9tjyl 7xay1HqtGD62e9odTgDapDeYg1p6OZZ8BypYagG/EOCi1tJSwmXnn5V4 YpTrKXZ36/2cGnFIQbApjkEbCB+nesjeHIIMnOdYFb1ufYtFdvhMrr1v PAL2VHqYlYqZt93kfLnynSkxA6UXWzKttvyuJqrjb/xtMKkUPD6Mit03 Kf0qRA==
+;; Received 1173 bytes from 199.9.14.201#53(B.ROOT-SERVERS.NET) in 116 ms
+
+baidu.com.		172800	IN	NS	ns2.baidu.com.
+baidu.com.		172800	IN	NS	ns3.baidu.com.
+baidu.com.		172800	IN	NS	ns4.baidu.com.
+baidu.com.		172800	IN	NS	ns1.baidu.com.
+baidu.com.		172800	IN	NS	ns7.baidu.com.
+CK0POJMG874LJREF7EFN8430QVIT8BSM.com. 86400 IN NSEC3 1 1 0 - CK0Q1GIN43N1ARRC9OSM6QPQR81H5M9A NS SOA RRSIG DNSKEY NSEC3PARAM
+CK0POJMG874LJREF7EFN8430QVIT8BSM.com. 86400 IN RRSIG NSEC3 8 2 86400 20190324044646 20190317033646 16883 com. f2hJ7tw/8vfb5zFICChoxKLDH4OYgiVlVrPqujnu7iFMqHfv3CYGqXsw w9un0N7NZy1l99VRfxVwiihNWIaJtEkPCBDxsN9VxyqFuDS/x6H1gTwA 3xvjAWsdUbmqZdUISVLu0E1oifIx1IcIwIceGPRSUq3bxAKQUOMCdyAV 43Q=
+HPVV2B5N85O7HJJRB7690IB5UVF9O9UA.com. 86400 IN NSEC3 1 1 0 - HPVVN3Q5E5GOQP2QFE2LEM4SVB9C0SJ6 NS DS RRSIG
+HPVV2B5N85O7HJJRB7690IB5UVF9O9UA.com. 86400 IN RRSIG NSEC3 8 2 86400 20190322050600 20190315035600 16883 com. dXvLamIne0cO6SIn/6qnH+0DmAjbAvwizXxcdnYeAjxRvrt4GXIsgljC amDSCtlvtZF+4i2EEgmEF3DXIuWef8Yp0YqRXlAsxFnOk4BY4hhD1Gno hH8MVb5ZV6moGREbPu8U+qzwgXugej/EfyNt6LlURHRoOCFi55EdCqgw eZo=
+;; Received 697 bytes from 192.33.14.30#53(b.gtld-servers.net) in 37 ms
+
+www.baidu.com.		1200	IN	CNAME	www.a.shifen.com.
+a.shifen.com.		1200	IN	NS	ns5.a.shifen.com.
+a.shifen.com.		1200	IN	NS	ns3.a.shifen.com.
+a.shifen.com.		1200	IN	NS	ns4.a.shifen.com.
+a.shifen.com.		1200	IN	NS	ns2.a.shifen.com.
+a.shifen.com.		1200	IN	NS	ns1.a.shifen.com.
+;; Received 239 bytes from 14.215.178.80#53(ns4.baidu.com) in 64 ms
+
+[root@wenhs-aws ~]#</pre></td></tr></table>
+</div>
+</div>
+<p><strong>5.如何查看系统中运行了多少个进程</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">netstat -nap
+或者
+ps -aux</pre></td></tr></table>
+</div>
+</div>
+<p><strong>6.如何查看系统中启动了哪些端口</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">netstat -antlp</pre></td></tr></table>
+</div>
+</div>
+<p><strong>7.如何查看是否开启80端口，及查看sshd进程是否存在</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">通过&#34;netstat -anp&#34; 来查看哪些端口被打开
+netstat -anp | grep :22</pre></td></tr></table>
+</div>
+</div>
+<p><strong>8.列出所有处于监听状态的tcp端口</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">netstat -lt</pre></td></tr></table>
+</div>
+</div>
+<p><strong>9.查看所有的端口信息, 包括 PID 和进程名称</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">netstat -antlp</pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Mr Wen</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2018-09-08 16:15
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener" href="https://github.com/itwhs/itwhs.github.io/blob/master/LICENSE">MIT</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/network/">network</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/%E7%BD%91%E7%BB%9C%E8%BF%9B%E9%98%B6%E7%AE%A1%E7%90%86/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">网络进阶管理</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85%E5%8C%85%E7%AE%A1%E7%90%86/">
+            <span class="next-text nav-default">源码安装包管理</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:itwhs@foxmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://blog.csdn.net/wenhs5479" class="iconfont icon-cnblogs" title="cnblogs"></a>
+      <a href="https://github.com/itwhs" class="iconfont icon-github" title="github"></a>
+  <a href="https://itwhs.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Mr Wen</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139425163-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

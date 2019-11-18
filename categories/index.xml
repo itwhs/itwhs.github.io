@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on itw&#39;s blog</title>
+    <link>https://itwhs.github.io/categories/</link>
+    <description>Recent content in Categories on itw&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 10 Nov 2019 16:15:57 +0800</lastBuildDate>
+    
+	<atom:link href="https://itwhs.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>比赛</title>
+      <link>https://itwhs.github.io/categories/%E6%AF%94%E8%B5%9B/</link>
+      <pubDate>Sun, 10 Nov 2019 16:15:57 +0800</pubDate>
+      
+      <guid>https://itwhs.github.io/categories/%E6%AF%94%E8%B5%9B/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Docker</title>
+      <link>https://itwhs.github.io/categories/docker/</link>
+      <pubDate>Sat, 26 Oct 2019 16:15:57 +0800</pubDate>
+      
+      <guid>https://itwhs.github.io/categories/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Network</title>
+      <link>https://itwhs.github.io/categories/network/</link>
+      <pubDate>Sat, 08 Jun 2019 16:15:57 +0800</pubDate>
+      
+      <guid>https://itwhs.github.io/categories/network/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Linux运维</title>
+      <link>https://itwhs.github.io/categories/linux%E8%BF%90%E7%BB%B4/</link>
+      <pubDate>Sun, 02 Jun 2019 16:15:57 +0800</pubDate>
+      
+      <guid>https://itwhs.github.io/categories/linux%E8%BF%90%E7%BB%B4/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>网络安全</title>
+      <link>https://itwhs.github.io/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/</link>
+      <pubDate>Sat, 11 May 2019 16:15:57 +0800</pubDate>
+      
+      <guid>https://itwhs.github.io/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

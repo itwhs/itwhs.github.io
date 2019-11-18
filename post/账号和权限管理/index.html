@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>账号和权限管理 - itw&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Mr Wen" /><meta name="description" content="" /><meta name="keywords" content="Linux, Github, Network, Cloud, Python" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://itwhs.github.io/post/%E8%B4%A6%E5%8F%B7%E5%92%8C%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/reset-even.css">
+
+
+<meta property="og:title" content="账号和权限管理" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://itwhs.github.io/post/%E8%B4%A6%E5%8F%B7%E5%92%8C%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/" />
+<meta property="article:published_time" content="2018-05-27T16:15:57&#43;08:00"/>
+<meta property="article:modified_time" content="2018-05-27T16:15:57&#43;08:00"/>
+
+<meta itemprop="name" content="账号和权限管理">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2018-05-27T16:15:57&#43;08:00" />
+<meta itemprop="dateModified" content="2018-05-27T16:15:57&#43;08:00" />
+<meta itemprop="wordCount" content="1816">
+
+
+
+<meta itemprop="keywords" content="权限管理," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="账号和权限管理"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">itw</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a><a href="https://github.com/itwhs/">
+        <li class="mobile-menu-item">GitHub</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">itw</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/itwhs/">GitHub</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">账号和权限管理</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-05-27 16:15 </span>
+        <div class="post-category">
+            <a href="/categories/linux%E8%BF%90%E7%BB%B4/"> Linux运维 </a>
+            </div>
+          <span class="more-meta"> 约 1816 字 </span>
+          <span class="more-meta"> 预计阅读 4 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#一-用户和组账号的概述">一、用户和组账号的概述；</a>
+<ul>
+<li><a href="#1-概念-用户-包含一个名和密码-人在计算机中的体现方式-包含root-普通用户-程序用户">1.概念：用户：包含一个名和密码，人在计算机中的体现方式，包含root、普通用户、程序用户；</a></li>
+<li><a href="#2-用户和组的文件">2.用户和组的文件；</a></li>
+<li><a href="#3-用户账号文件格式-etc-passwd">3.用户账号文件格式：/etc/passwd</a></li>
+<li><a href="#4-用户密码文件格式-etc-shadow">4.用户密码文件格式；/etc/shadow</a></li>
+<li><a href="#5-组账号文件-etc-group">5.组账号文件：/etc/group</a></li>
+</ul></li>
+<li><a href="#二-用户及组账号的管理">二、用户及组账号的管理；</a>
+<ul>
+<li><a href="#1-用户的管理">1.用户的管理：</a></li>
+<li><a href="#2-组的管理">2.组的管理：</a></li>
+</ul></li>
+<li><a href="#三-管理目录及文件的属性">三、管理目录及文件的属性；</a>
+<ul>
+<li><a href="#1-概念">1.概念：</a></li>
+<li><a href="#2-查看文件或目录的属性">2.查看文件或目录的属性：</a></li>
+<li><a href="#4-设置目录或文件的归属">4.设置目录或文件的归属；</a></li>
+</ul></li>
+<li><a href="#四-扩展">四、扩展：</a>
+<ul>
+<li><a href="#1-umask文件反权限">1.umask文件反权限：</a></li>
+<li><a href="#2-chattr锁定文件">2.chattr锁定文件：</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="一-用户和组账号的概述">一、用户和组账号的概述；</h1>
+
+<h2 id="1-概念-用户-包含一个名和密码-人在计算机中的体现方式-包含root-普通用户-程序用户">1.概念：用户：包含一个名和密码，人在计算机中的体现方式，包含root、普通用户、程序用户；</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">组：用户的集合，批量管理用户群权限，包含基本组、附加组（一个用户只能属于一个基本组，但是可以属于多个附加组）；
+权限：限制用户访问资源（文件、app、进程、硬件等）；
+UID：每个用户账号都有一个数字标识（身份证），root（0）、普通用户（500-60000）、程序用户（1-499）；
+GID：每个组账号的唯一身份标识；root（0）、普通组账号（500-60000）、程序组账号（1-499）；</pre></td></tr></table>
+</div>
+</div>
+<h2 id="2-用户和组的文件">2.用户和组的文件；</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">/etc/passwd	##账号文件
+/etc/shadow	##密码文件
+/etc/group	##组账号文件
+/etc/gshadow	##组密码文件，很少使用</pre></td></tr></table>
+</div>
+</div>
+<h2 id="3-用户账号文件格式-etc-passwd">3.用户账号文件格式：/etc/passwd</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">用户名：密码占位符：UID：GID：全名：家目录：登陆shell解释器
+密码占位符：可能是以密文的字符串代表或者X密码占位符；
+登陆shell解释器：用户默认的的解释器，默认情况用户使用/bin/bash作为shell，若修改为/sbin/nologin（禁止登陆），</pre></td></tr></table>
+</div>
+</div>
+<h2 id="4-用户密码文件格式-etc-shadow">4.用户密码文件格式；/etc/shadow</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">用户名：MD5加密的密码字串信息：上次修改密码到现在的时间：密码最短有效天数：密码最长有效天数：提前几天警	告用户密码将要过期：在密码过期多少天后禁用账户：账号失效时间（默认为空，表示永久）；保留字段
+密码字串信息：
+!!：未初始化密码，新建用户的默认状态
+密码字符串：修改密码后的状态
+!!加密字符串或*加密字符串：密码被锁定，不能登陆
+空：登陆不需要密码，只能本地登录（无需密码）</pre></td></tr></table>
+</div>
+</div>
+<h2 id="5-组账号文件-etc-group">5.组账号文件：/etc/group</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">组名：密码占位符：GID：成员列表</pre></td></tr></table>
+</div>
+</div>
+<h1 id="二-用户及组账号的管理">二、用户及组账号的管理；</h1>
+
+<h2 id="1-用户的管理">1.用户的管理：</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">增：useradd 选项 用户名
+选项：-d	##指定家目录		
+     -M   ##不指定家目录
+	 -s	  ##指定用户的登陆shell
+	 -g	  ##指定用户的基本组
+	 -G	  ##指定用户的附加组（可指定GID）
+删：userdel -r 用户名
+    删除用户的同时也将家目录一并删除
+改：usermod 选项 用户名
+选项：包含创建用户的所有选项
+  	 passwd 用户名		##为用户设置密码
+	 passwd 选项 用户名
+	 选项：-d	##清空用户的密码（不用密码登录）
+		  -l		##锁定用户
+		  -u		##解锁用户
+		  -S		##查看用户锁定状态
+	chsh -s 解释器目录 用户名	##更改用户的shell解释器
+查：
+	grep 用户名 /etc/passwd		##查看账号信息
+	id 用户名	##显示用户UID和所属组
+	w		##查看当前主机的登陆情况</pre></td></tr></table>
+</div>
+</div>
+<h2 id="2-组的管理">2.组的管理：</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">增：groupadd 组名
+	选项-g可指定GID；
+删：groupdel 组名
+改：gpasswd 选项 用户名 组名
+选项：-a 	##将单个用户添加到某个组
+	 -M  ##将多个用户添加到某个组，用户之间用逗号隔开
+	 -d	 ##将某个用户在某个组中删除
+查：
+	groups 用户名		##查看用户属于哪个组
+	grep 组名	/etc/group		##查看组信息</pre></td></tr></table>
+</div>
+</div>
+<h1 id="三-管理目录及文件的属性">三、管理目录及文件的属性；</h1>
+
+<h2 id="1-概念">1.概念：</h2>
+
+<ul>
+<li><code>访问权限</code>：读取（r）、写入（w）、执行（x）</li>
+
+<li><p><code>归属</code>：属主：拥有该文件的用户</p></li>
+
+<li><p><code>属组</code>：拥有该文件的组账号</p></li>
+</ul>
+
+<h2 id="2-查看文件或目录的属性">2.查看文件或目录的属性：</h2>
+
+<p>ls -ld 目录或文件位置</p>
+
+<p><code>格式</code>：文件类型、权限、inode数量、属主、属组、大小、日期、文件名
+  权限列表：</p>
+
+<ul>
+<li><code>第一个字符</code>：文件类型，d目录、b块设备文件、c字符设备文件、l链接文件、-普通文件；</li>
+<li><code>第2-4个字符</code>：属主对文件的权限；</li>
+<li><code>第5-7个字符</code>：属组对文件的权限；</li>
+<li><code>第8-10个字符</code>：任何用户对文件的权限；</li>
+</ul>
+
+<p>权限的表示：</p>
+
+<ul>
+<li><code>r</code>：读取，查看内容，也可以用4表示；</li>
+<li><code>w</code>：写入，写入（删除、更改、移动等）内容，也可用2表示；</li>
+<li><code>x</code>：执行，执行此文件或cd到此目录，也可用1表示；</li>
+</ul>
+
+<p>## 3.设置文件或目录的权限；</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">语法：chmod [ugoa] [+-=] [rwx] 文件或目录
+举例：chmod g-x, o-r 文件或目录
+选项：-R 表示递归权限，目录下的子目录子文件继承父级目录的权限；
+语法：chmod 775 文件或目录</pre></td></tr></table>
+</div>
+</div>
+<h2 id="4-设置目录或文件的归属">4.设置目录或文件的归属；</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">语法：chown 属主 文件或目录       ##设置其属主
+     chown :属组 文件或目录        ##设置其属组
+     chown 属主:属组 文件或目录      ##设置其属主和属组
+注：选项-R 递归可将其子目录子文件继承父级目录的归属；</pre></td></tr></table>
+</div>
+</div>
+<h1 id="四-扩展">四、扩展：</h1>
+
+<h2 id="1-umask文件反权限">1.umask文件反权限：</h2>
+
+<ul>
+<li><p><code>umask</code>           ##查看系统的默认权限反掩码值，文件最大权限为666，目录最大权限为777</p></li>
+
+<li><p><code>umask ###</code>           ##手动更改文件权限的反掩码值，更改后创建文件或目录验证反掩码值</p></li>
+</ul>
+
+<h2 id="2-chattr锁定文件">2.chattr锁定文件：</h2>
+
+<ul>
+<li><p><code>chattr +i 文件路径</code>   ##锁定文件，不得移动删除等</p></li>
+
+<li><p><code>chattr -i 文件路径</code>   ##解锁文件</p></li>
+</ul>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Mr Wen</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2018-05-27 16:15
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener" href="https://github.com/itwhs/itwhs.github.io/blob/master/LICENSE">MIT</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/">权限管理</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">用户和组管理</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86/">
+            <span class="next-text nav-default">软件包管理</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:itwhs@foxmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://blog.csdn.net/wenhs5479" class="iconfont icon-cnblogs" title="cnblogs"></a>
+      <a href="https://github.com/itwhs" class="iconfont icon-github" title="github"></a>
+  <a href="https://itwhs.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Mr Wen</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139425163-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

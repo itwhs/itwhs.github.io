@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>三种代理 - itw&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Mr Wen" /><meta name="description" content="" /><meta name="keywords" content="Linux, Github, Network, Cloud, Python" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://itwhs.github.io/post/%E4%B8%89%E7%A7%8D%E4%BB%A3%E7%90%86%E7%9A%84%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/reset-even.css">
+
+
+<meta property="og:title" content="三种代理" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://itwhs.github.io/post/%E4%B8%89%E7%A7%8D%E4%BB%A3%E7%90%86%E7%9A%84%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/" />
+<meta property="article:published_time" content="2018-12-02T16:15:57&#43;08:00"/>
+<meta property="article:modified_time" content="2018-12-02T16:15:57&#43;08:00"/>
+
+<meta itemprop="name" content="三种代理">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2018-12-02T16:15:57&#43;08:00" />
+<meta itemprop="dateModified" content="2018-12-02T16:15:57&#43;08:00" />
+<meta itemprop="wordCount" content="2505">
+
+
+
+<meta itemprop="keywords" content="proxy," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="三种代理"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">itw</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a><a href="https://github.com/itwhs/">
+        <li class="mobile-menu-item">GitHub</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">itw</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/itwhs/">GitHub</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">三种代理</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-12-02 16:15 </span>
+        <div class="post-category">
+            <a href="/categories/linux%E8%BF%90%E7%BB%B4/"> Linux运维 </a>
+            </div>
+          <span class="more-meta"> 约 2505 字 </span>
+          <span class="more-meta"> 预计阅读 5 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#正向代理-反向代理以及透明代理的简单总结">正向代理、反向代理以及透明代理的简单总结</a>
+<ul>
+<li><a href="#1-正向代理服务器">1.正向代理服务器</a></li>
+<li><a href="#2-反向代理服务器">2.反向代理服务器</a></li>
+<li><a href="#3-透明代理服务器">3.透明代理服务器</a></li>
+<li><a href="#正向代理-forward-proxy-代理端代理的是客户端">正向代理(Forward Proxy)-代理端代理的是客户端</a>
+<ul>
+<li><a href="#使用正向代理服务器的作用如下">使用正向代理服务器的作用如下：</a></li>
+<li><a href="#使用反向代理服务器的作用如下">使用反向代理服务器的作用如下：</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#总结">总结</a>
+<ul>
+<li>
+<ul>
+<li><a href="#正向代理">正向代理</a></li>
+<li><a href="#反向代理">反向代理</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="正向代理-反向代理以及透明代理的简单总结">正向代理、反向代理以及透明代理的简单总结</h2>
+
+<p>代理服务技术是一门很古老的技术，是在互联网早期出现就使用的技术。一般实现代理技术的方式就是在服务器上安装代理服务软件，让其成为一个代理服务器，从而实现代理技术。常用的代理技术分为正向代理、反向代理和透明代理。</p>
+
+<h3 id="1-正向代理服务器">1.正向代理服务器</h3>
+
+<p>正向代理服务器位于用户与目标服务器之间，用户通过对代理服务器发送指向目标服务器的请求来获得资源。用户端需要作一些设定才可以使用正向代理服务器，而反向/透明代理服务器是不需要对用户端进行任何设定的。</p>
+
+<p><img src="../../img/1559291821892525.png" alt="正向代理服务器" /></p>
+
+<h3 id="2-反向代理服务器">2.反向代理服务器</h3>
+
+<p>反向代理服务器同样位于用户与目标服务器之间，但对于用户而言，反向代理服务器就相当于目标服务器，即用户直接访问反向代理服务器就可以获得目标服务器的资源。同时，用户不需要知道目标服务器地址，也无需在用户端作任何设定。反向代理服务器通常可用来作Web加速，即使用反向代理作为Web服务器的前置机来降低网络和服务器的负载，提高访问效率。</p>
+
+<p><img src="../../img/1559291828305494.png" alt="反向代理服务器" /></p>
+
+<h3 id="3-透明代理服务器">3.透明代理服务器</h3>
+
+<p>透明代理服务器位于于用户与目标服务器之间.和前两种服务器不同的是，用户即不需要对客户端进行任何设定，也无需知道代理服务器的地址。用户只需要向目标服务器上的资源发起请求即可，然后透明代理服务器会将系统的请求重新定向到代理服务器，然后由代理服务器获得目标资源并返回给用户端。通常，透明代理服务器在局域网中应用。</p>
+
+<p><img src="../../img/1559291831121815.png" alt="透明代理服务器 " /></p>
+
+<h3 id="正向代理-forward-proxy-代理端代理的是客户端">正向代理(Forward Proxy)-代理端代理的是客户端</h3>
+
+<p>一般情况下，如果没有特别说明，代理技术默认说的是正向代理技术。关于正向代理的概念如下： 正向代理(forward)是一个位于客户端【用户A】和原始服务器(origin server)【服务器B】之间的服务器【代理服务器Z】，为了从原始服务器取得内容，用户A向代理服务器Z发送一个请求并指定目标(服务器B)，然后代理服务器Z向服务器B转交请求并将获得的内容返回给客户端。客户端必须要进行一些特别的设置才能使用正向代理。</p>
+
+<p><img src="../../img/16adfd339dd7624b.jpg" alt="正向代理与反向代理示意图1" /></p>
+
+<p>从上面的概念中，我们看出，文中所谓的<strong>正向代理就是代理服务器替代访问方【用户】去访问目标服务器【服务器】</strong></p>
+
+<h4 id="使用正向代理服务器的作用如下">使用正向代理服务器的作用如下：</h4>
+
+<p><strong>1.翻墙</strong></p>
+
+<p>国内用浏览器访问某些被强网站时，被残忍的拒绝了，于是你可以在国外搭建一台代理服务器，让代理帮我去请求，代理把请求返回的相应结构再返回给我。</p>
+
+<p><img src="../../img/16adfd339e4caeda.jpg" alt="翻墙" /></p>
+
+<p><strong>2.Cache作用</strong></p>
+
+<p>数据缓存在代理服务器上，如果客户端请求的内容在缓存中则不去访问目标主机。 Cache（缓存）技术和代理服务技术是紧密联系的（不光是正向代理，反向代理也使用了Cache（缓存）技术。如果在用户A访问服务器B某数据J之前，已经有人通过代理服务器Z访问过服务器B上得数据J，那么代理服务器Z会把数据J保存一段时间，如果有人正好取该数据J，那么代理服务器Z不再访问服务器B，而把缓存的数据J直接发给用户A。这一技术在Cache中术语就叫Cache命中。如果有更多的像用户A的用户来访问代理服务器Z，那么这些用户都可以直接从代理服务器Z中取得数据J，而不用千里迢迢的去服务器B下载数据了。</p>
+
+<p><strong>3.客户端访问授权</strong></p>
+
+<p>这方面的内容现今使用的还是比较多的，例如一些公司采用ISA SERVER做为正向代理服务器来授权用户是否有权限访问互联网。</p>
+
+<p><img src="../../img/16adfd339debb546.jpg" alt="客户端访问授权" /></p>
+
+<p>防火墙作为网关，用来过滤外网对其的访问。假设用户A和用户B都设置了代理服务器，用户A允许访问互联网，而用户B不允许访问互联网（这个在代理服务器Z上做限制）这样用户A因为授权，可以通过代理服务器访问到服务器B，而用户B因为没有被代理服务器Z授权，所以访问服务器B时，数据包会被直接丢弃。</p>
+
+<p><strong>4.隐藏访问者</strong></p>
+
+<p>通过配置，目标服务器无法获取真实客户端信息，只能获取到代理服务器的信息</p>
+
+<p>##反向代理(Forward Proxy)-代理端代理的是服务端</p>
+
+<p>反向代理正好与正向代理相反，对于客户端而言<strong>代理服务器就像是原始服务器</strong>，并且客户端不需要进行任何特别的设置。客户端向反向代理的命名空间(name-space)中的内容发送普通请求，接着反向代理将判断向何处(原始服务器)转交请求，并将获得的内容返回给客户端。</p>
+
+<h4 id="使用反向代理服务器的作用如下">使用反向代理服务器的作用如下：</h4>
+
+<p><strong>1.保护和隐藏原始资源服务器</strong></p>
+
+<p><img src="../../img/16adfd339e359655.jpg" alt="保护和隐藏原始资源服务器" /></p>
+
+<p>如上图所示，用户A始终认为它访问的是原始服务器B而不是代理服务器Z，但实用际上反向代理服务器接受用户A的应答，从原始资源服务器B中取得用户A的需求资源，然后发送给用户A。由于防火墙的作用，只允许代理服务器Z访问原始资源服务器B。尽管在这个虚拟的环境下，防火墙和反向代理的共同作用保护了原始资源服务器B，但用户A并不知情。</p>
+
+<p><strong>2.负载均衡</strong></p>
+
+<p><img src="../../img/16adfd339ebeed4b.jpg" alt="负载均衡" /></p>
+
+<p>当反向代理服务器不止一个的时候，我们甚至可以把它们做成集群，当更多的用户访问资源服务器B的时候，让不同的代理服务器Z(x)去应答不同的用户，然后发送不同用户需要的资源。</p>
+
+<p><strong>3.cache缓存</strong></p>
+
+<p>当然反向代理服务器像正向代理服务器一样拥有cache的作用，它可以缓存原始资源服务器B的资源，而不是每次都要向原始资源服务器B请求数据，特别是一些静态的数据，比如图片和文件，如果这些反向代理服务器能够做到和用户X来自同一个网络，那么用户X访问反向代理服务器X，就会得到很高质量的速度。这正是CDN技术的核心。如下图所示</p>
+
+<p><img src="../../img/16adfd33cadfe378.jpg" alt="image.png" /></p>
+
+<h2 id="总结">总结</h2>
+
+<h4 id="正向代理">正向代理</h4>
+
+<p>正向代理位于客户端和源服务器之间的服务器<strong>（代理客户端）</strong>；</p>
+
+<ul>
+<li><strong>隐藏客户端</strong>：由代理服务器代替客户端去访问目标服务器，用户需要设置代理服务器的IP和端口；</li>
+<li>每一次请求是到代理服务器，代理服务器转发请求到真实服务器并获取结果返回给客户端</li>
+</ul>
+
+<p><strong>作用：</strong></p>
+
+<ul>
+<li>翻墙：绕过无法访问的结点，从另外一条路由路径进行目标服务器的访问；</li>
+<li>缓存：数据缓存在代理服务器上，如果客户端请求的内容在缓存中则不去访问目标主机；</li>
+<li>权限控制：防火墙授权代理服务器访问权限，客户端通过正向代理可以通过防火墙；</li>
+<li>隐藏访问者：通过配置，目标服务器无法获取真实客户端信息，只能获取到代理服务器的信息</li>
+</ul>
+
+<h4 id="反向代理">反向代理</h4>
+
+<p>对于客户端而言，反向代理服务器像是原始服务器<strong>（代理服务端）</strong>；</p>
+
+<ul>
+<li><strong>隐藏真实服务器</strong>：代理服务器代替目标服务器去接受并返回客户端的请求</li>
+</ul>
+
+<p><strong>作用：</strong></p>
+
+<ul>
+<li>隐藏真实服务器：防止服务器恶意攻击等；</li>
+<li>缓存作用：数据缓存在代理服务器上，如果客户端请求的内容在缓存中则不去访问目标主机；</li>
+<li>负载均衡：如nginx</li>
+</ul>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Mr Wen</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2018-12-02 16:15
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener" href="https://github.com/itwhs/itwhs.github.io/blob/master/LICENSE">MIT</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/proxy/">proxy</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/mysql%E4%B8%BB%E4%BB%8E/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">MySQL主从</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/xtrabackup/">
+            <span class="next-text nav-default">xtrabackup</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:itwhs@foxmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://blog.csdn.net/wenhs5479" class="iconfont icon-cnblogs" title="cnblogs"></a>
+      <a href="https://github.com/itwhs" class="iconfont icon-github" title="github"></a>
+  <a href="https://itwhs.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Mr Wen</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139425163-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>SaltStack进阶 - itw&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Mr Wen" /><meta name="description" content="" /><meta name="keywords" content="Linux, Github, Network, Cloud, Python" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://itwhs.github.io/post/saltstack%E8%BF%9B%E9%98%B6/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/reset-even.css">
+
+
+<meta property="og:title" content="SaltStack进阶" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://itwhs.github.io/post/saltstack%E8%BF%9B%E9%98%B6/" />
+<meta property="article:published_time" content="2019-03-30T16:15:57&#43;08:00"/>
+<meta property="article:modified_time" content="2019-03-30T16:15:57&#43;08:00"/>
+
+<meta itemprop="name" content="SaltStack进阶">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2019-03-30T16:15:57&#43;08:00" />
+<meta itemprop="dateModified" content="2019-03-30T16:15:57&#43;08:00" />
+<meta itemprop="wordCount" content="2139">
+
+
+
+<meta itemprop="keywords" content="自动化," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="SaltStack进阶"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">itw</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a><a href="https://github.com/itwhs/">
+        <li class="mobile-menu-item">GitHub</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">itw</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/itwhs/">GitHub</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">SaltStack进阶</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-03-30 16:15 </span>
+        <div class="post-category">
+            <a href="/categories/linux%E8%BF%90%E7%BB%B4/"> Linux运维 </a>
+            </div>
+          <span class="more-meta"> 约 2139 字 </span>
+          <span class="more-meta"> 预计阅读 5 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#1-masterless">1. masterless</a>
+<ul>
+<li><a href="#1-1-应用场景">1.1 应用场景</a></li>
+<li><a href="#1-2-masterless配置">1.2 masterless配置</a>
+<ul>
+<li><a href="#1-2-1-修改配置文件minion">1.2.1 修改配置文件minion</a></li>
+<li><a href="#1-2-2-关闭salt-minion服务">1.2.2 关闭salt-minion服务</a></li>
+<li><a href="#1-2-3-salt-call">1.2.3 salt-call</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#2-salt-master高可用">2. salt-master高可用</a>
+<ul>
+<li><a href="#2-1-salt-master高可用配置">2.1 salt-master高可用配置</a></li>
+<li><a href="#2-2-salt-master高可用之数据同步">2.2 salt-master高可用之数据同步</a></li>
+</ul></li>
+<li><a href="#3-salt-syndic分布式架构">3. salt-syndic分布式架构</a>
+<ul>
+<li><a href="#3-1-salt-syndic架构图">3.1 salt-syndic架构图</a></li>
+<li><a href="#3-2-salt-syndic的优劣势">3.2 salt-syndic的优劣势</a></li>
+<li><a href="#3-3-salt-syndic部署">3.3 salt-syndic部署</a>
+<ul>
+<li><a href="#3-3-1-环境说明">3.3.1 环境说明</a></li>
+<li><a href="#3-3-2-安装salt-master与salt-syndic">3.3.2 安装salt-master与salt-syndic</a></li>
+<li><a href="#3-3-3-配置master">3.3.3 配置master</a></li>
+<li><a href="#3-3-4-配置syndic">3.3.4 配置syndic</a></li>
+<li><a href="#3-3-5-配置minion">3.3.5 配置minion</a></li>
+<li><a href="#3-3-6-在syndic上接受minion主机的key">3.3.6 在syndic上接受minion主机的key</a></li>
+<li><a href="#3-3-7-在master上接受syndic主机的key">3.3.7 在master上接受syndic主机的key</a></li>
+<li><a href="#3-3-8-在master上执行模块或状态检验有几个minion应答">3.3.8 在master上执行模块或状态检验有几个minion应答</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="1-masterless">1. masterless</h2>
+
+<h3 id="1-1-应用场景">1.1 应用场景</h3>
+
+<ul>
+<li>master 与 minion 网络不通或通信有延迟，即网络不稳定</li>
+<li>想在 minion 端直接执行状态</li>
+</ul>
+
+<p>传统的 SaltStack 是需要通过 master 来执行状态控制 minion 从而实现状态的管理，但是当网络不稳定的时候，当想在minion本地执行状态的时候，当在只有一台主机的时候，想执行状态该怎么办呢？这就需要用到 masterless 了。</p>
+
+<p>有了masterless，即使你只有一台主机，也能玩saltstack，而不需要你有N台主机架构。</p>
+
+<h3 id="1-2-masterless配置">1.2 masterless配置</h3>
+
+<h4 id="1-2-1-修改配置文件minion">1.2.1 修改配置文件minion</h4>
+
+<ul>
+<li>注释master行</li>
+<li>取消注释file_client并设其值为local</li>
+<li>设置file_roots</li>
+<li>设置pillar_roots</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@minion ~]# vim /etc/salt/minion
+....此处省略N行
+# resolved, then the minion will fail to start.
+# master: salt      //注释此行
+....此处省略N行
+file_client: local  //取消此行注释并将值设为local
+....此处省略N行
+file_roots:         //设置file_roots的路径和环境，可有多套环境
+  base:
+    - /srv/salt/</pre></td></tr></table>
+</div>
+</div>
+<h4 id="1-2-2-关闭salt-minion服务">1.2.2 关闭salt-minion服务</h4>
+
+<p>使用 masterless 模式时是不需要启动任何服务的，包括salt-master和salt-minion。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@minion ~]# systemctl stop salt-minion
+[root@minion ~]# systemctl disable salt-minion
+Removed symlink /etc/systemd/system/multi-user.target.wants/salt-minion.service.</pre></td></tr></table>
+</div>
+</div>
+<h4 id="1-2-3-salt-call">1.2.3 salt-call</h4>
+
+<p>masterless模式执行模块或状态时需要使用salt-call命令，而不再是salt或者salt-ssh。需要注意的是要使用salt-call的--local选项。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@minion ~]# salt-call --local cmd.run &#39;uptime&#39;
+local:
+     21:16:41 up  6:06,  1 user,  load average: 0.00, 0.01, 0.05
+ 
+ 
+[root@minion ~]# salt-call --local cmd.run &#39;ls -l /root&#39;
+local:
+    total 12
+    -rw-------. 1 root root 1313 Jun 13 21:37 anaconda-ks.cfg
+    -r--------  1 root root   18 Jul 23 22:33 b
+    -rw-r--r--  1 root root   35 Jul 23 22:25 cca
+    dr--------  2 itw  itw     6 Jul 23 21:47 haha
+[root@minion ~]# salt-call --local cmd.run &#39;echo &#34;hehe&#34; &gt; /root/henhen&#39;
+local:
+[root@minion ~]# salt-call --local cmd.run &#39;ls -l /root&#39;
+local:
+    total 16
+    -rw-------. 1 root root 1313 Jun 13 21:37 anaconda-ks.cfg
+    -r--------  1 root root   18 Jul 23 22:33 b
+    -rw-r--r--  1 root root   35 Jul 23 22:25 cca
+    dr--------  2 itw  itw     6 Jul 23 21:47 haha
+    -rw-r--r--  1 root root    5 Jul 24 21:18 henhen
+[root@minion ~]# salt-call --local cmd.run &#39;cat /root/henhen&#39;
+local:
+    hehe</pre></td></tr></table>
+</div>
+</div>
+<h2 id="2-salt-master高可用">2. salt-master高可用</h2>
+
+<h3 id="2-1-salt-master高可用配置">2.1 salt-master高可用配置</h3>
+
+<p>我们需要用salt来管理公司的所有机器，那么salt的master就不能宕机，否则就会整个瘫痪，所以我们必须要对salt进行高可用。salt的高可用配置非常简单，只需要改一下minion配置文件，将master用列表的形式列出即可。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@minion ~]# vim /etc/salt/minion
+....此处省略N行
+master:
+  - 192.168.153.136
+  - 192.168.153.142
+master_type: failover
+....此处省略N行</pre></td></tr></table>
+</div>
+</div>
+<p>本例列出的136和142上必须都安装了salt-master且保证服务都是正常状态。</p>
+
+<h3 id="2-2-salt-master高可用之数据同步">2.2 salt-master高可用之数据同步</h3>
+
+<p>涉及到高可用时，数据的同步是个永恒的话题，我们必须保证高可用的2个master间使用的数据是一致的，包括：</p>
+
+<ul>
+<li>/etc/salt/pki下的所有key</li>
+<li>/srv/下的salt和pillar目录下的所有文件</li>
+</ul>
+
+<p>保障这些数据同步的方案有：</p>
+
+<ul>
+<li>nfs挂载</li>
+<li>rsync同步</li>
+<li>使用gitlab进行版本控制</li>
+</ul>
+
+<p>安全相关：
+为保证数据的同步与防止丢失，可将状态文件通过gitlab进行版本控制管理。</p>
+
+<h2 id="3-salt-syndic分布式架构">3. salt-syndic分布式架构</h2>
+
+<h3 id="3-1-salt-syndic架构图">3.1 salt-syndic架构图</h3>
+
+<p><img src="../../img/15537666303389.jpg" alt="img1" /></p>
+
+<h3 id="3-2-salt-syndic的优劣势">3.2 salt-syndic的优劣势</h3>
+
+<p>优势：</p>
+
+<ul>
+<li>可以通过syndic实现更复杂的salt架构</li>
+<li>减轻master的负担</li>
+</ul>
+
+<p>劣势：</p>
+
+<ul>
+<li>syndic的/srv目录下的salt和pillar目录内容要与最顶层的master下的一致，所以要进行数据同步，同步方案同salt-master高可用</li>
+<li>最顶层的master不知道自己有几个syndic，它只知道自己有多少个minion，并不知道这些minion是由哪些syndic来管理的</li>
+</ul>
+
+<h3 id="3-3-salt-syndic部署">3.3 salt-syndic部署</h3>
+
+<h4 id="3-3-1-环境说明">3.3.1 环境说明</h4>
+
+<table>
+<thead>
+<tr>
+<th align="center">主机IP</th>
+<th align="center">角色</th>
+<th align="left">安装的应用</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">192.168.153.136</td>
+<td align="center">Master</td>
+<td align="left">salt-master</td>
+</tr>
+
+<tr>
+<td align="center">192.168.153.142</td>
+<td align="center">Syndic</td>
+<td align="left">salt-master<br>salt-syndic</td>
+</tr>
+
+<tr>
+<td align="center">192.168.153.141</td>
+<td align="center">Minion</td>
+<td align="left">salt-minion</td>
+</tr>
+
+<tr>
+<td align="center">192.168.153.148</td>
+<td align="center">Minion</td>
+<td align="left">salt-minion</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="3-3-2-安装salt-master与salt-syndic">3.3.2 安装salt-master与salt-syndic</h4>
+
+<p>在<code>192.168.153.142</code>上安装<code>salt-master</code>与<code>salt-syndic</code>，安装前请自行配置yum源</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@syndic ~]# yum -y install salt-master salt-syndic</pre></td></tr></table>
+</div>
+</div>
+<h4 id="3-3-3-配置master">3.3.3 配置master</h4>
+
+<p>修改master的master配置文件</p>
+
+<ul>
+<li>取消注释order_master</li>
+<li>将order_master的值设为True</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master ~]# vim /etc/salt/master
+.....此处省略N行
+# masters&#39; syndic interfaces.
+order_masters: True
+
+[root@master ~]# systemctl enable salt-master
+[root@master ~]# systemctl restart salt-master</pre></td></tr></table>
+</div>
+</div>
+<h4 id="3-3-4-配置syndic">3.3.4 配置syndic</h4>
+
+<p>修改syndic所在主机的master配置文件</p>
+
+<ul>
+<li>取消注释syndic_master</li>
+<li>将syndic_master的值设为master的IP</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@syndic ~]# vim /etc/salt/master
+.....此处省略N行
+syndic_master: 192.168.153.136
+
+[root@syndic ~]# systemctl enable salt-master
+Created symlink from /etc/systemd/system/multi-user.target.wants/salt-master.service to /usr/lib/systemd/system/salt-master.service.
+[root@syndic ~]# systemctl enable salt-syndic
+Created symlink from /etc/systemd/system/multi-user.target.wants/salt-syndic.service to /usr/lib/systemd/system/salt-syndic.service.
+[root@syndic ~]# systemctl restart salt-master
+[root@syndic ~]# systemctl restart salt-syndic</pre></td></tr></table>
+</div>
+</div>
+<h4 id="3-3-5-配置minion">3.3.5 配置minion</h4>
+
+<p>配置minion，将master指向syndic所在主机</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@minion ~]# vim /etc/salt/minion
+.....此处省略N行
+master: 192.168.153.142
+
+[root@minion ~]# systemctl restart salt-minion
+[root@minion ~]# systemctl enable salt-minion
+Created symlink from /etc/systemd/system/multi-user.target.wants/salt-minion.service to /usr/lib/systemd/system/salt-minion.service.</pre></td></tr></table>
+</div>
+</div>
+<p>在所有minion上做同样的操作，注意，要设置minion配置文件中的id参数，指向minion自身的ip地址或主机名，必须能够唯一标识minion本机。</p>
+
+<h4 id="3-3-6-在syndic上接受minion主机的key">3.3.6 在syndic上接受minion主机的key</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@syndic ~]# salt-key -L
+Accepted Keys:
+Denied Keys:
+Unaccepted Keys:
+192.168.153.141
+192.168.153.148
+Rejected Keys:
+[root@syndic ~]# salt-key -A
+The following keys are going to be accepted:
+Unaccepted Keys:
+192.168.153.141
+192.168.153.148
+Proceed? [n/Y] Y
+Key for minion 192.168.153.141 accepted.
+Key for minion 192.168.153.148 accepted.
+[root@syndic ~]# salt-key
+Accepted Keys:
+192.168.153.141
+192.168.153.148
+Denied Keys:
+Unaccepted Keys:
+Rejected Keys:</pre></td></tr></table>
+</div>
+</div>
+<h4 id="3-3-7-在master上接受syndic主机的key">3.3.7 在master上接受syndic主机的key</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master ~]# salt-key -L 
+Accepted Keys:
+Denied Keys:
+Unaccepted Keys:
+192.168.153.142
+192.168.153.141
+Rejected Keys:
+[root@master ~]# salt-key -A
+The following keys are going to be accepted:
+Unaccepted Keys:
+192.168.153.142
+192.168.153.141
+Proceed? [n/Y] Y
+Key for minion 192.168.153.142 accepted.
+Key for minion master accepted.
+[root@master ~]# salt-key -L 
+Accepted Keys:
+192.168.153.142
+192.168.153.141
+Denied Keys:
+Unaccepted Keys:
+Rejected Keys:</pre></td></tr></table>
+</div>
+</div>
+<h4 id="3-3-8-在master上执行模块或状态检验有几个minion应答">3.3.8 在master上执行模块或状态检验有几个minion应答</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master ~]# salt &#39;*&#39; test.ping
+192.168.153.141:
+    True
+192.168.153.142:
+    True
+192.168.153.148:
+    True
+192.168.153.141:
+    True</pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Mr Wen</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-03-30 16:15
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener" href="https://github.com/itwhs/itwhs.github.io/blob/master/LICENSE">MIT</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/">自动化</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A6%82%E8%BF%B0/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">渗透测试概述</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/saltstack%E4%B9%8Bsalt-ssh/">
+            <span class="next-text nav-default">SaltStack之salt-ssh</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:itwhs@foxmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://blog.csdn.net/wenhs5479" class="iconfont icon-cnblogs" title="cnblogs"></a>
+      <a href="https://github.com/itwhs" class="iconfont icon-github" title="github"></a>
+  <a href="https://itwhs.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Mr Wen</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139425163-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

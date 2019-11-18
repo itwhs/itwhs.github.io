@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Web 服务原理 - itw&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Mr Wen" /><meta name="description" content="" /><meta name="keywords" content="Linux, Github, Network, Cloud, Python" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://itwhs.github.io/post/web-%E6%9C%8D%E5%8A%A1%E5%8E%9F%E7%90%86/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/reset-even.css">
+
+
+<meta property="og:title" content="Web 服务原理" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://itwhs.github.io/post/web-%E6%9C%8D%E5%8A%A1%E5%8E%9F%E7%90%86/" />
+<meta property="article:published_time" content="2019-04-06T16:15:57&#43;08:00"/>
+<meta property="article:modified_time" content="2019-04-06T16:15:57&#43;08:00"/>
+
+<meta itemprop="name" content="Web 服务原理">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2019-04-06T16:15:57&#43;08:00" />
+<meta itemprop="dateModified" content="2019-04-06T16:15:57&#43;08:00" />
+<meta itemprop="wordCount" content="4497">
+
+
+
+<meta itemprop="keywords" content="dvwa," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Web 服务原理"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">itw</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a><a href="https://github.com/itwhs/">
+        <li class="mobile-menu-item">GitHub</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">itw</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/itwhs/">GitHub</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Web 服务原理</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-04-06 16:15 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"> 网络安全 </a>
+            </div>
+          <span class="more-meta"> 约 4497 字 </span>
+          <span class="more-meta"> 预计阅读 9 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#3-web-服务原理">3. Web 服务原理</a>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#3-1-web-概述">3.1 Web 概述</a></li>
+<li><a href="#3-2-web-服务组件">3.2. Web 服务组件</a></li>
+<li><a href="#3-3-web-服务常见架构">3.3 Web 服务常见架构</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="3-web-服务原理">3. Web 服务原理</h1>
+
+<h4 id="3-1-web-概述">3.1 Web 概述</h4>
+
+<p><img src="../../img/15344114715326.jpg" alt="img" /></p>
+
+<p>图 1-1</p>
+
+<ul>
+<li>Web（World Wide Web）即全球广域网，也称为万维网，它是一种基于超文本和 HTTP 的、全球性的、动态交互的、跨平台的分布式图形信息系统。是建立在 Internet 上的一种网络服务，为浏览者在 Internet 上查找和浏览信息提供了图形化的、易于访问的直观界面，其中的文档及超级链接将 Internet上 的信息节点组织成一个互为关联的网状结构。</li>
+<li>我们通常所说的 WWW 服务、Web 服务，其实是一个意思，泛指通过 HTTP 协议传输，使用图形化界面来展示信息的一种方式。也就是俗称的网站或者网页</li>
+</ul>
+
+<p>　　<strong>Web 相关概念</strong></p>
+
+<ul>
+<li>网页（Web 页面）：
+
+<ul>
+<li>网页，是网站中的一个页面，通常是网页是构成网站的基本元素，是承载各种网站应用的平台。通俗的说，网站就是由网页组成的。</li>
+</ul></li>
+<li>网站（WebSite）：
+
+<ul>
+<li>网站，指根据一定的规则，使用 HTML 等工具制作的用于展示特定内容的相关网页的集合。简单地说，网站是一种通讯工具，就像布告栏一样，人们可以通过网站来发布或收集信息。</li>
+<li>网站就是一组相同所属的网页的集合</li>
+</ul></li>
+<li>HTML（超文本标记语言）：
+
+<ul>
+<li>“超文本” 就是指页面文本内可以包含图片、链接，甚至音乐、程序等非文字元素。</li>
+<li>是一种规范，一种标准，超文本标记语言通过标记符号来标记要显示的网页中的各个部分</li>
+<li>网页的本质是使用 HTML 语言编写代码所产生的文件</li>
+</ul></li>
+<li>静态网页：
+
+<ul>
+<li>指纯 HTML 语言编写，呈现的内容固定化的 Web 页面</li>
+<li>静态网页所呈现的所有内容都编写在源文件中，更改内容只能修改源代码</li>
+</ul></li>
+<li>动态网页：
+
+<ul>
+<li>除了 HTML，还使用相应的动态程序序言编写的 Web 页面</li>
+<li>动态网页中呈现的内容一般存储在数据库中，通过程序语言来调用数据</li>
+</ul></li>
+<li>HTTP（超文本传输协议）：
+
+<ul>
+<li>用于发布和接收 HTML 页面的协议，定义了 Web 客户端和服务器端的请求和应答标准</li>
+<li>默认工作在 TCP 80 端口</li>
+</ul></li>
+<li>HTTPS（HTTP over SSL）
+
+<ul>
+<li>基于 SSL 的 HTTP 协议，使用 SSL 协议来保护 HTTP 传输，使 HTTP 协议更加安全</li>
+</ul></li>
+<li>浏览器（Browser）：
+
+<ul>
+<li>可以接收并解析 HTML 语言，使 HTML 能够图形化显示，并与 Web 服务器进行交互的应用程序</li>
+</ul></li>
+</ul>
+
+<hr />
+
+<h4 id="3-2-web-服务组件">3.2. Web 服务组件</h4>
+
+<p><img src="../../img/15344127889621.jpg" alt="img" /></p>
+
+<p>图 1-2</p>
+
+<blockquote>
+<p>如图 1-2，要构建一个网站，一般需要具备 Web 服务系统、Web 服务软件、Web 开发语言、数据库这四个组件。这只是比较概括性的划分了 Web 服务的组件，如果要细分的话，还可以细分为操作系统、存储（Web 源文件和数据库）、Web 容器、中间件、Web 服务端语言、Web 开发框架、Web 应用、Web 前端框架、第三方内容等组件。本课程内容不关注 Web 的搭建和优化，所以只按照图示组件讲解</p>
+</blockquote>
+
+<p><strong>3.2.1 Web 服务系统</strong></p>
+
+<blockquote>
+<p>Web 作为网络服务，必然需要基于操作系统来运行和工作，这里的 Web 服务系统指的就是 Web 服务运行在哪种操作系统上</p>
+</blockquote>
+
+<ul>
+<li>Windows
+
+<ul>
+<li>作为使用最广泛的电脑端操作系统，Windows 无疑是良好的运行 Web 服务的操作系统平台。无论是桌面版的 Windows，还是 Server 版的 Windows，都具备运行 Web 服务的能力，但生产环境中的 Web 服务更多的会选择 Server 版的 Windows，如 Windows Server 2003、Windows Server 2008、Windows Server 2012 等</li>
+<li>Windows 拥有优秀的图形化界面处理能力，也成为了众多 Web 初学者入门会选择的操作系统</li>
+</ul></li>
+<li>Linux
+
+<ul>
+<li>Server 端的操作系统，无疑是 Linux 的天下。基于开源、高效、安全等优点，Linux 成为了生产环境中搭建 Web 服务的首选操作系统</li>
+<li>常见的有 CentOS、RatHat、Ubuntu，互联网中几乎 99% 的 Web 服务都运行在 Linux 系统之上</li>
+</ul></li>
+</ul>
+
+<p><strong>3.2.2 Web 服务软件</strong></p>
+
+<blockquote>
+<p>Web 服务软件指 Web 服务器，也称为 HTTP 服务器，是响应来自浏览器的 HTTP 请求，并且发送出网页文件的 Web 服务端软件。 想要把自己的网站发布到网络中让用户可以访问，就需要 Web 服务软件来搭建网站</p>
+</blockquote>
+
+<ul>
+<li>IIS（Internet Information Service）
+
+<br /></li>
+</ul>
+
+<p><img src="../../img/15344170885796.jpg" alt="img" /></p>
+
+<p>图 2-1</p>
+
+<ul>
+<li>IIS 是微软在 Windows 操作系统中自带的 Internet 服务器软件，提供包括 Web、FTP、SMTP 等服务器功能，IIS 也只能运行在 Windows 中</li>
+<li>IIS 在几乎所有版本的 Windows 中都自带了，无需独立下载，全图形化界面操作，继承了 Windows 的操作风格，使用非常简单便捷</li>
+<li>IIS 支持发布静态网站，以及 ASP、ASP.NET 的动态网站，使用相应中间件还可以支持发布 PHP 的动态网站</li>
+
+<li><p>IIS 在安全性上一直被业界所诟病，著名的 IIS 6.0 版本中的文件解析漏洞可以让黑客非常轻松的绕过网站限制，上传 WebShell，来获得系统权限。直到 IIS 7.5 版本以后情况才有所好转</p></li>
+
+<li><p>Apache</p></li>
+</ul>
+
+<p><img src="../../img/15344175495275.jpg" alt="img" /></p>
+
+<p>图 2-2</p>
+
+<ul>
+<li>Apache 是世界使用排名第一的 Web 服务器软件。它可以运行在几乎所有广泛使用的计算机平台上，由于其跨平台和安全性被广泛使用，是最流行的 Web 服务器端软件之一。它快速、可靠并且可通过简单的 API 扩充，将 Perl/Python 等解释器编译到服务器中。同时 Apache 音译为阿帕奇，是北美印第安人的一个部落，叫阿帕奇族，在美国的西南部。也是一个基金会的名称、一种武装直升机等等。</li>
+<li>虽然 Apache 可以非常完美的运行在各种操作系统中，但是绝大多数的 Apache 还是运行在 Linux 之上，Apache 也成为了众多 Linux 发行版本的自带应用</li>
+<li>严格来说，Apache 只支持发布静态网站、但可以通过中间件来支持 PHP，ASP、ASP.NET、JSP，但 Apache 仍然被大多数用来发布 PHP 网站</li>
+
+<li><p>Apache 虽然也存在安全性的漏洞，但由于其开源性，漏洞的修补和版本的更新速度非常快，相比 IIS， Apache 会更加安全</p></li>
+
+<li><p>Nginx</p></li>
+</ul>
+
+<p><img src="../../img/15344197758738.jpg" alt="img" /></p>
+
+<p>图 2-3</p>
+
+<ul>
+<li>Nginx 是一款轻量级的 Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，并在一个 BSD-like 协议下发行。其特点是占有内存少，并发能力强，事实上 nginx 的并发能力确实在同类型的网页服务器中表现较好，中国大陆使用 nginx 网站用户有：百度、京东、新浪、网易、腾讯、淘宝等。</li>
+<li>Nginx 只能安装在 Linux 系统中，但是也有 Windows 的移植版</li>
+<li>Nginx 是 Apache 的最佳替代品，相比 Apache，Nginx 在处理高并发业务时，资源消耗更低，性能更强</li>
+<li>Nginx 本身只是一款反向代理软件，只支持 HTML 静态页面，需要通过各种中间件来支持其他动态页面</li>
+
+<li><p>虽然从性能上来讲，Nginx 要优于 Apache，但 Nginx 也存在模块少、BUG 多，稳定性较差的缺点</p></li>
+
+<li><p>Tomcat</p></li>
+</ul>
+
+<p><img src="../../img/15344216254825.jpg" alt="img" /></p>
+
+<p>图 2-4</p>
+
+<ul>
+<li>Tomcat 服务器是一个免费的开放源代码的 Web 应用服务器，属于轻量级应用服务器，在中小型系统和并发访问用户不是很多的场合下被普遍使用，是开发和调试 JSP 程序的首选。</li>
+<li>Tomcat 可以作为一个 Web 服务软件，同样也可以作为 Apache 的一个中间件来使 Apache 可以支持 JSP 站点</li>
+
+<li><p>Tomcat 可以运行在 Windows 和 Linux 中</p></li>
+
+<li><p>Weblogic</p></li>
+</ul>
+
+<p><img src="../../img/15344221140169.jpg" alt="img" /></p>
+
+<p>图 2-5</p>
+
+<ul>
+<li>Weblogic 是一个基于 JAVAEE 架构的中间件，WebLogic 是用于开发、集成、部署和管理大型分布式 Web 应用、网络应用和数据库应用的 Java 应用服务器。</li>
+</ul>
+
+<p><strong>3.2.3 Web 开发语言</strong></p>
+
+<blockquote>
+<p>Web 开发语言是指用于编写动态网页的语言，目前几乎所有的网站都是动态网页技术编写的。就算很多网站浏览时发现 URL 后缀是 html，也是通过后台做了动转静。</p>
+</blockquote>
+
+<ul>
+<li>PHP（超文本预处理器）
+
+<ul>
+<li>PHP 是一种通用开源脚本语言。语法吸收了 C 语言、Java 和 Perl 的特点，利于学习，使用广泛，主要适用于 Web 开发领域。PHP 独特的语法混合了 C、Java、Perl 以及 PHP 自创的语法。它可以比 CGI 或者 Perl 更快速地执行动态网页。用 PHP 做出的动态页面与其他的编程语言相比，PHP 是将程序嵌入到 HTML（标准通用标记语言下的一个应用）文档中去执行，执行效率比完全生成 HTML 标记的 CGI 要高许多；PHP 还可以执行编译后代码，编译可以达到加密和优化代码运行，使代码运行更快。</li>
+<li>PHP 是目前使用最广泛的 Web 开发语言</li>
+</ul></li>
+<li>ASP（动态脚本页面）
+
+<ul>
+<li>是微软公司开发的服务器端脚本环境，可用来创建动态交互式网页并建立强大的 web 应用程序。当服务器收到对 ASP 文件的请求时，它会处理包含在用于构建发送给浏览器的 HTML 网页文件中的服务器端脚本代码。除服务器端脚本代码外，ASP 文件也可以包含文本、HTML（包括相关的客户端脚本）和 com 组件调用。</li>
+<li>ASP 简单、易于维护，是小型页面应用程序的选择。ASP 语言并不面向对象，开发难度相对较大，一般不用于大中型网站</li>
+</ul></li>
+<li>ASP.NET
+
+<ul>
+<li>ASP.NET 又称为 ASP+，不仅仅是 ASP 的简单升级，而是微软公司推出的新一代脚本语言。ASP.NET 基于 .NET Framework 的 Web 开发平台，不但吸收了 ASP 以前版本的最大优点并参照 Java、VB 语言的开发优势加入了许多新的特色，同时也修正了以前的 ASP 版本的运行错误。</li>
+<li>一般多见于政府机构和国企的网站</li>
+</ul></li>
+<li>JSP（JAVA 服务器页面）
+
+<ul>
+<li>JSP 技术有点类似 ASP 技术，它是在传统的网页 HTML 文件中插入 Java 程序段 (Scriptlet) 和 JSP 标记 (tag)，从而形成 JSP 文件，后缀名为 .jsp。 用 JSP 开发的 Web 应用是跨平台的，既能在 Linux 下运行，也能在其他操作系统上运行。</li>
+</ul></li>
+<li>CMS（内容管理系统）
+
+<ul>
+<li>可以把 CMS 理解为网站模板，允许用户根据统一的网站模板，快速生成自定义的个人或企业站点；CMS 提供常见企业网站所需的的信息展示、信息更新、信息删除、信息管理等功能，包括非常详细的网站风格自定义设置。</li>
+<li>CMS 有各种语言编写的，常见的有 ASP、PHP、ASP.NET</li>
+<li>常见的有动易 CMS，织梦 CMS，PHPcms 等</li>
+</ul></li>
+</ul>
+
+<p><strong>3.2.4 数据库</strong></p>
+
+<blockquote>
+<p>数据库（Database），即为数据的仓库，用于存储和记录数据信息。在动态网站的架构中，页面展示的内容并不是写在页面中，而是存储在数据库中，Web 服务通过动态语言来调用数据库中的数据，产生静态页面后再传递至客户端浏览器。这样就避免了网站内容更新时去修改源文件。只需要更新数据库就行了</p>
+</blockquote>
+
+<ul>
+<li>MySQL
+
+<br /></li>
+</ul>
+
+<p><img src="../../img/15344234289567.jpg" alt="img" /></p>
+
+<p>图 2-6</p>
+
+<ul>
+<li>MySQL 是一个关系型数据库管理系统，由瑞典 MySQL AB 公司开发，目前属于 Oracle 旗下产品。MySQL 是最流行的关系型数据库管理系统之一，在 WEB 应用方面，MySQL 是最好的 RDBMS (Relational Database Management System，关系数据库管理系统) 应用软件。</li>
+
+<li><p>目前在 Web 架构中使用最广泛的数据库系统</p></li>
+
+<li><p>SQL Server</p></li>
+</ul>
+
+<p><img src="../../img/15344236526226.jpg" alt="img" /></p>
+
+<p>图 2-7</p>
+
+<ul>
+<li><p>SQL Server 是由微软开发和推广的关系数据库管理系统（DBMS），它最初是由Microsoft、Sybase 和 Ashton-Tate 三家公司共同开发的，并于 1988 年推出了第一个 OS/2 版本。Microsoft SQL Server 近年来不断更新版本，1996 年，Microsoft 推出了 SQL Server 6.5 版本；1998 年，SQL Server 7.0 版本和用户见面；SQL Server 2000 是 Microsoft 公司于 2000 年推出，目前最新版本是 2017 年份推出的 SQL SERVER 2017。</p></li>
+
+<li><p>Oracle</p></li>
+</ul>
+
+<p><img src="../../img/153448590109171.jpg" alt="img" /></p>
+
+<p>图 2-8</p>
+
+<ul>
+<li><p>Oracle 是甲骨文公司的一款关系数据库管理系统。它是在数据库领域一直处于领先地位的产品。可以说 Oracle 数据库系统是目前世界上流行的关系数据库管理系统，系统可移植性好、使用方便、功能强，适用于各类大、中、小、微机环境。它是一种高效率、可靠性好的 适应高吞吐量的数据库解决方案。</p></li>
+
+<li><p>Access</p></li>
+</ul>
+
+<p><img src="../../img/15344860482133.jpg" alt="img" /></p>
+
+<p>图 2-9</p>
+
+<ul>
+<li><p>Microsoft Office Access 是由微软发布的小型关系数据库管理系统。它结合了 MicrosoftJet Database Engine 和 图形用户界面两项特点，是 Microsoft Office 套件的程序之一。</p></li>
+
+<li><p>数据库管理工具</p>
+
+<ul>
+<li>PhpMyAdmin：一个以 PHP 为基础，以 Web 方式架构在网站主机上的 MySQL 的数据库管理工具，让管理者可用 Web 图形化界面管理 MySQL 数据库。</li>
+<li>Navicat：一套快速、可靠并价格相当便宜的数据库管理工具，专为简化数据库的管理及降低系统管理成本而设。它的设计符合数据库管理员、开发人员及中小企业的需要。</li>
+</ul></li>
+</ul>
+
+<hr />
+
+<h4 id="3-3-web-服务常见架构">3.3 Web 服务常见架构</h4>
+
+<blockquote>
+<p>Web 服务架构指选择什么开发语言 + Web 服务软件 + 数据库 + 操作系统的组合来搭建 Web 服务，虽然严格来说，所有的组件都可以自由组合，但是因为某几种常被放在一起使用，所以拥有了越来越高的兼容度，逐渐共同组成了一个个强大的 Web 应用程序平台</p>
+</blockquote>
+
+<p><strong>3.3.1 LAMP</strong></p>
+
+<ul>
+<li>Linux + Apache + MySQL + PHP</li>
+<li>被誉为 Web 服务黄金组合，适用于大型网站架构，稳定性高，常见于企业网站。大多数网站都采用的该架构</li>
+</ul>
+
+<p><strong>3.3.2 LNMP</strong></p>
+
+<ul>
+<li>Linux + Nginx + MySQL + PHP</li>
+<li>使用 Nginx 来取代 Apache，对性能有较高要求的 Web 站点可以选择这种架构组合</li>
+</ul>
+
+<p><strong>3.3.3 WAMP</strong></p>
+
+<ul>
+<li>Windows + Apache + MySQL + PHP</li>
+<li>把 Apache 放在 Windows 操作系统中运行，适用于中小型网站架构，易于管理，常见于教育（大学等）、政府事业单位</li>
+</ul>
+
+<p><strong>3.4 其他</strong></p>
+
+<ul>
+<li>IIS + ASP + Access：大多用在学校、地方政府等站点</li>
+<li>JSP + Tomcat + Oracle：大多用在企业内部 ERP 系统、金融机构站点</li>
+</ul>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Mr Wen</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-04-06 16:15
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener" href="https://github.com/itwhs/itwhs.github.io/blob/master/LICENSE">MIT</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/dvwa/">dvwa</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/dvwa%E7%AE%80%E4%BB%8B%E5%8F%8A%E5%AE%89%E8%A3%85/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">DVWA 简介及安装</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/web%E6%B8%97%E9%80%8F%E6%A6%82%E8%BF%B0/">
+            <span class="next-text nav-default">Web 渗透概述</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:itwhs@foxmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://blog.csdn.net/wenhs5479" class="iconfont icon-cnblogs" title="cnblogs"></a>
+      <a href="https://github.com/itwhs" class="iconfont icon-github" title="github"></a>
+  <a href="https://itwhs.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Mr Wen</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139425163-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>MySQL多实例 - itw&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Mr Wen" /><meta name="description" content="" /><meta name="keywords" content="Linux, Github, Network, Cloud, Python" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://itwhs.github.io/post/mysql%E5%A4%9A%E5%AE%9E%E4%BE%8B%E9%83%A8%E7%BD%B2/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/reset-even.css">
+
+
+<meta property="og:title" content="MySQL多实例" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://itwhs.github.io/post/mysql%E5%A4%9A%E5%AE%9E%E4%BE%8B%E9%83%A8%E7%BD%B2/" />
+<meta property="article:published_time" content="2018-12-09T16:15:57&#43;08:00"/>
+<meta property="article:modified_time" content="2018-12-09T16:15:57&#43;08:00"/>
+
+<meta itemprop="name" content="MySQL多实例">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2018-12-09T16:15:57&#43;08:00" />
+<meta itemprop="dateModified" content="2018-12-09T16:15:57&#43;08:00" />
+<meta itemprop="wordCount" content="1322">
+
+
+
+<meta itemprop="keywords" content="MySQL," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="MySQL多实例"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">itw</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a><a href="https://github.com/itwhs/">
+        <li class="mobile-menu-item">GitHub</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">itw</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/itwhs/">GitHub</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">MySQL多实例</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-12-09 16:15 </span>
+        <div class="post-category">
+            <a href="/categories/linux%E8%BF%90%E7%BB%B4/"> Linux运维 </a>
+            </div>
+          <span class="more-meta"> 约 1322 字 </span>
+          <span class="more-meta"> 预计阅读 3 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#mysql多实例部署">mysql多实例部署</a></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="mysql多实例部署">mysql多实例部署</h1>
+
+<p>软件下载</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">下载二进制格式的mysql软件包
+[root@localhost ~]# cd /usr/src/
+[root@localhost src]# wget https://downloads.mysql.com/archives/get/file/mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz</pre></td></tr></table>
+</div>
+</div>
+<p>配置用户和组并解压二进制程序至/usr/local下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">创建用户和组
+[root@localhost src]# groupadd -r mysql
+[root@localhost src]# useradd -M -s /sbin/nologin -g mysql mysql
+
+
+解压软件至/usr/local/
+[root@localhost src]# ls
+debug  kernels  mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz
+[root@localhost src]# tar xf mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz -C /usr/local/
+[root@localhost ~]# ls /usr/local/
+bin  games    lib    libexec                              sbin   src
+etc  include  lib64  mysql-5.7.22-linux-glibc2.12-x86_64  share
+[root@localhost ~]# cd /usr/local/
+[root@localhost local]# ln -sv mysql-5.7.22-linux-glibc2.12-x86_64/ mysql
+‘mysql’ -&gt; ‘mysql-5.7.22-linux-glibc2.12-x86_64/’
+[root@localhost local]# ll
+total 0
+drwxr-xr-x. 2 root root   6 4月  11 2018 bin
+drwxr-xr-x. 2 root root   6 4月  11 2018 etc
+drwxr-xr-x. 2 root root   6 4月  11 2018 games
+drwxr-xr-x. 2 root root   6 4月  11 2018 include
+drwxr-xr-x. 2 root root   6 4月  11 2018 lib
+drwxr-xr-x. 2 root root   6 4月  11 2018 lib64
+drwxr-xr-x. 2 root root   6 4月  11 2018 libexec
+lrwxrwxrwx  1 root root  36 5月  14 18:07 mysql -&gt; mysql-5.7.22-linux-glibc2.12-x86_64/
+drwxr-xr-x  9 root root 129 5月  14 18:06 mysql-5.7.22-linux-glibc2.12-x86_64
+drwxr-xr-x. 2 root root   6 4月  11 2018 sbin
+drwxr-xr-x. 5 root root  49 5月   3 20:12 share
+drwxr-xr-x. 2 root root   6 4月  11 2018 src
+
+
+修改目录/usr/local/mysql的属主属组
+[root@localhost ~]# chown -R mysql.mysql /usr/local/mysql
+[root@localhost ~]# ll /usr/local/mysql -d
+lrwxrwxrwx 1 mysql mysql 36 5月  14 18:07 /usr/local/mysql -&gt; mysql-5.7.22-linux-glibc2.12-x86_64/
+
+//配置环境变量
+[root@localhost ~]# echo &#39;export PATH=/usr/local/mysql/bin:$PATH&#39; &gt; /etc/profile.d/mysql.sh
+[root@localhost ~]# . /etc/profile.d/mysql.sh
+[root@localhost ~]# echo $PATH
+/usr/local/mysql/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin</pre></td></tr></table>
+</div>
+</div>
+<p>创建各实例数据存放的目录</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@localhost ~]# mkdir -p /opt/data/{3306,3307,3308}
+
+[root@localhost ~]# chown -R mysql.mysql /opt/data/
+
+[root@localhost ~]# ll /opt/data/
+总用量 0
+drwxr-xr-x 2 mysql mysql 6 5月  14 18:09 3306
+drwxr-xr-x 2 mysql mysql 6 5月  14 18:09 3307
+drwxr-xr-x 2 mysql mysql 6 5月  14 18:09 3308
+
+[root@localhost ~]# tree /opt/data/
+/opt/data/
+├── 3306
+├── 3307
+└── 3308
+
+3 directories, 0 files</pre></td></tr></table>
+</div>
+</div>
+<p>初始化各实例</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">初始化3306实例
+[root@localhost ~]# mysqld --initialize --datadir=/opt/data/3306 --user=mysql
+2019-05-14T10:21:09.607685Z 0 [Warning] TIMESTAMP with implicit DEFAULT value is deprecated. Please use --explicit_defaults_for_timestamp server option (see documentation for more details).
+2019-05-14T10:21:09.822454Z 0 [Warning] InnoDB: New log files created, LSN=45790
+2019-05-14T10:21:09.858420Z 0 [Warning] InnoDB: Creating foreign key constraint system tables.
+2019-05-14T10:21:09.916381Z 0 [Warning] No existing UUID has been found, so we assume that this is the first time that this server has been started. Generating a new UUID: fe0bac5b-7631-11e9-bec6-000c299f3251.
+2019-05-14T10:21:09.917673Z 0 [Warning] Gtid table is not ready to be used. Table &#39;mysql.gtid_executed&#39; cannot be opened.
+2019-05-14T10:21:09.918517Z 1 [Note] A temporary password is generated for root@localhost: AG/j:g?ob1CO
+[root@localhost ~]# echo &#39;AG/j:g?ob1CO&#39; &gt; 3306_pass
+
+
+初始化3307实例
+[root@localhost ~]# mysqld --initialize --datadir=/opt/data/3307 --user=mysql
+2019-05-14T10:24:10.367114Z 0 [Warning] TIMESTAMP with implicit DEFAULT value is deprecated. Please use --explicit_defaults_for_timestamp server option (see documentation for more details).
+2019-05-14T10:24:10.572462Z 0 [Warning] InnoDB: New log files created, LSN=45790
+2019-05-14T10:24:10.610295Z 0 [Warning] InnoDB: Creating foreign key constraint system tables.
+2019-05-14T10:24:10.669903Z 0 [Warning] No existing UUID has been found, so we assume that this is the first time that this server has been started. Generating a new UUID: 69c878d3-7632-11e9-82ab-000c299f3251.
+2019-05-14T10:24:10.670681Z 0 [Warning] Gtid table is not ready to be used. Table &#39;mysql.gtid_executed&#39; cannot be opened.
+2019-05-14T10:24:10.671566Z 1 [Note] A temporary password is generated for root@localhost: rfY5Ys(u:s!s
+[root@localhost ~]# echo &#39;rfY5Ys(u:s!s&#39; &gt; 3307_pass
+
+
+初始化3308实例
+[root@localhost ~]# mysqld --initialize --datadir=/opt/data/3308 --user=mysql
+2019-05-14T10:25:03.584110Z 0 [Warning] TIMESTAMP with implicit DEFAULT value is deprecated. Please use --explicit_defaults_for_timestamp server option (see documentation for more details).
+2019-05-14T10:25:03.795984Z 0 [Warning] InnoDB: New log files created, LSN=45790
+2019-05-14T10:25:03.832243Z 0 [Warning] InnoDB: Creating foreign key constraint system tables.
+2019-05-14T10:25:03.891271Z 0 [Warning] No existing UUID has been found, so we assume that this is the first time that this server has been started. Generating a new UUID: 89816891-7632-11e9-85fa-000c299f3251.
+2019-05-14T10:25:03.892710Z 0 [Warning] Gtid table is not ready to be used. Table &#39;mysql.gtid_executed&#39; cannot be opened.
+2019-05-14T10:25:03.893870Z 1 [Note] A temporary password is generated for root@localhost: +g9h.g(%g2&gt;E
+[root@localhost ~]# echo &#39;+g9h.g(%g2&gt;E&#39; &gt; 3308_pass</pre></td></tr></table>
+</div>
+</div>
+<p>安装perl</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@localhost ~]# yum -y install perl</pre></td></tr></table>
+</div>
+</div>
+<p>配置配置文件/etc/my.cnf</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@localhost ~]# vim /etc/my.cnf
+[mysqld_multi]
+mysqld = /usr/local/mysql/bin/mysqld_safe
+mysqladmin = /usr/local/mysql/bin/mysqladmin
+user = root
+password = wangqing123!
+
+[mysqld3306]
+datadir = /opt/data/3306
+port = 3306
+socket = /tmp/mysql3306.sock
+pid-file = /opt/data/3306/mysql_3306.pid
+log-error=/var/log/3306.log
+
+[mysqld3307]
+datadir = /opt/data/3307
+port = 3307
+socket = /tmp/mysql3307.sock
+pid-file = /opt/data/3307/mysql_3307.pid
+log-error=/var/log/3307.log
+
+[mysqld3308]
+datadir = /opt/data/3308
+port = 3308
+socket = /tmp/mysql3308.sock
+pid-file = /opt/data/3308/mysql_3308.pid
+log-error=/var/log/3308.log</pre></td></tr></table>
+</div>
+</div>
+<p>启动各实例</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@localhost ~]# mysqld_multi start 3306
+[root@localhost ~]# mysqld_multi start 3307
+[root@localhost ~]# mysqld_multi start 3308
+[root@localhost ~]# ss -antl
+State      Recv-Q Send-Q     Local Address:Port                    Peer Address:Port
+LISTEN     0      128                    *:22                                 *:*
+LISTEN     0      100            127.0.0.1:25                                 *:*
+LISTEN     0      80                    :::3307                              :::*
+LISTEN     0      80                    :::3308                              :::*
+LISTEN     0      128                   :::22                                :::*
+LISTEN     0      100                  ::1:25                                :::*
+LISTEN     0      80                    :::3306                              :::*</pre></td></tr></table>
+</div>
+</div>
+<p>初始化密码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@localhost ~]# ls
+3306_pass  3307_pass  3308_pass  anaconda-ks.cfg
+[root@localhost ~]# cat 3306_pass
+AG/j:g?ob1CO
+[root@localhost ~]# mysql -uroot -p&#39;AG/j:g?ob1CO&#39; -S /tmp/mysql3306.sock
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 3
+Server version: 5.7.22
+
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.
+
+mysql&gt; set password = password(&#39;itwhs123!&#39;);
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql&gt; quit
+Bye
+
+
+
+[root@localhost ~]# cat 3307_pass
+rfY5Ys(u:s!s
+[root@localhost ~]# mysql -uroot -p&#39;rfY5Ys(u:s!s&#39; -S /tmp/mysql3307.sock -e &#39;set password = password(&#34;itwhs123!&#34;);&#39; --connect-expired-password
+mysql: [Warning] Using a password on the command line interface can be insecure.
+
+
+[root@localhost ~]# cat 3308_pass
++g9h.g(%g2&gt;E
+[root@localhost ~]# mysql -uroot -p&#39;+g9h.g(%g2&gt;E&#39; -S /tmp/mysql3308.sock -e &#39;set password = password(&#34;itwhs123!&#34;);&#39; --connect-expired-password
+mysql: [Warning] Using a password on the command line interface can be insecure.</pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Mr Wen</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2018-12-09 16:15
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener" href="https://github.com/itwhs/itwhs.github.io/blob/master/LICENSE">MIT</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/mysql/">MySQL</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/mysql%E4%B8%AD%E9%97%B4%E4%BB%B6proxysql%E5%AE%9E%E7%8E%B0mysql%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">proxysql中间件</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/mysql%E4%B8%BB%E4%BB%8E/">
+            <span class="next-text nav-default">MySQL主从</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:itwhs@foxmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://blog.csdn.net/wenhs5479" class="iconfont icon-cnblogs" title="cnblogs"></a>
+      <a href="https://github.com/itwhs" class="iconfont icon-github" title="github"></a>
+  <a href="https://itwhs.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Mr Wen</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139425163-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

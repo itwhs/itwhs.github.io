@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Docker部署MeEdu on itw&#39;s blog</title>
+    <link>https://itwhs.github.io/tags/docker%E9%83%A8%E7%BD%B2meedu/</link>
+    <description>Recent content in Docker部署MeEdu on itw&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 26 Oct 2019 16:15:57 +0800</lastBuildDate>
+    
+	<atom:link href="https://itwhs.github.io/tags/docker%E9%83%A8%E7%BD%B2meedu/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>MeEdu开源在线点播系统部署</title>
+      <link>https://itwhs.github.io/post/meedu%E5%BC%80%E6%BA%90%E5%9C%A8%E7%BA%BF%E7%82%B9%E6%92%AD%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B5/</link>
+      <pubDate>Sat, 26 Oct 2019 16:15:57 +0800</pubDate>
+      
+      <guid>https://itwhs.github.io/post/meedu%E5%BC%80%E6%BA%90%E5%9C%A8%E7%BA%BF%E7%82%B9%E6%92%AD%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B5/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

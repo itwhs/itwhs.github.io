@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>zabbix部署 - itw&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Mr Wen" /><meta name="description" content="" /><meta name="keywords" content="Linux, Github, Network, Cloud, Python" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://itwhs.github.io/post/%E9%83%A8%E7%BD%B2zabbix%E7%9B%91%E6%8E%A7%E6%9C%8D%E5%8A%A1/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/reset-even.css">
+
+
+<meta property="og:title" content="zabbix部署" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://itwhs.github.io/post/%E9%83%A8%E7%BD%B2zabbix%E7%9B%91%E6%8E%A7%E6%9C%8D%E5%8A%A1/" />
+<meta property="article:published_time" content="2018-12-30T16:15:57&#43;08:00"/>
+<meta property="article:modified_time" content="2018-12-30T16:15:57&#43;08:00"/>
+
+<meta itemprop="name" content="zabbix部署">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2018-12-30T16:15:57&#43;08:00" />
+<meta itemprop="dateModified" content="2018-12-30T16:15:57&#43;08:00" />
+<meta itemprop="wordCount" content="6728">
+
+
+
+<meta itemprop="keywords" content="监控服务," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="zabbix部署"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">itw</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a><a href="https://github.com/itwhs/">
+        <li class="mobile-menu-item">GitHub</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">itw</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/itwhs/">GitHub</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">zabbix部署</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-12-30 16:15 </span>
+        <div class="post-category">
+            <a href="/categories/linux%E8%BF%90%E7%BB%B4/"> Linux运维 </a>
+            </div>
+          <span class="more-meta"> 约 6728 字 </span>
+          <span class="more-meta"> 预计阅读 14 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#1-zabbix介绍">1. zabbix介绍</a></li>
+<li><a href="#2-什么是zabbix及优缺点-对比cacti和nagios">2.什么是zabbix及优缺点（对比cacti和nagios）</a></li>
+<li><a href="#3-zabbix特点">3. zabbix特点</a></li>
+<li><a href="#4-工作原理">4.工作原理</a>
+<ul>
+<li><a href="#5-zabbix的组件及进程">5.zabbix的组件及进程</a>
+<ul>
+<li><a href="#1-重要组件">1：重要组件</a></li>
+<li><a href="#2-常见进程">2：常见进程</a>
+<ul>
+<li><a href="#1-zabbix-agentd">（1）zabbix_agentd：</a></li>
+<li><a href="#2-zabbix-get">（2）zabbix_get</a></li>
+<li><a href="#3-zabbix-sender">（3）zabbix_sender</a></li>
+<li><a href="#4-zabbix-server">（4）zabbix_server</a></li>
+<li><a href="#5-zabbix-proxy">（5）zabbix_proxy</a></li>
+<li><a href="#6-zabbix-java-gateway">（6）zabbix_java_gateway</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><a href="#6-zabbix监控环境中基本概念">6.zabbix监控环境中基本概念</a></li>
+<li><a href="#7-zabbix的监控架构">7.zabbix的监控架构</a>
+<ul>
+<li>
+<ul>
+<li><a href="#1-server-client架构">1：server-client架构</a></li>
+<li><a href="#2-server-proxy-client架构">2：server-proxy-client架构</a></li>
+<li><a href="#3-master-node-client架构">3：master-node-client架构</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#8-zabbix配置文件">8. zabbix配置文件</a></li>
+<li><a href="#9-部署zabbix">9. 部署zabbix</a>
+<ul>
+<li><a href="#9-1-zabbix服务端安装">9.1 zabbix服务端安装</a></li>
+<li><a href="#9-2-zabbix服务端配置">9.2 zabbix服务端配置</a></li>
+<li><a href="#9-3-zabbix服务端web界面安装与配置">9.3 zabbix服务端web界面安装与配置</a>
+<ul>
+<li><a href="#9-3-1-zabbix-web界面安装前配置">9.3.1 zabbix web界面安装前配置</a></li>
+<li><a href="#9-3-2-安装zabbix-web界面">9.3.2 安装zabbix web界面</a></li>
+</ul></li>
+<li><a href="#9-4-登录zabbix">9.4 登录zabbix</a></li>
+</ul></li>
+<li><a href="#10-汉化zabbix">10.汉化zabbix</a>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#zabbix-自带多种语言包-也包括中文-登陆zabbix-web控制台默认是英文-可切换中文版本">zabbix 自带多种语言包，也包括中文。登陆zabbix web控制台默认是英文，可切换中文版本</a></li>
+<li><a href="#解决中文乱码">解决中文乱码</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><a href="#11-客户端配置">11.客户端配置</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="1-zabbix介绍">1. zabbix介绍</h2>
+
+<p><code>zabbix</code>是一个基于WEB界面的提供分布式系统监视以及网络监视功能的企业级的开源解决方案。</p>
+
+<p><code>zabbix</code>能监视各种网络参数，保证服务器系统的安全运营；并提供灵活的通知机制以让系统管理员快速定位/解决存在的各种问题。</p>
+
+<p><code>zabbix</code>由2部分构成，<code>zabbix server</code>与可选组件<code>zabbix agent</code>。</p>
+
+<p><code>zabbix server</code>可以通过<code>SNMP</code>，<code>zabbix agent</code>，<code>ping</code>，端口监视等方法提供对远程服务器/网络状态的监视，数据收集等功能，它可以运行在Linux，Ubuntu，Solaris，HP-UX，AIX，Free BSD，Open BSD，OS X等平台上。</p>
+
+<p><code>zabbix agent</code>需要安装在被监视的目标服务器上，它主要完成对硬件信息或与操作系统有关的内存，CPU等信息的收集。</p>
+
+<p><code>zabbix server</code>可以单独监视远程服务器的服务状态；同时也可以与<code>zabbix agent</code>配合，可以轮询<code>zabbix agent</code>主动接收监视数据（agent方式），同时还可被动接收<code>zabbix agent</code>发送的数据（trapping方式）。
+另外<code>zabbix server</code>还支持SNMP (v1,v2)，可以与SNMP软件(例如：net-snmp)等配合使用。</p>
+
+<h2 id="2-什么是zabbix及优缺点-对比cacti和nagios">2.什么是zabbix及优缺点（对比cacti和nagios）</h2>
+
+<p>Zabbix能监视各种网络参数，保证服务器系统的安全运营；并提供灵活的通知机制以让系统管理员快速定位/解决存在的各种问题。是一个基于WEB界面的提供分布式系统监视以及网络监视功能的企业级的开源解决方案。</p>
+
+<ul>
+<li><p>agent端：主机通过安装agent方式采集数据。</p></li>
+
+<li><p>server端：通过收集agent发送的数据，写入数据库（MySQL，ORACLE等），再通过php+apache在web前端展示.</p></li>
+
+<li><p>zabbix = cacti + nagios</p></li>
+
+<li><p>优点：基于两款工具优点于一身并更强大，实现企业级分布式监控。</p></li>
+
+<li><p>缺点：2.2版本带宽占用大但是升级到2.4版本后更节省了带宽资源，其它再无发现。</p></li>
+</ul>
+
+<h2 id="3-zabbix特点">3. zabbix特点</h2>
+
+<p>zabbix的主要特点：</p>
+
+<ul>
+<li>安装与配置简单，学习成本低</li>
+<li>支持多语言（包括中文）</li>
+<li>免费开源</li>
+<li>自动发现服务器与网络设备</li>
+<li>分布式监视以及WEB集中管理功能</li>
+<li>可以无agent监视</li>
+<li>用户安全认证和柔软的授权方式</li>
+<li>通过WEB界面设置或查看监视结果</li>
+<li>email等通知功能</li>
+</ul>
+
+<p>Zabbix主要功能：</p>
+
+<ul>
+<li>CPU负荷</li>
+<li>内存使用</li>
+<li>磁盘使用</li>
+<li>网络状况</li>
+<li>端口监视</li>
+<li>日志监视</li>
+</ul>
+
+<h2 id="4-工作原理">4.工作原理</h2>
+
+<p>一个监控系统运行的大概的流程是这样的：</p>
+
+<p>zabbix agent需要安装到被监控的主机上，它负责定期收集各项数据，并发送到zabbix server端，zabbix server将数据存储到数据库中，zabbix web根据数据在前端进行展现和绘图。这里agent收集数据分为主动和被动两种模式：</p>
+
+<p>主动：agent请求server获取主动的监控项列表，并主动将监控项内需要检测的数据提交给server/proxy</p>
+
+<p>被动：server向agent请求获取监控项的数据，agent返回数据。</p>
+
+<h3 id="5-zabbix的组件及进程">5.zabbix的组件及进程</h3>
+
+<h4 id="1-重要组件">1：重要组件</h4>
+
+<p>zabbix由以下几个组件部分构成：</p>
+
+<ol>
+<li>Zabbix Server：负责接收agent发送的报告信息的核心组件，所有配置，统计数据及操作数据均由其组织进行；</li>
+<li>Database Storage：专用于存储所有配置信息，以及由zabbix收集的数据；</li>
+<li>Web interface：zabbix的GUI接口，通常与Server运行在同一台主机上；</li>
+<li>Proxy：可选组件，常用于分布监控环境中，代理Server收集部分被监控端的监控数据并统一发往Server端；</li>
+<li>Agent：部署在被监控主机上，负责收集本地数据并发往Server端或Proxy端；</li>
+</ol>
+
+<p>注：zabbix node也是 zabbix server的一种 。</p>
+
+<h4 id="2-常见进程">2：常见进程</h4>
+
+<p>默认情况下zabbix包含5个程序：zabbix_agentd、zabbix_get、zabbix_proxy、zabbix_sender、zabbix_server，另外一个zabbix_java_gateway是可选，这个需要另外安装。下面来分别介绍下他们各自的作用。</p>
+
+<h5 id="1-zabbix-agentd">（1）zabbix_agentd：</h5>
+
+<p>客户端守护进程，此进程收集客户端数据，例如cpu负载、内存、硬盘使用情况等。</p>
+
+<h5 id="2-zabbix-get">（2）zabbix_get</h5>
+
+<p>zabbix工具，单独使用的命令，通常在server或者proxy端执行获取远程客户端信息的命令。通常用户排错。例如在server端获取不到客户端的内存数据，我们可以使用zabbix_get获取客户端的内容的方式来做故障排查。</p>
+
+<h5 id="3-zabbix-sender">（3）zabbix_sender</h5>
+
+<p>zabbix工具，用于发送数据给server或者proxy，通常用于耗时比较长的检查。很多检查非常耗时间，导致zabbix超时。于是我们在脚本执行完毕之后，使用sender主动提交数据。</p>
+
+<h5 id="4-zabbix-server">（4）zabbix_server</h5>
+
+<p>zabbix服务端守护进程。zabbix_agentd、zabbix_get、zabbix_sender、zabbix_proxy、zabbix_java_gateway的数据最终都是提交到server</p>
+
+<p>备注：当然不是数据都是主动提交给zabbix_server,也有的是server主动去取数据。</p>
+
+<h5 id="5-zabbix-proxy">（5）zabbix_proxy</h5>
+
+<p>zabbix代理守护进程。功能类似server，唯一不同的是它只是一个中转站，它需要把收集到的数据提交/被提交到server里。为什么要用代理？代理是做什么的？卖个关子，请继续关注运维生存时间zabbix教程系列。</p>
+
+<h5 id="6-zabbix-java-gateway">（6）zabbix_java_gateway</h5>
+
+<p>zabbix2.0之后引入的一个功能。顾名思义：Java网关，类似agentd，但是只用于Java方面。需要特别注意的是，它只能主动去获取数据，而不能被动获取数据。它的数据最终会给到server或者proxy。</p>
+
+<h2 id="6-zabbix监控环境中基本概念">6.zabbix监控环境中基本概念</h2>
+
+<ol>
+<li>主机（host）：要监控的网络设备，可由IP或DNS名称指定；</li>
+<li>主机组（host group）：主机的逻辑容器，可以包含主机和模板，但同一个组织内的主机和模板不能互相链接；主机组通常在给用户或用户组指派监控权限时使用；</li>
+<li>监控项（item）：一个特定监控指标的相关的数据；这些数据来自于被监控对象；item是zabbix进行数据收集的核心，相对某个监控对象，每个item都由&quot;key&quot;标识；</li>
+<li>触发器（trigger）：一个表达式，用于评估某监控对象的特定item内接收到的数据是否在合理范围内，也就是阈值；接收的数据量大于阈值时，触发器状态将从&quot;OK&quot;转变为&quot;Problem&quot;，当数据再次恢复到合理范围，又转变为&quot;OK&quot;；</li>
+<li>事件（event）：触发一个值得关注的事情，比如触发器状态转变，新的agent或重新上线的agent的自动注册等；</li>
+<li>动作（action）：指对于特定事件事先定义的处理方法，如发送通知，何时执行操作；</li>
+<li>报警升级（escalation）：发送警报或者执行远程命令的自定义方案，如每隔5分钟发送一次警报，共发送5次等；</li>
+<li>媒介（media）：发送通知的手段或者通道，如Email、Jabber或者SMS等；</li>
+<li>通知（notification）：通过选定的媒介向用户发送的有关某事件的信息；</li>
+<li>远程命令（remote command）：预定义的命令，可在被监控主机处于某特定条件下时自动执行；</li>
+<li>模板（template）：用于快速定义被监控主机的预设条目集合，通常包含了item、trigger、graph、screen、appication以及low-level discovery rule；模板可以直接链接至某个主机；</li>
+<li>应用（application）：一组item的集合；</li>
+<li>web场景（web scennario）：用于检测web站点可用性的一个活多个HTTP请求；</li>
+<li>前端（frontend）：Zabbix的web接口；</li>
+</ol>
+
+<h2 id="7-zabbix的监控架构">7.zabbix的监控架构</h2>
+
+<p>在实际监控架构中，zabbix根据网络环境、监控规模等 分了三种架构： server-client 、master-node-client、server-proxy-client三种 。</p>
+
+<h4 id="1-server-client架构">1：server-client架构</h4>
+
+<p>也是zabbix的最简单的架构，监控机和被监控机之间不经过任何代理 ，直接由zabbix server和zabbix agentd之间进行数据交互。适用于网络比较简单，设备比较少的监控环境 。</p>
+
+<h4 id="2-server-proxy-client架构">2：server-proxy-client架构</h4>
+
+<p>其中proxy是server、client之间沟通的一个桥梁，proxy本身没有前端，而且其本身并不存放数据，只是将agentd发来的数据暂时存放，而后再提交给server 。该架构经常是和master-node-client架构做比较的架构 ，一般适用于跨机房、跨网络的中型网络架构的监控。</p>
+
+<h4 id="3-master-node-client架构">3：master-node-client架构</h4>
+
+<p>该架构是zabbix最复杂的监控架构，适用于跨网络、跨机房、设备较多的大型环境 。每个node同时也是一个server端，node下面可以接proxy，也可以直接接client 。node有自已的配置文件和数据库，其要做的是将配置信息和监控数据向master同步，master的故障或损坏对node其下架构的完整性。</p>
+
+<p>其实zabbix做的还是挺人性化的，给了我们下载地址：<a href="http://repo.zabbix.com/">http://repo.zabbix.com/</a> 里面可以选很多版本，但这里就给大家提供一个目前最新版本4.2的部署及添加客户端方式。</p>
+
+<h2 id="8-zabbix配置文件">8. zabbix配置文件</h2>
+
+<p>zabbix配置文件有两种：</p>
+
+<ul>
+<li>服务器端配置文件(/usr/local/etc/zabbix_server.conf)</li>
+<li>客户端配置文件(/usr/local/etc/zabbix_agentd.conf)</li>
+<li>zabbix代理配置文件(/usr/local/etc/zabbix_proxy.conf)</li>
+</ul>
+
+<p><strong>服务器端配置文件zabbix_server.conf常用配置参数：</strong></p>
+
+<table>
+<thead>
+<tr>
+<th align="left">参数</th>
+<th align="left">作用</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">LogFile</td>
+<td align="left">设置服务端日志文件存放路径</td>
+</tr>
+
+<tr>
+<td align="left">ListenIP</td>
+<td align="left">设置服务端监听IP</td>
+</tr>
+
+<tr>
+<td align="left">ListenPort</td>
+<td align="left">设置服务端监听的端口号</td>
+</tr>
+
+<tr>
+<td align="left">PidFile</td>
+<td align="left">设置服务端进程号文件存放路径</td>
+</tr>
+
+<tr>
+<td align="left">DBHost</td>
+<td align="left">指定zabbix的数据库服务器IP</td>
+</tr>
+
+<tr>
+<td align="left">DBName</td>
+<td align="left">指定zabbix使用的数据库库名</td>
+</tr>
+
+<tr>
+<td align="left">DBUser</td>
+<td align="left">指定zabbix数据库登录用户</td>
+</tr>
+
+<tr>
+<td align="left">DBPassword</td>
+<td align="left">指定zabbix数据库登录密码</td>
+</tr>
+
+<tr>
+<td align="left">DBPort</td>
+<td align="left">指定zabbix数据库端口号</td>
+</tr>
+
+<tr>
+<td align="left">User</td>
+<td align="left">设置zabbix以什么用户的身份运行</td>
+</tr>
+
+<tr>
+<td align="left">AlertScriptsPath</td>
+<td align="left">设置告警脚本存放路径</td>
+</tr>
+
+<tr>
+<td align="left">ExternalScripts</td>
+<td align="left">外部脚本存放路径</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>客户端配置文件zabbix_agentd.conf常用配置参数：</strong></p>
+
+<p>如果是默认值，可以不用声明，即不要删除注释，需要更改特殊值时才修改，下面为了讲解，每个选项基本都取消注释了，但是有注明默认值是多少的</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">LogFile=/usr/local/zabbix/log/zabbix_agentd.log    #日志
+
+Server=10.10.88.20    # zabbix server IP，此种表示被动监听。可以有多个IP，以逗号分隔，如 Server=123.56.178.128,192.168.0.41
+
+ListenPort=10050    # agent 监听端口。默认也是10050
+
+ListenIP=0.0.0.0    # agent监听的网络接口。0.0.0.0表示监听所有IP
+
+StartAgents=3    #处理被动检查的预启动的zabbix_agent进程。默认值为3
+
+ServerActive=10.10.88.20:10051    #主动模式。主动检查zabbix server的端口，如果没有指明端口，则默认为10051
+
+Hostname=slave2    # 该项需要主动检查，并且必须与服务器上服务器上配置的主机名一致。如果未定义，则从HostnameItem获取值。
+ How often list of active checks is refreshed, in seconds.
+
+RefreshActiveChecks=120    # 主动模式下，agent主动检查监控项的刷新频率（隔多久从server获取一次item），单位s，默认120s
+
+BufferSend=5    #数据在缓冲区的保留时间。默认只保留5秒
+
+BufferSize=100    #内存缓冲区中的最大值。 如果缓冲区已满，代理将发送所有收集的数据到Zabbix Server或Proxy。默认值为100
+
+Timeout=30    # 处理超时时间。默认30秒为超时
+
+AllowRoot=0    # 是否允许agent以 root用户运行。0表示不允许，1表示允许，默认值为0
+
+User=zabbix    #
+
+Include=xxx    # 包含的配置文件，默认没有值。如Include=/usr/local/etc/zabbix_agentd.conf.d/*.conf
+
+UserParameter=xxx    # 用户自定义监控项，即自定义key。如</pre></td></tr></table>
+</div>
+</div>
+<h2 id="9-部署zabbix">9. 部署zabbix</h2>
+
+<p><strong>环境说明：</strong></p>
+
+<table>
+<thead>
+<tr>
+<th align="left">环境</th>
+<th align="left">IP</th>
+<th align="left">要安装的应用</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">服务器</td>
+<td align="left">192.168.161.130</td>
+<td align="left">lamp架构 <br>zabbix server<br> zabbix agent</td>
+</tr>
+
+<tr>
+<td align="left">客户端</td>
+<td align="left">192.168.161.167</td>
+<td align="left">zabbix agent</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>因为zabbix是用php语言开发的，所以必须先部署lamp架构，使其能够支持运行php网页</strong></p>
+
+<h3 id="9-1-zabbix服务端安装">9.1 zabbix服务端安装</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">安装依赖包
+[root@localhost ~]# yum -y install net-snmp-devel libevent-devel libxml2-devel curl-devel pcre*
+
+下载zabbix
+[root@localhost ~]# cd /usr/src/
+[root@localhost src]# wget https://nchc.dl.sourceforge.net/project/zabbix/ZABBIX%20Latest%20Stable/4.2.1/zabbix-4.2.1.tar.gz
+--2019-05-16 14:25:00--  https://nchc.dl.sourceforge.net/project/zabbix/ZABBIX%20Latest%20Stable/4.2.1/zabbix-4.2.1.tar.gz
+正在解析主机 nchc.dl.sourceforge.net (nchc.dl.sourceforge.net)... 211.79.60.17, 2001:e10:ffff:1f02::17
+正在连接 nchc.dl.sourceforge.net (nchc.dl.sourceforge.net)|211.79.60.17|:443... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：18284589 (17M) [application/x-gzip]
+正在保存至: “zabbix-4.2.1.tar.gz”
+    [                         &lt;=&gt;               ] 16,789,873   327KB/s 用时 57s    
+2019-05-16 13:45:44 (287 KB/s) - “zabbix-4.2.1.tar.gz” 已保存 [16789873]
+
+解压
+[root@localhost src]# tar xf zabbix-4.2.1.tar.gz
+
+创建zabbix用户和组
+[root@localhost ~]# groupadd -r zabbix
+[root@localhost ~]# useradd -r -g zabbix -M -s /sbin/nologin zabbix
+
+
+配置zabbix数据库
+[root@localhost ~]# mysql -uroot -pjbgsn123!
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 2
+Server version: 5.7.22 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.
+
+mysql&gt; create database zabbix character set utf8 collate utf8_bin;
+Query OK, 1 row affected (0.00 sec)
+
+mysql&gt; grant all privileges on zabbix.* to zabbix@localhost identified by &#39;zabbix123!&#39;;
+Query OK, 0 rows affected, 2 warnings (0.00 sec)
+
+mysql&gt; flush privileges;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; exit
+Bye
+[root@localhost ~]# cd /usr/src/zabbix-4.2.1/database/mysql/
+[root@localhost mysql]# ls
+data.sql  images.sql  Makefile.am  Makefile.in  schema.sql
+[root@localhost mysql]# mysql -uzabbix -pzabbix123! zabbix &lt; schema.sql
+mysql: [Warning] Using a password on the command line interface can be insecure.
+[root@localhost mysql]# mysql -uzabbix -pzabbix123! zabbix &lt; images.sql
+mysql: [Warning] Using a password on the command line interface can be insecure.
+[root@localhost mysql]# mysql -uzabbix -pzabbix123! zabbix &lt; data.sql
+mysql: [Warning] Using a password on the command line interface can be insecure.
+
+
+编译安装zabbix
+[root@localhost ~]# cd /usr/src/zabbix-4.2.1    
+[root@localhost zabbix-4.2.1]# ./configure --enable-server --enable-agent --with-mysql --with-net-snmp --with-libcurl --with-libxml2
+
+[root@localhost zabbix-4.2.1]# make install</pre></td></tr></table>
+</div>
+</div>
+<h3 id="9-2-zabbix服务端配置">9.2 zabbix服务端配置</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@localhost ~]# ls /usr/local/etc/
+zabbix_agentd.conf  zabbix_agentd.conf.d  zabbix_server.conf  zabbix_server.conf.d
+
+修改服务端配置文件
+设置数据库信息
+[root@localhost ~]# vim /usr/local/etc/zabbix_server.conf
+....
+DBPassword=zabbix123!       //设置zabbix数据库连接密码
+
+
+启动zabbix_server和zabbix_agentd
+[root@localhost ~]# zabbix_server
+[root@localhost ~]# zabbix_agentd
+[root@localhost ~]# ss -antl
+State       Recv-Q Send-Q Local Address:Port               Peer Address:Port              
+LISTEN      0      128     127.0.0.1:9000                        *:*                  
+LISTEN      0      128             *:22                          *:*                  
+LISTEN      0      100     127.0.0.1:25                          *:*                  
+LISTEN      0      128             *:10050                       *:*                  
+LISTEN      0      128             *:10051                       *:*                  
+LISTEN      0      80             :::3306                       :::*                  
+LISTEN      0      128            :::80                         :::*                  
+LISTEN      0      128            :::22                         :::*                  
+LISTEN      0      100           ::1:25                         :::* </pre></td></tr></table>
+</div>
+</div>
+<h3 id="9-3-zabbix服务端web界面安装与配置">9.3 zabbix服务端web界面安装与配置</h3>
+
+<h4 id="9-3-1-zabbix-web界面安装前配置">9.3.1 zabbix web界面安装前配置</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">修改/etc/php.ini的配置并重启php-fpm
+[root@localhost ~]# sed -ri &#39;s/(post_max_size =).*/\1 16M/g&#39; /etc/php.ini
+[root@localhost ~]# sed -ri &#39;s/(max_execution_time =).*/\1 300/g&#39; /etc/php.ini
+[root@localhost ~]# sed -ri &#39;s/(max_input_time =).*/\1 300/g&#39; /etc/php.ini
+[root@localhost ~]# sed -i &#39;/;date.timezone/a date.timezone = Asia/Shanghai&#39; /etc/php.ini
+[root@localhost ~]# service php-fpm restart
+Gracefully shutting down php-fpm . done
+Starting php-fpm  done
+
+[root@localhost ~]# cd /usr/src/zabbix-4.2.1
+[root@localhost zabbix-4.2.1]# ls
+aclocal.m4  compile        config.sub    depcomp     m4           misc     src
+AUTHORS     conf           configure     frontends   Makefile     missing
+bin         config.guess   configure.ac  include     Makefile.am  NEWS
+build       config.log     COPYING       INSTALL     Makefile.in  README
+ChangeLog   config.status  database      install-sh  man          sass
+[root@localhost zabbix-4.2.1]# mkdir /usr/local/apache/htdocs/zabbix
+[root@localhost zabbix-4.2.1]# cp -a frontends/php/* /usr/local/apache/htdocs/zabbix/
+[root@localhost zabbix-4.2.1]# groupadd -r apache
+[root@localhost zabbix-4.2.1]# useradd -r -g apache -M -s /sbin/nologin apache
+[root@localhost zabbix-4.2.1]# chown -R apache.apache /usr/local/apache/htdocs
+
+配置apache虚拟主机
+[root@localhost ~]# vim /etc/httpd/httpd.conf
+在配置文件的末尾加如下内容
+ServerName zabbix.wenhs.com:80
+&lt;VirtualHost *:80&gt;
+    DocumentRoot &#34;/usr/local/apache/htdocs/zabbix&#34;
+    ServerName zabbix.wenhs.com
+    ProxyRequests Off
+    ProxyPassMatch ^/(.*\.php)$ fcgi://127.0.0.1:9000/usr/local/apache/htdocs/zabbix/$1
+    &lt;Directory &#34;/usr/local/apache/htdocs/zabbix&#34;&gt;
+        Options none
+        AllowOverride none
+        Require all granted
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
+
+
+设置zabbix/conf目录的权限，让zabbix有权限生成配置文件zabbix.conf.php
+[root@localhost ~]# chmod 777 /usr/local/apache/htdocs/zabbix/conf
+[root@localhost ~]# ll -d /usr/local/apache/htdocs/zabbix/conf
+drwxrwsrwx 2 apache apache 81 4月  18 17:26 /usr/local/apache/htdocs/zabbix/conf
+
+
+重启apache
+[root@localhost ~]# apachectl -t
+Syntax OK
+[root@localhost ~]# apachectl stop
+[root@localhost ~]# apachectl start
+[root@localhost ~]# ss -antl
+State       Recv-Q Send-Q Local Address:Port               Peer Address:Port              
+LISTEN      0      128     127.0.0.1:9000                        *:*                  
+LISTEN      0      128             *:22                          *:*                  
+LISTEN      0      100     127.0.0.1:25                          *:*                  
+LISTEN      0      128             *:10050                       *:*                  
+LISTEN      0      128             *:10051                       *:*                  
+LISTEN      0      80             :::3306                       :::*                  
+LISTEN      0      128            :::80                         :::*                  
+LISTEN      0      128            :::22                         :::*                  
+LISTEN      0      100           ::1:25                         :::*</pre></td></tr></table>
+</div>
+</div>
+<h4 id="9-3-2-安装zabbix-web界面">9.3.2 安装zabbix web界面</h4>
+
+<ul>
+<li>修改/etc/hosts文件，添加域名与IP的映射</li>
+<li>在浏览器上访问域名，本文设置的域名为zabbix.wenhs.com，你需要修改成你自己的域名</li>
+<li>恢复zabbix/conf目录的权限为755</li>
+</ul>
+
+<p>在浏览器上访问域名进行安装：</p>
+
+<p><img src="../../img/1557990954228.png" alt="img1" /></p>
+
+<p><img src="../../img/1557991001839.png" alt="img2" /></p>
+
+<p><img src="../../img/1557991134277.png" alt="img3" /></p>
+
+<p><img src="../../img/1557991230631.png" alt="img4" /></p>
+
+<p><img src="../../img/1557991264039.png" alt="img5" /></p>
+
+<p><img src="../../img/1557991290886.png" alt="img6" /></p>
+
+<p><img src="../../img/1557991341715.png" alt="img6" /></p>
+
+<p>恢复zabbix/conf目录的权限为755：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@localhost ~]# chmod 755 /usr/local/apache/htdocs/zabbix/conf
+[root@localhost ~]# ll -d /usr/local/apache/htdocs/zabbix/conf
+drwxr-sr-x 2 apache apache 104 5月  16 15:21 /usr/local/apache/htdocs/zabbix/conf</pre></td></tr></table>
+</div>
+</div>
+<h3 id="9-4-登录zabbix">9.4 登录zabbix</h3>
+
+<p><strong>zabbix默认登录用户名和密码：</strong></p>
+
+<table>
+<thead>
+<tr>
+<th align="left">用户名</th>
+<th align="left">密码</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">Admin</td>
+<td align="left">zabbix</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="10-汉化zabbix">10.汉化zabbix</h2>
+
+<h5 id="zabbix-自带多种语言包-也包括中文-登陆zabbix-web控制台默认是英文-可切换中文版本">zabbix 自带多种语言包，也包括中文。登陆zabbix web控制台默认是英文，可切换中文版本</h5>
+
+<p>1.默认登陆界面(英文版)</p>
+
+<p><img src="../../img/1557991450914.png" alt="img7" /></p>
+
+<p>点击右上角小人图标,切换语言</p>
+
+<p><img src="../../img/1557991583049.png" alt="img8" /></p>
+
+<p>汉化后界面如下</p>
+
+<p><img src="../../img/1557992321097.png" alt="img9" /></p>
+
+<h5 id="解决中文乱码">解决中文乱码</h5>
+
+<p>上传本地字体</p>
+
+<p>找到本地C:\Windows\Fonts\STXINWEI.TTF(华文新魏)上传到/usr/share/zabbix/fonts</p>
+
+<p><img src="../../img/1557984849451.png" alt="img10" /></p>
+
+<p>重命名字体名称</p>
+
+<p>将zabbix服务器正在使用字体备份</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@localhost ~]# mv /usr/local/apache/htdocs/zabbix/fonts/DejaVuSans.ttf{,.bak}
+ 将刚刚上传的字体替换
+
+$ scp STXINWEI.TTF root@192.168.161.130:/usr/local/apache/htdocs/zabbix/fo nts/DejaVuSans.ttf                                                         root@192.168.161.130&#39;s password:                                           STXINWEI.TTF                             100% 3956KB   1.3MB/s   00:03</pre></td></tr></table>
+</div>
+</div>
+<p>再次查看界面</p>
+
+<p><img src="../../img/1557992833068.png" alt="img11" /></p>
+
+<h2 id="11-客户端配置">11.客户端配置</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">安装依赖包
+[root@wenhs5479 ~]# yum -y install net-snmp-devel libevent-devel libxml2-devel curl-devel pcre*
+
+下载zabbix
+[root@wenhs5479 ~]# cd /usr/src/
+[root@wenhs5479 src]# scp 192.168.161.130:/usr/src/zabbix-4.2.1.tar.gz .
+root@192.168.161.130&#39;s password: 
+zabbix-4.2.1.tar.gz                               100%   17MB  61.7MB/s   00:00    
+[root@wenhs5479 src]# tar xf zabbix-4.2.1.tar.gz
+
+创建zabbix用户和组
+[root@wenhs5479 ~]# groupadd -r zabbix
+[root@wenhs5479 ~]# useradd -r -g zabbix -M -s /sbin/nologin zabbix
+
+编译安装zabbix
+[root@wenhs5479 ~]# cd /usr/src/zabbix-4.2.1    
+[root@wenhs5479 zabbix-4.2.1]# ./configure --enable-agent
+[root@wenhs5479 zabbix-4.2.1]# make install
+[root@wenhs5479 zabbix-4.2.1]# ls /usr/local/etc/
+zabbix_agentd.conf  zabbix_agentd.conf.d 
+
+修改服务端配置文件
+设置数据库信息
+[root@wenhs5479 zabbix-4.2.1]# vim /usr/local/etc/zabbix_agentd.conf
+Server=192.168.161.130
+ServerActive=192.168.161.130
+Hostname=167
+启动zabbix_agentd
+[root@wenhs5479 zabbix-4.2.1]# zabbix_agentd
+[root@wenhs5479 zabbix-4.2.1]# ss -antl
+State      Recv-Q Send-Q Local Address:Port               Peer Address:Port              
+LISTEN     0      128            *:111                        *:*                  
+LISTEN     0      5      192.168.122.1:53                         *:*                  
+LISTEN     0      128            *:22                         *:*                  
+LISTEN     0      128    127.0.0.1:631                        *:*                  
+LISTEN     0      100    127.0.0.1:25                         *:*                  
+LISTEN     0      128    127.0.0.1:6010                       *:*                  
+LISTEN     0      128            *:10050                      *:*                  
+LISTEN     0      128           :::111                       :::*                  
+LISTEN     0      128           :::22                        :::*                  
+LISTEN     0      128          ::1:631                       :::*                  
+LISTEN     0      100          ::1:25                        :::*                  
+LISTEN     0      128          ::1:6010                      :::*</pre></td></tr></table>
+</div>
+</div>
+<p><img src="../../img/1557994936761.png" alt="img12" /></p>
+
+<p><img src="../../img/1557995112055.png" alt="img13" /></p>
+
+<p><img src="../../img/1557995259971.png" alt="img14" /></p>
+
+<p><img src="../../img/1557996138901.png" alt="img15" /></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Mr Wen</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2018-12-30 16:15
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener" href="https://github.com/itwhs/itwhs.github.io/blob/master/LICENSE">MIT</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E7%9B%91%E6%8E%A7%E6%9C%8D%E5%8A%A1/">监控服务</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/%E5%9F%BA%E7%A1%80%E6%9C%8D%E5%8A%A1%E5%AE%9E%E9%AA%8C/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">赛题样题解法</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6gitlab/">
+            <span class="next-text nav-default">Gitlab</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:itwhs@foxmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://blog.csdn.net/wenhs5479" class="iconfont icon-cnblogs" title="cnblogs"></a>
+      <a href="https://github.com/itwhs" class="iconfont icon-github" title="github"></a>
+  <a href="https://itwhs.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Mr Wen</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139425163-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

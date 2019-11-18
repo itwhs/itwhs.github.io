@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>MeEdu开源在线点播系统部署 - itw&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Mr Wen" /><meta name="description" content="" /><meta name="keywords" content="Linux, Github, Network, Cloud, Python" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://itwhs.github.io/post/meedu%E5%BC%80%E6%BA%90%E5%9C%A8%E7%BA%BF%E7%82%B9%E6%92%AD%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B5/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/reset-even.css">
+
+
+<meta property="og:title" content="MeEdu开源在线点播系统部署" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://itwhs.github.io/post/meedu%E5%BC%80%E6%BA%90%E5%9C%A8%E7%BA%BF%E7%82%B9%E6%92%AD%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B5/" />
+<meta property="article:published_time" content="2019-10-26T16:15:57&#43;08:00"/>
+<meta property="article:modified_time" content="2019-10-26T16:15:57&#43;08:00"/>
+
+<meta itemprop="name" content="MeEdu开源在线点播系统部署">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2019-10-26T16:15:57&#43;08:00" />
+<meta itemprop="dateModified" content="2019-10-26T16:15:57&#43;08:00" />
+<meta itemprop="wordCount" content="1092">
+
+
+
+<meta itemprop="keywords" content="Docker部署MeEdu," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="MeEdu开源在线点播系统部署"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">itw</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a><a href="https://github.com/itwhs/">
+        <li class="mobile-menu-item">GitHub</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">itw</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/itwhs/">GitHub</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">MeEdu开源在线点播系统部署</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-10-26 16:15 </span>
+        <div class="post-category">
+            <a href="/categories/docker/"> Docker </a>
+            </div>
+          <span class="more-meta"> 约 1092 字 </span>
+          <span class="more-meta"> 预计阅读 3 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#环境介绍">环境介绍:</a>
+<ul>
+<li><a href="#参考链接">参考链接</a></li>
+</ul></li>
+<li><a href="#下面开始图文教程">下面开始图文教程</a>
+<ul>
+<li><a href="#登录管理">登录管理</a></li>
+<li><a href="#获取视频链接">获取视频链接</a></li>
+<li><a href="#添加视频">添加视频</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="环境介绍">环境介绍:</h2>
+
+<p>虚拟机安装的最小化Centos7</p>
+
+<p>由于校园网设备限制,这里网卡是NAT模式:192.168.153.128</p>
+
+<h3 id="参考链接">参考链接</h3>
+
+<p><a href="https://github.com/Qsnh/meedu">程序开发者：小腾</a></p>
+
+<p><a href="https://github.com/Baiyuetribe/meedu">一条命令安装MeEdu（Docker方式），由 MeEdu 社区小伙伴提供</a></p>
+
+<p><a href="https://www.bilibili.com/video/av36024146/">MeEdu 作者录制的简单安装视频教程</a><a href="https://www.bilibili.com/video/av44963351/">使用Docker简单快速的搭建MeEdu（适合小白）</a></p>
+
+<p><a href="https://www.bilibili.com/video/av44963351/">使用Docker简单快速的搭建MeEdu（适合小白）</a></p>
+
+<p><a href="https://www.bilibili.com/video/av45755754/">MeEdu使用阿里云视频加密服务保障视频安全性(手把手教程)</a></p>
+
+<h2 id="下面开始图文教程">下面开始图文教程</h2>
+
+<p>最小化安装完虚拟机Centos7后执行</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="o">[</span>root@MeEdu ~<span class="o">]</span><span class="c1"># bash &lt;(curl -L -s https://raw.githubusercontent.com/Baiyuetribe/meedu/master/meedu.sh)</span>
+
+选择1,进行安装,如果网络问题,下载卡顿,没网速,可以CTRL+c终止,重新运行该脚本安装,主要是docker的镜像下载问题导致</code></pre></td></tr></table>
+</div>
+</div>
+<p><img src="../../img/meedu1.png" alt="image-20191117132504973" /></p>
+
+<p>安装完成,如下所示</p>
+
+<p><img src="../../img/meedu2.png" alt="image-20191117133220236" /><img src="../../img/meedu3.png" alt="image-20191117134011300" /></p>
+
+<h3 id="登录管理">登录管理</h3>
+
+<p>说明:默认支持手机号注册,qq登录,github登录,安装商城免费插件,还能微信登录和微博登录,但是对于个人实践学习来说,只有GitHub授权登录是完全免费的,其他多多少少会花一点,而且各种实名等等,所以这里只介绍github登录</p>
+
+<p><img src="../../img/meedu4.png" alt="image-20191117134722501" /></p>
+
+<blockquote>
+<p>登录后台-系统-全站配置-社交登录-github登录-开启</p>
+</blockquote>
+
+<p>下面介绍怎么获取接入github登录的id:</p>
+
+<blockquote>
+<p>github登录，实质就是 OAuth 授权。用户想要登录 A 网站，A 网站让用户提供第三方网站的数据，证明自己的身份。获取第三方网站的身份数据，就需要 OAuth 授权。</p>
+</blockquote>
+
+<p>举例来说，A 网站允许 GitHub 登录，背后就是下面的流程。</p>
+
+<ol>
+<li>A 网站让用户跳转到 GitHub。</li>
+<li>GitHub 要求用户登录，然后询问&quot;A 网站要求获得 xx 权限，你是否同意？&quot;</li>
+<li>用户同意，GitHub 就会重定向回 A 网站，同时发回一个授权码。</li>
+<li>A 网站使用授权码，向 GitHub 请求令牌。</li>
+<li>GitHub 返回令牌.</li>
+<li>A 网站使用令牌，向 GitHub 请求用户数据。</li>
+</ol>
+
+<p>一个应用要求 OAuth 授权，必须先到对方网站登记，让对方知道是谁在请求。</p>
+
+<p>所以，你要先去 GitHub 登记一下。当然，我已经登记过了，你使用我的登记信息也可以，但为了完整走一遍流程，还是建议大家自己登记。这是免费的。</p>
+
+<p>访问这个<a href="https://github.com/settings/applications/new">网址</a>，填写登记表。</p>
+
+<p><img src="../../img/meedu5.png" alt="image-20191117140009011" /></p>
+
+<p>提交表单以后，GitHub 应该会返回客户端 ID（client ID）和客户端密钥（client secret），这就是应用的身份识别码。</p>
+
+<p><img src="../../img/meedu6.png" alt="image-20191117140229665" /></p>
+
+<p>再修改网站后台的2处id</p>
+
+<p><img src="../../img/meedu7.png" alt="image-20191117140713736" /></p>
+
+<p>网站主页测试登录</p>
+
+<p><img src="../../img/meedu8.png" alt="image-20191117140917842" /></p>
+
+<p><img src="../../img/meedu9.png" alt="image-20191117141409099" /></p>
+
+<h3 id="获取视频链接">获取视频链接</h3>
+
+<p>根据脚本的部署,还有一个可道云的容器</p>
+
+<p><img src="../../img/meedu16.png" alt="image-20191118121512626" /></p>
+
+<p>上传视频</p>
+
+<p><img src="../../img/meedu17.png" alt="image-20191118121829698" /></p>
+
+<p>获得视频链接</p>
+
+<p><img src="../../img/meedu18.png" alt="image-20191118122159932" /></p>
+
+<p>这个是本地做法,还支持添加阿里云和腾讯云视频源</p>
+
+<h3 id="添加视频">添加视频</h3>
+
+<p>下面是几张图,一步一步来</p>
+
+<p><img src="../../img/meedu10.png" alt="image-20191117142439286" /></p>
+
+<p>创建课程</p>
+
+<p><img src="../../img/meedu11.png" alt="image-20191117143931045" /></p>
+
+<p>添加章节</p>
+
+<p><img src="../../img/meedu12.png" alt="image-20191117144532067" /></p>
+
+<p>添加视频</p>
+
+<p><img src="../../img/meedu13.png" alt="image-20191117145401873" /></p>
+
+<p>测试结果</p>
+
+<p><img src="../../img/meedu15.png" alt="image-20191117150011630" /></p>
+
+<p><img src="../../img/meedu14.png" alt="image-20191117150140973" /></p>
+
+<blockquote>
+<p>小结:</p>
+
+<p>由图可知,MeEdu点播系统只支持添加视频链接的方式添加视频,所有给了一些便利,比如前端用MeEdu供客户浏览,后端是web集群或者其他推流服务集群,推流集群做一下负载均衡,MeEdu做一下高可用,还要注意备份</p>
+</blockquote>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Mr Wen</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-10-26 16:15
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener" href="https://github.com/itwhs/itwhs.github.io/blob/master/LICENSE">MIT</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/docker%E9%83%A8%E7%BD%B2meedu/">Docker部署MeEdu</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/2019%E5%B9%B4%E7%9C%81%E8%B5%9Blinux%E9%83%A8%E5%88%86/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">2019年计算机网络省赛Linux部分</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/zerotier-one%E9%85%8D%E7%BD%AEmoon/">
+            <span class="next-text nav-default">ZeroTier-One配置moon</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:itwhs@foxmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://blog.csdn.net/wenhs5479" class="iconfont icon-cnblogs" title="cnblogs"></a>
+      <a href="https://github.com/itwhs" class="iconfont icon-github" title="github"></a>
+  <a href="https://itwhs.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Mr Wen</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139425163-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

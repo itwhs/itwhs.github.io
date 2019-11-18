@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>安装Discuz论坛 - itw&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Mr Wen" /><meta name="description" content="" /><meta name="keywords" content="Linux, Github, Network, Cloud, Python" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://itwhs.github.io/post/centos7.6%E4%B8%8B-%E5%AE%89%E8%A3%85discuz%E8%AE%BA%E5%9D%9B/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/reset-even.css">
+
+
+<meta property="og:title" content="安装Discuz论坛" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://itwhs.github.io/post/centos7.6%E4%B8%8B-%E5%AE%89%E8%A3%85discuz%E8%AE%BA%E5%9D%9B/" />
+<meta property="article:published_time" content="2018-10-28T16:15:57&#43;08:00"/>
+<meta property="article:modified_time" content="2018-10-28T16:15:57&#43;08:00"/>
+
+<meta itemprop="name" content="安装Discuz论坛">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2018-10-28T16:15:57&#43;08:00" />
+<meta itemprop="dateModified" content="2018-10-28T16:15:57&#43;08:00" />
+<meta itemprop="wordCount" content="778">
+
+
+
+<meta itemprop="keywords" content="建站," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="安装Discuz论坛"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">itw</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a><a href="https://github.com/itwhs/">
+        <li class="mobile-menu-item">GitHub</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">itw</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/itwhs/">GitHub</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">安装Discuz论坛</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-10-28 16:15 </span>
+        <div class="post-category">
+            <a href="/categories/linux%E8%BF%90%E7%BB%B4/"> Linux运维 </a>
+            </div>
+          <span class="more-meta"> 约 778 字 </span>
+          <span class="more-meta"> 预计阅读 2 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#一-discuz介绍">一、Discuz介绍</a></li>
+<li><a href="#二-discuz实验环境">二、Discuz实验环境</a></li>
+<li><a href="#三-discuz安装步骤">三、Discuz安装步骤</a></li>
+<li><a href="#四-apache安装">四、Apache安装</a>
+<ul>
+<li>
+<ul>
+<li><a href="#1-通过yum安装apache组件">1、通过yum安装Apache组件：</a></li>
+<li><a href="#2-安装成功-启动httpd进程">2、安装成功，启动httpd进程</a></li>
+<li><a href="#3-通过http-ip直接访问">3、通过<a href="http://ip直接访问">http://ip直接访问</a></a></li>
+<li><a href="#4-把httpd设置为开机启动">4、把Httpd设置为开机启动</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#五-php和mysql安装">五、PHP和MySQL安装</a>
+<ul>
+<li>
+<ul>
+<li><a href="#1-使用yum安装-php">1、使用yum安装 PHP</a></li>
+<li><a href="#2-安装之后-启动-php-fpm-进程">2、安装之后，启动 PHP-FPM 进程</a></li>
+<li><a href="#3-php-fpm-默认端口9000-通过netstat查看是否启动成功">3、PHP-FPM，默认端口9000，通过netstat查看是否启动成功</a></li>
+<li><a href="#4-php-fpm也设置成开机自动启动">4、PHP-FPM也设置成开机自动启动</a></li>
+<li><a href="#5-启动数据库服务">5、启动数据库服务</a></li>
+<li><a href="#6-查看是否启用成功-默认端口3306">6、查看是否启用成功,默认端口3306</a></li>
+<li><a href="#7-修改数据库密码">7、修改数据库密码</a></li>
+<li><a href="#8-创建论坛数据库-并创建数据库管理账户和密码">8、创建论坛数据库，并创建数据库管理账户和密码：</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#六-discuz安装">六、Discuz安装</a>
+<ul>
+<li>
+<ul>
+<li><a href="#1-通过wget-下载discuz安装包">1、通过wget,下载Discuz安装包</a></li>
+<li><a href="#2-通过unzip解压压缩包">2、通过unzip解压压缩包</a></li>
+<li><a href="#3-配置discuz">3、配置Discuz</a>
+<ul>
+<li><a href="#a-由于php默认访问-var-www-html-文件夹-所以我们需要把upload文件夹里的文件都复制到-var-www-html-文件夹">a、由于PHP默认访问 /var/www/html/ 文件夹，所以我们需要把upload文件夹里的文件都复制到 /var/www/html/ 文件夹</a></li>
+<li><a href="#b-通过chmod设置-var-www-html目录及其子目录赋予权限">b、通过chmod设置/var/www/html目录及其子目录赋予权限</a></li>
+<li><a href="#c-apache重启">c、Apache重启</a></li>
+</ul></li>
+<li><a href="#4-discuz安装向导-访问路径">4、Discuz安装向导,访问路径：</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="一-discuz介绍">一、Discuz介绍</h2>
+
+<p>作为国内最大的社区软件及服务提供商，Comsenz旗下的 Discuz! 开发组具有丰富的 web应用程序设计经验，尤其在论坛产品及相关领域</p>
+
+<h2 id="二-discuz实验环境">二、Discuz实验环境</h2>
+
+<p>centos7.6虚拟机</p>
+
+<p>ApacheHTTP丶PHP丶MySQL</p>
+
+<h2 id="三-discuz安装步骤">三、Discuz安装步骤</h2>
+
+<p>1.Apache安装</p>
+
+<p>2.PHP和MySQL安装</p>
+
+<h2 id="四-apache安装">四、Apache安装</h2>
+
+<h4 id="1-通过yum安装apache组件">1、通过yum安装Apache组件：</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">yum install httpd -y
+-y:同意安装</pre></td></tr></table>
+</div>
+</div>
+<h4 id="2-安装成功-启动httpd进程">2、安装成功，启动httpd进程</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">systemctl start httpd.service</pre></td></tr></table>
+</div>
+</div>
+<h4 id="3-通过http-ip直接访问">3、通过<a href="http://ip直接访问">http://ip直接访问</a></h4>
+
+<h4 id="4-把httpd设置为开机启动">4、把Httpd设置为开机启动</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">systemctl enable httpd.service</pre></td></tr></table>
+</div>
+</div>
+<h2 id="五-php和mysql安装">五、PHP和MySQL安装</h2>
+
+<h4 id="1-使用yum安装-php">1、使用yum安装 PHP</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">yum install php php-fpm php-mysql mariadb-server mariadb-client -y</pre></td></tr></table>
+</div>
+</div>
+<h4 id="2-安装之后-启动-php-fpm-进程">2、安装之后，启动 PHP-FPM 进程</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">systemctl start php-fpm.service</pre></td></tr></table>
+</div>
+</div>
+<h4 id="3-php-fpm-默认端口9000-通过netstat查看是否启动成功">3、PHP-FPM，默认端口9000，通过netstat查看是否启动成功</h4>
+
+<h4 id="4-php-fpm也设置成开机自动启动">4、PHP-FPM也设置成开机自动启动</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">systemctl enable php-fpm.service</pre></td></tr></table>
+</div>
+</div>
+<h4 id="5-启动数据库服务">5、启动数据库服务</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">systemctl start mariadb.service</pre></td></tr></table>
+</div>
+</div>
+<h4 id="6-查看是否启用成功-默认端口3306">6、查看是否启用成功,默认端口3306</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">netstat -antupl|grep 3306      ##有的话,说明启动成功</pre></td></tr></table>
+</div>
+</div>
+<h4 id="7-修改数据库密码">7、修改数据库密码</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mysqladmin -u root password root</pre></td></tr></table>
+</div>
+</div>
+<h4 id="8-创建论坛数据库-并创建数据库管理账户和密码">8、创建论坛数据库，并创建数据库管理账户和密码：</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mysql -u root  -p</pre></td></tr></table>
+</div>
+</div>
+<p>显示为:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs ~]# mysql -u root  -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 3
+Server version: 5.5.60-MariaDB MariaDB Server
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.
+
+MariaDB [(none)]&gt; create database bbs;
+
+MariaDB [(none)]&gt; grant all on bbs.* to &#39;bbs_admin&#39;@&#39;localhost&#39; identified by &#39;root&#39;;
+
+MariaDB [(none)]&gt;exit;</pre></td></tr></table>
+</div>
+</div>
+<h2 id="六-discuz安装">六、Discuz安装</h2>
+
+<h4 id="1-通过wget-下载discuz安装包">1、通过wget,下载Discuz安装包</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">wget http://download.comsenz.com/DiscuzX/3.3/Discuz_X3.3_SC_UTF8.zip</pre></td></tr></table>
+</div>
+</div>
+<h4 id="2-通过unzip解压压缩包">2、通过unzip解压压缩包</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">unzip Discuz_X3.3_SC_UTF8.zip
+解压完后，会看到一个upload文件夹</pre></td></tr></table>
+</div>
+</div>
+<h4 id="3-配置discuz">3、配置Discuz</h4>
+
+<h5 id="a-由于php默认访问-var-www-html-文件夹-所以我们需要把upload文件夹里的文件都复制到-var-www-html-文件夹">a、由于PHP默认访问 /var/www/html/ 文件夹，所以我们需要把upload文件夹里的文件都复制到 /var/www/html/ 文件夹</h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">cp -r upload/* /var/www/html/</pre></td></tr></table>
+</div>
+</div>
+<h5 id="b-通过chmod设置-var-www-html目录及其子目录赋予权限">b、通过chmod设置/var/www/html目录及其子目录赋予权限</h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">chmod -R 777 /var/www/html</pre></td></tr></table>
+</div>
+</div>
+<h5 id="c-apache重启">c、Apache重启</h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">systemctl restart httpd.service</pre></td></tr></table>
+</div>
+</div>
+<h4 id="4-discuz安装向导-访问路径">4、Discuz安装向导,访问路径：</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">http://ip/install</pre></td></tr></table>
+</div>
+</div>
+<p>剩下的就在网站操作了,其中数据库密码要和之前系统数据库密码一样,不然无法安装</p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Mr Wen</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2018-10-28 16:15
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener" href="https://github.com/itwhs/itwhs.github.io/blob/master/LICENSE">MIT</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E5%BB%BA%E7%AB%99/">建站</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/tomcat/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">tomcat</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/shell%E7%A4%BA%E4%BE%8B/">
+            <span class="next-text nav-default">shell脚本示例</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:itwhs@foxmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://blog.csdn.net/wenhs5479" class="iconfont icon-cnblogs" title="cnblogs"></a>
+      <a href="https://github.com/itwhs" class="iconfont icon-github" title="github"></a>
+  <a href="https://itwhs.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Mr Wen</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139425163-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

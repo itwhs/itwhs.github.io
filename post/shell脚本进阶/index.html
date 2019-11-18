@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>shell脚本进阶 - itw&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Mr Wen" /><meta name="description" content="" /><meta name="keywords" content="Linux, Github, Network, Cloud, Python" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://itwhs.github.io/post/shell%E8%84%9A%E6%9C%AC%E8%BF%9B%E9%98%B6/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/reset-even.css">
+
+
+<meta property="og:title" content="shell脚本进阶" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://itwhs.github.io/post/shell%E8%84%9A%E6%9C%AC%E8%BF%9B%E9%98%B6/" />
+<meta property="article:published_time" content="2018-10-21T16:15:57&#43;08:00"/>
+<meta property="article:modified_time" content="2018-10-21T16:15:57&#43;08:00"/>
+
+<meta itemprop="name" content="shell脚本进阶">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2018-10-21T16:15:57&#43;08:00" />
+<meta itemprop="dateModified" content="2018-10-21T16:15:57&#43;08:00" />
+<meta itemprop="wordCount" content="2161">
+
+
+
+<meta itemprop="keywords" content="shell," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="shell脚本进阶"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">itw</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a><a href="https://github.com/itwhs/">
+        <li class="mobile-menu-item">GitHub</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">itw</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/itwhs/">GitHub</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">shell脚本进阶</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-10-21 16:15 </span>
+        <div class="post-category">
+            <a href="/categories/linux%E8%BF%90%E7%BB%B4/"> Linux运维 </a>
+            </div>
+          <span class="more-meta"> 约 2161 字 </span>
+          <span class="more-meta"> 预计阅读 5 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#1-bash条件判断">1. bash条件判断</a>
+<ul>
+<li><a href="#1-1-条件测试类型">1.1 条件测试类型</a></li>
+<li><a href="#1-2-条件测试的表达式">1.2 条件测试的表达式</a></li>
+<li><a href="#1-3-整数测试-双目">1.3 整数测试（双目）</a></li>
+<li><a href="#1-4-字符测试">1.4 字符测试</a></li>
+<li><a href="#1-5-文件测试">1.5 文件测试</a></li>
+<li><a href="#1-6-组合测试条件">1.6 组合测试条件</a></li>
+<li><a href="#1-7-条件判断-控制结构">1.7 条件判断，控制结构</a>
+<ul>
+<li>
+<ul>
+<li><a href="#1-7-1-单分支if语句">1.7.1 单分支if语句</a></li>
+<li><a href="#1-7-2-双分支if语句">1.7.2 双分支if语句</a></li>
+<li><a href="#1-7-3-多分支if语句">1.7.3 多分支if语句</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><a href="#2-分支选择">2. 分支选择</a></li>
+<li><a href="#3-循环语句">3. 循环语句</a>
+<ul>
+<li><a href="#3-1-for循环">3.1 for循环</a></li>
+<li><a href="#3-2-while循环">3.2 while循环</a>
+<ul>
+<li>
+<ul>
+<li><a href="#3-2-1-while循环正常用法">3.2.1 while循环正常用法</a></li>
+<li><a href="#3-2-2-while循环特殊用法">3.2.2 while循环特殊用法</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#3-3-until循环">3.3 until循环</a></li>
+<li><a href="#3-4-循环语句特殊情况">3.4 循环语句特殊情况</a></li>
+</ul></li>
+<li><a href="#4-定义脚本退出状态码">4. 定义脚本退出状态码</a></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="1-bash条件判断">1. bash条件判断</h1>
+
+<h2 id="1-1-条件测试类型">1.1 条件测试类型</h2>
+
+<ul>
+<li>整数测试</li>
+<li>字符测试</li>
+<li>文件测试</li>
+</ul>
+
+<h2 id="1-2-条件测试的表达式">1.2 条件测试的表达式</h2>
+
+<blockquote>
+<p>[ expression ]</p>
+
+<p>[[ expression ]]</p>
+
+<p>test expression</p>
+</blockquote>
+
+<h2 id="1-3-整数测试-双目">1.3 整数测试（双目）</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">-eq      测试两个整数是否相等
+-ne      测试两个整数是否不等
+-gt      测试一个数是否大于另一个数
+-lt      测试一个数是否小于另一个数
+-ge      大于或等于
+-le      小于或等于</pre></td></tr></table>
+</div>
+</div>
+<h2 id="1-4-字符测试">1.4 字符测试</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">==       等值比较，检查==两边的内容是否一致，==两边都要有空格
+!=       检查两边内容是否不一致，不一致为真，一致为假
+=~       左侧字符串是否能够被右侧的PATTERN所匹配到。此表达式应用于双中括号[[]]中
+-z &#34;string&#34;      测试指定字符串是否为空，空则为真，不空则为假
+-n &#34;string&#34;      测试指定字符串是否不空，不空则为真，空则为假</pre></td></tr></table>
+</div>
+</div>
+<h2 id="1-5-文件测试">1.5 文件测试</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">存在性测试：
+    -e       测试文件是否存在
+ 存在性及类别测试：
+    -b       测试文件是否为块设备文件
+    -c       测试文件是否为字符设备文件
+    -f       测试文件是否为普通文件
+    -d       测试指定路径是否为目录
+    -h       测试文件是否为符号链接文件
+    -L       测试文件是否为符号链接文件
+    -p       测试文件是否为命名管道文件
+    -S       测试文件是否为套接字文件
+ 文件权限测试：
+    -r       测试当前用户对指定文件是否有读权限
+    -w       测试当前用户对指定文件是否有写权限
+    -x       测试当前用户对指定文件是否有执行权限
+ 文件特殊权限测试：
+    -g       测试文件是否有sgid权限
+    -u       测试文件是否有suid权限
+    -k       测试文件是否有sticky权限
+ 文件大小测试：
+    -s       测试文件是否非空
+ 文件是否打开测试：
+    -t fd    fd表示的文件描述符是否已经打开且与某终端相关
+ 双目测试：
+    file1 -ef file2      测试file1与file2是否指向同一个设备上的相同inode，说白点就是两者是不是同一个文件
+    file1 -nt file2      测试file1是否比file2新
+    file1 -ot file2      测试file1是否比file2旧
+ 无分类：
+    -N       测试文件自从上一次被读取之后是否被修改过
+    -O       测试文件是否存在并且被当前用户拥有
+    -G       测试文件是否存在并且默认组是否为当前用户组</pre></td></tr></table>
+</div>
+</div>
+<h2 id="1-6-组合测试条件">1.6 组合测试条件</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">-a       与关系
+-o       或关系
+!        非关系
+
+[ $# -gt 1 -a $# -le 3 ]
+[ $# -gt 1 ] &amp;&amp; [ $# -le 3 ]</pre></td></tr></table>
+</div>
+</div>
+<h2 id="1-7-条件判断-控制结构">1.7 条件判断，控制结构</h2>
+
+<h4 id="1-7-1-单分支if语句">1.7.1 单分支if语句</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">if 判断条件; then
+    statement1
+    statement2
+    ......
+fi</pre></td></tr></table>
+</div>
+</div>
+<h4 id="1-7-2-双分支if语句">1.7.2 双分支if语句</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">if 判断条件; then
+    statement1
+    statement2
+    ......
+else
+    statement3
+    statement4
+    ......
+fi</pre></td></tr></table>
+</div>
+</div>
+<h4 id="1-7-3-多分支if语句">1.7.3 多分支if语句</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">if 判断条件1; then
+    statement1
+    statement2
+    ......
+elif 判断条件2; then
+    statement3
+    statement4
+    ......
+else
+    statement5
+    statement6
+    ......
+fi</pre></td></tr></table>
+</div>
+</div>
+<h1 id="2-分支选择">2. 分支选择</h1>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">case $变量名 in            
+value1)                
+    statement                
+    ...                
+    ;;            
+value2)                
+    statement                
+    ...                
+    ;;            
+*)                
+    statement                
+    ...                
+    ;;        
+esac
+
+case支持glob风格的通配符：
+    *            任意长度任意字符
+    ?            任意单个字符
+    []           指字范围内的任意单个字符
+    abc|bcd      abc或bcd</pre></td></tr></table>
+</div>
+</div>
+<h1 id="3-循环语句">3. 循环语句</h1>
+
+<p><strong>循环语句通常需要有一个进入条件和一个退出条件。</strong></p>
+
+<h2 id="3-1-for循环">3.1 for循环</h2>
+
+<p><strong>for循环当列表不为空时进入循环，否则退出循环</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">for 变量 in 列表; do
+    循环体
+done
+
+for ((expr1;expr2;expr3))
+{
+    循环体
+}
+
+for (( expr1 ; expr2 ; expr3 ));do
+    循环体
+done
+
+expr1    用于指定初始条件，给控制变量一个初始值
+expr2    判定什么时候退出循环
+expr3    修正expr1指定的变量的值
+
+如何生成列表：
+    {1..100}
+    seq [起始数] [步进长度] 结束数</pre></td></tr></table>
+</div>
+</div>
+<h2 id="3-2-while循环">3.2 while循环</h2>
+
+<p><strong>while循环适用于循环次数未知的场景，注意要有退出条件。
+条件满足时进入循环，条件不满足了退出循环。</strong></p>
+
+<h4 id="3-2-1-while循环正常用法">3.2.1 while循环正常用法</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">while 条件; do
+    statement
+    ...
+done</pre></td></tr></table>
+</div>
+</div>
+<h4 id="3-2-2-while循环特殊用法">3.2.2 while循环特殊用法</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">while循环特殊用法一：死循环
+while :;do
+    statement
+    ...
+done
+
+这里的冒号可以改成true或者永远成立的条件,不能为false
+所以,可以定义一个flag=false,让它终止循环
+
+while循环特殊用法二：逐行读取某文件，将值存入line变量中
+while read line;do
+    statement
+    ...
+done &lt; /path/to/somefile</pre></td></tr></table>
+</div>
+</div>
+<h2 id="3-3-until循环">3.3 until循环</h2>
+
+<p><strong>条件不满足时进入循环，条件满足了退出循环。</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">until 条件; do
+    statement
+    ...
+done</pre></td></tr></table>
+</div>
+</div>
+<h2 id="3-4-循环语句特殊情况">3.4 循环语句特殊情况</h2>
+
+<blockquote>
+<p>在循环语句中，有几种特别情况：</p>
+
+<p>break [num]：提前退出循环。当循环语句中出现break时，将提前退出循环，不再执行循环后面的语句</p>
+
+<p>continue [num]：提前结束本轮循环而进入下一轮循环。当循环语句执行到continue时，continue后面的语句将不再执行，提前进入下一轮循环</p>
+</blockquote>
+
+<h1 id="4-定义脚本退出状态码">4. 定义脚本退出状态码</h1>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">exit命令用于定义执行状态结果
+
+exit #       此处的#号是一个数字，其范围可以是0-255
+
+如果脚本没有明确定义退出状态码，那么，最后执行的一条命令的退出码即为脚本的退出状态码
+
+注意：脚本中一旦遇到exit命令，脚本会立即终止</pre></td></tr></table>
+</div>
+</div>
+<p><strong>示例:</strong></p>
+
+<p>1.猜100以内数字</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">#!bin/bash
+num=$[RANDOM%100]
+read -p &#34;Please enter a number: &#34; user_num
+until [ $user_num -eq $num ];do
+        while [ $user_num -gt $num ];do
+                echo &#34;a bit big&#34;
+                read -p &#34;Please enter a number: &#34; user_num
+        done
+        while [ $user_num -lt $num ];do
+                echo &#34;a little bit small&#34;
+                read -p &#34;Please enter a number: &#34; user_num
+        done
+done
+        echo &#34;Congratulations, you got it&#34;</pre></td></tr></table>
+</div>
+</div>
+<p>2.让用户输入自己的年龄，计算他还能活多少年，假定每个人能活100岁。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">#!bin/bash
+AGEMIX=100
+read -p &#34;Please enter your age: &#34; AGE
+if [ $AGE -le $AGEMIX ];then
+	echo &#34;You can still live for $[$AGEMIX-$AGE] years.&#34;
+else
+	echo &#34;Old monster, you should die $[$AGE-$AGEMIX] years ago&#34;
+fi</pre></td></tr></table>
+</div>
+</div>
+<p>3.脚本后接入n个数字，输出最大值和最小值。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="cp">#!/bin/bash
+</span><span class="cp"></span><span class="nv">max</span><span class="o">=</span><span class="nv">$1</span>
+<span class="nv">min</span><span class="o">=</span><span class="nv">$2</span>
+<span class="o">[</span> <span class="nv">$#</span> -lt <span class="m">2</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">&#34;请至少输入2个数字: &#34;</span> <span class="o">&amp;&amp;</span> <span class="nb">exit</span>
+<span class="k">for</span> i in <span class="nv">$*</span><span class="p">;</span><span class="k">do</span>
+	<span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$i</span><span class="s2">&#34;</span> <span class="p">|</span>egrep <span class="s1">&#39;^[0-9]+$&#39;</span> <span class="p">&amp;</span>&gt; /dev/null
+	<span class="o">[</span> <span class="nv">$?</span> -ne <span class="m">0</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">&#34;请输入数字,不是字母或特殊字符&#34;</span> <span class="o">&amp;&amp;</span> <span class="nb">exit</span>
+	<span class="o">[</span> <span class="nv">$max</span> -le <span class="nv">$i</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nv">max</span><span class="o">=</span><span class="nv">$i</span>
+	<span class="o">[</span> <span class="nv">$min</span> -ge <span class="nv">$i</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nv">min</span><span class="o">=</span><span class="nv">$i</span>
+<span class="k">done</span>
+<span class="nb">echo</span> <span class="s2">&#34;The max number is &#34;</span><span class="nv">$max</span>
+<span class="nb">echo</span> <span class="s2">&#34;The min number is &#34;</span><span class="nv">$min</span></pre></td></tr></table>
+</div>
+</div>
+<p>4,写一个登录接口,输入用户名和密码,认证成功后显示欢迎信息,输错3次后警告</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="cp">#!/bin/bash
+</span><span class="cp"></span><span class="nv">username</span><span class="o">=</span>wenhs
+<span class="nv">passwd</span><span class="o">=</span>jbgsn
+<span class="k">for</span> <span class="o">((</span><span class="nv">i</span><span class="o">=</span><span class="m">1</span><span class="p">;</span>i&gt;<span class="o">=</span><span class="m">1</span><span class="p">;</span>i++<span class="o">))</span><span class="p">;</span><span class="k">do</span>
+<span class="nb">read</span> -p <span class="s2">&#34;please enter your name: &#34;</span> user
+<span class="nb">read</span> -p <span class="s2">&#34;please entsr your passwd: &#34;</span> pass
+<span class="o">[</span> <span class="nv">$i</span> -gt <span class="m">3</span> <span class="o">]&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">&#34;Enter your account or password too many failures, account has been locked, please contact the administrator to unlock&#34;</span> <span class="o">&amp;&amp;</span> <span class="nb">exit</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$user</span> !<span class="o">=</span> <span class="nv">$username</span> <span class="o">]</span> <span class="o">||[</span> <span class="nv">$pass</span> !<span class="o">=</span> <span class="nv">$passwd</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+	<span class="nb">echo</span> <span class="s2">&#34;You entered an account or password incorrectly. Please re-enter it.&#34;</span>
+	<span class="k">continue</span>
+<span class="k">else</span>
+	<span class="nb">echo</span> <span class="s2">&#34;Hellow </span><span class="nv">$user</span><span class="s2"> , Welcome to home.&#34;</span>
+	<span class="nb">break</span>
+<span class="k">fi</span>
+<span class="k">done</span></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Mr Wen</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2018-10-21 16:15
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener" href="https://github.com/itwhs/itwhs.github.io/blob/master/LICENSE">MIT</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/shell/">shell</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/shell%E7%A4%BA%E4%BE%8B/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">shell脚本示例</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/shell%E8%84%9A%E6%9C%AC%E5%9F%BA%E7%A1%80/">
+            <span class="next-text nav-default">shell脚本基础</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:itwhs@foxmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://blog.csdn.net/wenhs5479" class="iconfont icon-cnblogs" title="cnblogs"></a>
+      <a href="https://github.com/itwhs" class="iconfont icon-github" title="github"></a>
+  <a href="https://itwhs.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Mr Wen</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139425163-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

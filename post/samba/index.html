@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>samba - itw&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Mr Wen" /><meta name="description" content="" /><meta name="keywords" content="Linux, Github, Network, Cloud, Python" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://itwhs.github.io/post/samba/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/reset-even.css">
+
+
+<meta property="og:title" content="samba" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://itwhs.github.io/post/samba/" />
+<meta property="article:published_time" content="2018-11-04T16:15:57&#43;08:00"/>
+<meta property="article:modified_time" content="2018-11-04T16:15:57&#43;08:00"/>
+
+<meta itemprop="name" content="samba">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2018-11-04T16:15:57&#43;08:00" />
+<meta itemprop="dateModified" content="2018-11-04T16:15:57&#43;08:00" />
+<meta itemprop="wordCount" content="4144">
+
+
+
+<meta itemprop="keywords" content="文件共享," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="samba"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">itw</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a><a href="https://github.com/itwhs/">
+        <li class="mobile-menu-item">GitHub</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">itw</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/itwhs/">GitHub</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">samba</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-11-04 16:15 </span>
+        <div class="post-category">
+            <a href="/categories/linux%E8%BF%90%E7%BB%B4/"> Linux运维 </a>
+            </div>
+          <span class="more-meta"> 约 4144 字 </span>
+          <span class="more-meta"> 预计阅读 9 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#samba简介">samba简介</a>
+<ul>
+<li>
+<ul>
+<li><a href="#samba监听端口">samba监听端口</a></li>
+<li><a href="#samba进程">samba进程：</a></li>
+<li><a href="#samba用户">samba用户：</a></li>
+<li><a href="#samba安全级别">Samba安全级别：</a></li>
+<li><a href="#samba配置文件">samba配置文件：</a></li>
+<li><a href="#常用配置文件参数">常用配置文件参数：</a></li>
+<li><a href="#实验">实验</a></li>
+<li><a href="#搭建环境">搭建环境</a></li>
+<li><a href="#搭建步骤">搭建步骤</a></li>
+<li><a href="#搭建用户共享服务器">搭建用户共享服务器</a></li>
+<li><a href="#设置指定用户访问共享文件夹">设置指定用户访问共享文件夹</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="samba简介">samba简介</h1>
+
+<p><strong>Samba</strong>是在Linux和UNIX系统上实现SMB协议的一个免费软件，由服务器及客户端程序构成。</p>
+
+<p><strong>SMB</strong>（Server Messages    Block，信息服务块）是一种<strong>在局域网上共享文件和打印机的一种通信协议</strong>，它为局域网内的<strong>不同计算机之间提供文件及打印机等资源的共享服务。</strong></p>
+
+<p><strong>SMB</strong>协议是<strong>客户机/服务器</strong>型协议，客户机通过该协议可以访问服务器上的<strong>共享文件系统、打印机及其他资源</strong>。</p>
+
+<h3 id="samba监听端口">samba监听端口</h3>
+
+<ul>
+<li><code>TCP——139、445</code>，tcp端口相对应的服务是smbd服务，其作用是提供服务器中文件、打印资源的共享访问；</li>
+<li><code>UDP——137、138</code>，udp端口相对应的服务是nmbd服务，起作用是提供基于NetBOIS主机名称的解析。</li>
+</ul>
+
+<h3 id="samba进程">samba进程：</h3>
+
+<table>
+<thead>
+<tr>
+<th>进程</th>
+<th>对应</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>nmbd</td>
+<td>对应netbios</td>
+</tr>
+
+<tr>
+<td>smbd</td>
+<td>对应cifs协议</td>
+</tr>
+
+<tr>
+<td>winbindd + ldap</td>
+<td>对应Windows AD活动目录</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="samba用户">samba用户：</h3>
+
+<table>
+<thead>
+<tr>
+<th>帐号</th>
+<th>密码</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>都是系统用户/etc/passwd</td>
+<td>Samba服务自有密码文件通过smbpasswd -a USERNAME命令设置</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">smbpasswd
+ -L	本地模式（必须是第一选项）
+   -h	打印此用法消息
+   -s	使用stdin进行密码提示
+   -c smb.conf	文件使用smb.conf文件的给定路径
+   -D LEVEL	调试级别
+   -r MACHINE	远程机器
+   -U USER	远程用户名（例如SAM /用户）
+在root或本地模式下运行时的额外选项：
+   -a	添加用户
+   -d	禁用用户
+   -e	启用用户
+   -i	域间信任帐户
+   -m	机器信托帐户
+   -n	设置无密码
+   -W	使用stdin ldap管理员密码
+   -w PASSWORD 	ldap管理员密码
+   -x	删除用户
+   -R 	ORDER名称解析顺序</pre></td></tr></table>
+</div>
+</div>
+<h3 id="samba安全级别">Samba安全级别：</h3>
+
+<p>Samba服务器的安全级别有三个，分别是user，server，domain</p>
+
+<table>
+<thead>
+<tr>
+<th>安全级别</th>
+<th>作用</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>user</td>
+<td>基于本地的验证</td>
+</tr>
+
+<tr>
+<td>server</td>
+<td>由另一台指定的服务器对用户身份进行认证</td>
+</tr>
+
+<tr>
+<td>domain</td>
+<td>由域控进行身份验证</td>
+</tr>
+</tbody>
+</table>
+
+<blockquote>
+<p>以前的samba版本支持的安全级别有四个，分别是share，user，server，domain</p>
+
+<p>share是用来设置匿名访问的，但现在的版本已经不支持share了，但是还是可以实现匿名访问的 只是配置方式变了</p>
+</blockquote>
+
+<h3 id="samba配置文件">samba配置文件：</h3>
+
+<ul>
+<li>/etc/samba/smb.conf(主配置文件)</li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th>samba三大组成</th>
+<th>作用</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>[global]</td>
+<td>全局配置，此处的设置项对整个samba服务器都有效</td>
+</tr>
+
+<tr>
+<td>[homes]</td>
+<td>宿主目录共享设置，此处用来设置Linux用户的默认共享，对应用户的宿主目录。当用户访问服务器中与自己用户名同名的共享目录时，通过验证后将会自动映射到该用户的宿主目录中</td>
+</tr>
+
+<tr>
+<td>[printers]</td>
+<td>打印机共享设置</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="常用配置文件参数">常用配置文件参数：</h3>
+
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>workgroup</td>
+<td>表示设置工作组名称</td>
+</tr>
+
+<tr>
+<td>server string</td>
+<td>表示描述samba服务器</td>
+</tr>
+
+<tr>
+<td>security</td>
+<td>表示设置安全级别，其值可为share、user、server、domain</td>
+</tr>
+
+<tr>
+<td>passdb backend</td>
+<td>表示设置共享帐户文件的类型，其值可为tdbsam（tdb数据库文件）、ldapsam（LDAP目录认证）、smbpasswd（兼容旧版本samba密码文件）</td>
+</tr>
+
+<tr>
+<td>comment</td>
+<td>表示设置对应共享目录的注释，说明信息，即文件共享名</td>
+</tr>
+
+<tr>
+<td>browseable</td>
+<td>表示设置共享是否可见</td>
+</tr>
+
+<tr>
+<td>writable</td>
+<td>表示设置目录是否可写</td>
+</tr>
+
+<tr>
+<td>path</td>
+<td>表示共享目录的路径</td>
+</tr>
+
+<tr>
+<td>guest ok</td>
+<td>表示设置是否所有人均可访问共享目录</td>
+</tr>
+
+<tr>
+<td>public</td>
+<td>表示设置是否允许匿名用户访问</td>
+</tr>
+
+<tr>
+<td>write list</td>
+<td>表示设置允许写的用户和组，组要用@表示，例如 write list = root,@root</td>
+</tr>
+
+<tr>
+<td>valid users</td>
+<td>设置可以访问的用户和组，例如 valid users = root,@root</td>
+</tr>
+
+<tr>
+<td>hosts deny</td>
+<td>设置拒绝哪台主机访问，例如 hosts deny = 192.168.72.1</td>
+</tr>
+
+<tr>
+<td>hosts allow</td>
+<td>设置允许哪台主机访问，例如 hosts allow = 192.168.72.2</td>
+</tr>
+
+<tr>
+<td>printable</td>
+<td>表示设置是否为打印机</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>测试配置文件是否有语法错误，以及显示最终生效的配置：使用testparm命令</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">交互式数据访问
+smbclient -L HOST -U USERNAME
+smbclient //SERVER/shared_name -U USERNAME
+
+基于挂载的方式访问
+mount -t cifs //SERVER/shared_name /挂载到本地的什么目录 -o username=USERNAME,password=PASSWORD
+
+/etc/fstab写法
+//SERVER/shared_name /挂载到本地的什么目录	cifs	defaults,username=USERNAME,password=PASSWORD	0	0</pre></td></tr></table>
+</div>
+</div>
+<h3 id="实验">实验</h3>
+
+<ul>
+<li>搭建匿名用户共享服务器</li>
+<li>搭建用户认证共享服务器
+<strong>要求：</strong>
+
+<ul>
+<li>不论是匿名用户还是用户认证共享，均要在客户机验证结果</li>
+<li>用户认证共享需要映射系统用户为一个虚拟用户</li>
+</ul></li>
+</ul>
+
+<h3 id="搭建环境">搭建环境</h3>
+
+<ul>
+<li>本实验的linux跑在vm15虚拟机软件中,网卡模式为桥接</li>
+<li>服务器系统版本为centos 7.6版本,客户端有centos7.6和本机win10</li>
+<li>实验前关闭防火墙以及selinux</li>
+<li>实验所用地址如下：</li>
+<li>服务器[wenhs5479]地址为192.168.42.87/24</li>
+</ul>
+
+<p><img src="../../img/smb1.png" alt="smb1" /></p>
+
+<ul>
+<li>客户端[wenhs-docker-ce]地址为192.168.42.45/24</li>
+</ul>
+
+<p><img src="../../img/smb2.png" alt="smb2" /></p>
+
+<ul>
+<li>客户端win10地址192.168.42.46/24</li>
+</ul>
+
+<p><img src="../../img/20190416175204126.png" alt="smb3" /></p>
+
+<ul>
+<li>注意系统版本；</li>
+<li>主配置文件/etc/samba/smb.conf</li>
+<li>用户映射文件/etc/ samba/smbusers</li>
+<li>请先检查地址能否相互ping通</li>
+</ul>
+
+<p><strong>注意:</strong> 环境由于部分原因导致换了IP,不影响最终实验,看得懂就看,看不懂请从最基础的学起,实验初始IP是手打的字,后来改成了图片里面的IP,下面实验,一定要弄清楚谁是服务器,谁是客户端</p>
+
+<h3 id="搭建步骤">搭建步骤</h3>
+
+<ul>
+<li>搭建匿名用户共享服务器</li>
+</ul>
+
+<p>首先在服务器端安装samba服务</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">yum -y install samba-*</pre></td></tr></table>
+</div>
+</div>
+<p>在服务器端创建共享目录</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mkdir -p /samba/test</pre></td></tr></table>
+</div>
+</div>
+<p>在服务器端修改/etc/samba/smb.conf配置文件，添加以下内容</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[globol]
+		map to guest = Bad User #设置匿名用户
+[test]
+        comment = test 		#共享目录的注释
+        path = /samba/test 	#共享目录的路径
+        browseable = yes 		#共享目录可见
+        public = yes 			#允许匿名用户访问
+        writable = yes 		#允许用户在目录下写
+        guest ok = yes 		#允许所有人访问共享目录</pre></td></tr></table>
+</div>
+</div>
+<p>在服务器端修改权限，将/samba/test目录的其他人权限设置成rw，才能在客户端进行写操作，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">chmod o+w /samba/test</pre></td></tr></table>
+</div>
+</div>
+<p>测试配置文件是否有语法错误</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs5479 samba]# testparm 
+Load smb config files from /etc/samba/smb.conf
+rlimit_max: increasing rlimit_max (1024) to minimum Windows limit (16384)
+Processing section &#34;[homes]&#34;
+Processing section &#34;[printers]&#34;
+Processing section &#34;[print$]&#34;
+Processing section &#34;[test]&#34;
+Loaded services file OK.
+Server role: ROLE_STANDALONE
+
+Press enter to see a dump of your service definitions
+
+# Global parameters
+[global]
+	map to guest = Bad User
+	printcap name = cups
+	security = USER
+	workgroup = SAMBA
+	idmap config * : backend = tdb
+	cups options = raw
+
+
+[homes]
+	browseable = No
+	comment = Home Directories
+	inherit acls = Yes
+	read only = No
+	valid users = %S %D%w%S
+
+
+[printers]
+	browseable = No
+	comment = All Printers
+	create mask = 0600
+	path = /var/tmp
+	printable = Yes
+
+
+[print$]
+	comment = Printer Drivers
+	create mask = 0664
+	directory mask = 0775
+	force group = @printadmin
+	path = /var/lib/samba/drivers
+	write list = @printadmin root
+
+
+[test]
+	comment = test
+	guest ok = Yes
+	path = /samba/test
+	read only = No</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>重新启动samba服务</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">systemctl restart smb nmb</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>查看端口是否开启</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs5479 samba]# ss -anltup|grep smb
+tcp    LISTEN     0      50        *:139                   *:*                   users:((&#34;smbd&#34;,pid=22277,fd=36))
+tcp    LISTEN     0      50        *:445                   *:*                   users:((&#34;smbd&#34;,pid=22277,fd=35))
+tcp    LISTEN     0      50       :::139                  :::*                   users:((&#34;smbd&#34;,pid=22277,fd=34))
+tcp    LISTEN     0      50       :::445                  :::*                   users:((&#34;smbd&#34;,pid=22277,fd=33))</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>在客户端上安装samba-client，然后在客户端上进行验证</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">yum -y install samba-client </pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>交互式验证查看：</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs-docker-ce ~]# smbclient -L 192.168.42.87 -U &#39;Bad User&#39;
+Enter SAMBA\Bad User&#39;s password: 		#这里直接回车即可,并没有密码
+
+	Sharename       Type      Comment
+	---------       ----      -------
+	print$          Disk      Printer Drivers
+	test            Disk      test
+	IPC$            IPC       IPC Service (Samba 4.8.3)
+Reconnecting with SMB1 for workgroup listing.
+
+	Server               Comment
+	---------            -------
+
+	Workgroup            Master
+	---------            -------
+	SAMBA                WENHS5479</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>交互式访问共享：(远程主机地址后接共享目录的名字，一般不用)</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs-docker-ce ~]# smbclient //192.168.42.87/test -U &#39;Bad User&#39;
+Enter SAMBA\Bad User&#39;s password: 		#这里直接回车即可,并没有密码
+Try &#34;help&#34; to get a list of possible commands.
+smb: \&gt; mkdir centosclient
+smb: \&gt; ls
+  .                                   D        0  Tue Apr 16 15:21:55 2019
+  ..                                  D        0  Tue Apr 16 14:53:46 2019
+  centosclient                        D        0  Tue Apr 16 15:21:55 2019
+
+		13092864 blocks of size 1024. 7008284 blocks available
+
+smb: \&gt; q		#quit退出
+[root@wenhs-docker-ce ~]#</pre></td></tr></table>
+</div>
+</div>
+<p><img src="../../img/smb4.png" alt="smb4" /></p>
+
+<p><img src="../../img/smb5.png" alt="smb5" /></p>
+
+<ul>
+<li>在服务器上查看创建的文件和目录</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs5479 ~]# ls -al /samba/test/
+总用量 0
+drwxr-xrwx. 4 root   root   45 4月  16 15:24 .
+drwxr-xr-x. 3 root   root   18 4月  16 14:53 ..
+drwxr-xr-x. 2 nobody nobody  6 4月  16 15:21 centosclient
+drwxr-xr-x. 2 nobody nobody  6 4月  16 15:24 win10client</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>挂载式访问共享：(远程主机地址后接共享目录的名字)</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs-docker-ce ~]# mkdir /samba				#创建挂载目录
+[root@wenhs-docker-ce ~]# mount -t cifs //192.168.42.87/test /samba -o username=&#39;Bad User&#39;
+Password for Bad User@//192.168.42.87/test:  		#直接回车确认
+[root@wenhs-docker-ce ~]# df -Th
+文件系统                类型      容量  已用  可用 已用% 挂载点
+/dev/mapper/centos-root xfs        36G  6.4G   30G   18% /
+devtmpfs                devtmpfs  1.9G     0  1.9G    0% /dev
+tmpfs                   tmpfs     1.9G     0  1.9G    0% /dev/shm
+tmpfs                   tmpfs     1.9G   13M  1.9G    1% /run
+tmpfs                   tmpfs     1.9G     0  1.9G    0% /sys/fs/cgroup
+/dev/sda1               xfs      1014M  233M  782M   23% /boot
+/dev/mapper/centos-home xfs        18G   37M   18G    1% /home
+tmpfs                   tmpfs     378M  4.0K  378M    1% /run/user/42
+tmpfs                   tmpfs     378M   20K  378M    1% /run/user/0
+/dev/sr0                iso9660    11G   11G     0  100% /run/media/root/CentOS 7 x86_64
+//192.168.42.87/test    cifs       13G  5.9G  6.7G   47% /samba
+[root@wenhs-docker-ce ~]#</pre></td></tr></table>
+</div>
+</div>
+<p>win10映射网络驱动器:\192.168.42.87\test,确认即可</p>
+
+<p><img src="../../img/smb6.png" alt="smb6" /></p>
+
+<h3 id="搭建用户共享服务器">搭建用户共享服务器</h3>
+
+<ul>
+<li>创建用户，将用户设置为samba专用用户，并设置专用密码</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs5479 ~]# useradd wenhs
+[root@wenhs5479 ~]# smbpasswd -a wenhs
+New SMB password:
+Retype new SMB password:
+Added user wenhs.</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>创建/samba/wenhs共享目录，并将权限改为757。</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs5479 ~]# mkdir /samba/wenhs
+[root@wenhs5479 ~]# chmod 757 /samba/wenhs/</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>假设将wenhs用户映射为share用户，修改/etc/samba/smbusers文件添加如下内容：</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs5479 ~]# echo &#39;wenhs = share&#39; &gt;/etc/samba/smbusers</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>在服务器端修改配置文件/etc/samba/smb.conf内容</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[global]
+        username map = /etc/samba/smbusers		#指定本地用户映射成虚拟用户的文件存放位置
+[wenhs]
+        comment = wenhs
+        path = /samba/wenhs
+        browseable = yes
+        write list = wenhs	#指定wenhs用户进行读写访问，不管这个共享是否是只读文件
+        guest ok = yes
+        public = yes</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>检查配置文件</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs5479 ~]# testparm 
+Load smb config files from /etc/samba/smb.conf
+rlimit_max: increasing rlimit_max (1024) to minimum Windows limit (16384)
+Processing section &#34;[homes]&#34;
+Processing section &#34;[printers]&#34;
+Processing section &#34;[print$]&#34;
+Processing section &#34;[test]&#34;
+Processing section &#34;[wenhs]&#34;
+Loaded services file OK.
+Server role: ROLE_STANDALONE
+
+Press enter to see a dump of your service definitions
+
+# Global parameters
+[global]
+	map to guest = Bad User
+	printcap name = cups
+	security = USER
+	username map = /etc/samba/smbusers
+	workgroup = SAMBA
+	idmap config * : backend = tdb
+	cups options = raw
+
+
+[homes]
+	browseable = No
+	comment = Home Directories
+	inherit acls = Yes
+	read only = No
+	valid users = %S %D%w%S
+
+
+[printers]
+	browseable = No
+	comment = All Printers
+	create mask = 0600
+	path = /var/tmp
+	printable = Yes
+
+
+[print$]
+	comment = Printer Drivers
+	create mask = 0664
+	directory mask = 0775
+	force group = @printadmin
+	path = /var/lib/samba/drivers
+	write list = @printadmin root
+
+
+[test]
+	comment = test
+	guest ok = Yes
+	path = /samba/test
+	read only = No
+
+
+[wenhs]
+	comment = wenhs
+	guest ok = Yes
+	path = /samba/wenhs
+	write list = wenhs</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>重启服务</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">systemctl restart smb nmb</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>在客户端进行验证：</li>
+<li>交互式验证查看</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs-docker-ce ~]# smbclient -L 192.168.42.87 -U share
+Enter SAMBA\share&#39;s password: 
+
+	Sharename       Type      Comment
+	---------       ----      -------
+	print$          Disk      Printer Drivers
+	test            Disk      test
+	wenhs           Disk      wenhs
+	IPC$            IPC       IPC Service (Samba 4.8.3)
+Reconnecting with SMB1 for workgroup listing.
+
+	Server               Comment
+	---------            -------
+
+	Workgroup            Master
+	---------            -------
+	SAMBA                WENHS5479</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>交互式访问共享目录，（一般不用）</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs-docker-ce ~]# smbclient //192.168.42.87/wenhs -U share
+Enter SAMBA\share&#39;s password: 
+Try &#34;help&#34; to get a list of possible commands.
+smb: \&gt; mkdir centosclient
+smb: \&gt; ls
+  .                                   D        0  Tue Apr 16 16:12:36 2019
+  ..                                  D        0  Tue Apr 16 15:55:47 2019
+  centosclient                        D        0  Tue Apr 16 16:12:36 2019
+
+		13092864 blocks of size 1024. 7007108 blocks available
+smb: \&gt; q
+[root@wenhs-docker-ce ~]#
+注：用户名用映射用户登录,密码还是wenhs的密码</pre></td></tr></table>
+</div>
+</div>
+<p><img src="../../img/smb7.png" alt="smb7" /></p>
+
+<p><img src="../../img/smb8.png" alt="smb8" /></p>
+
+<ul>
+<li>挂载式访问共享目录</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs-docker-ce ~]# mkdir /wenhs
+[root@wenhs-docker-ce ~]# mount -t cifs //192.168.42.87/wenhs /wenhs -o username=share,password=123456
+[root@wenhs-docker-ce ~]# df -Th
+文件系统                类型      容量  已用  可用 已用% 挂载点
+/dev/mapper/centos-root xfs        36G  6.4G   30G   18% /
+devtmpfs                devtmpfs  1.9G     0  1.9G    0% /dev
+tmpfs                   tmpfs     1.9G     0  1.9G    0% /dev/shm
+tmpfs                   tmpfs     1.9G   13M  1.9G    1% /run
+tmpfs                   tmpfs     1.9G     0  1.9G    0% /sys/fs/cgroup
+/dev/sda1               xfs      1014M  233M  782M   23% /boot
+/dev/mapper/centos-home xfs        18G   37M   18G    1% /home
+tmpfs                   tmpfs     378M  4.0K  378M    1% /run/user/42
+tmpfs                   tmpfs     378M   20K  378M    1% /run/user/0
+/dev/sr0                iso9660    11G   11G     0  100% /run/media/root/CentOS 7 x86_64
+//192.168.42.87/test    cifs       13G  5.9G  6.7G   47% /samba
+//192.168.42.87/wenhs   cifs       13G  5.9G  6.7G   47% /wenhs</pre></td></tr></table>
+</div>
+</div>
+<p><img src="../../img/smb9.png" alt="smb9" /></p>
+
+<p><strong>创建目录进行查看效果：</strong></p>
+
+<ul>
+<li>挂载式共享创建 [客户端] 目录</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs-docker-ce wenhs]# mkdir centos222
+[root@wenhs-docker-ce wenhs]# ls -al
+总用量 0
+drwxr-xr-x   2 root root   0 4月  16 16:53 .
+dr-xr-xr-x. 20 root root 261 4月  16 16:47 ..
+drwxr-xr-x   2 root root   0 4月  16 16:53 centos222
+drwxr-xr-x   2 root root   0 4月  16 16:12 centosclient
+drwxr-xr-x   2 root root   0 4月  16 16:31 win10client</pre></td></tr></table>
+</div>
+</div>
+<p><img src="../../img/20190416165806311.png" alt="smb10" /></p>
+
+<ul>
+<li>服务端进行查看</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs5479 ~]# ls -al /samba/wenhs/
+总用量 0
+drwxr-xrwx. 6 root  root  78 4月  16 16:56 .
+drwxr-xr-x. 4 root  root  31 4月  16 15:55 ..
+drwxr-xr-x. 2 wenhs wenhs  6 4月  16 16:53 centos222
+drwxr-xr-x. 2 wenhs wenhs  6 4月  16 16:12 centosclient
+drwxr-xr-x. 2 wenhs wenhs  6 4月  16 16:56 win10222
+drwxr-xr-x. 2 wenhs wenhs  6 4月  16 16:31 win10client</pre></td></tr></table>
+</div>
+</div>
+<h3 id="设置指定用户访问共享文件夹">设置指定用户访问共享文件夹</h3>
+
+<ul>
+<li>创建一个samba用户</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs5479 ~]# useradd -M whs
+[root@wenhs5479 ~]# smbpasswd -a whs
+New SMB password:
+Retype new SMB password:
+Added user whs.</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>在etc/samba/smb.conf配置文件中加入“vaild users = wenhs”</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[wenhs]
+        comment = wenhs
+        path = /samba/wenhs
+        browseable = yes
+        write list = wenhs
+        guest ok = yes
+        public = yes
+        valid users = wenhs		#允许wenhs用户进行访问，其他用户不允许访问（添加到配置文件）</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>重新启动服务</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">systemctl restart smb nmb</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>测试</li>
+</ul>
+
+<p><img src="../../img/smb11.png" alt="smb11" /></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Mr Wen</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2018-11-04 16:15
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener" href="https://github.com/itwhs/itwhs.github.io/blob/master/LICENSE">MIT</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB/">文件共享</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/bind/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">bind服务</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/tomcat/">
+            <span class="next-text nav-default">tomcat</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:itwhs@foxmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://blog.csdn.net/wenhs5479" class="iconfont icon-cnblogs" title="cnblogs"></a>
+      <a href="https://github.com/itwhs" class="iconfont icon-github" title="github"></a>
+  <a href="https://itwhs.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Mr Wen</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139425163-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

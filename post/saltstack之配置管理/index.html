@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>SaltStack之配置管理 - itw&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Mr Wen" /><meta name="description" content="" /><meta name="keywords" content="Linux, Github, Network, Cloud, Python" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://itwhs.github.io/post/saltstack%E4%B9%8B%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/reset-even.css">
+
+
+<meta property="og:title" content="SaltStack之配置管理" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://itwhs.github.io/post/saltstack%E4%B9%8B%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/" />
+<meta property="article:published_time" content="2019-03-10T16:15:57&#43;08:00"/>
+<meta property="article:modified_time" content="2019-03-10T16:15:57&#43;08:00"/>
+
+<meta itemprop="name" content="SaltStack之配置管理">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2019-03-10T16:15:57&#43;08:00" />
+<meta itemprop="dateModified" content="2019-03-10T16:15:57&#43;08:00" />
+<meta itemprop="wordCount" content="3996">
+
+
+
+<meta itemprop="keywords" content="自动化," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="SaltStack之配置管理"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">itw</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a><a href="https://github.com/itwhs/">
+        <li class="mobile-menu-item">GitHub</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">itw</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/itwhs/">GitHub</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">SaltStack之配置管理</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-03-10 16:15 </span>
+        <div class="post-category">
+            <a href="/categories/linux%E8%BF%90%E7%BB%B4/"> Linux运维 </a>
+            </div>
+          <span class="more-meta"> 约 3996 字 </span>
+          <span class="more-meta"> 预计阅读 8 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#1-yaml语言">1. YAML语言</a></li>
+<li><a href="#2-用saltstack配置一个apache实例">2. 用SaltStack配置一个apache实例</a>
+<ul>
+<li><a href="#2-1-在master上部署sls配置文件并执行">2.1 在Master上部署sls配置文件并执行</a></li>
+<li><a href="#2-2-在minion上检查">2.2 在Minion上检查</a></li>
+</ul></li>
+<li><a href="#3-top-file">3. top file</a>
+<ul>
+<li><a href="#3-1-top-file介绍">3.1 top file介绍</a></li>
+<li><a href="#3-2-高级状态highstate的使用">3.2 高级状态highstate的使用</a></li>
+<li><a href="#4-扩展">4.扩展</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="1-yaml语言">1. YAML语言</h2>
+
+<p><code>YAML</code>是一种直观的能够被电脑识别的数据序列化格式，是一个可读性高并且容易被人类阅读，容易和脚本语言交互，用来表达资料序列的编程语言。</p>
+
+<p>它类似于标准通用标记语言的子集XML的数据描述语言，语法比XML简单很多。</p>
+
+<p><code>YAML</code>语言的格式如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">house:
+  family:
+    name: Doe
+    parents:
+      - John
+      - Jane
+    children:
+      - Paul
+      - Mark
+      - Simone
+  address:
+    number: 34
+    street: Main Street
+    city: Nowheretown
+    zipcode: 12345</pre></td></tr></table>
+</div>
+</div>
+<p>YAML的基本规则：</p>
+
+<ul>
+<li>使用缩进来表示层级关系，每层2个空格，禁止使用TAB键</li>
+<li>当冒号不是处于最后时，冒号后面必须有一个空格</li>
+<li>用 - 表示列表，- 的后面必须有一个空格</li>
+<li>用 # 表示注释</li>
+</ul>
+
+<p><code>YAML</code>配置文件要放到<code>SaltStack</code>让我们放的位置，可以在<code>SaltStack</code>的 Master 配置文件中查找<code>file_roots</code>即可看到。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master ~]# vim /etc/salt/master
+#定义基础环境目录位置
+...此处省略N行
+file_roots:
+  base:
+    - /srv/salt/base
+  test:
+    - /srv/salt/test
+  dev:
+    - /srv/salt/dev
+  prod:
+    - /srv/salt/prod
+...此处省略N行
+#修改配置必须重启服务(做完所有操作再重启)
+
+[root@master ~]# mkdir -p /srv/salt/{base,test,dev,prod}
+[root@master ~]# tree /srv/salt/
+/srv/salt/
+├── base
+├── dev
+├── prod
+└── test
+
+4 directories, 0 files
+[root@master ~]# systemctl restart salt-master</pre></td></tr></table>
+</div>
+</div>
+<p><strong>需要注意：</strong></p>
+
+<ul>
+<li>base是默认的位置，如果file_roots只有一个，则base是必备的且必须叫base，不能改名</li>
+</ul>
+
+<h2 id="2-用saltstack配置一个apache实例">2. 用SaltStack配置一个apache实例</h2>
+
+<h3 id="2-1-在master上部署sls配置文件并执行">2.1 在Master上部署sls配置文件并执行</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master ~]# cd /srv/salt/base/
+[root@master base]# ls
+[root@master base]# mkdir -p web/apache
+[root@master base]# tree web
+web
+└── apache
+
+1 directory, 0 files
+
+[root@master base]# cd web/apache/
+[root@master apache]# touch apache.sls      //生成一个状态描述文件
+[root@master apache]# ll
+总用量 0
+-rw-r--r-- 1 root root 0 7月  23 18:04 apache.sls
+
+[root@master apache]# vim apache.sls
+apache-install:
+  pkg.installed:
+    - name: httpd
+
+apache-service:
+  service.running:
+    - name: httpd
+    - enable: True
+
+YAML 配置文件中顶格写的被称作ID，必须全局唯一，不能重复
+SaltStack 读 YAML 配置文件时是从上往下读，所以要把先执行的写在前面
+
+[root@master ~]# ls /srv/salt/base/web/apache/
+apache.sls
+执行状态描述文件
+[root@master ~]# salt &#39;192.168.153.141&#39; state.sls web.apache.apache saltenv=base
+192.168.153.141:
+----------
+          ID: apache-install
+    Function: pkg.installed
+        Name: httpd
+      Result: True
+     Comment: All specified packages are already installed
+     Started: 18:26:24.745053
+    Duration: 853.151 ms
+     Changes:
+----------
+          ID: apache-service
+    Function: service.running
+        Name: httpd
+      Result: True
+     Comment: The service httpd is already running
+     Started: 18:26:25.600138
+    Duration: 45.182 ms
+     Changes:   
+
+Summary for 192.168.153.141
+------------
+Succeeded: 2
+Failed:    0
+------------
+Total states run:     2
+Total run time: 898.333 ms</pre></td></tr></table>
+</div>
+</div>
+<h3 id="2-2-在minion上检查">2.2 在Minion上检查</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@minion ~]# systemctl status httpd
+● httpd.service - The Apache HTTP Server
+   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)
+   Active: active (running) since 二 2019-07-23 18:08:23 CST; 20min ago
+     Docs: man:httpd(8)
+           man:apachectl(8)
+ Main PID: 6658 (httpd)
+   Status: &#34;Total requests: 0; Current requests/sec: 0; Current traffic:   0 B/sec&#34;
+   CGroup: /system.slice/httpd.service
+           ├─6658 /usr/sbin/httpd -DFOREGROUND
+           ├─7293 /usr/sbin/httpd -DFOREGROUND
+           ├─7294 /usr/sbin/httpd -DFOREGROUND
+           ├─7295 /usr/sbin/httpd -DFOREGROUND
+           ├─7296 /usr/sbin/httpd -DFOREGROUND
+           └─7297 /usr/sbin/httpd -DFOREGROUND
+
+7月 23 18:07:58 minion systemd[1]: Starting The Apache HTTP Server...
+7月 23 18:08:13 minion httpd[6658]: AH00558: httpd: Could not reliably determine the server&#39;s ...sage
+7月 23 18:08:23 minion systemd[1]: Started The Apache HTTP Server.
+Hint: Some lines were ellipsized, use -l to show in full.</pre></td></tr></table>
+</div>
+</div>
+<p>由以上内容可知apache确实已部署成功。</p>
+
+<p>执行状态文件的技巧：</p>
+
+<ul>
+<li>先用test.ping测试需要执行状态文件的主机是否能正常通信，然后再执行状态文件</li>
+</ul>
+
+<h2 id="3-top-file">3. top file</h2>
+
+<h3 id="3-1-top-file介绍">3.1 top file介绍</h3>
+
+<p>直接通过命令执行sls文件时够自动化吗？答案是否定的，因为我们还要告诉某台主机要执行某个任务，自动化应该是我们让它干活时，它自己就知道哪台主机要干什么活，但是直接通过命令执行sls文件并不能达到这个目的，为了解决这个问题，top file 应运而生。</p>
+
+<p>top file就是一个入口，top file的文件名可通过在 Master的配置文件中搜索top.sls找出，且此文件必须在 base 环境中，默认情况下此文件必须叫top.sls。</p>
+
+<p>top file的作用就是告诉对应的主机要干什么活，比如让web服务器启动web服务，让数据库服务器安装mysql等等。</p>
+
+<p><strong>top file 实例：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master ~]# cd /srv/salt/base/
+[root@master base]# ls
+web
+[root@master base]# vim top.sls
+base:   //要执行状态文件的环境
+  &#39;192.168.153.141&#39;:     //要执行状态文件的目标
+    - web.apache.apache   //要执行的状态文件
+    - fspub.vsftpd
+(注意语法,写错无效,别丢了:和空格)
+
+停止minion的httpd
+[root@minion ~]# systemctl stop httpd
+
+
+    
+[root@master base]# cd
+[root@master ~]# salt &#39;*&#39; state.highstate   //使用高级状态来执行
+192.168.153.136:
+----------
+          ID: states
+    Function: no.None
+      Result: False
+     Comment: No Top file or master_tops data matches found.    //在top file里没找到它要干啥
+     Changes:
+
+Summary for 192.168.153.136
+------------
+Succeeded: 0
+Failed:    1
+------------
+Total states run:     1
+Total run time:   0.000 ms
+192.168.153.141:
+----------
+          ID: apache-install
+    Function: pkg.installed
+        Name: httpd
+      Result: True
+     Comment: All specified packages are already installed
+     Started: 18:34:05.500453
+    Duration: 821.228 ms
+     Changes:   
+----------
+          ID: apache-service
+    Function: service.running
+        Name: httpd
+      Result: True
+     Comment: The service httpd is already running
+     Started: 18:34:06.322411
+    Duration: 51.338 ms
+     Changes:   
+
+Summary for 192.168.153.141
+------------
+Succeeded: 2
+Failed:    0
+------------
+Total states run:     2
+Total run time: 872.566 ms
+ERROR: Minions returned with non-zero exit code
+
+
+查看minion的httpd状态
+[root@minion ~]# systemctl status httpd
+● httpd.service - The Apache HTTP Server
+   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)
+   Active: active (running) since 二 2019-07-23 18:34:00 CST; 2min 52s ago
+     Docs: man:httpd(8)
+           man:apachectl(8)
+  Process: 7723 ExecStop=/bin/kill -WINCH ${MAINPID} (code=exited, status=0/SUCCESS)
+ Main PID: 7794 (httpd)
+   Status: &#34;Total requests: 0; Current requests/sec: 0; Current traffic:   0 B/sec&#34;
+   CGroup: /system.slice/httpd.service
+           ├─7794 /usr/sbin/httpd -DFOREGROUND
+           ├─7802 /usr/sbin/httpd -DFOREGROUND
+           ├─7803 /usr/sbin/httpd -DFOREGROUND
+           ├─7804 /usr/sbin/httpd -DFOREGROUND
+           ├─7805 /usr/sbin/httpd -DFOREGROUND
+           └─7806 /usr/sbin/httpd -DFOREGROUND
+
+7月 23 18:33:35 minion systemd[1]: Starting The Apache HTTP Server...
+7月 23 18:33:50 minion httpd[7794]: AH00558: httpd: Could not reliably determine the server&#39;s ...sage
+7月 23 18:34:00 minion systemd[1]: Started The Apache HTTP Server.
+Hint: Some lines were ellipsized, use -l to show in full.</pre></td></tr></table>
+</div>
+</div>
+<p><strong>注意：</strong></p>
+
+<blockquote>
+<p>若top file里面的目标是用 * 表示的，要注意的是，top file里面的 * 表示的是所有要执行状态的目标，而 <code>salt '*' state.highstate</code> 里面的 * 表示通知所有机器干活，而是否要干活则是由top file来指定的</p>
+</blockquote>
+
+<h3 id="3-2-高级状态highstate的使用">3.2 高级状态highstate的使用</h3>
+
+<p>管理<code>SaltStack</code>时一般最常用的管理操作就是执行高级状态</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master ~]# salt &#39;*&#39; state.highstate   //生产环境禁止这样使用salt命令</pre></td></tr></table>
+</div>
+</div>
+<p><strong>注意：</strong>
+上面让所有人执行高级状态，但实际工作当中，一般不会这么用，工作当中一般都是通知某台或某些台目标主机来执行高级状态，具体是否执行则是由top file来决定的。</p>
+
+<p>若在执行高级状态时加上参数<code>test=True</code>，则它会告诉我们它将会做什么，但是它不会真的去执行这个操作。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">停掉minon上的httpd服务
+[root@minion ~]# systemctl stop httpd
+[root@minion ~]# systemctl status httpd
+● httpd.service - The Apache HTTP Server
+   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)
+   Active: inactive (dead) since 二 2019-07-23 18:37:40 CST; 1s ago
+     Docs: man:httpd(8)
+           man:apachectl(8)
+  Process: 8014 ExecStop=/bin/kill -WINCH ${MAINPID} (code=exited, status=0/SUCCESS)
+  Process: 7794 ExecStart=/usr/sbin/httpd $OPTIONS -DFOREGROUND (code=exited, status=0/SUCCESS)
+ Main PID: 7794 (code=exited, status=0/SUCCESS)
+   Status: &#34;Total requests: 0; Current requests/sec: 0; Current traffic:   0 B/sec&#34;
+
+7月 23 18:33:35 minion systemd[1]: Starting The Apache HTTP Server...
+7月 23 18:33:50 minion httpd[7794]: AH00558: httpd: Could not reliably determine the server&#39;s ...sage
+7月 23 18:34:00 minion systemd[1]: Started The Apache HTTP Server.
+7月 23 18:37:39 minion systemd[1]: Stopping The Apache HTTP Server...
+7月 23 18:37:40 minion systemd[1]: Stopped The Apache HTTP Server.
+Hint: Some lines were ellipsized, use -l to show in full.
+
+
+在master上执行高级状态的测试
+[root@master ~]# salt &#39;192.168.153.141&#39; state.highstate test=True
+192.168.153.141:
+----------
+          ID: apache-install
+    Function: pkg.installed
+        Name: httpd
+      Result: True
+     Comment: All specified packages are already installed
+     Started: 18:38:27.061982
+    Duration: 816.863 ms
+     Changes:   
+----------
+          ID: apache-service
+    Function: service.running
+        Name: httpd
+      Result: None
+     Comment: Service httpd is set to start
+     Started: 18:38:27.879596
+    Duration: 51.454 ms
+     Changes:   
+
+Summary for 192.168.153.141
+------------
+Succeeded: 2 (unchanged=1)
+Failed:    0
+------------
+Total states run:     2
+Total run time: 868.317 ms
+
+
+
+在minion上查看httpd是否启动
+[root@minion ~]# systemctl status httpd
+● httpd.service - The Apache HTTP Server
+   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)
+   Active: inactive (dead) since 二 2019-07-23 18:37:40 CST; 1min 58s ago
+     Docs: man:httpd(8)
+           man:apachectl(8)
+  Process: 8014 ExecStop=/bin/kill -WINCH ${MAINPID} (code=exited, status=0/SUCCESS)
+  Process: 7794 ExecStart=/usr/sbin/httpd $OPTIONS -DFOREGROUND (code=exited, status=0/SUCCESS)
+ Main PID: 7794 (code=exited, status=0/SUCCESS)
+   Status: &#34;Total requests: 0; Current requests/sec: 0; Current traffic:   0 B/sec&#34;
+
+7月 23 18:33:35 minion systemd[1]: Starting The Apache HTTP Server...
+7月 23 18:33:50 minion httpd[7794]: AH00558: httpd: Could not reliably determine the server&#39;s ...sage
+7月 23 18:34:00 minion systemd[1]: Started The Apache HTTP Server.
+7月 23 18:37:39 minion systemd[1]: Stopping The Apache HTTP Server...
+7月 23 18:37:40 minion systemd[1]: Stopped The Apache HTTP Server.
+Hint: Some lines were ellipsized, use -l to show in full.
+
+由此可见高级状态并没有执行，因为httpd并没有启动(如果想启动,可以把test=True去掉再执行,第一次可能会无响应)</pre></td></tr></table>
+</div>
+</div>
+<h3 id="4-扩展">4.扩展</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span><span class="lnt">173
+</span><span class="lnt">174
+</span><span class="lnt">175
+</span><span class="lnt">176
+</span><span class="lnt">177
+</span><span class="lnt">178
+</span><span class="lnt">179
+</span><span class="lnt">180
+</span><span class="lnt">181
+</span><span class="lnt">182
+</span><span class="lnt">183
+</span><span class="lnt">184
+</span><span class="lnt">185
+</span><span class="lnt">186
+</span><span class="lnt">187
+</span><span class="lnt">188
+</span><span class="lnt">189
+</span><span class="lnt">190
+</span><span class="lnt">191
+</span><span class="lnt">192
+</span><span class="lnt">193
+</span><span class="lnt">194
+</span><span class="lnt">195
+</span><span class="lnt">196
+</span><span class="lnt">197
+</span><span class="lnt">198
+</span><span class="lnt">199
+</span><span class="lnt">200
+</span><span class="lnt">201
+</span><span class="lnt">202
+</span><span class="lnt">203
+</span><span class="lnt">204
+</span><span class="lnt">205
+</span><span class="lnt">206
+</span><span class="lnt">207
+</span><span class="lnt">208
+</span><span class="lnt">209
+</span><span class="lnt">210
+</span><span class="lnt">211
+</span><span class="lnt">212
+</span><span class="lnt">213
+</span><span class="lnt">214
+</span><span class="lnt">215
+</span><span class="lnt">216
+</span><span class="lnt">217
+</span><span class="lnt">218
+</span><span class="lnt">219
+</span><span class="lnt">220
+</span><span class="lnt">221
+</span><span class="lnt">222
+</span><span class="lnt">223
+</span><span class="lnt">224
+</span><span class="lnt">225
+</span><span class="lnt">226
+</span><span class="lnt">227
+</span><span class="lnt">228
+</span><span class="lnt">229
+</span><span class="lnt">230
+</span><span class="lnt">231
+</span><span class="lnt">232
+</span><span class="lnt">233
+</span><span class="lnt">234
+</span><span class="lnt">235
+</span><span class="lnt">236
+</span><span class="lnt">237
+</span><span class="lnt">238
+</span><span class="lnt">239
+</span><span class="lnt">240
+</span><span class="lnt">241
+</span><span class="lnt">242
+</span><span class="lnt">243
+</span><span class="lnt">244
+</span><span class="lnt">245
+</span><span class="lnt">246
+</span><span class="lnt">247
+</span><span class="lnt">248
+</span><span class="lnt">249
+</span><span class="lnt">250
+</span><span class="lnt">251
+</span><span class="lnt">252
+</span><span class="lnt">253
+</span><span class="lnt">254
+</span><span class="lnt">255
+</span><span class="lnt">256
+</span><span class="lnt">257
+</span><span class="lnt">258
+</span><span class="lnt">259
+</span><span class="lnt">260
+</span><span class="lnt">261
+</span><span class="lnt">262
+</span><span class="lnt">263
+</span><span class="lnt">264
+</span><span class="lnt">265
+</span><span class="lnt">266
+</span><span class="lnt">267
+</span><span class="lnt">268
+</span><span class="lnt">269
+</span><span class="lnt">270
+</span><span class="lnt">271
+</span><span class="lnt">272
+</span><span class="lnt">273
+</span><span class="lnt">274
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">接着上面的操作
+在master上
+[root@master ~]# cd /srv/salt/base/
+[root@master base]# ls
+top.sls  web
+[root@master base]# mkdir fspub
+[root@master base]# ll web/
+总用量 0
+drwxr-xr-x 2 root root 24 7月  23 18:05 apache
+[root@master base]# vim fspub/vsftpd.sls
+[root@master base]# vim top.sls 
+[root@master base]# salt &#39;192.168.153.141&#39; state.sls fspub.vsftpd saltenv=base
+192.168.153.141:
+----------
+          ID: vsftpd_install
+    Function: pkg.installed
+        Name: vsftpd
+      Result: True
+     Comment: The following packages were installed/updated: vsftpd
+     Started: 18:55:39.594617
+    Duration: 12818.265 ms
+     Changes:   
+              ----------
+              vsftpd:
+                  ----------
+                  new:
+                      3.0.2-25.el7
+                  old:
+----------
+          ID: vsftpd_install
+    Function: pkg.installed
+        Name: httpd-tools
+      Result: True
+     Comment: All specified packages are already installed
+     Started: 18:55:52.474144
+    Duration: 1190.439 ms
+     Changes:   
+----------
+          ID: vsftpd_systemctl
+    Function: service.running
+        Name: vsftpd
+      Result: True
+     Comment: Service vsftpd has been enabled, and is running
+     Started: 18:55:53.665635
+    Duration: 203.686 ms
+     Changes:   
+              ----------
+              vsftpd:
+                  True
+
+Summary for 192.168.153.141
+------------
+Succeeded: 3 (changed=2)
+Failed:    0
+------------
+Total states run:     3
+Total run time:  14.212 s
+
+
+在minion上查看vsftpd是否启动
+[root@minion ~]# systemctl status vsftpd
+● vsftpd.service - Vsftpd ftp daemon
+   Loaded: loaded (/usr/lib/systemd/system/vsftpd.service; enabled; vendor preset: disabled)
+   Active: active (running) since 二 2019-07-23 18:55:53 CST; 17min ago
+ Main PID: 9453 (vsftpd)
+   CGroup: /system.slice/vsftpd.service
+           └─9453 /usr/sbin/vsftpd /etc/vsftpd/vsftpd.conf
+
+7月 23 18:55:53 minion systemd[1]: Starting Vsftpd ftp daemon...
+7月 23 18:55:53 minion systemd[1]: Started Vsftpd ftp daemon.
+
+在master上修改top.sls
+[root@master base]# cat top.sls 
+base:
+  &#39;192.168.153.141&#39;:
+    - web.apache.apache
+    - fspub.vsftpd
+  &#39;192.168.153.136&#39;:
+    - fspub.vsftpd
+
+在minion上停止vsftpd和httpd
+[root@minion ~]# systemctl stop vsftpd
+[root@minion ~]# systemctl stop httpd
+
+在master上
+[root@master ~]# salt &#39;*&#39; state.highstate   //使用高级状态来执行
+192.168.153.136:
+----------
+          ID: vsftpd_install
+    Function: pkg.installed
+        Name: vsftpd
+      Result: True
+     Comment: All specified packages are already installed
+     Started: 19:19:28.682811
+    Duration: 1021.589 ms
+     Changes:   
+----------
+          ID: vsftpd_install
+    Function: pkg.installed
+        Name: httpd-tools
+      Result: True
+     Comment: All specified packages are already installed
+     Started: 19:19:29.704748
+    Duration: 23.736 ms
+     Changes:   
+----------
+          ID: vsftpd_systemctl
+    Function: service.running
+        Name: vsftpd
+      Result: True
+     Comment: The service vsftpd is already running
+     Started: 19:19:29.729510
+    Duration: 112.628 ms
+     Changes:   
+
+Summary for 192.168.153.136
+------------
+Succeeded: 3
+Failed:    0
+------------
+Total states run:     3
+Total run time:   1.158 s
+192.168.153.141:
+----------
+          ID: apache-install
+    Function: pkg.installed
+        Name: httpd
+      Result: True
+     Comment: All specified packages are already installed
+     Started: 19:19:28.896306
+    Duration: 972.152 ms
+     Changes:   
+----------
+          ID: apache-service
+    Function: service.running
+        Name: httpd
+      Result: True
+     Comment: The service httpd is already running
+     Started: 19:19:29.869776
+    Duration: 55.83 ms
+     Changes:   
+----------
+          ID: vsftpd_install
+    Function: pkg.installed
+        Name: vsftpd
+      Result: True
+     Comment: All specified packages are already installed
+     Started: 19:19:29.925877
+    Duration: 20.429 ms
+     Changes:   
+----------
+          ID: vsftpd_install
+    Function: pkg.installed
+        Name: httpd-tools
+      Result: True
+     Comment: All specified packages are already installed
+     Started: 19:19:29.946472
+    Duration: 19.286 ms
+     Changes:   
+----------
+          ID: vsftpd_systemctl
+    Function: service.running
+        Name: vsftpd
+      Result: True
+     Comment: The service vsftpd is already running
+     Started: 19:19:29.965930
+    Duration: 42.776 ms
+     Changes:   
+
+Summary for 192.168.153.141
+------------
+Succeeded: 5
+Failed:    0
+------------
+Total states run:     5
+Total run time:   1.110 s
+由上可见,在master上执行了vsftpd的安装,启动和开机自启操作,而httpd的相关操作都没有做,是根据top.sls文件来的
+[root@master base]# systemctl status vsftpd
+● vsftpd.service - Vsftpd ftp daemon
+   Loaded: loaded (/usr/lib/systemd/system/vsftpd.service; enabled; vendor preset: disabled)
+   Active: active (running) since 二 2019-07-23 19:19:11 CST; 7min ago
+ Main PID: 15064 (vsftpd)
+   CGroup: /system.slice/vsftpd.service
+           └─15064 /usr/sbin/vsftpd /etc/vsftpd/vsftpd.conf
+
+7月 23 19:19:11 master systemd[1]: Starting Vsftpd ftp daemon...
+7月 23 19:19:11 master systemd[1]: Started Vsftpd ftp daemon.
+[root@master ~]# systemctl stop vsftpd.service 
+[root@master ~]# salt &#39;192.168.153.136&#39; state.highstate
+192.168.153.136:
+----------
+          ID: vsftpd_install
+    Function: pkg.installed
+        Name: vsftpd
+      Result: True
+     Comment: All specified packages are already installed
+     Started: 19:27:59.676342
+    Duration: 756.205 ms
+     Changes:   
+----------
+          ID: vsftpd_install
+    Function: pkg.installed
+        Name: httpd-tools
+      Result: True
+     Comment: All specified packages are already installed
+     Started: 19:28:00.432840
+    Duration: 16.727 ms
+     Changes:   
+----------
+          ID: vsftpd_systemctl
+    Function: service.running
+        Name: vsftpd
+      Result: True
+     Comment: Service vsftpd is already enabled, and is running
+     Started: 19:28:00.450363
+    Duration: 103.183 ms
+     Changes:   
+              ----------
+              vsftpd:
+                  True
+
+Summary for 192.168.153.136
+------------
+Succeeded: 3 (changed=1)
+Failed:    0
+------------
+Total states run:     3
+Total run time: 876.115 ms
+[root@master ~]# systemctl status vsftpd.service 
+● vsftpd.service - Vsftpd ftp daemon
+   Loaded: loaded (/usr/lib/systemd/system/vsftpd.service; enabled; vendor preset: disabled)
+   Active: active (running) since 二 2019-07-23 19:28:00 CST; 12s ago
+  Process: 15810 ExecStart=/usr/sbin/vsftpd /etc/vsftpd/vsftpd.conf (code=exited, status=0/SUCCESS)
+ Main PID: 15811 (vsftpd)
+   CGroup: /system.slice/vsftpd.service
+           └─15811 /usr/sbin/vsftpd /etc/vsftpd/vsftpd.conf
+
+7月 23 19:28:00 master systemd[1]: Starting Vsftpd ftp daemon...
+7月 23 19:28:00 master systemd[1]: Started Vsftpd ftp daemon.
+
+
+在minion上查看状态
+[root@minion ~]# systemctl status vsftpd
+● vsftpd.service - Vsftpd ftp daemon
+   Loaded: loaded (/usr/lib/systemd/system/vsftpd.service; enabled; vendor preset: disabled)
+   Active: active (running) since 二 2019-07-23 19:19:23 CST; 55s ago
+  Process: 9703 ExecStart=/usr/sbin/vsftpd /etc/vsftpd/vsftpd.conf (code=exited, status=0/SUCCESS)
+ Main PID: 9704 (vsftpd)
+   CGroup: /system.slice/vsftpd.service
+           └─9704 /usr/sbin/vsftpd /etc/vsftpd/vsftpd.conf
+
+7月 23 19:19:23 minion systemd[1]: Starting Vsftpd ftp daemon...
+7月 23 19:19:23 minion systemd[1]: Started Vsftpd ftp daemon.
+[root@minion ~]# systemctl status httpd
+● httpd.service - The Apache HTTP Server
+   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)
+   Active: active (running) since 二 2019-07-23 19:19:23 CST; 1min 1s ago
+     Docs: man:httpd(8)
+           man:apachectl(8)
+  Process: 9622 ExecStop=/bin/kill -WINCH ${MAINPID} (code=exited, status=0/SUCCESS)
+ Main PID: 9683 (httpd)
+   Status: &#34;Total requests: 0; Current requests/sec: 0; Current traffic:   0 B/sec&#34;
+   CGroup: /system.slice/httpd.service
+           ├─9683 /usr/sbin/httpd -DFOREGROUND
+           ├─9690 /usr/sbin/httpd -DFOREGROUND
+           ├─9691 /usr/sbin/httpd -DFOREGROUND
+           ├─9692 /usr/sbin/httpd -DFOREGROUND
+           ├─9693 /usr/sbin/httpd -DFOREGROUND
+           └─9694 /usr/sbin/httpd -DFOREGROUND
+
+7月 23 19:18:58 minion systemd[1]: Starting The Apache HTTP Server...
+7月 23 19:19:13 minion httpd[9683]: AH00558: httpd: Could not reliably determine the server&#39;s ...sage
+7月 23 19:19:23 minion systemd[1]: Started The Apache HTTP Server.
+Hint: Some lines were ellipsized, use -l to show in full.</pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Mr Wen</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-03-10 16:15
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener" href="https://github.com/itwhs/itwhs.github.io/blob/master/LICENSE">MIT</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/">自动化</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/saltstack%E4%B9%8B%E6%95%B0%E6%8D%AE%E7%B3%BB%E7%BB%9F/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">SaltStack之数据系统</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/saltstack%E5%85%A5%E9%97%A8/">
+            <span class="next-text nav-default">SaltStack入门</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:itwhs@foxmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://blog.csdn.net/wenhs5479" class="iconfont icon-cnblogs" title="cnblogs"></a>
+      <a href="https://github.com/itwhs" class="iconfont icon-github" title="github"></a>
+  <a href="https://itwhs.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Mr Wen</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139425163-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

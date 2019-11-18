@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>控制服务 on itw&#39;s blog</title>
+    <link>https://itwhs.github.io/tags/%E6%8E%A7%E5%88%B6%E6%9C%8D%E5%8A%A1/</link>
+    <description>Recent content in 控制服务 on itw&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 17 Jun 2018 16:15:57 +0800</lastBuildDate>
+    
+	<atom:link href="https://itwhs.github.io/tags/%E6%8E%A7%E5%88%B6%E6%9C%8D%E5%8A%A1/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>systemd讲解</title>
+      <link>https://itwhs.github.io/post/systemd%E8%AE%B2%E8%A7%A3/</link>
+      <pubDate>Sun, 17 Jun 2018 16:15:57 +0800</pubDate>
+      
+      <guid>https://itwhs.github.io/post/systemd%E8%AE%B2%E8%A7%A3/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

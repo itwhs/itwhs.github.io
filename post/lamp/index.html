@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>lamp - itw&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Mr Wen" /><meta name="description" content="" /><meta name="keywords" content="Linux, Github, Network, Cloud, Python" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://itwhs.github.io/post/lamp/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/reset-even.css">
+
+
+<meta property="og:title" content="lamp" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://itwhs.github.io/post/lamp/" />
+<meta property="article:published_time" content="2018-12-22T16:15:57&#43;08:00"/>
+<meta property="article:modified_time" content="2018-12-22T16:15:57&#43;08:00"/>
+
+<meta itemprop="name" content="lamp">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2018-12-22T16:15:57&#43;08:00" />
+<meta itemprop="dateModified" content="2018-12-22T16:15:57&#43;08:00" />
+<meta itemprop="wordCount" content="5146">
+
+
+
+<meta itemprop="keywords" content="web," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="lamp"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">itw</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a><a href="https://github.com/itwhs/">
+        <li class="mobile-menu-item">GitHub</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">itw</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/itwhs/">GitHub</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">lamp</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-12-22 16:15 </span>
+        <div class="post-category">
+            <a href="/categories/linux%E8%BF%90%E7%BB%B4/"> Linux运维 </a>
+            </div>
+          <span class="more-meta"> 约 5146 字 </span>
+          <span class="more-meta"> 预计阅读 11 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#1-lamp简介">1. lamp简介</a></li>
+<li><a href="#2-web服务器工作流程">2. web服务器工作流程</a>
+<ul>
+<li><a href="#2-1-cgi与fastcgi">2.1 cgi与fastcgi</a></li>
+<li><a href="#2-2-httpd与php结合的方式">2.2 httpd与php结合的方式</a></li>
+<li><a href="#2-3-web工作流程">2.3 web工作流程</a></li>
+</ul></li>
+<li><a href="#3-lamp平台构建">3. lamp平台构建</a>
+<ul>
+<li><a href="#3-1-安装httpd">3.1 安装httpd</a></li>
+<li><a href="#3-2-安装mysql">3.2 安装mysql</a></li>
+<li><a href="#3-3-安装php">3.3 安装php</a></li>
+<li><a href="#3-4-配置apache">3.4 配置apache</a>
+<ul>
+<li><a href="#3-4-1-启用代理模块">3.4.1 启用代理模块</a></li>
+<li><a href="#3-4-2-配置虚拟主机">3.4.2 配置虚拟主机</a></li>
+</ul></li>
+<li><a href="#3-5-验证">3.5 验证</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="1-lamp简介">1. lamp简介</h2>
+
+<p>有了前面学习的知识的铺垫，今天可以来学习下第一个常用的web架构了。</p>
+
+<p>所谓lamp，其实就是由Linux+Apache+Mysql/MariaDB+Php/Perl/Python的一组动态网站或者服务器的开源软件，除Linux外其它各部件本身都是各自独立的程序，但是因为经常被放在一起使用，拥有了越来越高的兼容度，共同组成了一个强大的Web应用程序平台。</p>
+
+<p>LAMP指的是Linux（操作系统）、Apache（HTTP服务器）、MySQL（也指MariaDB，数据库软件）和PHP（有时也是指Perl或Python）的第一个字母，一般用来建立web应用平台。</p>
+
+<h2 id="2-web服务器工作流程">2. web服务器工作流程</h2>
+
+<p>在说lamp架构平台的搭建前，我们先来了解下什么是CGI，什么是FastCGI，什么是......</p>
+
+<p>web服务器的资源分为两种，静态资源和动态资源</p>
+
+<ul>
+<li>静态资源就是指静态内容，客户端从服务器获得的资源的表现形式与原文件相同。可以简单的理解为就是直接存储于文件系统中的资源</li>
+<li>动态资源则通常是程序文件，需要在服务器执行之后，将执行的结果返回给客户端</li>
+</ul>
+
+<p>那么web服务器如何执行程序并将结果返回给客户端呢？下面通过一张图来说明一下web服务器如何处理客户端的请求</p>
+
+<p><img src="../../img/web_process.png" alt="img1" /></p>
+
+<p>如上图所示</p>
+
+<p>阶段①显示的是<strong>httpd服务器（即apache）和php服务器通过FastCGI协议进行通信</strong>，且php作为独立的服务进程运行</p>
+
+<p>阶段②显示的是<strong>php程序和mysql数据库间通过mysql协议进行通信</strong>。php与mysql本没有什么联系，但是由Php语言写成的程序可以与mysql进行数据交互。同理perl和python写的程序也可以与mysql数据库进行交互</p>
+
+<h3 id="2-1-cgi与fastcgi">2.1 cgi与fastcgi</h3>
+
+<p>上图阶段①中提到了FastCGI，下面我们来了解下CGI与FastCGI。</p>
+
+<blockquote>
+<p>CGI（Common Gateway Interface，通用网关接口），CGI是外部应用程序（CGI程序）与WEB服务器之间的接口标准，是在CGI程序和Web服务器之间传递信息的过程。CGI规范允许Web服务器执行外部程序，并将它们的输出发送给Web浏览器，CGI将web的一组简单的静态超媒体文档变成一个完整的新的交互式媒体。</p>
+
+<p>FastCGI（Fast Common Gateway Interface）是CGI的改良版，CGI是通过启用一个解释器进程来处理每个请求，耗时且耗资源，而FastCGI则是通过master-worker形式来处理每个请求，即启动一个master主进程，然后根据配置启动几个worker进程，当请求进来时，master会从worker进程中选择一个去处理请求，这样就避免了重复的生成和杀死进程带来的频繁cpu上下文切换而导致耗时</p>
+</blockquote>
+
+<h3 id="2-2-httpd与php结合的方式">2.2 httpd与php结合的方式</h3>
+
+<p>httpd与php结合的方式有以下三种：</p>
+
+<ul>
+<li>modules：php将以httpd的扩展模块形式存在，需要加载动态资源时，httpd可以直接通过php模块来加工资源并返回给客户端
+
+<ul>
+<li>httpd prefork：libphp5.so（多进程模型的php）</li>
+<li>httpd event or worker：libphp5-zts.so（线程模型的php）</li>
+</ul></li>
+<li>CGI：httpd需要加载动态资源时，通过CGI与php解释器联系，获得php执行的结果，此时httpd负责与php连接的建立和断开等</li>
+<li>FastCGI：利用php-fpm机制，启动为服务进程，php自行运行为一个服务，https通过socket与php通信</li>
+</ul>
+
+<p><strong>较于CGI方式，FastCGI更为常用，很少有人使用CGI方式来加载动态资源</strong></p>
+
+<h3 id="2-3-web工作流程">2.3 web工作流程</h3>
+
+<p>通过上面的图说明一下web的工作流程：</p>
+
+<ul>
+<li>客户端通过http协议请求web服务器资源</li>
+<li>web服务器收到请求后判断客户端请求的资源是静态资源或是动态资源
+
+<ul>
+<li>若是静态资源则直接从本地文件系统取之返回给客户端。</li>
+<li>否则若为动态资源则通过FastCGI协议与php服务器联系，通过CGI程序的master进程调度worker进程来执行程序以获得客户端请求的动态资源，并将执行的结果通过FastCGI协议返回给httpd服务器，httpd服务器收到php的执行结果后将其封装为http响应报文响应给客户端。在执行程序获取动态资源时若需要获得数据库中的资源时，由Php服务器通过mysql协议与MySQL/MariaDB服务器交互，取之而后返回给httpd，httpd将从php服务器收到的执行结果封装成http响应报文响应给客户端。</li>
+</ul></li>
+</ul>
+
+<h2 id="3-lamp平台构建">3. lamp平台构建</h2>
+
+<p><strong>环境说明：</strong></p>
+
+<table>
+<thead>
+<tr>
+<th align="left">系统平台</th>
+<th align="left">IP</th>
+<th align="left">需要安装的服务</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">centos7 <br>redhat7</td>
+<td align="left">192.168.161.130</td>
+<td align="left">httpd-2.4 <br>mysql-5.7 <br>php<br> php-mysql</td>
+</tr>
+</tbody>
+</table>
+
+<p>lamp平台软件安装次序：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">    httpd --&gt; mysql --&gt; php</pre></td></tr></table>
+</div>
+</div>
+<p><strong>注意：php要求httpd使用prefork MPM</strong></p>
+
+<h3 id="3-1-安装httpd">3.1 安装httpd</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">安装开发工具包
+[root@localhost ~]# yum groups mark install &#39;Development Tools&#39;
+
+创建apache服务的用户和组
+[root@localhost ~]# groupadd -r apache
+[root@localhost ~]# useradd -r -M -s /sbin/nologin -g apache apache 
+
+安装依赖包
+[root@localhost ~]# yum -y install openssl-devel pcre-devel expat-devel libtool
+
+下载和安装apr以及apr-util
+[root@localhost ~]# cd /usr/src/
+[root@localhost src]# wget http://mirrors.shu.edu.cn/apache//apr/apr-1.6.5.tar.bz2
+[root@localhost src]# wget http://mirrors.shu.edu.cn/apache//apr/apr-util-1.6.1.tar.bz2
+[root@localhost src]# ls
+apr-1.6.5.tar.bz2  apr-util-1.6.1.tar.bz2  debug  kernels
+[root@localhost src]# tar xf apr-1.6.5.tar.bz2
+[root@localhost src]# tar xf apr-util-1.6.1.tar.bz2
+[root@localhost src]# ls
+apr-1.6.5  apr-1.6.5.tar.bz2  apr-util-1.6.1  apr-util-1.6.1.tar.bz2  debug  kernels
+[root@localhost src]# cd apr-1.6.5
+[root@localhost apr-1.6.5]# vim configure
+    cfgfile=&#34;${ofile}T&#34;
+    trap &#34;$RM \&#34;$cfgfile\&#34;; exit 1&#34; 1 2 15
+    # $RM &#34;$cfgfile&#34;        //将此行加上注释，或者删除此行
+
+[root@localhost apr-1.6.5]# ./configure --prefix=/usr/local/apr
+[root@localhost apr-1.6.5]# make &amp;&amp; make install
+[root@localhost apr-1.6.5]# cd /usr/src/apr-util-1.6.1
+[root@localhost apr-util-1.6.1]# ./configure --prefix=/usr/local/apr-util --with-apr=/usr/local/apr
+[root@localhost apr-util-1.6.1]# make &amp;&amp; make install
+
+编译安装httpd
+[root@localhost ~]# wget http://mirror.bit.edu.cn/apache//httpd/httpd-2.4.37.tar.bz2
+
+[root@localhost ~]# ls
+httpd-2.4.37.tar.bz2
+[root@localhost ~]# tar xf httpd-2.4.37.tar.bz2
+[root@localhost ~]# cd httpd-2.4.37
+[root@localhost httpd-2.4.37]# ./configure --prefix=/usr/local/apache \
+--sysconfdir=/etc/httpd24 \
+--enable-so \
+--enable-ssl \
+--enable-cgi \
+--enable-rewrite \
+--with-zlib \
+--with-pcre \
+--with-apr=/usr/local/apr \
+--with-apr-util=/usr/local/apr-util/ \
+--enable-modules=most \
+--enable-mpms-shared=all \
+--with-mpm=prefork
+
+[root@localhost httpd-2.4.37]# make &amp;&amp; make install
+
+安装后配置
+[root@localhost ~]# echo &#39;export PATH=/usr/local/apache/bin:$PATH&#39; &gt; /etc/profile.d/httpd.sh
+[root@localhost ~]# source /etc/profile.d/httpd.sh
+[root@localhost ~]# ln -s /usr/local/apache/include/ /usr/include/httpd
+[root@localhost ~]# echo &#39;MANPATH /usr/local/apache/man&#39; &gt;&gt; /etc/man.config
+
+取消ServerName前面的注释
+[root@localhost ~]# sed -i &#39;/#ServerName/s/#//g&#39; /etc/httpd24/httpd.conf 
+
+启动apache
+[root@localhost ~]# apachectl start
+[root@localhost ~]# ss -antl
+State      Recv-Q Send-Q   Local Address:Port                  Peer Address:Port
+LISTEN     0      128                  *:22                               *:*
+LISTEN     0      100          127.0.0.1:25                               *:*
+LISTEN     0      128                 :::80                              :::*
+LISTEN     0      128                 :::22                              :::*
+LISTEN     0      100                ::1:25                              :::* </pre></td></tr></table>
+</div>
+</div>
+<h3 id="3-2-安装mysql">3.2 安装mysql</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">安装依赖包
+[root@localhost ~]# yum -y install ncurses-devel openssl-devel openssl cmake mariadb-devel
+
+
+创建用户和组
+[root@localhost src]# groupadd -r -g 306 mysql
+[root@localhost src]# useradd -M -s /sbin/nologin -g 306 -u 306 mysql
+
+
+下载二进制格式的mysql软件包
+[root@localhost ~]# cd /usr/src/
+[root@localhost src]# wget https://downloads.mysql.com/archives/get/file/mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz
+--2018-08-13 23:56:27--  https://downloads.mysql.com/archives/get/file/mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz
+Resolving downloads.mysql.com (downloads.mysql.com)... 137.254.60.14
+Connecting to downloads.mysql.com (downloads.mysql.com)|137.254.60.14|:443... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: https://cdn.mysql.com/archives/mysql-5.7/mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz [following]
+......
+Saving to: ‘mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz’
+
+100%[=====================================&gt;] 643,790,848 2.46MB/s   in 4m 20s
+
+2018-08-14 00:00:50 (2.36 MB/s) - ‘mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz’saved [643790848/643790848]
+
+
+
+解压软件至/usr/local/
+[root@localhost src]# ls
+debug  kernels  mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz
+[root@localhost src]# tar xf mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz -C /usr/local/
+[root@localhost ~]# ls /usr/local/
+bin  games    lib    libexec                              sbin   src
+etc  include  lib64  mysql-5.7.22-linux-glibc2.12-x86_64  share
+[root@localhost ~]# cd /usr/local/
+[root@localhost local]# ln -sv mysql-5.7.22-linux-glibc2.12-x86_64/ mysql
+‘mysql’ -&gt; ‘mysql-5.7.22-linux-glibc2.12-x86_64/’
+[root@localhost local]# ll
+total 0
+drwxr-xr-x. 2 root root   6 Mar 10  2016 bin
+drwxr-xr-x. 2 root root   6 Mar 10  2016 etc
+drwxr-xr-x. 2 root root   6 Mar 10  2016 games
+drwxr-xr-x. 2 root root   6 Mar 10  2016 include
+drwxr-xr-x. 2 root root   6 Mar 10  2016 lib
+drwxr-xr-x. 2 root root   6 Mar 10  2016 lib64
+drwxr-xr-x. 2 root root   6 Mar 10  2016 libexec
+lrwxrwxrwx  1 root root  36 Aug 14 16:00 mysql -&gt; mysql-5.7.22-linux-glibc2.12-x86_64/
+drwxr-xr-x  9 root root 129 Aug 14 00:16 mysql-5.7.22-linux-glibc2.12-x86_64
+drwxr-xr-x. 2 root root   6 Mar 10  2016 sbin
+drwxr-xr-x. 5 root root  49 Jun 13 19:03 share
+drwxr-xr-x. 2 root root   6 Mar 10  2016 src
+
+
+修改目录/usr/local/mysql的属主属组
+[root@localhost ~]# chown -R mysql.mysql /usr/local/mysql
+[root@localhost ~]# ll /usr/local/mysql -d
+lrwxrwxrwx 1 mysql mysql 36 Aug 14 16:00 /usr/local/mysql -&gt; mysql-5.7.22-linux-glibc2.12-x86_64/
+
+
+添加环境变量
+[root@localhost ~]# ls /usr/local/mysql
+bin  COPYING  docs  include  lib  man  README  share  support-files
+[root@localhost ~]# echo &#39;export PATH=/usr/local/mysql/bin:$PATH&#39; &gt; /etc/profile.d/mysql.sh
+[root@localhost ~]# . /etc/profile.d/mysql.sh
+[root@localhost ~]# echo $PATH
+/usr/local/mysql/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin
+
+
+建立数据存放目录
+[root@localhost mysql]# mkdir /opt/data
+[root@localhost mysql]# chown -R mysql.mysql /opt/data/
+[root@localhost mysql]# ll /opt/
+total 0
+drwxr-xr-x 2 mysql mysql 6 Aug 14 16:54 data
+
+
+初始化数据库
+[root@localhost ~]# /usr/local/mysql/bin/mysqld --initialize --user=mysql --datadir=/opt/data/
+.......
+temporary password is generatedfor root@localhost: adjceSV12=Sa
+请注意，这个命令的最后会生成一个临时密码，此处密码是adjceSV12=Sa
+
+
+配置mysql
+[root@localhost ~]# ln -sv /usr/local/mysql/include/ /usr/local/include/mysql
+‘/usr/local/include/mysql’ -&gt; ‘/usr/local/mysql/include/’
+[root@localhost ~]# echo &#39;/usr/local/mysql/lib&#39; &gt; /etc/ld.so.conf.d/mysql.conf
+[root@localhost ~]# ldconfig -v
+ldconfig: Can&#39;t stat /libx32: No such file or directory
+ldconfig: Path `/usr/lib&#39; given more than once
+ldconfig: Path `/usr/lib64&#39; given more than once
+ldconfig: Can&#39;t stat /usr/libx32: No such file or directory
+/usr/lib64/mysql:
+        libmysqlclient.so.18 -&gt; libmysqlclient_r.so
+/usr/local/mysql/lib:
+        libmysqlclient.so.20 -&gt; libmysqlclient.so.20.3.9 
+......
+/lib/sse2: (hwcap: 0x0000000004000000)
+/lib64/sse2: (hwcap: 0x0000000004000000)
+/lib64/tls: (hwcap: 0x8000000000000000)
+[root@localhost ~]# ldconfig -p |grep mysql
+        libmysqlclient.so.20 (libc6,x86-64) =&gt; /usr/local/mysql/lib/libmysqlclient.so.20
+        libmysqlclient.so.18 (libc6,x86-64) =&gt; /usr/lib64/mysql/libmysqlclient.so.18
+        libmysqlclient.so (libc6,x86-64) =&gt; /usr/lib64/mysql/libmysqlclient.so
+        libmysqlclient.so (libc6,x86-64) =&gt; /usr/local/mysql/lib/libmysqlclient.so
+        
+
+生成配置文件
+[root@localhost ~]# cat &gt; /etc/my.cnf &lt;&lt;EOF
+[mysqld]
+basedir = /usr/local/mysql
+datadir = /opt/data
+socket = /tmp/mysql.sock
+port = 3306
+pid-file = /opt/data/mysql.pid
+user = mysql
+skip-name-resolve
+EOF
+
+
+配置服务启动脚本
+[root@localhost ~]# cp -a /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld
+[root@localhost ~]# sed -ri &#39;s#^(basedir=).*#\1/usr/local/mysql#g&#39; /etc/init.d/mysqld
+[root@localhost ~]# sed -ri &#39;s#^(datadir=).*#\1/opt/data#g&#39; /etc/init.d/mysqld
+
+
+
+启动mysql
+[root@localhost ~]# service mysqld start
+Starting MySQL.. SUCCESS!  
+[root@localhost ~]# ps -ef|grep mysql
+root       1521      1  0 01:58 pts/0    00:00:00 /bin/sh /usr/local/mysql/binmysqld_safe --datadir=/opt/data --pid-file=/opt/data/mysql.pid
+mysql      1699   1521  0 01:58 pts/0    00:00:00 /usr/local/mysql/bin/mysqld --basedir=/usr/local/mysql --datadir=/opt/data --plugin-dir=/usr/local/mysql/lib/plugin --user=mysql --log-error=localhost.localdomain.err --pid-file=/opt/data/mysql.pid --socket=/tmp/mysql.sock --port=3306
+root       1734   1301  0 01:59 pts/0    00:00:00 grep --color=auto mysql
+[root@localhost ~]# ss -antl
+State       Recv-Q Send-Q Local Address:Port               Peer Address:Port
+LISTEN      0      128         *:22                      *:*
+LISTEN      0      100    127.0.0.1:25                      *:*
+LISTEN      0      128        :::22                     :::*
+LISTEN      0      100       ::1:25                     :::*
+LISTEN      0      80         :::3306                   :::* 
+ 
+ 
+
+修改密码
+使用临时密码登录
+[root@localhost ~]# mysql -uroot -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 2
+Server version: 5.7.22
+
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.
+
+mysql&gt; 
+
+设置新密码
+mysql&gt; set password = password(&#39;itwhs123[&#39;);
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+mysql&gt; quit
+Bye</pre></td></tr></table>
+</div>
+</div>
+<h3 id="3-3-安装php">3.3 安装php</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">配置yum源
+[root@localhost ~]# cd /etc/yum.repos.d/
+[root@localhost yum.repos.d]# wget http://mirrors.163.com/.help/CentOS7-Base-163.repo
+[root@localhost ~]# sed -i &#39;s/\$releasever/7/g&#39; /etc/yum.repos.d/CentOS7-Base-163.repo
+[root@localhost ~]# sed -i &#39;s/^enabled=.*/enabled=1/g&#39; /etc/yum.repos.d/CentOS7-Base-163.repo
+[root@localhost ~]# yum -y install epel-release
+[root@localhost ~]# rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
+
+
+安装依赖包
+[root@localhost ~]# yum -y install libxml2 libxml2-devel openssl openssl-devel bzip2 bzip2-devel libcurl libcurl-devel libicu-devel libjpeg libjpeg-devel libpng libpng-devel openldap-devel  libpcre-devel freetype freetype-devel gmp gmp-devel libmcrypt libmcrypt-devel readline readline-devel libxslt libxslt-devel mhash mhash-devel php72w-mysqlnd
+
+
+
+下载php
+[root@localhost ~]# cd /usr/src/
+[root@localhost src]# wget http://cn.php.net/distributions/php-7.2.8.tar.xz
+
+
+编译安装php
+[root@localhost src]# tar xf php-7.2.8.tar.xz
+[root@localhost src]# cd php-7.2.8
+[root@localhost php-7.2.8]# ./configure --prefix=/usr/local/php7  \
+--with-config-file-path=/etc \
+--enable-fpm \
+--enable-inline-optimization \
+--disable-debug \
+--disable-rpath \
+--enable-shared \
+--enable-soap \
+--with-openssl \
+--enable-bcmath \
+--with-iconv \
+--with-bz2 \
+--enable-calendar \
+--with-curl \
+--enable-exif  \
+--enable-ftp \
+--with-gd \
+--with-jpeg-dir \
+--with-png-dir \
+--with-zlib-dir \
+--with-freetype-dir \
+--with-gettext \
+--enable-json \
+--enable-mbstring \
+--enable-pdo \
+--with-mysqli=mysqlnd \
+--with-pdo-mysql=mysqlnd \
+--with-readline \
+--enable-shmop \
+--enable-simplexml \
+--enable-sockets \
+--enable-zip \
+--enable-mysqlnd-compression-support \
+--with-pear \
+--enable-pcntl \
+--enable-posix
+[root@localhost php-7.2.8]# make -j $(cat /proc/cpuinfo |grep processor|wc -l)
+编译过程略
+[root@localhost php-7.2.8]# make install
+安装过程略
+
+
+安装后配置
+[root@localhost ~]# echo &#39;export PATH=/usr/local/php7/bin:$PATH&#39; &gt; /etc/profile.d/php7.sh
+[root@localhost ~]# source /etc/profile.d/php7.sh
+[root@localhost php-7.2.8]# which php
+/usr/local/php7/bin/php
+[root@localhost php-7.2.8]# php -v
+PHP 7.2.8 (cli) (built: May 14 2019 14:32:34) ( NTS )
+Copyright (c) 1997-2018 The PHP Group
+Zend Engine v3.2.0, Copyright (c) 1998-2018 Zend Technologies
+
+
+配置php-fpm
+[root@localhost php-7.2.8]# cp php.ini-production /etc/php.ini
+[root@localhost php-7.2.8]# cp sapi/fpm/init.d.php-fpm /etc/init.d/php-fpm
+[root@localhost php-7.2.8]# chmod +x /etc/rc.d/init.d/php-fpm
+[root@localhost php-7.2.8]# cp /usr/local/php7/etc/php-fpm.conf.default /usr/local/php7/etc/php-fpm.conf
+[root@localhost php-7.2.8]# cp /usr/local/php7/etc/php-fpm.d/www.conf.default /usr/local/php7/etc/php-fpm.d/www.conf
+
+编辑php-fpm的配置文件（/usr/local/php7/etc/php-fpm.conf）：
+配置fpm的相关选项为你所需要的值：
+[root@localhost ~]# vim /usr/local/php7/etc/php-fpm.conf
+.....
+.....
+pm.max_children = 50    //最多同时提供50个进程提供50个并发服务
+pm.start_servers = 5    //启动时启动5个进程
+pm.min_spare_servers = 2    //最小空闲进程数
+pm.max_spare_servers = 8    //最大空闲进程数
+
+[root@localhost ~]# tail /usr/local/php7/etc/php-fpm.conf
+; file.
+; Relative path can also be used. They will be prefixed by:
+;  - the global prefix if it&#39;s been set (-p argument)
+;  - /usr/local/php7 otherwise
+include=/usr/local/php7/etc/php-fpm.d/*.conf
+pm.max_children = 50
+pm.start_servers = 5
+pm.min_spare_servers = 2
+pm.max_spare_servers = 8
+
+
+
+启动php-fpm
+[root@localhost ~]# service php-fpm start
+Starting php-fpm  done
+
+默认情况下，fpm监听在127.0.0.1的9000端口，也可以使用如下命令验证其是否已经监听在相应的套接字
+[root@localhost ~]# ss -antl
+State      Recv-Q Send-Q           Local Address:Port                          Peer Address:Port
+LISTEN     0      128                          *:22                                       *:*
+LISTEN     0      100                  127.0.0.1:25                                       *:*
+LISTEN     0      128                  127.0.0.1:9000                                     *:*
+LISTEN     0      128                         :::80                                      :::*
+LISTEN     0      128                         :::22                                      :::*
+LISTEN     0      100                        ::1:25                                      :::*
+LISTEN     0      80                          :::3306                                    :::*
+
+[root@localhost ~]# ps -ef|grep php
+root      81070      1  0 14:13 ?        00:00:00 php-fpm: master process (/usr/local/php7/etc/php-fpm.conf)
+nobody    81071  81070  0 14:13 ?        00:00:00 php-fpm: pool www
+nobody    81072  81070  0 14:13 ?        00:00:00 php-fpm: pool www
+nobody    81073  81070  0 14:13 ?        00:00:00 php-fpm: pool www
+nobody    81074  81070  0 14:13 ?        00:00:00 php-fpm: pool www
+nobody    81075  81070  0 14:13 ?        00:00:00 php-fpm: pool www
+root      81079  83354  0 14:15 pts/1    00:00:00 grep --color=auto php</pre></td></tr></table>
+</div>
+</div>
+<h3 id="3-4-配置apache">3.4 配置apache</h3>
+
+<h4 id="3-4-1-启用代理模块">3.4.1 启用代理模块</h4>
+
+<p>在apache httpd 2.4以后已经专门有一个模块针对FastCGI的实现，此模块为mod_proxy_fcgi.so，它其实是作为mod_proxy.so模块的扩展，因此，这两个模块都要加载，编辑httpd.conf文件，取消以下两行内容的注释:</p>
+
+<ul>
+<li>LoadModule proxy_module modules/mod_proxy.so</li>
+<li>LoadModule proxy_fcgi_module modules/mod_proxy_fcgi.so</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">//启用httpd的相关模块
+[root@localhost ~]# sed -i &#39;/proxy_module/s/#//g&#39; /etc/httpd24/httpd.conf
+[root@localhost ~]# sed -i &#39;/proxy_fcgi_module/s/#//g&#39; /etc/httpd24/httpd.conf</pre></td></tr></table>
+</div>
+</div>
+<h4 id="3-4-2-配置虚拟主机">3.4.2 配置虚拟主机</h4>
+
+<p>在需要使用fcgi的虚拟主机中添加类似如下两行：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">ProxyRequests Off       //关闭正向代理
+ProxyPassMatch ^/(.*\.php)$ fcgi://127.0.0.1:9000/PATH/TO/DOCUMENT_ROOT/$1</pre></td></tr></table>
+</div>
+</div>
+<p><strong>例如：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">ProxyPassMatch ^/(.*\.php)$ fcgi://127.0.0.1:9000/var/www/html/itwhs.com/$1</pre></td></tr></table>
+</div>
+</div>
+<p>以上设置表示把以.php结尾的文件请求发送到php-fpm进程，php-fpm至少需要知道运行的目录和URI，所以这里直接在fcgi://127.0.0.1:9000后指明了这两个参数，其它参数的传递已经被mod_proxy_fcgi.so进行了封装，不需要手动指定。</p>
+
+<p><strong>注意：</strong></p>
+
+<blockquote>
+<p>这里写的/var/www/html/是yum源安装方式生成的网页存放目录，这里必须改成你编译安装指定的网页存放路径，禁止直接复制我这里的路径
+这里的idfsoft.com是域名，你必须改成你所使用的域名，禁止直接复制此处的域名
+这里的$1表示匹配所有以.php结尾的http请求</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">创建虚拟主机目录并生成php测试页面
+[root@localhost ~]# mkdir /usr/local/apache/htdocs/itwhs.com
+[root@localhost ~]# cat &gt; /usr/local/apache/htdocs/itwhs.com/index.php &lt;&lt;EOF
+&lt;?php
+   phpinfo();
+?&gt;
+EOF
+[root@localhost ~]# chown -R apache.apache /usr/local/apache/htdocs/
+[root@localhost ~]# ll /usr/local/apache/htdocs/ -d
+drwxr-xr-x 3 apache apache 44 Aug 16 14:50 /usr/local/apache/htdocs/
+
+
+
+[root@localhost ~]# vim /etc/httpd24/httpd.conf
+在配置文件的最后加入以下内容
+&lt;VirtualHost *:80&gt;
+    DocumentRoot &#34;/usr/local/apache/htdocs/itwhs.com&#34;
+    ServerName www.itwhs.com
+    ProxyRequests Off
+    ProxyPassMatch ^/(.*\.php)$ fcgi://127.0.0.1:9000/usr/local/apache/htdocs/itwhs.com/$1
+    &lt;Directory &#34;/usr/local/apache/htdocs/itwhs.com&#34;&gt;
+        Options none
+        AllowOverride none
+        Require all granted
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;  
+
+[root@localhost ~]# vim /etc/httpd24/httpd.conf
+搜索AddType，添加以下内容
+    # If the AddEncoding directives above are commented-out, then you
+    # probably should define those extensions to indicate media types:
+    #
+    AddType application/x-compress .Z
+    AddType application/x-gzip .gz .tgz
+    AddType application/x-httpd-php .php        //添加此行
+    AddType application/x-httpd-php-source .phps        //添加此行
+    
+[root@localhost ~]# sed -i &#39;/    DirectoryIndex/s/index.html/index.php index.html/g&#39; /etc/httpd24/httpd.conf
+
+
+重启apache服务
+[root@localhost ~]# apachectl stop
+[root@localhost ~]# ss -antl
+State      Recv-Q Send-Q           Local Address:Port                          Peer Address:Port
+LISTEN     0      128                          *:22                                       *:*
+LISTEN     0      100                  127.0.0.1:25                                       *:*
+LISTEN     0      128                  127.0.0.1:9000                                     *:*
+LISTEN     0      128                         :::22                                      :::*
+LISTEN     0      100                        ::1:25                                      :::*
+LISTEN     0      80                          :::3306                                    :::*
+[root@localhost ~]# apachectl start
+[root@localhost ~]# ss -antl
+State      Recv-Q Send-Q           Local Address:Port                          Peer Address:Port
+LISTEN     0      128                          *:22                                       *:*
+LISTEN     0      100                  127.0.0.1:25                                       *:*
+LISTEN     0      128                  127.0.0.1:9000                                     *:*
+LISTEN     0      128                         :::80                                      :::*
+LISTEN     0      128                         :::22                                      :::*
+LISTEN     0      100                        ::1:25                                      :::*
+LISTEN     0      80                          :::3306                                    :::* </pre></td></tr></table>
+</div>
+</div>
+<h3 id="3-5-验证">3.5 验证</h3>
+
+<p>1.修改/etc/hosts文件，添加域名与IP的映射
+2.在浏览器上使用域名访问，若看到以下界面则表示lamp架构搭建成功，否则请检查你的操作</p>
+
+<p><img src="../../img/1557814453086.png" alt="img2" /></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Mr Wen</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2018-12-22 16:15
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener" href="https://github.com/itwhs/itwhs.github.io/blob/master/LICENSE">MIT</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/web/">web</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/cobbler/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">cobbler</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/gtid%E4%B8%BB%E4%BB%8E-%E4%B8%8E-%E4%BC%A0%E7%BB%9F%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/">
+            <span class="next-text nav-default">gtid主从与传统主从</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:itwhs@foxmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://blog.csdn.net/wenhs5479" class="iconfont icon-cnblogs" title="cnblogs"></a>
+      <a href="https://github.com/itwhs" class="iconfont icon-github" title="github"></a>
+  <a href="https://itwhs.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Mr Wen</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139425163-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

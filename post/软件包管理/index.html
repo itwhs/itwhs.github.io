@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>软件包管理 - itw&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Mr Wen" /><meta name="description" content="" /><meta name="keywords" content="Linux, Github, Network, Cloud, Python" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://itwhs.github.io/post/%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/reset-even.css">
+
+
+<meta property="og:title" content="软件包管理" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://itwhs.github.io/post/%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86/" />
+<meta property="article:published_time" content="2018-05-19T16:15:57&#43;08:00"/>
+<meta property="article:modified_time" content="2018-05-19T16:15:57&#43;08:00"/>
+
+<meta itemprop="name" content="软件包管理">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2018-05-19T16:15:57&#43;08:00" />
+<meta itemprop="dateModified" content="2018-05-19T16:15:57&#43;08:00" />
+<meta itemprop="wordCount" content="2053">
+
+
+
+<meta itemprop="keywords" content="应用部署基础," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="软件包管理"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">itw</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a><a href="https://github.com/itwhs/">
+        <li class="mobile-menu-item">GitHub</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">itw</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/itwhs/">GitHub</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">软件包管理</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-05-19 16:15 </span>
+        <div class="post-category">
+            <a href="/categories/linux%E8%BF%90%E7%BB%B4/"> Linux运维 </a>
+            </div>
+          <span class="more-meta"> 约 2053 字 </span>
+          <span class="more-meta"> 预计阅读 5 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#一-了解linux中的应用程序">一、了解linux中的应用程序：</a>
+<ul>
+<li><a href="#1-系统的组成-硬件-系统-内核-shell解释器-应用程序">1.系统的组成：硬件、系统、内核、shell解释器、应用程序</a></li>
+<li><a href="#2-linux应用程序的类型">2.linux应用程序的类型：</a></li>
+<li><a href="#3-程序文件存放位置">3.程序文件存放位置：</a></li>
+</ul></li>
+<li><a href="#二-rpm命令管理软件包">二、rpm命令管理软件包；</a>
+<ul>
+<li><a href="#1-了解rpm">1.了解rpm；</a></li>
+<li><a href="#2-查询功能">2.查询功能；</a></li>
+<li><a href="#3-安装-卸载-升级rpm软件包">3.安装、卸载、升级rpm软件包；</a></li>
+<li><a href="#4-特殊用法">4.特殊用法：</a></li>
+</ul></li>
+<li><a href="#三-yum命令管理软件包">三、yum命令管理软件包；</a>
+<ul>
+<li><a href="#1-yum概述-c-s架构">1.yum概述：C/S架构</a></li>
+<li><a href="#2-yum服务端的搭建">2.yum服务端的搭建：</a></li>
+<li><a href="#3-yum的客户端的配置">3.yum的客户端的配置；</a></li>
+</ul></li>
+<li><a href="#四-源代码包的管理">四、源代码包的管理；</a>
+<ul>
+<li><a href="#1-为什么要用源码安装">1.为什么要用源码安装；</a></li>
+<li><a href="#2-源码包编译安装的流程">2.源码包编译安装的流程；</a></li>
+<li><a href="#3-源码安装的条件">3.源码安装的条件；</a></li>
+<li><a href="#4-编译安装的卸载">4.编译安装的卸载；</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="一-了解linux中的应用程序">一、了解linux中的应用程序：</h1>
+
+<h2 id="1-系统的组成-硬件-系统-内核-shell解释器-应用程序">1.系统的组成：硬件、系统、内核、shell解释器、应用程序</h2>
+
+<p>应用程序：APP、安装在OS上完成特定功能的软件</p>
+
+<h2 id="2-linux应用程序的类型">2.linux应用程序的类型：</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">*.rpm ##redhat系统默认的软件格式（使用了二进制的文件格式，代码相对来说比较封闭）
+		  rpm软件包名称格式：软件名-版本-发布次数-os平台-硬件平台（32bit/64bit）.rpm
+		  硬件平台：32位：i386、i586、i686
+		 	 64位：x86.64
+			 不区分硬件架构：noarch
+*.deb ##debian分支默认的软件格式
+源码软件 ##通用软件格式，压缩格式（xz、gz、bz2）的文件，也是生成rpm等包的基础
+自带安装程序或免安装软件</pre></td></tr></table>
+</div>
+</div>
+<h2 id="3-程序文件存放位置">3.程序文件存放位置：</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">/etc/ ##rpm包的配置文件
+/var/log/ ##日志文件
+/usr/share/doc/ ##软件的说明文档		
+/usr/bin/ ##普通用户可运行的程序命令
+/usr/sbin/ ##root可运行的程序命令</pre></td></tr></table>
+</div>
+</div>
+<h1 id="二-rpm命令管理软件包">二、rpm命令管理软件包；</h1>
+
+<h2 id="1-了解rpm">1.了解rpm；</h2>
+
+<p>rpm是redhat推出的包管理机制，用来管理（增删改查）软件包，rpm对于软件包的依赖关系处理时，选择忽略；</p>
+
+<h2 id="2-查询功能">2.查询功能；</h2>
+
+<ul>
+<li><code>rpm -qa</code>    ##查询当前系统安装的所有rpm包</li>
+<li><code>rpm -ql</code> 软件名  ##查询软件包的所有有关文件</li>
+<li><code>rpm -qi</code> 软件名  ##查看软件包的详细信息</li>
+<li><code>rpm -qf</code> 文件名  ##查看此文件由哪个软件包提供的</li>
+</ul>
+
+<h2 id="3-安装-卸载-升级rpm软件包">3.安装、卸载、升级rpm软件包；</h2>
+
+<p>安装：</p>
+
+<ul>
+<li><code>rpm -ivh</code> 软件包的路径 --nodeps    ##忽略依赖关系进行安装软件包，举例：包vsftpd</li>
+</ul>
+
+<p>升级：</p>
+
+<ul>
+<li><p><code>rpm -F</code> 软件包的路径       ##为已安装的软件包升级</p></li>
+
+<li><p><code>rpm -U</code> 软件包的路径       ##为已安装的软件包升级，若未安装进行安装</p></li>
+</ul>
+
+<p>卸载：</p>
+
+<ul>
+<li><code>rpm -e</code> 软件包名 --nodeps   ##忽略依赖关系并进行卸载，常用</li>
+</ul>
+
+<h2 id="4-特殊用法">4.特殊用法：</h2>
+
+<ul>
+<li><p><code>--force</code>：强制安装，当已经安装的软件的文件丢失或者被损坏时用到，或系统中以存在新版本需要安装旧版本时；</p></li>
+
+<li><p><code>--nodeps</code>：忽略依赖关系，安装或卸载时用到；</p></li>
+
+<li><p><code>--import</code>：导入iso的公钥（检查包的合法性和完整性，不导入会在安装时报warning）</p></li>
+</ul>
+
+<h1 id="三-yum命令管理软件包">三、yum命令管理软件包；</h1>
+
+<h2 id="1-yum概述-c-s架构">1.yum概述：C/S架构</h2>
+
+<ul>
+<li><p><code>服务端</code>：为客户端提供软件包的源，可以理解为一个服务站，可以使用ftp文件服务器提供yum的源，或者http（apache、 nginx）提供基于web的源，或者是本地file上传的文件；</p></li>
+
+<li><p><code>客户端</code>：使用yum命令安装软件包</p></li>
+</ul>
+
+<h2 id="2-yum服务端的搭建">2.yum服务端的搭建：</h2>
+
+<p>将软件包集中在服务端的某个目录下；
+  createrepo -g /mnt/repodata/repomd.xml ./软件包位置</p>
+
+<h2 id="3-yum的客户端的配置">3.yum的客户端的配置；</h2>
+
+<p>客户端使用yum命令进行安装、卸载、查找软件；</p>
+
+<p>1）.yum命令系统自动安装，可以通过以下命令进行查看；</p>
+
+<ul>
+<li><code>enable yum</code>      //查看yum命令是外部命令还是内部命令</li>
+<li><code>which yum</code>       //查看外部命令的位置</li>
+<li><code>yum provides */yum</code>  //查看yum命令的提供软件包</li>
+</ul>
+
+<p>2）.配置yum仓库，源的文件；</p>
+
+<ul>
+<li><code>mount  /dev/cdrom  /mnt</code>     //在虚拟机中将光盘镜像文件挂在到/mnt目录下</li>
+<li><code>rm  -rf  /etc/yum.repos.d/*</code></li>
+<li><code>vi /etc/yum.repos.d/centos.repo</code></li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[local]		//自定义名称，标记
+name=local	//是对repo文件的描述
+baseurl=file:///mnt		//yum服务器的访问路径，可以指定多个；
+enabled=1	//为1代表开启此源，为0代表关闭此源，关闭后yum 默认不会找到此源，需要使用yum --enablerepo=
+名称；
+gpgcheck=0	//为0代表不进行gpg公钥的检查，为1代表进行检查，为了保证软件包的完整性，rpm --import 公钥
+目录，进行导入公钥；
+gpgkey=file:///		//指定软件校验公钥的存放位置
+:wq</pre></td></tr></table>
+</div>
+</div>
+<p>yum源支持的协议：</p>
+
+<ul>
+<li><p><a href="ftp://192.168.100.100/">ftp://192.168.100.100/</a></p></li>
+
+<li><p><a href="http://192.168.100.100/">http://192.168.100.100/</a></p></li>
+
+<li><p>file:///mnt/</p></li>
+</ul>
+
+<p>3）.yum的配置文件；</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">/etc/yum.conf   //主配置文件，主要了解以下配置项：
+keepcache=0 //将安装的软件包缓存到本地一份；               
+cachedir=/var/cache/yum/$basearch/$releasever   //指定缓存软件包的路径；
+logfile=/var/log/yum.log        //yum的日志文件</pre></td></tr></table>
+</div>
+</div>
+<p>## 4.yum的用法（增删改查）：
+查（查找）：</p>
+
+<ul>
+<li><p><code>yum list</code>    //查看所有软件包</p></li>
+
+<li><p><code>yum repolist</code>    //列出可用yum源</p></li>
+
+<li><p><code>yum search 软件名(关键字）</code> //查找软件</p></li>
+
+<li><p><code>yum grouplist</code>   //列出所有可安装的yum源的软件组</p></li>
+
+<li><p><code>yum groupinfo &quot;软件组名&quot;</code>   //查看软件组中软件包</p></li>
+
+<li><p><code>yum provides */命令</code>       //查看提供此命令的软件包</p></li>
+</ul>
+
+<p>增（安装）：</p>
+
+<ul>
+<li><p><code>yum -y install 软件包名</code></p></li>
+
+<li><p><code>yum -y groupinstall 软件组名</code></p></li>
+</ul>
+
+<p>删（卸载）：</p>
+
+<ul>
+<li><p><code>yum -y remove 软件包名</code></p></li>
+
+<li><p><code>yum -y erase 软件包名</code></p></li>
+
+<li><p><code>yum -y groupremove 软件组名</code></p></li>
+</ul>
+
+<p>改(修改yum本身)：</p>
+
+<ul>
+<li><p><code>yum clean all</code>   //清空yum的所有缓存，出错常用</p></li>
+
+<li><p><code>yum -y update</code>   //更新系统，升级所有包，改变软件设置和系统设置,系统版本内核都升级</p></li>
+
+<li><p><code>yum -y upgrade</code>      //升级所有包，不改变软件设置和系统设置，系统版本升级，内核不改变</p></li>
+</ul>
+
+<h1 id="四-源代码包的管理">四、源代码包的管理；</h1>
+
+<h2 id="1-为什么要用源码安装">1.为什么要用源码安装；</h2>
+
+<p>部分软件无rpm包
+  源码包是最新的，可以得到新功能和补丁
+  源码编译安装实现功能定制，满足企业需求</p>
+
+<h2 id="2-源码包编译安装的流程">2.源码包编译安装的流程；</h2>
+
+<ol>
+<li>wget或lftp形式下载源码包安装文件（也可以在windows中下载，完成后上传到linux中）；</li>
+<li>解压软件包，通常包的格式都为.tar.gz或.tar.bz2，通常都解压到/usr/src/目录下；</li>
+<li>配置安装目录，定制功能，由./configure --prefix=安装目录 ... 命令来完成；</li>
+<li>编译：生成二进制可执行文件，make命令来完成；</li>
+<li>安装：复制文件到系统目录中，make install 命令来完成；</li>
+<li>修改配置，启动服务，测试，投入使用；</li>
+</ol>
+
+<h2 id="3-源码安装的条件">3.源码安装的条件；</h2>
+
+<p>源代码编译安装必须要安装的两个工具：make、gcc（包含在装系统时，开发工具包中）</p>
+
+<h2 id="4-编译安装的卸载">4.编译安装的卸载；</h2>
+
+<p>删除安装目录即可；</p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Mr Wen</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2018-05-19 16:15
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener" href="https://github.com/itwhs/itwhs.github.io/blob/master/LICENSE">MIT</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E5%BA%94%E7%94%A8%E9%83%A8%E7%BD%B2%E5%9F%BA%E7%A1%80/">应用部署基础</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/%E8%B4%A6%E5%8F%B7%E5%92%8C%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">账号和权限管理</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/">
+            <span class="next-text nav-default">基础命令</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:itwhs@foxmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://blog.csdn.net/wenhs5479" class="iconfont icon-cnblogs" title="cnblogs"></a>
+      <a href="https://github.com/itwhs" class="iconfont icon-github" title="github"></a>
+  <a href="https://itwhs.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Mr Wen</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139425163-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>LVM管理 - itw&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Mr Wen" /><meta name="description" content="" /><meta name="keywords" content="Linux, Github, Network, Cloud, Python" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://itwhs.github.io/post/lvm%E7%AE%A1%E7%90%86/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/reset-even.css">
+
+
+<meta property="og:title" content="LVM管理" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://itwhs.github.io/post/lvm%E7%AE%A1%E7%90%86/" />
+<meta property="article:published_time" content="2018-09-22T16:15:57&#43;08:00"/>
+<meta property="article:modified_time" content="2018-09-22T16:15:57&#43;08:00"/>
+
+<meta itemprop="name" content="LVM管理">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2018-09-22T16:15:57&#43;08:00" />
+<meta itemprop="dateModified" content="2018-09-22T16:15:57&#43;08:00" />
+<meta itemprop="wordCount" content="2850">
+
+
+
+<meta itemprop="keywords" content="disk," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="LVM管理"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">itw</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a><a href="https://github.com/itwhs/">
+        <li class="mobile-menu-item">GitHub</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">itw</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/itwhs/">GitHub</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">LVM管理</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-09-22 16:15 </span>
+        <div class="post-category">
+            <a href="/categories/linux%E8%BF%90%E7%BB%B4/"> Linux运维 </a>
+            </div>
+          <span class="more-meta"> 约 2850 字 </span>
+          <span class="more-meta"> 预计阅读 6 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#1-lvm的应用场景及其弊端">1. lvm的应用场景及其弊端</a></li>
+<li><a href="#2-物理卷-卷组-逻辑卷">2. 物理卷、卷组、逻辑卷</a></li>
+<li><a href="#3-lvm管理">3. lvm管理</a>
+<ul>
+<li>
+<ul>
+<li><a href="#3-1-部署lvm">3.1 部署lvm</a></li>
+<li><a href="#3-2-卷组管理">3.2 卷组管理</a></li>
+<li><a href="#3-3-逻辑卷管理">3.3 逻辑卷管理</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="1-lvm的应用场景及其弊端">1. lvm的应用场景及其弊端</h1>
+
+<blockquote>
+<p>应用场景：
+ 随着公司的发展，数据增长较快，最初规划的磁盘容量不够用了</p>
+
+<p>弊端：
+数据不是直接存放在硬盘上，而是在硬盘的上面又虚拟出来一层逻辑卷存放数据，故而增加了磁盘数据恢复的难度</p>
+</blockquote>
+
+<h1 id="2-物理卷-卷组-逻辑卷">2. 物理卷、卷组、逻辑卷</h1>
+
+<p><img src="../../img/lvm.jpg" alt="lvm1" /></p>
+
+<blockquote>
+<p>物理卷(PV)：把常规的块设备（硬盘，分区等可以读写数据的设备）通过pvcreate命令对其进行初始化，就成了物理卷</p>
+
+<p>卷组(VG):把多个物理卷的容量组成一个逻辑整体，可以从里面灵活分配容量</p>
+
+<p>逻辑卷(LV):从卷组中划分部分空间成为一个可以读写数据的逻辑单元。需要对其格式化然后挂载使用</p>
+</blockquote>
+
+<h1 id="3-lvm管理">3. lvm管理</h1>
+
+<h3 id="3-1-部署lvm">3.1 部署lvm</h3>
+
+<blockquote>
+<p>创建lvm步骤：</p>
+
+<p>a) 添加物理磁盘，创建物理卷</p>
+
+<p>b) 创建卷组，将物理卷加入卷组</p>
+
+<p>c) 在卷组中划分逻辑卷</p>
+
+<p>d) 格式化逻辑卷</p>
+
+<p>e)挂载使用</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">1.准备物理磁盘
+[root@wenhs5479 ~]# lsblk |grep &#34;sd[b-f]&#34;
+sdb               8:16   0    3G  0 disk 
+sdc               8:32   0    3G  0 disk 
+sdd               8:48   0    3G  0 disk 
+sde               8:64   0    3G  0 disk 
+sdf               8:80   0    5G  0 disk
+
+1.将磁盘加入pv
+[root@wenhs5479 ~]# pvcreate /dev/sd[b-f]
+  Physical volume &#34;/dev/sdb&#34; successfully created.
+  Physical volume &#34;/dev/sdc&#34; successfully created.
+  Physical volume &#34;/dev/sdd&#34; successfully created.
+  Physical volume &#34;/dev/sde&#34; successfully created.
+  Physical volume &#34;/dev/sdf&#34; successfully created.
+检查pv创建情况
+[root@wenhs5479 ~]# pvs
+  PV         VG     Fmt  Attr PSize   PFree
+  /dev/sda2  centos lvm2 a--  &lt;14.00g    0 
+  /dev/sdb          lvm2 ---    3.00g 3.00g
+  /dev/sdc          lvm2 ---    3.00g 3.00g
+  /dev/sdd          lvm2 ---    3.00g 3.00g
+  /dev/sde          lvm2 ---    3.00g 3.00g
+  /dev/sdf          lvm2 ---    5.00g 5.00g
+
+2.创建名为wenhs的卷组
+[root@wenhs5479 ~]# vgcreate wenhs /dev/sdb
+  Volume group &#34;wenhs&#34; successfully created
+
+//检查卷组
+[root@wenhs5479 ~]# vgs
+  VG     #PV #LV #SN Attr   VSize   VFree 
+  centos   1   2   0 wz--n- &lt;14.00g     0 
+  wenhs    1   0   0 wz--n-  &lt;3.00g &lt;3.00g
+
+3.创建逻辑卷, 分配名称, 以及大小, 指定卷组
+[root@wenhs5479 ~]# lvcreate -L 500M -n lv1 wenhs
+WARNING: xfs signature detected on /dev/wenhs/lv1 at offset 0. Wipe it? [y/n]: y
+  Wiping xfs signature on /dev/wenhs/lv1.
+  Logical volume &#34;lv1&#34; created.
+  
+检查逻辑卷
+[root@wenhs5479 ~]# lvscan 
+  ACTIVE            &#39;/dev/wenhs/lv1&#39; [500.00 MiB] inherit
+  ACTIVE            &#39;/dev/centos/swap&#39; [1.50 GiB] inherit
+  ACTIVE            &#39;/dev/centos/root&#39; [&lt;12.50 GiB] inherit
+
+4.格式化文件系统
+[root@wenhs5479 ~]# mkfs.xfs /dev/wenhs/lv1 
+meta-data=/dev/wenhs/lv1         isize=512    agcount=4, agsize=32000 blks
+         =                       sectsz=512   attr=2, projid32bit=1
+         =                       crc=1        finobt=0, sparse=0
+data     =                       bsize=4096   blocks=128000, imaxpct=25
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0 ftype=1
+log      =internal log           bsize=4096   blocks=855, version=2
+         =                       sectsz=512   sunit=0 blks, lazy-count=1
+realtime =none                   extsz=4096   blocks=0, rtextents=0
+
+挂载并使用
+[root@wenhs5479 ~]# mkdir /lv1
+[root@wenhs5479 ~]# mount /dev/wenhs/lv1 /lv1/
+[root@wenhs5479 ~]# df -Th
+文件系统                类型      容量  已用  可用 已用% 挂载点
+/dev/mapper/centos-root xfs        13G  6.8G  5.8G   54% /
+devtmpfs                devtmpfs  1.9G     0  1.9G    0% /dev
+tmpfs                   tmpfs     1.9G     0  1.9G    0% /dev/shm
+tmpfs                   tmpfs     1.9G   13M  1.9G    1% /run
+tmpfs                   tmpfs     1.9G     0  1.9G    0% /sys/fs/cgroup
+/dev/sda1               xfs      1014M  181M  834M   18% /boot
+tmpfs                   tmpfs     378M  4.0K  378M    1% /run/user/42
+tmpfs                   tmpfs     378M   32K  378M    1% /run/user/0
+/dev/sr0                iso9660    11G   11G     0  100% /run/media/root/CentOS 7 x86_64
+/dev/mapper/wenhs-lv1   xfs       497M   26M  472M    6% /lv1
+[root@wenhs5479 ~]#</pre></td></tr></table>
+</div>
+</div>
+<h3 id="3-2-卷组管理">3.2 卷组管理</h3>
+
+<ul>
+<li>扩展卷组，将新磁盘加入卷组</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">1.新硬盘加入pv
+[root@wenhs5479 ~]# pvcreate /dev/sdc
+  Physical volume &#34;/dev/sdc&#34; successfully created.
+  
+2.使用vgextend扩展
+[root@wenhs5479 ~]# vgextend wenhs /dev/sdc
+  Volume group &#34;wenhs&#34; successfully extended</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>缩减卷组，将指定磁盘从卷组中删除</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@localhost ~]# vgreduce datavg /dev/sdb
+  Removed &#34;/dev/sdb&#34; from volume group &#34;datavg&#34;</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>数据迁移卷组，同一卷组的磁盘才可以进行在线迁移</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">1.检查当前逻辑卷VG中PV使用情况
+[root@wenhs5479 ~]# pvs
+  PV         VG     Fmt  Attr PSize   PFree 
+  /dev/sda2  centos lvm2 a--  &lt;14.00g     0 
+  /dev/sdb   wenhs  lvm2 a--   &lt;3.00g &lt;2.51g
+  /dev/sdc   wenhs  lvm2 a--   &lt;3.00g &lt;3.00g
+  
+2.pvmove在线数据迁移至其他pv 
+[root@wenhs5479 ~]# pvmove /dev/sdb
+  /dev/sdb: Moved: 10.40%
+  /dev/sdb: Moved: 100.00%
+
+3.检查是否将sdb数据迁移至sdc 
+[root@wenhs5479 ~]# pvs
+  PV         VG     Fmt  Attr PSize   PFree 
+  /dev/sda2  centos lvm2 a--  &lt;14.00g     0 
+  /dev/sdb   wenhs  lvm2 a--   &lt;3.00g &lt;3.00g
+  /dev/sdc   wenhs  lvm2 a--   &lt;3.00g &lt;2.51g</pre></td></tr></table>
+</div>
+</div>
+<h3 id="3-3-逻辑卷管理">3.3 逻辑卷管理</h3>
+
+<ul>
+<li>逻辑卷扩展，逻辑卷的扩展取决于卷组中的容量，逻辑卷扩展的容量不能超过卷组的容量</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@wenhs5479 ~]# vgs
+  VG     #PV #LV #SN Attr   VSize   VFree
+  centos   1   2   0 wz--n- &lt;14.00g    0 
+  wenhs    2   1   0 wz--n-   5.99g 5.50g
+
+
+1.扩展lv逻辑卷
+增加800M分配给逻辑卷 {注意: 800M +800M 不一样}
+[root@wenhs5479 ~]# lvextend -L +800M /dev/wenhs/lv1 
+  Size of logical volume wenhs/lv1 changed from 500.00 MiB (125 extents) to &lt;1.27 GiB (325 extents).
+  Logical volume wenhs/lv1 successfully resized.
+分配磁盘池中多少百分比给逻辑卷
+[root@wenhs5479 ~]# lvextend -l +50%free /dev/wenhs/lv1
+  Size of logical volume wenhs/lv1 changed from &lt;1.27 GiB (325 extents) to 3.63 GiB (930 extents).
+  Logical volume wenhs/lv1 successfully resized.
+
+2.扩展fs文件系统
+xfs扩容
+[root@wenhs5479 ~]# xfs_growfs /dev/wenhs/lv1 
+meta-data=/dev/mapper/wenhs-lv1  isize=512    agcount=4, agsize=32000 blks
+         =                       sectsz=512   attr=2, projid32bit=1
+         =                       crc=1        finobt=0 spinodes=0
+data     =                       bsize=4096   blocks=128000, imaxpct=25
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0 ftype=1
+log      =internal               bsize=4096   blocks=855, version=2
+         =                       sectsz=512   sunit=0 blks, lazy-count=1
+realtime =none                   extsz=4096   blocks=0, rtextents=0
+data blocks changed from 128000 to 332800
+
+[root@wenhs5479 ~]# lvs
+  LV   VG     Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  root centos -wi-ao---- &lt;12.50g                                                    
+  swap centos -wi-ao----   1.50g                                                    
+  lv1  wenhs  -wi-ao----  &lt;1.27g
+//ext扩容
+[root@wenhs5479 ~]# xfs_growfs /dev/wenhs/lv1 
+meta-data=/dev/mapper/wenhs-lv1  isize=512    agcount=11, agsize=32000 blks
+         =                       sectsz=512   attr=2, projid32bit=1
+         =                       crc=1        finobt=0 spinodes=0
+data     =                       bsize=4096   blocks=332800, imaxpct=25
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0 ftype=1
+log      =internal               bsize=4096   blocks=855, version=2
+         =                       sectsz=512   sunit=0 blks, lazy-count=1
+realtime =none                   extsz=4096   blocks=0, rtextents=0
+data blocks changed from 332800 to 952320
+
+[root@wenhs5479 ~]# lvs
+  LV   VG     Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  root centos -wi-ao---- &lt;12.50g                                                    
+  swap centos -wi-ao----   1.50g                                                    
+  lv1  wenhs  -wi-ao----   3.63g</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>对ext4文件系统的逻辑卷裁剪容量</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">首先自己创建一个1G的逻辑卷作为裁剪的对象
+[root@wenhs5479 ~]# lvcreate -n extdisk -L 1G wenhs 
+  Logical volume &#34;extdisk&#34; created.
+  
+[root@wenhs5479 ~]# mkfs.ext4 /dev/wenhs/extdisk 
+mke2fs 1.42.9 (28-Dec-2013)
+文件系统标签=
+OS type: Linux
+块大小=4096 (log=2)
+分块大小=4096 (log=2)
+Stride=0 blocks, Stripe width=0 blocks
+65536 inodes, 262144 blocks
+13107 blocks (5.00%) reserved for the super user
+第一个数据块=0
+Maximum filesystem blocks=268435456
+8 block groups
+32768 blocks per group, 32768 fragments per group
+8192 inodes per group
+Superblock backups stored on blocks: 
+	32768, 98304, 163840, 229376
+
+Allocating group tables: 完成                            
+正在写入inode表: 完成                            
+Creating journal (8192 blocks): 完成
+Writing superblocks and filesystem accounting information: 完成
+
+[root@wenhs5479 ~]# mkdir -p /wenhs/extdisk
+[root@wenhs5479 ~]# mount /dev/wenhs/extdisk /wenhs/extdisk/
+[root@wenhs5479 ~]# cp /etc/host* /wenhs/extdisk/
+
+1、如果已经挂载，必须先卸载
+[root@wenhs5479 ~]# umount /dev/wenhs/extdisk
+
+2、裁剪容量，必须是先检测文件系统
+[root@wenhs5479 ~]# e2fsck -f /dev/wenhs/extdisk 
+e2fsck 1.42.9 (28-Dec-2013)
+第一步: 检查inode,块,和大小
+第二步: 检查目录结构
+第3步: 检查目录连接性
+Pass 4: Checking reference counts
+第5步: 检查簇概要信息
+/dev/wenhs/extdisk: 16/65536 files (0.0% non-contiguous), 12960/262144 blocks
+
+[root@wenhs5479 ~]# resize2fs /dev/wenhs/extdisk 500M
+resize2fs 1.42.9 (28-Dec-2013)
+Resizing the filesystem on /dev/wenhs/extdisk to 128000 (4k) blocks.
+The filesystem on /dev/wenhs/extdisk is now 128000 blocks long.
+
+3、调整完毕后采取裁剪逻辑卷容量
+[root@wenhs5479 ~]# lvreduce -L 500M /dev/wenhs/extdisk 
+  WARNING: Reducing active logical volume to 500.00 MiB.
+  THIS MAY DESTROY YOUR DATA (filesystem etc.)
+Do you really want to reduce wenhs/extdisk? [y/n]: y
+  Size of logical volume wenhs/extdisk changed from 1.00 GiB (256 extents) to 500.00 MiB (125 extents).
+  Logical volume wenhs/extdisk successfully resized.
+
+4、强烈建议裁剪后，再次检测文件系统
+[root@wenhs5479 ~]# e2fsck -f /dev/wenhs/extdisk 
+e2fsck 1.42.9 (28-Dec-2013)
+第一步: 检查inode,块,和大小
+第二步: 检查目录结构
+第3步: 检查目录连接性
+Pass 4: Checking reference counts
+第5步: 检查簇概要信息
+/dev/wenhs/extdisk: 16/32768 files (6.3% non-contiguous), 10646/128000 blocks
+
+5、挂载测试
+如果能够挂载，一般说明裁剪成功，文件系统没有损坏
+
+[root@wenhs5479 ~]# mount /dev/wenhs/extdisk /wenhs/extdisk/
+[root@wenhs5479 ~]# df -Th
+文件系统                  类型      容量  已用  可用 已用% 挂载点
+/dev/mapper/centos-root   xfs        13G  6.8G  5.8G   54% /
+devtmpfs                  devtmpfs  1.9G     0  1.9G    0% /dev
+.....
+/dev/mapper/wenhs-lv1     xfs       3.7G   27M  3.7G    1% /lv1
+/dev/mapper/wenhs-extdisk ext4      460M  1.6M  424M    1% /wenhs/extdisk&lt;-----而且文件系统容量被刷新了</pre></td></tr></table>
+</div>
+</div>
+<blockquote>
+<p><strong>缩减逻辑卷注意事项：</strong></p>
+
+<ol>
+<li>不能在线缩减，得先卸载；</li>
+<li>确保缩减后的空间大小依然能存储原有的所有数据；</li>
+<li>在缩减之前应该先强行检查文件，以确保文件系统处于一致性状态。使用命令e2fsck -f /PATH/TO/LV</li>
+<li>只能缩减ext系列的,而xfs文件系统不适用</li>
+</ol>
+</blockquote>
+
+<p><strong>示例：</strong></p>
+
+<p>1.查看/etc/目录大小</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">du -sh /etc</pre></td></tr></table>
+</div>
+</div>
+<p>2.查看磁盘使用分区情况</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">lsblk</pre></td></tr></table>
+</div>
+</div>
+<p>3.查看innode使用情况</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">df -i /path/to/device</pre></td></tr></table>
+</div>
+</div>
+<p>4.查看磁盘block使用情况</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">df -h</pre></td></tr></table>
+</div>
+</div>
+<p>5.查看分区使用格式</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">df -Th</pre></td></tr></table>
+</div>
+</div>
+<p>6.查看一个设备的UUID</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">blkid /path/to/device</pre></td></tr></table>
+</div>
+</div>
+<p>7.解释/etc/fstab中每段含义</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">第一列表示设备的名称
+第二列表示该设备的挂载点
+第三列是文件系统
+第四列是挂载选项
+第五列是dump选项（用一个数字表示）
+第六列（接下来的数字）表示文件系统检查选项</pre></td></tr></table>
+</div>
+</div>
+<p><a href="https://blog.csdn.net/richerg85/article/details/17917129">详解</a></p>
+
+<p>8.一个ext4的文件分区，当使用touch test.file命令创建一个新文件是报错，报错的信息提示磁盘已满，但是采用df –h 命令查看磁盘大小时，只是用了60%的磁盘空间，为什么会出现这个情况，说说你的理由.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">innode使用完了,会有这样的错误</pre></td></tr></table>
+</div>
+</div>
+<p><strong>磁盘分区方案</strong></p>
+
+<blockquote>
+<p>在虚拟机中添加一块20GB的SCISI磁盘
+在新硬盘中建立一个5GB的分区，一个10G的分区
+一个格式化为ext4的文件系统,一个格式化为xfs的文件系统
+新建两个目录站点进行挂载, 要求开机自动挂载该分区</p>
+</blockquote>
+
+<p><strong>LVM磁盘管理方案</strong></p>
+
+<blockquote>
+<p>在虚拟机环境中，新添加两块SCISI硬盘设备，完成硬盘检测及分区
+建立逻辑卷mbvg, 格式化为ext4文件系统,分配1G逻辑分区供/box目录使用
+第二块逻辑分区, 格式化为xfs文件系统, 分配1G逻辑分区供/xfs目录使用
+最后使用扩容方案将/box站点扩展到2.8G磁盘使用空间, 将/xfs目录扩展到2G</p>
+</blockquote>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Mr Wen</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2018-09-22 16:15
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener" href="https://github.com/itwhs/itwhs.github.io/blob/master/LICENSE">MIT</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/disk/">disk</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">计划任务</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/">
+            <span class="next-text nav-default">磁盘管理</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:itwhs@foxmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://blog.csdn.net/wenhs5479" class="iconfont icon-cnblogs" title="cnblogs"></a>
+      <a href="https://github.com/itwhs" class="iconfont icon-github" title="github"></a>
+  <a href="https://itwhs.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Mr Wen</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139425163-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

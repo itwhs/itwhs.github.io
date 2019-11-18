@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Web 爆破攻击实战 - itw&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Mr Wen" /><meta name="description" content="" /><meta name="keywords" content="Linux, Github, Network, Cloud, Python" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://itwhs.github.io/post/web%E7%88%86%E7%A0%B4%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/reset-even.css">
+
+
+<meta property="og:title" content="Web 爆破攻击实战" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://itwhs.github.io/post/web%E7%88%86%E7%A0%B4%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/" />
+<meta property="article:published_time" content="2019-04-28T16:15:57&#43;08:00"/>
+<meta property="article:modified_time" content="2019-04-28T16:15:57&#43;08:00"/>
+
+<meta itemprop="name" content="Web 爆破攻击实战">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2019-04-28T16:15:57&#43;08:00" />
+<meta itemprop="dateModified" content="2019-04-28T16:15:57&#43;08:00" />
+<meta itemprop="wordCount" content="2323">
+
+
+
+<meta itemprop="keywords" content="dvwa," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Web 爆破攻击实战"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">itw</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a><a href="https://github.com/itwhs/">
+        <li class="mobile-menu-item">GitHub</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">itw</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/itwhs/">GitHub</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Web 爆破攻击实战</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-04-28 16:15 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"> 网络安全 </a>
+            </div>
+          <span class="more-meta"> 约 2323 字 </span>
+          <span class="more-meta"> 预计阅读 5 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#10-web-爆破攻击实战">10. Web 爆破攻击实战</a>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#10-1-暴力破解简介">10.1 暴力破解简介</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#toc_2">　</a>
+<ul>
+<li>
+<ul>
+<li><a href="#10-2-low-级别-web-爆破攻击实战">10.2 Low 级别 Web 爆破攻击实战</a>
+<ul>
+<li><a href="#10-2-1-暴力破解账户密码">10.2.1 暴力破解账户密码</a></li>
+<li><a href="#10-2-2-sql-注入破解账户密码">10.2.2 SQL 注入破解账户密码</a></li>
+<li><a href="#10-3-medium-级别-web-爆破攻击实战">10.3 Medium 级别 Web 爆破攻击实战</a></li>
+</ul></li>
+<li><a href="#10-4-high-级别-web-爆破攻击实战">10.4 High 级别 Web 爆破攻击实战</a></li>
+<li><a href="#10-5-impossible-级别-web-爆破攻击">10.5 Impossible 级别 Web 爆破攻击</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="10-web-爆破攻击实战">10. Web 爆破攻击实战</h1>
+
+<h4 id="10-1-暴力破解简介">10.1 暴力破解简介</h4>
+
+<p>　　在很多情况下，黑客在找不到其他途径进入 Web 管理后台时，就会采用暴力破解的方式来破解后台管理员的账号和密码。所谓暴力破解，就是使用“穷举法”，对用户名和密码进行逐个猜解，直至猜出来为止。虽然暴力破解显得不是很有技术含量，但确实最有效的一种方式。理论上来说，只要时间足够，终究会把用户名和密码猜解出来。</p>
+
+<p>　　为了提高暴力破解的效率，一般在破解时，都会使用字典。所谓字典，就是黑客会把自己认为的有可能是正确的密码，以及曾经碰到过的密码，写到一个文档里去，这个文档就是字典。在进行暴力破解时，会按照字典的顺序来进行猜解，这样会大大提高破解的效率。</p>
+
+<p>　　暴力破解可以分别分为破解用户名和破解密码。在对攻击目标一无所知时，往往不仅要猜解出对方的密码，还需要先猜解出对方的用户名，这时破解难度和需要的时间会以大大提升。但如果已经知道了对方的用户名（极有可能是默认的用户名），只破解密码，难度就要小很多。</p>
+
+<p>　　对于 Web 暴力破解来说，由于需要构造 HTTP 请求包，所以必须使用专门的工具，最常见的就是著名的 Burpsuite。Burpsuite 也有专门的爆破模块。</p>
+
+<h2 id="toc_2">　</h2>
+
+<h4 id="10-2-low-级别-web-爆破攻击实战">10.2 Low 级别 Web 爆破攻击实战</h4>
+
+<h5 id="10-2-1-暴力破解账户密码">10.2.1 暴力破解账户密码</h5>
+
+<ol>
+<li>设置安全级别为 <code>Low</code>，点击 <code>Brute Force</code> 按钮，进行暴力破解模块，发现是个用户登录的页面，随意输入用户名和密码，发现提示用户名或密码错误；同时发现输入的用户名和密码携带在了 <code>URL</code> 中，所以确认该页面提交方式为 <code>GET</code>，如图 10-1
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15621263147951.jpg" alt="img" /></p>
+
+<p>图 10-1</p>
+
+<ol>
+<li>我们已经得知 <code>DVWA</code> 存在一个默认账户，用户名和密码为 <code>admin/password</code>，使用该账户登录，发现页面提示 <code>Welcome to the passowrd protected area admin</code>，来说明登录成功，如图 10-2
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15621286897561.jpg" alt="img" /></p>
+
+<p>图 10-2</p>
+
+<ol>
+<li>我们先自己构建一个字典文件，包含正确的密码信息 <code>password</code>，如图 10-3
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15621268495153.jpg" alt="img" /></p>
+
+<p>图 10-3</p>
+
+<ol>
+<li>设置好 <code>Burpsuite</code> 和浏览器的代理，先随便输入一个用户名和密码，用 <code>Burpsuite</code> 抓包，如图 10-4
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15621269707769.jpg" alt="img" /></p>
+
+<p>图 10-4</p>
+
+<ol>
+<li>点击 <code>Action</code> 按钮，选择 <code>Send to Intruder</code>，把数据包信息发送到暴力破解模块，如图 10-5
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15621270787476.jpg" alt="img" /></p>
+
+<p>图 10-5</p>
+
+<ol>
+<li>点击 <code>Intruder</code> 模块，选择 <code>Positions</code> 标签，可以看到发送过来的数据包信息，如图 10-6
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15621280293156.jpg" alt="img" /></p>
+
+<p>图 10-6</p>
+
+<ol>
+<li>点击 <code>Clear §</code> 按钮清除掉所有变量，如图 10-7
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15621281480675.jpg" alt="img" /></p>
+
+<p>图 10-7</p>
+
+<ol>
+<li>我们这里为了节省时间，假定已经得知了用户名为 <code>admin</code>，只猜解密码，所以选中之前随意输入的密码，点击 <code>Add §</code>，把密码部分设置为要猜解的变量，如图 10-8
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15621282687082.jpg" alt="img" /></p>
+
+<p>图 10-8</p>
+
+<ol>
+<li>切换到 <code>Payloads</code> 标签，在 <code>Payload Option</code> 处，点击 <code>Load</code> 按钮，选择之前构建的字典文件，如图 10-9
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15621284277365.jpg" alt="img" /></p>
+
+<p>图 10-9</p>
+
+<ol>
+<li><p>下拉到 <code>Grep Match</code> 处，点击 <code>Clear</code>，清除掉现有猜解成功匹配字符，然后添加之前我们看到的 <code>DVWA</code> 中登录成功的提示字符 <code>Welcome to the passowrd</code>，然后点击 Add。这样等到猜解成功后，就会自动提示，不用我们自己去比对回包长度和响应状态码来判断哪个是正确的密码，如图 10-11</p>
+
+<p><img src="../../img/15621291376171.jpg" alt="img" /></p>
+
+<p>图 10-11</p></li>
+
+<li><p>点击 <code>Start Attack</code> 按钮，开始爆破，可以发现，当猜解到 <code>password</code> 时，回包长度与其他都不一致，而且打钩提示该密码是正确的，如图 10-12</p>
+
+<p><img src="../../img/15621293215603.jpg" alt="img" /></p>
+
+<p>图 10-12</p></li>
+</ol>
+
+<h5 id="10-2-2-sql-注入破解账户密码">10.2.2 SQL 注入破解账户密码</h5>
+
+<ol>
+<li>尝试使用 <code>SQL</code> 注入的方式登录，用户名输入 <code>admin’#</code> ，密码留空登录，发现可以直接进入，如图 10-13，图 10-14
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15621436175254.jpg" alt="img" /></p>
+
+<p>图 10-13</p>
+
+<p><img src="../../img/15621436440578.jpg" alt="img" /></p>
+
+<p>图 10-14</p>
+
+<blockquote>
+<p>该方式的原理是，猜测后台验证用户名和密码的 SQL 语句为 <code>select * from users where user='$_GET['username']' and password='$_GET['password']'</code>，我们提交 <code>admin'#</code>，首先通过单引号闭合原语法中的单引号，再用 # 注释掉后面的语句，所以 SQL 注入之后的语句就变成了 <code>select * from users where user='admin'#' and password=''</code>，由于 # 后面被注释了，不会提交给服务器执行，所以只要 users 表中存在 admin 用户，无论密码是否正确，都可以通过验证。如果连用户名都不知道，还可以通过 <code>admin' or '1'='1</code> 来构造一个恒真表达式进行绕过。</p>
+</blockquote>
+
+<hr />
+
+<h5 id="10-3-medium-级别-web-爆破攻击实战">10.3 Medium 级别 Web 爆破攻击实战</h5>
+
+<ol>
+<li>安全级别设置为 <code>Medium</code>，进入 <code>Web</code> 爆破攻击页面，查看页面源码，发现对提交的用户名和密码内容使用了 <code>mysqli_real_escape_string</code> 函数，对特殊字符进行转义，从而防止了以 SQL 注入的方式登录，如图 10-15。同时，通过 <code>sleep(2)</code>，使登录失败后让页面延迟 2 秒响应，对暴力破解起到了一定的防御作用，如图 10-16
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15622101679947.jpg" alt="img" /></p>
+
+<p>图 10-15</p>
+
+<p><img src="../../img/15622102075359.jpg" alt="img" /></p>
+
+<p>图 10-16</p>
+
+<ol>
+<li>根据上述情况分析，防 SQL 注入并不能影响我们进行暴力破解，而登录失败的 2 秒延迟对暴力破解的影响也是微乎其微，所以我们这里直接使用 <code>Low</code> 级别的方式使用 <code>Burpsuite</code> 进行爆破即可。这里只展示最终结果，如图 10-17
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15622106215841.jpg" alt="img" /></p>
+
+<p>图 10-17</p>
+
+<hr />
+
+<h4 id="10-4-high-级别-web-爆破攻击实战">10.4 High 级别 Web 爆破攻击实战</h4>
+
+<ol>
+<li>安全级别设置为 <code>High</code>，进入 <code>Web</code> 爆破攻击页面，查看页面源码，发现除了保留 <code>Medium</code> 级别的防护措施外，还加入了随机 <code>Token</code> 检查机制，如图 10-18。服务器每次返回登录页面都会给客户端产生一个随机的 Token 值，客户端登录时，需要携带该 <code>Token</code>，服务器如果检查发现用户携带的 <code>Token</code> 和它产生的不一样，就会判断为攻击行为，拒绝登录。
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15622118048047.jpg" alt="img" /></p>
+
+<p>图 10-18</p>
+
+<ol>
+<li>在这种情况下，<code>Burpsuite</code> 就不再有效，需要使用脚本来抓取服务器产生的随机 <code>Token</code> 值，然后构造在 <code>HTTP</code> 请求包中，才能进行暴力破解。这里我们使用 <code>Python</code> 脚本来实现该功能。脚本内容如下</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">   import requests 
+   from bs4 import BeautifulSoup 
+   import sys 
+   import re
+   
+   get_user_token = re.compile(r&#39;(?&lt;=value=&#34;).*?(?=&#34;)&#39;)
+   
+   def get_token(url): 
+       reload(sys)     
+       sys.setdefaultencoding(&#39;utf-8&#39;) 
+       header = {                           # 构造 HTTP 头部
+           &#39;Host&#39;: &#39;192.168.75.100&#39;,        # Web 服务器地址
+           &#39;Accept&#39;: &#39;text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8&#39;, 
+           &#39;Accept-Encoding&#39;: &#39;gzip, deflate&#39;, 
+           &#39;Accept-Language&#39;: &#39;en-US,en;q=0.5&#39;, 
+           &#39;Connection&#39;: &#39;keep-alive&#39;, 
+           &#39;Cookie&#39;: &#39;security=high; PHPSESSID=jppnjuuif7gt6ss640goammjj5&#39;,   # 当前浏览器的 Cookie 值
+           &#39;User-Agent&#39;: &#39;Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0&#39; } 
+       rep = requests.get(url, headers=header) 
+       rep.encoding = &#39;utf-8&#39; 
+       soup = BeautifulSoup(rep.text, &#34;lxml&#34;) 
+       print len(rep.text) 
+       input_list = soup.find(&#39;input&#39;, type=&#34;hidden&#34;) 
+       user_token = get_user_token.search(str(input_list)).group()
+       return user_token 
+   
+   if __name__ == &#39;__main__&#39;: 
+       user_token = get_token(&#34;http://192.168.75.100/dvwa/vulnerabilities/brute/&#34;)    # 取 Token 的页面 URL
+       with open(&#39;pass.txt&#39;) as f:     # 调字典文件
+           i = 0 
+           for item in f.readlines(): 
+               pos = item.rfind(&#34;,&#34;) 
+               username = &#39;admin&#39;      # 要猜解的用户名，也可用字典来猜解
+               password = item[pos + 1:]
+               requrl = &#34;http://192.168.75.100/dvwa/vulnerabilities/brute/&#34; + &#34;?username=&#34; + username.strip() +  &#34;&amp;password=&#34; + password.strip() + &#34;&amp;Login=Login&amp;user_token=&#34; + user_token     # 要爆破的 URL 完整格式
+               i += 1 
+               print i, username.strip(), password.strip(),
+               user_token = get_token(requrl)</pre></td></tr></table>
+</div>
+</div>
+<ol>
+<li>由于该脚本使用 <code>Python2.7</code> 版本编写，所以我们使用命令 <code>python2.7 brute.py</code> 执行脚本，发现其它密码返回的包长度都是 <code>4469</code>，只有正确的密码 <code>password</code> 回包长度是<code>4507</code>，说明成功猜解出了密码，如图 10-18
+
+<br /></li>
+</ol>
+
+<p><img src="../../img/15622135942472.jpg" alt="img" /></p>
+
+<p>图 10-18</p>
+
+<hr />
+
+<h4 id="10-5-impossible-级别-web-爆破攻击">10.5 Impossible 级别 Web 爆破攻击</h4>
+
+<p>　　查看 <code>Impossible</code> 级别的页面源码，发现加入了登录失败 3 次，就锁定账户 15 分钟的机制，如图 10-19，使爆破基本无法进行；另外还使用了 <code>PDO</code> 技术来防止通过 <code>SQL</code> 注入来登录，如图 10-19。</p>
+
+<p>　　另外，对于防暴力破解，加入验证码机制也是常用的较为有效的方法
+　　
+　　</p>
+
+<p><img src="../../img/15622142610640.jpg" alt="img" /></p>
+
+<p>图 10-19</p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Mr Wen</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-04-28 16:15
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener" href="https://github.com/itwhs/itwhs.github.io/blob/master/LICENSE">MIT</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/dvwa/">dvwa</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">文件上传攻击实战</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/dom%E5%9E%8Bxss%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/">
+            <span class="next-text nav-default">DOM 型 XSS 攻击实战</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:itwhs@foxmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://blog.csdn.net/wenhs5479" class="iconfont icon-cnblogs" title="cnblogs"></a>
+      <a href="https://github.com/itwhs" class="iconfont icon-github" title="github"></a>
+  <a href="https://itwhs.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Mr Wen</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139425163-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

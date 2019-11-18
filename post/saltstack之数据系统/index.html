@@ -1,0 +1,1671 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>SaltStack之数据系统 - itw&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Mr Wen" /><meta name="description" content="" /><meta name="keywords" content="Linux, Github, Network, Cloud, Python" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://itwhs.github.io/post/saltstack%E4%B9%8B%E6%95%B0%E6%8D%AE%E7%B3%BB%E7%BB%9F/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/reset-even.css">
+
+
+<meta property="og:title" content="SaltStack之数据系统" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://itwhs.github.io/post/saltstack%E4%B9%8B%E6%95%B0%E6%8D%AE%E7%B3%BB%E7%BB%9F/" />
+<meta property="article:published_time" content="2019-03-16T16:15:57&#43;08:00"/>
+<meta property="article:modified_time" content="2019-03-16T16:15:57&#43;08:00"/>
+
+<meta itemprop="name" content="SaltStack之数据系统">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2019-03-16T16:15:57&#43;08:00" />
+<meta itemprop="dateModified" content="2019-03-16T16:15:57&#43;08:00" />
+<meta itemprop="wordCount" content="3388">
+
+
+
+<meta itemprop="keywords" content="自动化," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="SaltStack之数据系统"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">itw</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a><a href="https://github.com/itwhs/">
+        <li class="mobile-menu-item">GitHub</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">itw</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/itwhs/">GitHub</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">SaltStack之数据系统</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-03-16 16:15 </span>
+        <div class="post-category">
+            <a href="/categories/linux%E8%BF%90%E7%BB%B4/"> Linux运维 </a>
+            </div>
+          <span class="more-meta"> 约 3388 字 </span>
+          <span class="more-meta"> 预计阅读 7 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#1-saltstack数据系统">1. SaltStack数据系统</a></li>
+<li><a href="#2-saltstack数据系统组件">2. SaltStack数据系统组件</a>
+<ul>
+<li><a href="#2-1-saltstack组件之grains">2.1 SaltStack组件之Grains</a></li>
+<li><a href="#2-2-saltstack组件之pillar">2.2 SaltStack组件之Pillar</a></li>
+<li><a href="#2-3-grains与pillar的区别">2.3 Grains与Pillar的区别</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="1-saltstack数据系统">1. SaltStack数据系统</h2>
+
+<p>SaltStack有两大数据系统，分别是：</p>
+
+<ul>
+<li>Grains</li>
+<li>Pillar</li>
+</ul>
+
+<h2 id="2-saltstack数据系统组件">2. SaltStack数据系统组件</h2>
+
+<h3 id="2-1-saltstack组件之grains">2.1 SaltStack组件之Grains</h3>
+
+<p><code>Grains</code>是<code>SaltStack</code>的一个组件，其存放着minion启动时收集到的信息。</p>
+
+<p><code>Grains</code>是<code>SaltStack</code>组件中非常重要的组件之一，因为我们在做配置部署的过程中会经常使用它，<code>Grains</code>是<code>SaltStack</code>记录<code>minion</code>的一些静态信息的组件。可简单理解为<code>Grains</code>记录着每台<code>minion</code>的一些常用属性，比如CPU、内存、磁盘、网络信息等。我们可以通过<code>grains.items</code>查看某台<code>minion</code>的所有<code>Grains</code>信息。</p>
+
+<p>Grains的功能：</p>
+
+<ul>
+<li>收集资产信息</li>
+</ul>
+
+<p>Grains应用场景：</p>
+
+<ul>
+<li>信息查询</li>
+<li>在命令行下进行目标匹配</li>
+<li>在top file中进行目标匹配</li>
+<li>在模板中进行目标匹配</li>
+</ul>
+
+<p>模板中进行目标匹配请看：<a href="https://docs.saltstack.com/en/latest/topics/pillar/">https://docs.saltstack.com/en/latest/topics/pillar/</a></p>
+
+<p><strong>信息查询实例：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span><span class="lnt">173
+</span><span class="lnt">174
+</span><span class="lnt">175
+</span><span class="lnt">176
+</span><span class="lnt">177
+</span><span class="lnt">178
+</span><span class="lnt">179
+</span><span class="lnt">180
+</span><span class="lnt">181
+</span><span class="lnt">182
+</span><span class="lnt">183
+</span><span class="lnt">184
+</span><span class="lnt">185
+</span><span class="lnt">186
+</span><span class="lnt">187
+</span><span class="lnt">188
+</span><span class="lnt">189
+</span><span class="lnt">190
+</span><span class="lnt">191
+</span><span class="lnt">192
+</span><span class="lnt">193
+</span><span class="lnt">194
+</span><span class="lnt">195
+</span><span class="lnt">196
+</span><span class="lnt">197
+</span><span class="lnt">198
+</span><span class="lnt">199
+</span><span class="lnt">200
+</span><span class="lnt">201
+</span><span class="lnt">202
+</span><span class="lnt">203
+</span><span class="lnt">204
+</span><span class="lnt">205
+</span><span class="lnt">206
+</span><span class="lnt">207
+</span><span class="lnt">208
+</span><span class="lnt">209
+</span><span class="lnt">210
+</span><span class="lnt">211
+</span><span class="lnt">212
+</span><span class="lnt">213
+</span><span class="lnt">214
+</span><span class="lnt">215
+</span><span class="lnt">216
+</span><span class="lnt">217
+</span><span class="lnt">218
+</span><span class="lnt">219
+</span><span class="lnt">220
+</span><span class="lnt">221
+</span><span class="lnt">222
+</span><span class="lnt">223
+</span><span class="lnt">224
+</span><span class="lnt">225
+</span><span class="lnt">226
+</span><span class="lnt">227
+</span><span class="lnt">228
+</span><span class="lnt">229
+</span><span class="lnt">230
+</span><span class="lnt">231
+</span><span class="lnt">232
+</span><span class="lnt">233
+</span><span class="lnt">234
+</span><span class="lnt">235
+</span><span class="lnt">236
+</span><span class="lnt">237
+</span><span class="lnt">238
+</span><span class="lnt">239
+</span><span class="lnt">240
+</span><span class="lnt">241
+</span><span class="lnt">242
+</span><span class="lnt">243
+</span><span class="lnt">244
+</span><span class="lnt">245
+</span><span class="lnt">246
+</span><span class="lnt">247
+</span><span class="lnt">248
+</span><span class="lnt">249
+</span><span class="lnt">250
+</span><span class="lnt">251
+</span><span class="lnt">252
+</span><span class="lnt">253
+</span><span class="lnt">254
+</span><span class="lnt">255
+</span><span class="lnt">256
+</span><span class="lnt">257
+</span><span class="lnt">258
+</span><span class="lnt">259
+</span><span class="lnt">260
+</span><span class="lnt">261
+</span><span class="lnt">262
+</span><span class="lnt">263
+</span><span class="lnt">264
+</span><span class="lnt">265
+</span><span class="lnt">266
+</span><span class="lnt">267
+</span><span class="lnt">268
+</span><span class="lnt">269
+</span><span class="lnt">270
+</span><span class="lnt">271
+</span><span class="lnt">272
+</span><span class="lnt">273
+</span><span class="lnt">274
+</span><span class="lnt">275
+</span><span class="lnt">276
+</span><span class="lnt">277
+</span><span class="lnt">278
+</span><span class="lnt">279
+</span><span class="lnt">280
+</span><span class="lnt">281
+</span><span class="lnt">282
+</span><span class="lnt">283
+</span><span class="lnt">284
+</span><span class="lnt">285
+</span><span class="lnt">286
+</span><span class="lnt">287
+</span><span class="lnt">288
+</span><span class="lnt">289
+</span><span class="lnt">290
+</span><span class="lnt">291
+</span><span class="lnt">292
+</span><span class="lnt">293
+</span><span class="lnt">294
+</span><span class="lnt">295
+</span><span class="lnt">296
+</span><span class="lnt">297
+</span><span class="lnt">298
+</span><span class="lnt">299
+</span><span class="lnt">300
+</span><span class="lnt">301
+</span><span class="lnt">302
+</span><span class="lnt">303
+</span><span class="lnt">304
+</span><span class="lnt">305
+</span><span class="lnt">306
+</span><span class="lnt">307
+</span><span class="lnt">308
+</span><span class="lnt">309
+</span><span class="lnt">310
+</span><span class="lnt">311
+</span><span class="lnt">312
+</span><span class="lnt">313
+</span><span class="lnt">314
+</span><span class="lnt">315
+</span><span class="lnt">316
+</span><span class="lnt">317
+</span><span class="lnt">318
+</span><span class="lnt">319
+</span><span class="lnt">320
+</span><span class="lnt">321
+</span><span class="lnt">322
+</span><span class="lnt">323
+</span><span class="lnt">324
+</span><span class="lnt">325
+</span><span class="lnt">326
+</span><span class="lnt">327
+</span><span class="lnt">328
+</span><span class="lnt">329
+</span><span class="lnt">330
+</span><span class="lnt">331
+</span><span class="lnt">332
+</span><span class="lnt">333
+</span><span class="lnt">334
+</span><span class="lnt">335
+</span><span class="lnt">336
+</span><span class="lnt">337
+</span><span class="lnt">338
+</span><span class="lnt">339
+</span><span class="lnt">340
+</span><span class="lnt">341
+</span><span class="lnt">342
+</span><span class="lnt">343
+</span><span class="lnt">344
+</span><span class="lnt">345
+</span><span class="lnt">346
+</span><span class="lnt">347
+</span><span class="lnt">348
+</span><span class="lnt">349
+</span><span class="lnt">350
+</span><span class="lnt">351
+</span><span class="lnt">352
+</span><span class="lnt">353
+</span><span class="lnt">354
+</span><span class="lnt">355
+</span><span class="lnt">356
+</span><span class="lnt">357
+</span><span class="lnt">358
+</span><span class="lnt">359
+</span><span class="lnt">360
+</span><span class="lnt">361
+</span><span class="lnt">362
+</span><span class="lnt">363
+</span><span class="lnt">364
+</span><span class="lnt">365
+</span><span class="lnt">366
+</span><span class="lnt">367
+</span><span class="lnt">368
+</span><span class="lnt">369
+</span><span class="lnt">370
+</span><span class="lnt">371
+</span><span class="lnt">372
+</span><span class="lnt">373
+</span><span class="lnt">374
+</span><span class="lnt">375
+</span><span class="lnt">376
+</span><span class="lnt">377
+</span><span class="lnt">378
+</span><span class="lnt">379
+</span><span class="lnt">380
+</span><span class="lnt">381
+</span><span class="lnt">382
+</span><span class="lnt">383
+</span><span class="lnt">384
+</span><span class="lnt">385
+</span><span class="lnt">386
+</span><span class="lnt">387
+</span><span class="lnt">388
+</span><span class="lnt">389
+</span><span class="lnt">390
+</span><span class="lnt">391
+</span><span class="lnt">392
+</span><span class="lnt">393
+</span><span class="lnt">394
+</span><span class="lnt">395
+</span><span class="lnt">396
+</span><span class="lnt">397
+</span><span class="lnt">398
+</span><span class="lnt">399
+</span><span class="lnt">400
+</span><span class="lnt">401
+</span><span class="lnt">402
+</span><span class="lnt">403
+</span><span class="lnt">404
+</span><span class="lnt">405
+</span><span class="lnt">406
+</span><span class="lnt">407
+</span><span class="lnt">408
+</span><span class="lnt">409
+</span><span class="lnt">410
+</span><span class="lnt">411
+</span><span class="lnt">412
+</span><span class="lnt">413
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">列出所有grains的key和value
+[root@master ~]# salt &#39;192.168.153.141&#39; grains.items
+192.168.153.141:
+    ----------
+    SSDs:
+        - dm-0
+        - dm-1
+        - nvme0n1
+    biosreleasedate:        //bios的时间
+        04/13/2018
+    biosversion:            //bios的版本
+        6.00
+    cpu_flags:              //cpu相关的属性
+        - fpu
+        - vme
+        - de
+        - pse
+        - tsc
+        - msr
+        - pae
+        - mce
+        - cx8
+        - apic
+        - sep
+        - mtrr
+        - pge
+        - mca
+        - cmov
+        - pat
+        - pse36
+        - clflush
+        - mmx
+        - fxsr
+        - sse
+        - sse2
+        - ss
+        - syscall
+        - nx
+        - pdpe1gb
+        - rdtscp
+        - lm
+        - constant_tsc
+        - arch_perfmon
+        - nopl
+        - xtopology
+        - tsc_reliable
+        - nonstop_tsc
+        - eagerfpu
+        - pni
+        - pclmulqdq
+        - vmx
+        - ssse3
+        - fma
+        - cx16
+        - pcid
+        - sse4_1
+        - sse4_2
+        - x2apic
+        - movbe
+        - popcnt
+        - tsc_deadline_timer
+        - aes
+        - xsave
+        - avx
+        - f16c
+        - rdrand
+        - hypervisor
+        - lahf_lm
+        - abm
+        - 3dnowprefetch
+        - ssbd
+        - ibrs
+        - ibpb
+        - stibp
+        - tpr_shadow
+        - vnmi
+        - ept
+        - vpid
+        - fsgsbase
+        - tsc_adjust
+        - bmi1
+        - avx2
+        - smep
+        - bmi2
+        - invpcid
+        - mpx
+        - rdseed
+        - adx
+        - smap
+        - clflushopt
+        - xsaveopt
+        - xsavec
+        - arat
+        - spec_ctrl
+        - intel_stibp
+        - flush_l1d
+        - arch_capabilities
+    cpu_model:          //cpu的具体型号
+        Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz
+    cpuarch:          //cpu的架构
+        x86_64
+    disks:
+        - sr0
+    dns:
+        ----------
+        domain:
+        ip4_nameservers:
+            - 192.168.153.2
+        ip6_nameservers:
+        nameservers:
+            - 192.168.153.2
+        options:
+        search:
+            - localdomain
+        sortlist:
+    domain:
+    fqdn:
+        minion
+    fqdn_ip4:       //ip地址
+        - 192.168.153.141
+    fqdn_ip6:
+        - fe80::20c:29ff:fe65:2d90
+    fqdns:
+    gid:
+        0
+    gpus:
+        |_
+          ----------
+          model:
+              SVGA II Adapter
+          vendor:
+              vmware
+    groupname:
+        root
+    host:       //主机名
+        minion
+    hwaddr_interfaces:
+        ----------
+        ens32:
+            00:0c:29:65:2d:90
+        lo:
+            00:00:00:00:00:00
+    id:         //minion的ID
+        192.168.153.141
+    init:
+        systemd
+    ip4_gw:
+        192.168.153.2
+    ip4_interfaces:
+        ----------
+        ens32:
+            - 192.168.153.141
+        lo:
+            - 127.0.0.1
+    ip6_gw:
+        False
+    ip6_interfaces:
+        ----------
+        ens32:
+            - fe80::20c:29ff:fe65:2d90
+        lo:
+            - ::1
+    ip_gw:
+        True
+    ip_interfaces:
+        ----------
+        ens32:
+            - 192.168.153.141
+            - fe80::20c:29ff:fe65:2d90
+        lo:
+            - 127.0.0.1
+            - ::1
+    ipv4:
+        - 127.0.0.1
+        - 192.168.153.141
+    ipv6:
+        - ::1
+        - fe80::20c:29ff:fe65:2d90
+    kernel:
+        Linux
+    kernelrelease:
+        3.10.0-957.el7.x86_64
+    kernelversion:
+        #1 SMP Thu Nov 8 23:39:32 UTC 2018
+    locale_info:
+        ----------
+        defaultencoding:
+            UTF-8
+        defaultlanguage:
+            zh_CN
+        detectedencoding:
+            UTF-8
+    localhost:
+        minion
+    lsb_distrib_codename:
+        CentOS Linux 7 (Core)
+    lsb_distrib_id:
+        CentOS Linux
+    machine_id:
+        6f280181d6cc47b0825de02f2c7e76a3
+    manufacturer:
+        VMware, Inc.
+    master:
+        192.168.153.136
+    mdadm:
+    mem_total:
+        1538
+    nodename:
+        minion
+    num_cpus:
+        1
+    num_gpus:
+        1
+    os:
+        CentOS
+    os_family:
+        RedHat
+    osarch:
+        x86_64
+    oscodename:
+        CentOS Linux 7 (Core)
+    osfinger:
+        CentOS Linux-7
+    osfullname:
+        CentOS Linux
+    osmajorrelease:
+        7
+    osrelease:
+        7.6.1810
+    osrelease_info:
+        - 7
+        - 6
+        - 1810
+    path:
+        /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+    pid:
+        7461
+    productname:
+        VMware Virtual Platform
+    ps:
+        ps -efHww
+    pythonexecutable:
+        /usr/bin/python
+    pythonpath:
+        - /usr/bin
+        - /usr/lib64/python27.zip
+        - /usr/lib64/python2.7
+        - /usr/lib64/python2.7/plat-linux2
+        - /usr/lib64/python2.7/lib-tk
+        - /usr/lib64/python2.7/lib-old
+        - /usr/lib64/python2.7/lib-dynload
+        - /usr/lib64/python2.7/site-packages
+        - /usr/lib64/python2.7/site-packages/gtk-2.0
+        - /usr/lib/python2.7/site-packages
+    pythonversion:
+        - 2
+        - 7
+        - 5
+        - final
+        - 0
+    saltpath:
+        /usr/lib/python2.7/site-packages/salt
+    saltversion:
+        2019.2.0
+    saltversioninfo:
+        - 2019
+        - 2
+        - 0
+        - 0
+    selinux:
+        ----------
+        enabled:
+            False
+        enforced:
+            Disabled
+    serialnumber:
+        VMware-56 4d aa 3c 10 d5 dc e0-87 ec ee 70 30 65 2d 90
+    server_id:
+        1797657207
+    shell:
+        /bin/sh
+    swap_total:
+        3071
+    systemd:
+        ----------
+        features:
+            +PAM +AUDIT +SELINUX +IMA -APPARMOR +SMACK +SYSVINIT +UTMP +LIBCRYPTSETUP +GCRYPT +GNUTLS +ACL +XZ +LZ4 -SECCOMP +BLKID +ELFUTILS +KMOD +IDN
+        version:
+            219
+    uid:
+        0
+    username:
+        root
+    uuid:
+        3caa4d56-d510-e0dc-87ec-ee7030652d90
+    virtual:
+        VMware
+    zfs_feature_flags:
+        False
+    zfs_support:
+        False
+    zmqversion:
+        4.1.4
+
+        
+只查询所有的grains的key
+[root@master ~]# salt &#39;192.168.153.141&#39; grains.ls
+192.168.153.141:
+    - SSDs
+    - biosreleasedate
+    - biosversion
+    - cpu_flags
+    - cpu_model
+    - cpuarch
+    - disks
+    - dns
+    - domain
+    - fqdn
+    - fqdn_ip4
+    - fqdn_ip6
+    - fqdns
+    - gid
+    - gpus
+    - groupname
+    - host
+    - hwaddr_interfaces
+    - id
+    - init
+    - ip4_gw
+    - ip4_interfaces
+    - ip6_gw
+    - ip6_interfaces
+    - ip_gw
+    - ip_interfaces
+    - ipv4
+    - ipv6
+    - kernel
+    - kernelrelease
+    - kernelversion
+    - locale_info
+    - localhost
+    - lsb_distrib_codename
+    - lsb_distrib_id
+    - machine_id
+    - manufacturer
+    - master
+    - mdadm
+    - mem_total
+    - nodename
+    - num_cpus
+    - num_gpus
+    - os
+    - os_family
+    - osarch
+    - oscodename
+    - osfinger
+    - osfullname
+    - osmajorrelease
+    - osrelease
+    - osrelease_info
+    - path
+    - pid
+    - productname
+    - ps
+    - pythonexecutable
+    - pythonpath
+    - pythonversion
+    - saltpath
+    - saltversion
+    - saltversioninfo
+    - selinux
+    - serialnumber
+    - server_id
+    - shell
+    - swap_total
+    - systemd
+    - uid
+    - username
+    - uuid
+    - virtual
+    - zfs_feature_flags
+    - zfs_support
+    - zmqversion
+
+
+
+
+查询某个key的值，比如想获取ip地址
+[root@master ~]# salt &#39;*&#39; grains.get fqdn_ip4
+192.168.153.141:
+    - 192.168.153.141
+192.168.153.136:
+    - 192.168.153.136
+
+[root@master ~]# salt &#39;*&#39; grains.get ip4_interfaces
+192.168.153.141:
+    ----------
+    ens32:
+        - 192.168.153.141
+    lo:
+        - 127.0.0.1
+192.168.153.136:
+    ----------
+    ens32:
+        - 192.168.153.136
+    lo:
+        - 127.0.0.1
+
+[root@master ~]# salt &#39;*&#39; grains.get ip4_interfaces:ens32
+192.168.153.141:
+    - 192.168.153.141
+192.168.153.136:
+    - 192.168.153.136</pre></td></tr></table>
+</div>
+</div>
+<p><strong>目标匹配实例：</strong>
+用<code>Grains</code>来匹配<code>minion</code>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">在所有centos系统中执行命令
+[root@master ~]# salt -G &#39;os:CentOS&#39; cmd.run &#39;uptime&#39;
+192.168.153.141:
+     19:41:29 up  1:33,  1 user,  load average: 0.00, 0.01, 0.05
+192.168.153.136:
+     19:41:29 up  1:33,  1 user,  load average: 0.00, 0.01, 0.05</pre></td></tr></table>
+</div>
+</div>
+<p>在top file里面使用Grains：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master ~]# vim /srv/salt/base/top.sls
+base:
+  &#39;192.168.153.141&#39;:
+    - web.apache.apache
+  &#39;os:CentOS&#39;:
+    - match: grain
+    - fspub.vsftpd
+
+
+效果:141这个主机会执行apache这个文件,所有centos主机会执行vsftpd这个文件</pre></td></tr></table>
+</div>
+</div>
+<p><strong>自定义Grains的两种方法：</strong></p>
+
+<ul>
+<li>minion配置文件，在配置文件中搜索grains</li>
+<li>在/etc/salt下生成一个grains文件，在此文件中定义(推荐方式)</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master ~]# vim /etc/salt/grains
+test-grains: linux-node1
+[root@master ~]# systemctl restart salt-minion
+[root@master ~]# salt &#39;*&#39; grains.get test-grains
+192.168.153.141:
+192.168.153.136:
+    linux-node1</pre></td></tr></table>
+</div>
+</div>
+<p>不重启的情况下自定义<code>Grains</code>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master ~]# vim /etc/salt/grains
+test-grains: linux-node1
+itwhs: design
+
+[root@master ~]# salt &#39;*&#39; saltutil.sync_grains
+192.168.153.136:
+192.168.153.141:
+[root@master ~]# salt &#39;*&#39; grains.get itwhs
+192.168.153.136:
+    design
+192.168.153.141:</pre></td></tr></table>
+</div>
+</div>
+<h3 id="2-2-saltstack组件之pillar">2.2 SaltStack组件之Pillar</h3>
+
+<p>Pillar也是SaltStack组件中非常重要的组件之一，是数据管理中心，经常配置states在大规模的配置管理工作中使用它。Pillar在SaltStack中主要的作用就是存储和定义配置管理中需要的一些数据，比如软件版本号、用户名密码等信息，它的定义存储格式与Grains类似，都是YAML格式。</p>
+
+<p>在Master配置文件中有一段Pillar settings选项专门定义Pillar相关的一些参数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">#pillar_roots:
+#  base:
+#    - /srv/pillar</pre></td></tr></table>
+</div>
+</div>
+<p>默认Base环境下Pillar的工作目录在/srv/pillar目录下。若你想定义多个环境不同的Pillar工作目录，只需要修改此处配置文件即可。</p>
+
+<p>Pillar的特点：</p>
+
+<ul>
+<li>可以给指定的minion定义它需要的数据</li>
+<li>只有指定的人才能看到定义的数据</li>
+<li>在master配置文件里设置</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">查看pillar的信息
+[root@master ~]# salt &#39;*&#39; pillar.items
+192.168.153.136:
+    ----------
+192.168.153.141:
+    ----------</pre></td></tr></table>
+</div>
+</div>
+<p>默认<code>pillar</code>是没有任何信息的，如果想查看信息，需要在 master 配置文件上把 <code>pillar_opts</code>的注释取消，并将其值设为 True。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master ~]# vim /etc/salt/master
+# master config file that can then be used on minions.
+pillar_opts: True
+
+# The pillar_safe_render_error option prevents the master from passing pillar
+
+
+重启master并查看pillar的信息
+[root@master ~]# systemctl restart salt-master
+[root@master ~]# salt &#39;*&#39; pillar.items
+....此处省略N行
+        winrepo_passphrase:
+        winrepo_password:
+        winrepo_privkey:
+        winrepo_pubkey:
+        winrepo_refspecs:
+            - +refs/heads/*:refs/remotes/origin/*
+            - +refs/tags/*:refs/tags/*
+        winrepo_remotes:
+            - https://github.com/saltstack/salt-winrepo.git
+        winrepo_remotes_ng:
+            - https://github.com/saltstack/salt-winrepo-ng.git
+        winrepo_ssl_verify:
+            True
+        winrepo_user:
+        worker_floscript:
+            /usr/lib/python2.7/site-packages/salt/daemons/flo/worker.flo
+        worker_threads:
+            5
+        zmq_backlog:
+            1000
+        zmq_filtering:
+            False
+        zmq_monitor:
+            False</pre></td></tr></table>
+</div>
+</div>
+<p><strong>pillar自定义数据：</strong>
+在master的配置文件里找pillar_roots可以看到其存放pillar的位置</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master ~]# vim /etc/salt/master
+...省略N行
+#####         Pillar settings        #####
+##########################################
+# Salt Pillars allow for the building of global data that can be made selectively
+# available to different minions based on minion grain filtering. The Salt
+# Pillar is laid out in the same fashion as the file server, with environments,
+# a top file and sls files. However, pillar data does not need to be in the
+# highstate format, and is generally just key/value pairs.
+pillar_roots:
+  base:
+    - /srv/pillar/base
+  prod:
+    - /srv/pillar/prod
+
+#ext_pillar:
+#  - hiera: /etc/hiera.yaml
+#  - cmd_yaml: cat /etc/salt/yaml
+
+
+[root@master ~]# mkdir -p /srv/pillar/{base,prod}
+[root@master ~]# tree /srv/pillar/
+/srv/pillar/
+├── base
+└── prod
+
+2 directories, 0 files
+
+
+[root@master ~]# systemctl restart salt-master
+[root@master ~]# vim /srv/pillar/base/apache.sls
+{% if grains[&#39;os&#39;] == &#39;CentOS&#39; %}
+apache: httpd
+{% elif grains[&#39;os&#39;] == &#39;Debian&#39; %}
+apache: apache2
+{% endif %}
+
+定义top file入口文件
+[root@master ~]# vim /srv/pillar/base/top.sls
+base:       //指定环境
+  &#39;192.168.153.141&#39;:     //指定目标
+    - apache            //引用apache.sls或apache/init.sls
+这个top.sls文件的意思表示的是192.168.153.141这台主机的base环境能够访问到apache这个pillar
+
+[root@master ~]# salt &#39;*&#39; pillar.items
+192.168.153.141:
+    ----------
+    apache:
+        httpd
+    master:     //这里的master就是136这个主机
+        ----------
+        ........
+    
+在salt下修改apache的状态文件，引用pillar的数据
+[root@master ~]# vim /srv/salt/base/web/apache/apache.sls
+apache-install:
+  pkg.installed:
+    - name: {{ pillar[&#39;apache&#39;] }}
+
+apache-service:
+  service.running:
+    - name: {{ pillar[&#39;apache&#39;] }}
+    - enable: True
+
+
+执行高级状态文件
+[root@master ~]# salt &#39;192.168.153.141&#39; state.highstate
+192.168.153.141:
+----------
+          ID: apache-install
+    Function: pkg.installed
+        Name: httpd      //根据系统类型,自动安装的是httpd
+      Result: True
+     Comment: All specified packages are already installed
+     Started: 20:18:05.355675
+    Duration: 952.802 ms
+     Changes:   
+----------
+          ID: apache-service
+    Function: service.running
+        Name: httpd
+      Result: True
+     Comment: The service httpd is already running
+     Started: 20:18:06.310231
+    Duration: 52.423 ms
+     Changes:   
+----------
+          ID: vsftpd_install
+    Function: pkg.installed
+        Name: vsftpd
+      Result: True
+     Comment: All specified packages are already installed
+     Started: 20:18:06.363005
+    Duration: 19.337 ms
+     Changes:   
+----------
+          ID: vsftpd_install
+    Function: pkg.installed
+        Name: httpd-tools
+      Result: True
+     Comment: All specified packages are already installed
+     Started: 20:18:06.382502
+    Duration: 16.545 ms
+     Changes:   
+----------
+          ID: vsftpd_systemctl
+    Function: service.running
+        Name: vsftpd
+      Result: True
+     Comment: The service vsftpd is already running
+     Started: 20:18:06.399288
+    Duration: 39.108 ms
+     Changes:   
+
+Summary for 192.168.153.141
+------------
+Succeeded: 5
+Failed:    0
+------------
+Total states run:     5
+Total run time:   1.080 s</pre></td></tr></table>
+</div>
+</div>
+<h3 id="2-3-grains与pillar的区别">2.3 Grains与Pillar的区别</h3>
+
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">存储位置</th>
+<th align="left">类型</th>
+<th align="left">采集方式</th>
+<th align="left">应用场景</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">Grains</td>
+<td align="center">minion</td>
+<td align="left">静态</td>
+<td align="left">minion启动时采集<br>可通过刷新避免重启minion服务</td>
+<td align="left">1.信息查询<br>2.在命令行下进行目标匹配<br>3.在top file中进行目标匹配<br>4.在模板中进行目标匹配</td>
+</tr>
+
+<tr>
+<td align="center">Pillar</td>
+<td align="center">master</td>
+<td align="left">动态</td>
+<td align="left">指定，实时生效</td>
+<td align="left">1.目标匹配<br>2.敏感数据配置</td>
+</tr>
+</tbody>
+</table>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Mr Wen</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-03-16 16:15
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener" href="https://github.com/itwhs/itwhs.github.io/blob/master/LICENSE">MIT</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/">自动化</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/saltstack%E5%B8%B8%E7%94%A8%E7%9A%84%E6%A8%A1%E5%9D%97/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">SaltStack常用的模块</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/saltstack%E4%B9%8B%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/">
+            <span class="next-text nav-default">SaltStack之配置管理</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:itwhs@foxmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://blog.csdn.net/wenhs5479" class="iconfont icon-cnblogs" title="cnblogs"></a>
+      <a href="https://github.com/itwhs" class="iconfont icon-github" title="github"></a>
+  <a href="https://itwhs.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Mr Wen</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139425163-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>
